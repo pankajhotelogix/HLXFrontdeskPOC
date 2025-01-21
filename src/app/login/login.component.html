@@ -1,0 +1,72 @@
+<div class="control-section"
+    style="width: 100vw; height: 96vh; display: flex; justify-content: center; align-items: center;">
+    <div class="col-lg-12">
+        <h4 class="form-title">Welcome to Hotelogix 3.O</h4>
+        <div class="control_wrapper" id="control_wrapper" style="margin: 25px auto;">
+            <form #userForm="ngForm" novalidate>
+                <div class="form-group template">
+                    <div class="e-float-input e-input-group" [ngClass]="{'e-success': hotelid?.valid}">
+                        <input type="text" id="hotelid" name="hotelid" [(ngModel)]="UserDetails.hotelid"
+                            #hotelid="ngModel" required />
+                        <span class="e-float-line"></span>
+                        <label class="e-float-text" [ngClass]="{
+                                'e-label-top': UserDetails.hotelid !== '',
+                                'e-label-bottom': UserDetails.hotelid == ''
+                            }" for="hotelid">Hotel Id</label>
+                    </div>
+                    <span class="e-error" *ngIf="hotelid?.errors?.['required'] && (hotelid.dirty || hotelid.touched)">
+                        * Enter your Hotel Id
+                    </span>
+                </div>
+                <div class="form-group template">
+                    <div class="e-float-input e-input-group" [ngClass]="{'e-success': username?.valid}">
+                        <input type="text" id="username" name="username" [(ngModel)]="UserDetails.username"
+                            #username="ngModel" minlength="6" required />
+                        <span class="e-float-line"></span>
+                        <label class="e-float-text" [ngClass]="{
+                                'e-label-top': UserDetails.username !== '',
+                                'e-label-bottom': UserDetails.username == ''
+                            }" for="username">Username</label>
+                    </div>
+                    <span class="e-error"
+                        *ngIf="username?.errors?.['required'] && (username.dirty || username.touched)">
+                        * Enter your username
+                    </span>
+                    <span class="e-error" *ngIf="username?.errors?.['minlength']">
+                        * Username must be at least 6 characters
+                    </span>
+                </div>
+                <div class="form-group template">
+                    <div class="e-float-input e-input-group" [ngClass]="{'e-success': password?.valid}">
+                        <input type="password" id="password" name="password" [(ngModel)]="UserDetails.password"
+                            #password="ngModel" minlength="6" required />
+                        <span class="e-float-line"></span>
+                        <label class="e-float-text" [ngClass]="{
+                                'e-label-top': UserDetails.password !== '',
+                                'e-label-bottom': UserDetails.password == ''
+                            }" for="password">Password</label>
+                    </div>
+                    <span class="e-error"
+                        *ngIf="password?.errors?.['required'] && (password.dirty || password.touched)">
+                        * Enter your password
+                    </span>
+                    <span class="e-error" *ngIf="password?.errors?.['minlength']">
+                        * Password must be at least 6 characters
+                    </span>
+                </div>
+                <div class="form-group template">
+                    <div class="submitBtn">
+                        <button class="submit-btn e-btn" id="submit-btn" [disabled]="userForm.invalid" type="submit"
+                            (click)="onSubmit()">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <ejs-dialog id="confirmationDialog" #Dialog [buttons]="dlgButtons" [animationSettings]="animationSettings"
+                [header]="formHeader" [showCloseIcon]="showCloseIcon" [content]="content" [target]="target"
+                [width]="width" [visible]="visible" [isModal]="isModal">
+            </ejs-dialog>
+        </div>
+    </div>
+</div>

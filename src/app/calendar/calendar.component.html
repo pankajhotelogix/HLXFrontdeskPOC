@@ -1,0 +1,683 @@
+<style>
+  .srk-card {
+    background: linear-gradient(135deg,
+        #004e92,
+        #000428);
+    border-radius: 10px;
+  }
+
+  .logo img {
+    width: 75px;
+    margin-bottom: 12px;
+    display: block;
+    max-width: 100%;
+    margin: auto;
+  }
+
+  .logo figcaption {
+    background-color: rgb(249, 249, 249);
+    padding: 4px 5px;
+    text-align: center;
+    border-radius: 5px;
+    color: #333333a3;
+    font-weight: 500;
+  }
+</style>
+
+<div class="planner-calendar">
+  <div class="doctor-container" style="display:none">
+    <div class="app-doctors"></div>
+    <div class="app-doctor-icon">
+    </div>
+  </div>
+  <div class="drag-sample-wrapper droppable">
+    <div class="schedule-container">
+      <div class="title-container" style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="d-flex justify-center align-items ">
+          <!-- <h1 class="title-text frontdesk-icon" >FrontDesk</h1> -->
+          <ejs-tab
+          id="tab_adaptive"
+          #adaptiveTab
+          heightAdjustMode="None"
+          height="50px"
+        >
+          <e-tabitems>
+            <e-tabitem [header]="headerText[0]">
+              <ng-template #content>
+              </ng-template>
+            </e-tabitem>
+            <e-tabitem [header]="headerText[1]">
+              <ng-template #content>
+               <app-stay-details></app-stay-details>
+              </ng-template>
+            </e-tabitem>
+          </e-tabitems>
+        </ejs-tab>
+        </div>
+        <div class="d-flex justify-center align-items ">
+          <div class="icon-bar" style="display: flex; margin-right: 10px; align-items: center; gap: 10px;">
+            <div>
+              <button ejs-button iconCss="e-btn-sb-icon e-prev-icon" (click)="navigateDate(-7)">
+                Pre
+              </button>
+              <button ejs-button iconCss="e-btn-sb-icon e-prev-icon rotate-icon" (click)="navigateDate(7)">
+                Next
+              </button>
+              <!-- <button (click)="importData()">Import</button> -->
+            </div>
+            <div>
+              <img src="assets/Icons/refresh.svg" alt="" class="icon-refresh icon">
+            </div>
+            <div style="width: 1px;height: 30px;background: #cacaca;">
+              &nbsp;
+            </div>
+            <div>
+              <img src="assets/Icons/anchor.svg" alt="" class="icon-anchor icon">
+            </div>
+          </div>
+          <div class="view-selector" style=" width: 117px;">
+            <ejs-dropdownlist id="scheduleview" [dataSource]="datas" [(value)]="dropDownValue" floatLabelType="Always"
+              (change)="onViewChange($event)">
+            </ejs-dropdownlist>
+          </div>
+        </div>
+      </div>
+      <div id="main">
+        <div
+          style="background-color: rgb(3, 1, 1); color: aliceblue; padding-top: 2px; padding-left: 4px; width: 48px;">
+          Blocked <i class="fa fa-info" style="padding-left: 58px;" aria-hidden="true"></i>
+        </div>
+        <div class="days-container">
+          <div class="day" *ngFor="let day of daysInMonth">0</div>
+        </div>
+      </div>
+      <ejs-schedule #scheduleObj height='800px' cssClass='doctor-appointment-planner' [selectedDate]="selectedDate"
+        [eventSettings]="eventSettings" [quickInfoOnSelectionEnd]=true [currentView]="scheduleView"
+        [allowMultiCellSelection]="true" [rowAutoHeight]="true" [allowDragAndDrop]="true" [timeScale]="timeScale"
+        (popupOpen)="onPopupOpen($event)" [showHeaderBar]="false" (renderCell)="onRenderCell($event)"
+        (hover)="onHover($event)" [group]="group" (actionBegin)="onActionBegin($event)" (created)="onScheduleCreated()"
+        >
+        <e-resources>
+          <e-resource field='DepartmentId' title='Department' name='Departments' query='resourceQuery'
+            [dataSource]='specialistCategory' textField='Text' idField='DepartmentId' colorField='Color'>
+          </e-resource>
+          <e-resource field='DoctorId' title='Consultation' name='Doctors' [dataSource]='resourceDataSource'
+            textField='Name' idField='Id' groupIDField='DepartmentId' colorField='Color' workDaysField='AvailableDays'
+            startHour='StartHour' endHour='EndHour' query='resourceQuery'>
+          </e-resource>
+        </e-resources>
+        <e-views>
+          <e-view option="TimelineDay" [interval]="1" displayName="1 Day"></e-view>
+          <e-view option="TimelineDay" [interval]="3" displayName="3 Day"></e-view>
+          <e-view option="TimelineDay" [interval]="15" displayName="15 Day"></e-view>
+          <e-view option="TimelineDay" [interval]="31" displayName="31 Day"></e-view>
+          <e-view option="TimelineWeek"></e-view>
+          <e-view option="TimelineMonth"></e-view>
+        </e-views>
+        <ng-template #headerIndentTemplate let-data>
+          <div class='e-resource-text ' style="display: flex; align-items: center; gap: 5px; height: 44px;">
+            <img src="assets/Icons/signal_cellular_alt.svg" style=" width:14px">
+            <span class="e-icons e-add"></span>
+            <p (click)="openDatePicker()"
+              style="cursor: pointer; color: #556faa; font-size: 13px; font-weight: bold; margin: 0;">{{
+              selectedDateRange }}
+            </p>
+            <ejs-datepicker #datepicker [value]='defaultStartDate' (change)="onChange()" style="display: none;">
+            </ejs-datepicker>
+          </div>
+        </ng-template>
+        <ng-template #editorHeaderTemplate let-data>
+          <div *ngIf="data.Subject; else createNewEvent">
+            {{ data.Subject }}
+          </div>
+          <ng-template #createNewEvent>
+            <div style="display: flex; gap: 10px; justify-content: space-between;">
+              <label style="color: white;">Add Quick Reservation</label>
+              <div style="position: relative;">
+                <label style="color: white; text-align: end; padding-right: 13px; margin-top: 0px;">
+                  {{ data.StartTime | date:'MMM dd' }} - {{ data.EndTime | date:'MMM dd' }}
+                </label>
+                <img src="./assets/Icons/calender.svg" alt="" (click)="openDateRangePicker()" style="cursor: pointer;">
+                <ejs-daterangepicker #dateRangePicker [min]="minDate" [max]="maxDate"
+                  style="visibility: hidden"></ejs-daterangepicker>
+              </div>
+            </div>
+          </ng-template>
+        </ng-template>
+        <ng-template #editorTemplate let-data>
+          <div class="popup-size">
+            <div class="room-details modal-reservation">
+              <div class="room-info popup-body-first-size">
+                <div class="room-name ">
+                  <img src="./assets/Icons/Vector.svg" alt="">
+                  <select id="department" class="select-room pankaj-tag" [(ngModel)]="data['DepartmentId']"
+                    (change)="getSessionalRateList()" name="department">
+                    <option value="" disabled>Select</option>
+                    <option *ngFor="let category of specialistCategory" [value]="category['DepartmentId']">
+                      {{category['Text'] }}
+                    </option>
+                  </select>
+                  <select id="room-type" class="select-room pankaj-tag" name="room-type"
+                    [(ngModel)]="requestParams.room_id">
+                    <option value="" disabled> Select</option>
+                    <option *ngFor="let room of vaccantRoomList" [value]="room">
+                      {{room[room] }}
+                    </option>
+                  </select>
+                </div>
+                <div class="room-name" style="width: 183px;">
+                  <input type="checkbox" id="assign" name="assign">
+                  <label for="assign" style="margin: 0px;">Assign</label>
+                  <input type="checkbox" id="day-use" name="day-use">
+                  <label for="day-use" style="margin: 0px; white-space: nowrap;">Day Use</label>
+                </div>
+              </div>
+              <div class="guest-rate-info popup-body-size">
+                <div class="guests">
+                  <div style="width: 48%;">
+                    <img src="./assets/Icons/user.svg" alt="" style="position: absolute; padding: 10px 25px;">
+                    <select id="adults" class="user-icon pankaj-tag" [(ngModel)]="requestParams.adult" name="adults"
+                      (change)="reloadBookingFare()">
+                      <option [ngValue]="0">0</option>
+                      <option [ngValue]="1">1</option>
+                      <option [ngValue]="2">2</option>
+                      <option [ngValue]="3">3</option>
+                    </select>
+                    <img src="./assets/Icons/child.svg" alt="" style="position: absolute; padding: 10px 25px;">
+                    <select id="children" class="user-icon pankaj-tag" [(ngModel)]="requestParams.child" name="children"
+                      (change)="reloadBookingFare()">
+                      <option [ngValue]="0">0</option>
+                      <option [ngValue]="1">1</option>
+                      <option [ngValue]="2">2</option>
+                      <option [ngValue]="3">3</option>
+                    </select>
+                  </div>
+                  <div style="width: 52%;">
+                    <select id="rate" class="session-icon pankaj-tag" style="padding-left: 10px;" name="rate"
+                      [(ngModel)]="requestParams.rate_id" (change)="reloadBookingFare()">
+                      <option value="" disabled>Select</option>
+                      <option *ngFor="let rate of sessionalRate" [value]="rate.package_id">
+                        {{ rate.package_pkgname }}
+                      </option>
+                    </select>
+                    <img src="./assets/Icons/bed.svg" alt="" style="position: absolute; padding: 13px 25px;">
+                    <select id="beds" class="user-icon pankaj-tag" [(ngModel)]="requestParams.bed" name="beds"
+                      (change)="reloadBookingFare()">
+                      <option [ngValue]="1">1</option>
+                      <option [ngValue]="2">2</option>
+                      <option [ngValue]="3">3</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="contact-info basic-details">
+                  <div class="d-flex align-items-center">
+                    <select id="title" style="width: 67px;" class="pankaj-tag" name="title">
+                      <option value="title">Title</option>
+                      <option value="title">Mr.</option>
+                      <option value="title">Mrs.</option>
+                    </select>
+                    <input type="text" placeholder="First name" name="fname"
+                      class="input-text input-text-field required p-0" [(ngModel)]="requestParams.owner_details.first_name"
+                      required>
+                    <input type="text" placeholder="Last name" name="lname" class="input-text input-text-field p-0"
+                      [(ngModel)]="requestParams.owner_details.last_name" required>
+                  </div>
+                  <div class="contact basic-details-email">
+                    <div class="d-flex align-items-center">
+                      <input type="text" placeholder="Phone" name="phone" style=" width: 182px;"
+                        class="input-text-field p-0" [(ngModel)]="requestParams.owner_details.phone_number" required>
+                      <img src="./assets/Icons/phone.svg" alt="">
+                      <img src="./assets/Icons/email.svg" alt="" style="background: #1C1B1F1F; margin-left: 5px;">
+                      <input type="text" placeholder="Email" name="email" style=" width: 367px; margin-left: 5px;"
+                        class="input-text-field p-0">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="footer">
+              <div class="price-info popup-body-pay-size"
+                style="display: flex; justify-content: space-between; width: 100%; flex-direction: row!important; padding:10px;">
+                <span class="Guarantee-text">Guarantee / Deposit</span>
+                <div class="price">
+                  <span class="total-price">$ {{finalAmount}}</span>
+                  <span class="sub-price">$ {{roomfare}}</span>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div class="buttons button-margin">
+                <button class="hold-btn">Hold</button>
+                <button class="temp-reserve-btn">Temp Reservation</button>
+                <button class="reserve-btn" (click)="bookingReservation()">Reserve</button>
+                <button class="checkin-btn">Check-in</button>
+              </div>
+              <div class="button-margin">
+                <a class="anchor-tag">Single</a>
+                <a class="anchor-tag">Group</a>
+                <a class="anchor-tag">Agent / Corporate</a>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #resourceHeaderTemplate let-data>
+          <div class='template-wrap'>
+            <div class="airline-details" style="display: flex; align-items: center; gap:10px">
+              <div>
+                <ejs-checkbox name="ejscheckbox" *ngIf="data.resourceData.ClassName !== 'e-parent-node'"
+                  [checked]="false"></ejs-checkbox>
+              </div>
+              <div class="resource-name" style="margin: 2px 5px;">{{getResourceName(data)}}</div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #dateHeaderTemplate let-data>
+          <div class="date-text d-flex justify-center flex-column">
+            <div class="chead">{{ getDateParts(data.date).day }}</div>
+            <div>{{ getDateParts(data.date).abbreviated}}</div>
+          </div>
+        </ng-template>
+        <ng-template #editorTemplate let-data>
+          <div class="row" style="width: 692px; height: auto;">
+            <div class="col-md-12">
+              <div class="row" style="height: 36px !important;">
+                <div class="col-md-">
+                  <img src="assets/Icons/Vector.png" alt="">
+                  <span style="font-size: 22px; line-height: 28px;">Standred Room</span>
+                </div>
+                <div class="col-md-2">
+                  <select name="jahul" class="form-control" id=""></select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12"></div>
+            <div class="col-md-12"></div>
+          </div>
+        </ng-template>
+        <ng-template #quickInfoTemplatesHeader let-data style="overflow: scroll" >
+          <div *ngIf="data.elementType == 'cell' || data.elementType == 'event'">
+            <div class="e-popup-header noor">
+              <div class="e-header-icon-wrapper">
+                <div *ngIf="data.elementType == 'event'" class="subject d-flex align-items-center gap-3" style="
+                gap: 15px;">
+                  <div>
+                    <button class="e-close e-close-icon e-icons" title="Close" (click)="onCloseClick()">
+                    </button>
+                  </div>
+                  <div>STD 236</div>
+                  <div>Standard Room</div>
+                  <div class=" d-flex align-items-center" style="gap: 10px;">
+                    <input type="checkbox" id="assign" name="assign" class="m-0" style="width: 15px;" />
+                    <label for="assign" style="margin: 0;">Assign</label>
+                  </div>
+                  <div class="reserve-text" style="padding-left: 100px;">Reserve<span class="reserve-text reserve-id"> /
+                      Res#23445622</span></div>
+                </div>
+
+                <button class="enable-editing-btn" title="Edit">Enable Editing</button>
+                <!-- <button class="e-close e-close-icon e-icons" title="Close" (click)="onCloseClick()"></button> -->
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <!-- Content Template -->
+        <ng-template #quickInfoTemplatesContent let-data>
+          <div *ngIf="data.elementType == 'cell'" class="e-cell-content">
+            <form class="e-schedule-form">
+              <div style="padding:10px">
+                <input class="subject e-field e-input" type="text" name="Subject" placeholder="Title"
+                  style="width:100%">
+              </div>
+              <div style="padding:10px">
+                <input class="location e-field e-input" type="text" name="Location" placeholder="Location"
+                  style="width:100%">
+              </div>
+            </form>
+          </div>
+          <div *ngIf="data.elementType == 'event'" class="e-event-content">
+            <div class="col-lg-12 control-section card-control-section vertical_card_layout">
+              <div class="e-sample-resize-container e-card-resize-container">
+                <div class='row'>
+                  <div class="row card-layout">
+                    <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4">
+                      <div class="srk-card p-4">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <div class="d-flex align-items-center">
+                              <div class=" w-100 logo">
+                                <img src="https://cdn-icons-png.flaticon.com/128/3135/3135715.png" alt="logo">
+                                <figcaption class="mt-3">
+                                  (P2345)
+                                </figcaption>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-9">
+                            <div class="d-flex justify-content-between align-items-center">
+                              <h3 class="text-white mb-0 mt-2">Deepak Sharma</h3>
+                              <div class="title-icon d-flex align-items-center" style="gap: 10px;">
+                                <div class="text-white fs-3">
+                                  &#9734;
+                                </div>
+                                <div class="text-white fs-3">
+                                  &#9734;
+                                </div>
+                              </div>
+                            </div>
+                            <div class="d-flex mt-4 justify-content-between">
+                              <div>
+                                <div class="text-white fs-6">
+                                  <strong>DOB:</strong> <strong>Feb 20 2001</strong>
+                                </div>
+                                <div class="text-white fs-6">
+                                  <strong>ID:</strong> <strong>Pssport , Aadhar</strong>
+                                </div>
+                              </div>
+                              <div>
+                                <div class="text-white fs-6">
+                                  <strong>New Delhi, India</strong>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-12 mt-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="fs-3 text-white">
+                                  <img src="./assets/Icons/email-white.svg" alt="Email"></span>
+                                <a href="#" class="text-white ms-2 fs-5">
+                                  hotelogix.com
+                                </a>
+                              </div>
+                              <div class="d-flex justify-content-between align-items-center">
+                                <span class="fs-3 text-white">&#9734;</span>
+                                <a href="" class="text-white text-decoration-none ms-2 fs-5">
+                                  787878787878
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-8 d-none">
+                      <div>
+                        Using only for consuming space
+                      </div>
+                    </div>
+                    <div class="col-xs-8 col-sm-8 col-lg-8 col-md-8">
+                      <div tabindex="0" class="e-card" id="vertical_business">
+                        <div class="e-card-header">
+                          <div class="e-card-header-caption">
+                            <div class="e-card-header-title"></div>
+                            
+                          </div>
+                        </div>
+                        <!-- <div class="e-card-content e-card-left" style="text-align:left">
+                          <table>
+                            <tr>
+                              <td>johndoe&#64;mail.com</td>
+                            </tr>
+                            <tr>
+                              <td>011-141-221</td>
+                            </tr>
+                            <tr>
+                              <td>www.johndoe.com</td>
+                            </tr>
+                          </table>
+                        </div> -->
+                      </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4">
+                      <div tabindex="0" class="e-card profile" style="justify-content: flex-start;">
+                        <div class="e-card-header">
+                          <div class="e-card-header-image e-card-corner">
+                            <img src="./assets/images/MollieCobb.png">
+                          </div>
+                        </div>
+                        <div class="e-card-header">
+                          <div class="e-card-header-caption center">
+                            <div class="e-card-header-title">Laura Callahan</div>
+                            <div class="e-card-sub-title">Sales Coordinator</div>
+                          </div>
+                        </div>
+                        <div class="e-card-separator"></div>
+                        <div class="e-card-content">
+                          Laura received a BA in psychology from the University of Washington. She has also completed a
+                          course in business French.
+                          She reads and writes French.
+                        </div>
+                        <div class="e-card-actions center">
+                          <button class="e-card-btn" title="E-mail">
+                            <span class="e-mail-icon cb-icons "></span>
+                          </button>
+                          <button class="e-card-btn" title="Google+">
+                            <span class="e-google-icon cb-icons "></span>
+                          </button>
+                          <button class="e-card-btn" title="Facebook">
+                            <span class="e-fb-icon cb-icons "></span>
+                          </button>
+                          <button class="e-card-btn" title="Tweets">
+                            <span class="e-tweet-icon cb-icons "></span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-8 col-sm-8 col-lg-8 col-md-8">
+                      <div tabindex="0" class="e-card profile" style="justify-content: flex-start;">
+                        <!-- <div class="e-card-header">
+                          <div class="e-card-header-image e-card-corner"></div>
+                        </div> -->
+                        <div class="e-card-header">
+                          <div class="e-card-header-caption">
+                            <div class="e-card-header-title">STAY DETAILS</div>
+                            <!-- <div class="e-card-sub-title">Sales Coordinator</div> -->
+                          </div>
+                        </div>
+                        <div class="e-card-separator"></div>
+                        <div class="e-card-content">
+
+
+                        </div>
+                        <div class="e-card-actions center">
+                          <button class="e-card-btn" title="E-mail">
+                            <span class="e-mail-icon cb-icons "></span>
+                          </button>
+                          <button class="e-card-btn" title="Google+">
+                            <span class="e-google-icon cb-icons "></span>
+                          </button>
+                          <button class="e-card-btn" title="Facebook">
+                            <span class="e-fb-icon cb-icons "></span>
+                          </button>
+                          <button class="e-card-btn" title="Tweets">
+                            <span class="e-tweet-icon cb-icons "></span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4">
+                      <div tabindex="0" class="e-card profile" style="justify-content: flex-start;">
+                        <div class="e-card-header">
+                          <div class="e-card-header-image e-card-corner"></div>
+                        </div>
+                        <div class="e-card-header">
+                          <div class="e-card-header-caption center">
+                            <div class="e-card-header-title">Laura Callahan</div>
+                            <div class="e-card-sub-title">Sales Coordinator</div>
+                          </div>
+                        </div>
+                        <div class="e-card-separator"></div>
+                        <div class="e-card-content">
+                          Laura received a BA in psychology from the University of Washington. She has also completed a
+                          course in business French.
+                          She reads and writes French.
+                        </div>
+                        <div class="e-card-actions center">
+                          <button class="e-card-btn" title="E-mail">
+                            <span class="e-mail-icon cb-icons "></span>
+                          </button>
+                          <button class="e-card-btn" title="Google+">
+                            <span class="e-google-icon cb-icons "></span>
+                          </button>
+                          <button class="e-card-btn" title="Facebook">
+                            <span class="e-fb-icon cb-icons "></span>
+                          </button>
+                          <button class="e-card-btn" title="Tweets">
+                            <span class="e-tweet-icon cb-icons "></span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-8 col-sm-8 col-lg-8 col-md-8">
+                      <div tabindex="0" class="e-card profile" style="justify-content: flex-start;">
+                        <div class="e-card-header">
+                          <div class="e-card-header-image e-card-corner"></div>
+                        </div>
+                        <div class="e-card-header">
+                          <div class="e-card-header-caption center">
+                            <div class="e-card-header-title">Laura Callahan</div>
+                            <div class="e-card-sub-title">Sales Coordinator</div>
+                          </div>
+                        </div>
+                        <div class="e-card-separator"></div>
+                        <div class="e-card-content">
+                          Laura received a BA in psychology from the University of Washington. She has also completed a
+                          course in business French.
+                          She reads and writes French.
+                        </div>
+                        <div class="e-card-actions center">
+                          <button class="e-card-btn" title="E-mail">
+                            <span class="e-mail-icon cb-icons "></span>
+                          </button>
+                          <button class="e-card-btn" title="Google+">
+                            <span class="e-google-icon cb-icons "></span>
+                          </button>
+                          <button class="e-card-btn" title="Facebook">
+                            <span class="e-fb-icon cb-icons "></span>
+                          </button>
+                          <button class="e-card-btn" title="Tweets">
+                            <span class="e-tweet-icon cb-icons "></span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
+        <!-- Footer Template -->
+        <ng-template #quickInfoTemplatesFooter let-data>
+          <div *ngIf="data.elementType == 'cell'" class="e-cell-footer">
+            <div class="left-button">
+              <button class="e-event-details" title="Extra Details">More Details</button>
+            </div>
+            <div class="right-button">
+              <button class="e-event-create" title="Add">Add</button>
+            </div>
+          </div>
+          <div *ngIf="data.elementType == 'event'" class="e-event-footer">
+            <div class="left-button">
+              <button class="e-delete" title="Delete">Delete</button>
+              <button *ngIf="data.RecurrenceRule != undefined && data.RecurrenceRule != ''" class="e-delete-series"
+                title="Delete">Delete Series</button>
+            </div>
+            <div class="right-button">
+              <button class="e-edit" title="Edit">Edit</button>
+              <button *ngIf="data.RecurrenceRule != undefined && data.RecurrenceRule != ''" class="e-edit-series"
+                title="Edit">Edit Series</button>
+            </div>
+          </div>
+        </ng-template>
+      </ejs-schedule>
+    </div>
+  </div>
+</div>
+<!-- booking view -->
+<!-- <div class="col-lg-12 control-section card-control-section vertical_card_layout">
+  <div class="e-sample-resize-container e-card-resize-container">
+    <div class='row'>
+      <div class="row card-layout">
+        <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+          <div tabindex="0" class="e-card" id="vertical_business">
+            <div class="e-card-header">
+              <div class="e-card-header-caption">
+                <div class="e-card-header-title">Mayumi Ohno</div>
+                <div class="e-card-sub-title">Marketing Representative</div>
+              </div>
+            </div>
+            <div class="e-card-actions">
+              <button class="e-card-btn">
+                <div class="e-email e-card-btn-txt">mayum&#64;mail.com</div>
+              </button>
+              <button class="e-card-btn">
+                <div class="e-email e-card-btn-txt">011-232-221</div>
+              </button>
+              <button class="e-card-btn">
+                <div class="e-email e-card-btn-txt">www.mayum.com</div>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+          <div tabindex="0" class="e-card" id="vertical_business_profile">
+            <div class="e-card-header">
+              <div class="e-card-header-caption">
+                <div class="e-card-header-title">John Doe</div>
+                <div class="e-card-sub-title">Real Estate Agent</div>
+              </div>
+            </div>
+            <div class="e-card-content e-card-left" style="text-align:left">
+              <table>
+                <tr>
+                  <td>johndoe&#64;mail.com</td>
+                </tr>
+                <tr>
+                  <td>011-141-221</td>
+                </tr>
+                <tr>
+                  <td>www.johndoe.com</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+          <div tabindex="0" class="e-card profile" style="justify-content: flex-start;">
+            <div class="e-card-header">
+              <div class="e-card-header-image e-card-corner"></div>
+            </div>
+            <div class="e-card-header">
+              <div class="e-card-header-caption center">
+                <div class="e-card-header-title">Laura Callahan</div>
+                <div class="e-card-sub-title">Sales Coordinator</div>
+              </div>
+            </div>
+            <div class="e-card-separator"></div>
+            <div class="e-card-content">
+              Laura received a BA in psychology from the University of Washington. She has also completed a course in
+              business French.
+              She reads and writes French.
+            </div>
+            <div class="e-card-actions center">
+              <button class="e-card-btn" title="E-mail">
+                <span class="e-mail-icon cb-icons "></span>
+              </button>
+              <button class="e-card-btn" title="Google+">
+                <span class="e-google-icon cb-icons "></span>
+              </button>
+              <button class="e-card-btn" title="Facebook">
+                <span class="e-fb-icon cb-icons "></span>
+              </button>
+              <button class="e-card-btn" title="Tweets">
+                <span class="e-tweet-icon cb-icons "></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
