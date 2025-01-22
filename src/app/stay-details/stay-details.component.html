@@ -229,8 +229,8 @@
               <div *ngIf="hoveredDate" class="date-tooltip" [ngStyle]="tooltipStyle">
                 {{ hoveredDate }}
               </div>
-              <div class="details">
-                <div class="position-relative mb-3">
+              <div class="res-details">
+                <div class="position-relative">
                   <div class="res-date" (click)="openStartDatePicker()">
                     <div class="day">{{ startDate | date: 'EEE' }}</div>
                     <div class="date">{{ startDate | date: 'dd' }}</div>
@@ -276,7 +276,7 @@
                     </ejs-schedule>
                   </div>
                 </div>
-                <div class="position-relative mb-3">
+                <div class="position-relative">
                   <div class="title-vertical">
                     <div>GUESTS</div>
                   </div>
@@ -290,7 +290,7 @@
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
                           <ng-template #eventTemplate let-data>
-                            <div>
+                            <div class="w-100">
                               <div class="d-flex mb-3" (click)="$event.stopPropagation()">
                                 <div class="e-section-control cutomize-button-size me-3">
                                   <button ejs-dropdownbutton [items]="totalUser" iconCss="e-ddb-icons e-profile"
@@ -306,7 +306,7 @@
                               </div>
                               <div *ngFor="let guest of guestDetails; let i = index" (click)="$event.stopPropagation()">
                                 <div class="appointment-guest-details">
-                                  <table class="table table-sm table-borderless">
+                                  <table width="100%" class="table table-sm table-borderless">
                                     <tr>
                                       <td>
                                         <ejs-checkbox></ejs-checkbox>
@@ -315,26 +315,26 @@
                                         <span class="room-type" *ngIf="!guest.isEditing">(PO1234)</span>
                                       </td>
                                       <td>
-                                        <button ejs-dropdownbutton [items]='items' iconCss="e-ddb-icons e-profile m-0"></button>
+                                        <button ejs-dropdownbutton [items]='items' iconCss="e-ddb-icons e-profile" class="m-0"></button>
                                       </td>
                                       <td>
                                         <div class="d-flex">
                                           <div>
                                             <strong *ngIf="!guest.isEditing">{{ guest.title }}</strong>
-                                            <select *ngIf="guest.isEditing" id="rate-select" class="edit-select" [(ngModel)]="guest.title">
+                                            <select *ngIf="guest.isEditing" id="rate-select" class="form-select form-select-sm guest-title" [(ngModel)]="guest.title">
                                               <option value="Mr." selected>Mr.</option>
                                               <option value="Mrs.">Mrs.</option>
                                               <option value="Ms.">Ms.</option>
                                               <option value="Dr.">Dr.</option>
                                             </select>
                                           </div>
-                                          <div>
+                                          <div class="mx-1">
                                             <strong *ngIf="!guest.isEditing" class="room-type">{{ guest.firstName }}</strong>
-                                            <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.firstName" class="edit-input" placeholder="First Name" />
+                                            <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.firstName" class="form-control form-control-sm name" placeholder="First Name" />
                                           </div>
                                           <div>
                                             <strong *ngIf="!guest.isEditing" class="room-type">{{ guest.lastName }}</strong>
-                                            <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.lastName" class="edit-input" placeholder="Last Name" />
+                                            <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.lastName" class="form-control form-control-sm name" placeholder="Last Name" />
                                           </div>
                                         </div>
                                       </td>
@@ -343,7 +343,7 @@
                                       </td>
                                       <td>
                                         <img *ngIf="!guest.isEditing" src="./assets/Icons/in.svg" alt="flag" class="flag-icon" />
-                                        <select *ngIf="guest.isEditing" id="rate-select" class="edit-select" [(ngModel)]="guest.flagId">
+                                        <select *ngIf="guest.isEditing" id="rate-select" class="form-select form-select-sm country" [(ngModel)]="guest.flagId">
                                           <option value="1" selected>India</option>
                                           <option value="2">Pakistan</option>
                                           <option value="3">Nepal</option>
@@ -352,10 +352,10 @@
                                       </td>
                                       <td>
                                         <span *ngIf="!guest.isEditing" class="room-type">{{ guest.phoneNumber }}</span>
-                                        <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.phoneNumber" class="edit-input" placeholder="Mobile" />
+                                        <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.phoneNumber" class="form-control form-control-sm phone" placeholder="Mobile" />
                                       </td>
                                       <td>
-                                        <span *ngIf="!guest.isEditing" class="icon-people">
+                                        <span *ngIf="!guest.isEditing">
                                           <img src="./assets/Icons/calendar_1.svg" alt="calendar">
                                         </span>
                                         <div *ngIf="guest.isEditing" class="date-display" (click)="openDateRangePicker()">
@@ -363,24 +363,24 @@
                                         </div>
                                         <ejs-daterangepicker #dateRangePicker *ngIf="guest.isEditing" [min]='startDate'
                                           [max]='endDate' (change)="onDateRangeChange($event, i)"
-                                          style="visibility: hidden; width: 1px; height: 1px;">
+                                          style="visibility: hidden; display: block; padding: 0; width: 1px; height: 1px;">
                                         </ejs-daterangepicker>
                                       </td>
                                       <td>
                                         <ejs-switch id="checked" [checked]="true"></ejs-switch>
                                       </td>
                                       <td>
-                                        <button ejs-dropdownbutton [items]='tooltItem' iconCss="speeddial-icons speeddial-icon-edit m-0" (select)="onItemSelect($event, i)"></button>
+                                        <button ejs-dropdownbutton [items]='tooltItem' iconCss="speeddial-icons speeddial-icon-edit" class="m-0" (select)="onItemSelect($event, i)"></button>
                                       </td>
                                     </tr>
                                   </table>                                  
                                 </div>
-                                <div>
+                                <!-- <div>
                                   <div class="e-section-control">
                                     <hr id="hr-{{i}}" #hr class="hr-line" [style.left.px]="setHeight(i, guest)[0]"
                                       [style.width.px]="setHeight(i, guest)[1]" />
                                   </div>
-                                </div>
+                                </div> -->
                               </div>
                               <div class="popup-overlay" *ngIf="isPopupVisible">
                                 <div class="form-container" (click)="$event.stopPropagation()">
@@ -446,9 +446,8 @@
                                   </div>
                                 </div>
                               </div>
-                              <div class="e-section-control"></div>
-                              <div class="d-flex">
-                                <span class="label" (click)="openPopup($event)"> + Infants</span>
+                              <div class="d-flex d-flex pt-3">
+                                <span class="label" (click)="openPopup($event)"> + Infants</span> |
                                 <span class="label" (click)="addGuest()"> + Guests</span>
                                 <div class="ms-auto btn-group-hlx">
                                   <button>Guest Services</button>
@@ -464,8 +463,7 @@
                   </div>
                   <div class="res-total-night">{{viewInterval}}n</div>
                 </div>
-
-                <div class="position-relative mb-3">
+                <div class="position-relative">
                   <div class="title-vertical">
                     <div>Rooms</div>
                   </div>
@@ -482,25 +480,18 @@
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
                           <ng-template #eventTemplate let-data *ngFor="let guest of guestDetails;">
-                            <div class="">
-                              <hr style="
-                        border: none;
-                        border-top: 2px solid #A40202;
-                        margin: 10px -6px;
-                        flex-grow: 1;
-                        width: 701px;" />
+                            <div class="w-100">
+                              <div class="hlx-hr"></div>
                               <div class="appointment-header">
                                 <div class="e-section-control">
-                                  <div class="room-details">
+                                  <div class="room-details mt-3">
                                     <span class="icon-bed">
                                       <img src="./assets/Icons/bed.svg" alt="Room" class="room-icon">
                                     </span>
                                     <a href="#" class="room-link">{{ data.Subject }} {{ data.Room }}</a>
                                   </div>
-                                  <div class="booking-date">
-                                    <span class="date-display">
+                                  <div class="booking-date text-blue">
                                       {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
-                                    </span>
                                   </div>
                                   <div class="total-guest">
                                     <span class="guest-info">
@@ -573,7 +564,7 @@
                     </ejs-schedule>
                   </div>
                 </div>
-                <div class="position-relative mb-3">
+                <div class="position-relative">
                   <div class="title-vertical">
                     <div>Rates</div>
                   </div>
@@ -598,7 +589,7 @@
                             width: 701px;
                           " />
                               <div class="appointment-header">
-                                <strong class="room-type">$ {{data.Rates}}</strong>
+                                <strong>$ {{data.Rates}}</strong>
                                 <span class="room-id">{{data.Package}}</span>
                               </div>
                               <div class="appointment-info">

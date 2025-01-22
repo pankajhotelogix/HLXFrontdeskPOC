@@ -174,6 +174,95 @@ a {
   position: relative;
   margin-left: -10px;
 }
+.res-details .guest-title {
+  padding-right: 0px;
+  padding-left: 0;
+  background-position: right 0 center;
+  width: 40px;
+}
+.res-details .country {
+  padding-right: 0px;
+  padding-left: 0;
+  background-position: right 0 center;
+  width: 50px;
+}
+.res-details .name {
+  width: 100px;
+}
+.res-details .phone {
+  width: 87px;
+}
+.res-details .e-appointment-details {
+    padding: 20px !important;
+    border: 1px solid #ebebeb;
+}
+.res-details .e-schedule {
+  border: 0;
+}
+.hlx-hr {
+  border-bottom: 1px solid #666 !important;
+  position: relative;
+}
+.hlx-hr:before,
+.hlx-hr:after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #666;
+}
+.hlx-hr:before {
+  left: -3px;
+  bottom: -3px;
+}
+.hlx-hr:after {
+  right: -3px;
+  bottom: -3px;
+}
+.appointment-guest-details {
+  background: linear-gradient(90deg, #EBEBEB 0%, #FFFFFF 100%);
+  border-bottom: 1px solid #A40202 !important;
+  position: relative;
+  padding: 8px;
+  border-radius: 4px 4px 0 2px;
+  margin-bottom: 2px;
+}
+.appointment-guest-details:before,
+.appointment-guest-details:after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #A40202;
+}
+.appointment-guest-details:before {
+  left: -2px;
+  bottom: -2px;
+}
+.appointment-guest-details:after {
+  right: -2px;
+  bottom: -2px;
+}
+.appointment-guest-details table {
+  margin: 0;
+}
+.appointment-guest-details td * {
+  background: transparent;
+}
+.date-display {
+  color: #A40202 !important;
+  font-size: 11px;
+  border: 1px solid #A40202 !important;
+  border-radius: 4px;
+  padding: 2px 3px !important;
+  cursor: pointer;
+  background-color: rgba(164, 2, 2, .05) !important;
+  line-height: 11px;
+}
+
+
 /* addded by Nand end */
 
 
@@ -493,17 +582,6 @@ a {
   font-size: 12px;
 }
 
-.appointment-guest-details {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  gap: 5px;
-  // padding: 5px;
-  width: auto;
-  margin: 5px;
-
-}
-
 .icon-container {
   position: relative;
 }
@@ -805,22 +883,6 @@ a {
   align-items: center;
 }
 
-.edit-input {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 5px;
-  font-size: 13px;
-  width: 85px;
-}
-
-.edit-select {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 5px;
-  font-size: 13px;
-  width: 60px;
-}
-
 .flag-icon {
   width: 20px;
   padding-top: 1px;
@@ -875,13 +937,6 @@ button:disabled {
 
 .separator {
   color: #007bff;
-}
-
-.edit-select,
-.edit-input {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 5px;
 }
 
 .icon-people img {
@@ -1089,10 +1144,6 @@ button:disabled {
   align-items: center;
 }
 
-.date-display {
-  color: #A40202;
-  cursor: pointer;
-}
 
 .icon-people img {
   position: relative;
