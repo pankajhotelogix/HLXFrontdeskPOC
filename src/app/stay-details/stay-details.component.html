@@ -3,15 +3,13 @@
     <div class="col-md-9">
       <div class="row">
         <div class="col-md-4">
-          <div class="card bg-grey mb-3">
+          <div class="card hlx mb-3">
             <div class="card-body">
-              <h2>Guest Details</h2>
+              <h2 class="mb-2">Guest Details</h2>
               <div class="row">
                 <div class="col-auto">
-                    <div class="img-placeholder" style="width: 85px;">
-                      <div class="profile-container">
-                        <app-common-profile-image></app-common-profile-image>
-                      </div>
+                  <div class="profile-container">
+                    <app-common-profile-image></app-common-profile-image>
                   </div>
                 </div>
                 <div class="col">
@@ -29,23 +27,12 @@
                     </div>
                   </div>
                   <div class="row g-2 mb-2">
-                    <div class="col-md-6">
-                      <ejs-dropdownlist #countryList id='country' [dataSource]='country' [fields]='countryFields' (change)='onChange1()' popupHeight='auto' [placeholder]='countryWaterMark' allowFiltering="true">
-                        <ng-template #itemTemplate let-data>
-                          <div class="country-flag"><div class="empImage"> {{data.flag}} </div>
-                              <div class="ename"> {{data.CountryName}} </div>
-                          </div>
-                        </ng-template>
-                        <ng-template #valueTemplate let-data>
-                          <div class="country-flag"><div class="valueTemp"> {{data.flag}} </div>
-                          <div class="name"> {{data.dialCode}} </div>
-                          </div>
-                      </ng-template>
-                      </ejs-dropdownlist>
+                    <div class="col-md-1">
+                      F
                     </div>
-                    <!-- <div class="col-md-5">
+                    <div class="col-md-5">
                       <input type="text" class="form-control form-control-sm" placeholder="Mobile">
-                    </div> -->
+                    </div>
                     <div class="col-md-1">
                       F
                     </div>
@@ -65,26 +52,17 @@
                   </div>
                 </div>
               </div>
-              <div class="row g-2 mb-2">
-                <div class="col-md-6">
-                  <ejs-dropdownlist #countryList id='country' [dataSource]='country' [fields]='countryFields' (change)='onChange1()' popupHeight='auto' [placeholder]='countryWaterMark' allowFiltering="true">
-                    <ng-template #itemTemplate let-data>
-                      <div class="country-flag">
-                          <div class="ename"> {{data.nationality}} </div>
-                      </div>
-                    </ng-template>
-                    <ng-template #valueTemplate let-data>
-                      <div class="country-flag">
-                      <div class="name"> {{data.nationality}} </div>
-                      </div>
-                  </ng-template>
-                  </ejs-dropdownlist>
+              <div class="row g-2">
+                <div class="col-md-4">
+                  <ejs-dropdownlist id="roomsDropdown" #titleObj [dataSource]="titleData" [fields]="genderFields"
+                      placeholder="Nationality">
+                    </ejs-dropdownlist>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-8">
                   <input type="text" class="form-control form-control-sm" placeholder="Email">
                 </div>
               </div>
-              <h4>Home Address</h4>
+              <h4 class="accord my-3">Home Address</h4>
               <div class="row g-2 mb-2">
                 <div class="col">
                   <input type="text" class="form-control form-control-sm" placeholder="Address">
@@ -94,131 +72,149 @@
                 <div class="col-md-6">
                   <ejs-dropdownlist #countryList id='country' [dataSource]='country' [fields]='countryFields' (change)='onChange1()' popupHeight='auto' [placeholder]='countryWaterMark' allowFiltering="true">
                     <ng-template #itemTemplate let-data>
-                      <div class="country-flag"><div class="empImage"> {{data.flag}} </div>
-                          <div class="ename"> {{data.CountryName}} </div>
+                      <div>
+                          <div class="ename"> {{data.flag}} </div>
+                          <div class="job"> {{data.CountryName}} </div>
                       </div>
-                    </ng-template>
-                    <ng-template #valueTemplate let-data>
-                      <div class="country-flag"><div class="valueTemp"> {{data.flag}} </div>
-                      <div class="name"> {{data.CountryName}} </div>
+                  </ng-template>
+                  <ng-template #valueTemplate let-data>
+                      <div>
+                        <div class="ename"> {{data.flag}} </div>
+                        <div class="name"> {{data.CountryName}} </div>
                       </div>
                   </ng-template>
                   </ejs-dropdownlist>
                 </div>
                 <div class="col-md-6">
-                  <ejs-dropdownlist #stateList id='state' [dataSource]='state' [fields]='stateFields' (change)='onChange2()' [placeholder]='stateWaterMark' popupHeight='auto'
-                [enabled]='false'></ejs-dropdownlist>
+                  <ejs-dropdownlist #stateList id='state' [dataSource]='state' [fields]='stateFields' (change)='onChange2()' [placeholder]='stateWaterMark' popupHeight='auto' allowFiltering="true"
+                  [enabled]='false'>
+                  <ng-template #itemTemplate let-data>
+                    <div>
+                    <div class="name"> {{data.StateName}} </div>
+                    </div>
+                </ng-template>
+                <ng-template #valueTemplate let-data>
+                    <div>
+                    <div class="name"> {{data.StateName}} </div>
+                    </div>
+                </ng-template>
+                </ejs-dropdownlist>
                 </div>
               </div>
-              <div class="row g-2 mb-2">
+              <div class="row g-2">
                 <div class="col-md-6">
-                  <ejs-dropdownlist #cityList id='city' [dataSource]='cities' [fields]='cityFields' [placeholder]='cityWaterMark' [enabled]='false' popupHeight='auto'></ejs-dropdownlist>
+                  <ejs-dropdownlist #cityList id='city' [dataSource]='cities' [fields]='cityFields' [placeholder]='cityWaterMark' [enabled]='false' popupHeight='auto' allowFiltering="true">
+                    <ng-template #itemTemplate let-data>
+                      <div>
+                          <div class="ename"> {{data.CityName}} </div>
+                      </div>
+                  </ng-template>
+                  <ng-template #valueTemplate let-data>
+                      <div><div class="name"> {{data.CityName}} </div>
+                      </div>
+                  </ng-template>
+                  </ejs-dropdownlist>
                 </div>
                 <div class="col-md-6">
                   <input type="text" class="form-control form-control-sm" placeholder="Zip Code">
                 </div>
               </div>
-              <h4>ID</h4>
-              <div>Passport</div>
-              <div class="row g-2 mb-2">
-                <div class="col-md-4">
-                  No.: 238xxx
-                </div>
-                <div class="col-md-4">
-                  Validity: Feb 20, 2026
-                </div>
-                <div class="col">
-                  <img src="" width="20">
-                </div>
-                <div class="col-md-auto">
-                  E D
+              <h4 class="accord my-3">ID</h4>
+              <div class="border-bottom mb-2 pb-1">
+                <div class="row fs-14">
+                  <div class="col-auto">
+                    <strong>Passport No.</strong>: 238xxx
+                  </div>
+                  <div class="col-auto">
+                    <strong>Validity</strong>: Feb 20, 2026
+                  </div>
+                  <div class="col">
+                    <img src="" width="20">
+                  </div>
+                  <div class="col-auto">
+                    E D
+                  </div>
                 </div>
               </div>
-              <div class="row g-2 mb-2">
+              <div class="row g-2 mb-3 fs-14">
                 <div class="col-md-8">
                   <select class="form-control form-control-sm">
                     <option value="">Select Id</option>
                   </select>
                 </div>
-                <div class="col-md-4 text-right">
+                <div class="col-md-4 text-end">
                   <a href="">Fields</a> | <a href="">Upload Id</a>
                 </div>
               </div>
-              <div class="row g-2 mb-2">
+              <div class="row g-2 mb-2 fs-14">
                 <div class="col">
                   <a href="">+Ids</a>
                 </div>
                 <div class="col-auto">
-                  <a href="" class="btn btn-primary">Save</a>
+                  <a href="" class="btn btn-sm btn-primary hlx">Save</a>
                 </div>
               </div>
             </div>
           </div>
-          <div class="card bg-grey rounded-lg mb-3">
+          <div class="card hlx mb-3">
             <div class="card-body">
               <div class="row g-2 mb-2">
                 <div class="col-md-6">
                   Arrival
                 </div>
-                <div class="col-md-6 text-right">
+                <div class="col-md-6 text-end">
                   Departure
                 </div>
               </div>
             </div>
           </div>
           <div class="card bg-grey rounded-lg">
-            <div class="card-body">
-              <div class="row g-2 mb-2">
-                <div class="col">
-                  <input type="text" class="form-control form-control-sm" placeholder="Purpose">
-                </div>
-              </div>
-              <div class="row g-2 mb-2">
-                <div class="col-md-6">
-                  <select class="form-control form-control-sm">
-                    <option value="">Source</option>
-                  </select>
-                </div>
-                <div class="col-md-6">
-                  <select class="form-control form-control-sm">
-                    <option value="">Type</option>
-                  </select>
-                </div>
-              </div>
-              <div class="row g-2 mb-2">
-                <div class="col-md-6">
-                  <select class="form-control form-control-sm">
-                    <option value="">Market Segment</option>
-                  </select>
-                </div>
-                <div class="col-md-6">
-                  <select class="form-control form-control-sm">
-                    <option value="">Sales Person</option>
-                  </select>
-                </div>
-              </div>
+            <div class="card-body pb-0">
+              <table class="table valign-middle mb-0">
+                <tbody>
+                  <tr>
+                    <td width="35%" class="fw-bold">Confirmation:</td>
+                    <td class="fs-14"><a href="">Send Confirmation Email</a></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold">Preference:</td>
+                    <td><textarea class="form-control" placeholder="Enter Preferences"></textarea></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold">Tasks:</td>
+                    <td class="text-end"><a href="" class="btn-add">+</a></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold">Messages:</td>
+                    <td class="text-end"><a href="" class="btn-add">+</a></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold">Notes:</td>
+                    <td class="text-end"><a href="" class="btn-add">+</a></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
         <div class="col-md-8">
-          <div tabindex="0" class="e-card" id="basic">
-            <div class="e-card-separator"></div>
-            <div class="e-card-content">
+          <div tabindex="0" class="card hlx" id="basic">
+            <div class="card-body p-5">
               <div *ngIf="hoveredDate" class="date-tooltip" [ngStyle]="tooltipStyle">
                 {{ hoveredDate }}
               </div>
-              <div class="details p-5">
+              <div class="details">
                 <div class="position-relative mb-3">
                   <div class="res-date" (click)="openStartDatePicker()">
-                    <div class="month">{{ startDate | date: 'EEE' }}</div>
+                    <div class="day">{{ startDate | date: 'EEE' }}</div>
                     <div class="date">{{ startDate | date: 'dd' }}</div>
                     <div class="month-year"> {{ startDate | date: 'MMM' }} {{startDate | date: 'yyyy'}}</div>
                     <ejs-datepicker #datepicker [value]='startDate' [max]="endDate"
                       style="visibility: hidden" (change)="onStartChange()">
                     </ejs-datepicker>
                   </div>
-                  <div class="res-end-date" (click)="openEndDatePicker()">
-                    <div class="month">{{ endDate | date: 'EEE' }}</div>
+                  <div class="res-date end" (click)="openEndDatePicker()">
+                    <div class="day">{{ endDate | date: 'EEE' }}</div>
                     <div class="date">{{ endDate | date: 'dd' }}</div>
                     <div class="month-year"> {{ endDate | date: 'MMM' }} {{endDate | date: 'yyyy'}}</div>
                     <ejs-datepicker #enddatepicker [value]='endDate' [min]="startDate" style="visibility: hidden"
@@ -269,8 +265,8 @@
                         <e-view option="TimelineDay" [interval]="viewInterval">
                           <ng-template #eventTemplate let-data>
                             <div>
-                              <div class="appointment-guest-details" (click)="$event.stopPropagation()">
-                                <div class="e-section-control cutomize-button-size">
+                              <div class="d-flex mb-3" (click)="$event.stopPropagation()">
+                                <div class="e-section-control cutomize-button-size me-3">
                                   <button ejs-dropdownbutton [items]="totalUser" iconCss="e-ddb-icons e-profile"
                                     (select)="onSelect($event)" [cssClass]="'custom-dropdown'">
                                     {{ selectedText }}
@@ -335,8 +331,8 @@
                                       class="edit-input" placeholder="Mobile" />
                                   </div>
                                   <div class="e-section-control">
-                                    <span class="icon-people">
-                                      <img *ngIf="!guest.isEditing" src="./assets/Icons/calendar_1.svg" alt="calendar">
+                                    <span *ngIf="!guest.isEditing" class="icon-people">
+                                      <img src="./assets/Icons/calendar_1.svg" alt="calendar">
                                     </span>
                                     <div *ngIf="guest.isEditing" class="date-display" (click)="openDateRangePicker()">
                                       {{ guest.startDate1 | date: 'dd MMM' }} - {{ guest.endDate1 | date: 'dd MMM' }}
@@ -344,7 +340,7 @@
                                     </div>
                                     <ejs-daterangepicker #dateRangePicker *ngIf="guest.isEditing" [min]='startDate'
                                       [max]='endDate' (change)="onDateRangeChange($event, i)"
-                                      style="visibility: hidden; width: 1px;">
+                                      style="visibility: hidden; width: 1px; height: 1px;">
                                     </ejs-daterangepicker>
                                   </div>
                                   <div class="e-section-control">
@@ -356,15 +352,9 @@
                                       (select)="onItemSelect($event, i)"></button>
                                   </div>
                                 </div>
-                                <div class="appointment-guest-details">
+                                <div>
                                   <div class="e-section-control">
-                                    <hr id="hr-{{i}}" #hr style="
-                                border: none;
-                                border-top: 2px solid #A40202;
-                                margin: 10px -5px;
-                                width: 100%;
-                                position: relative;
-                              " [style.left.px]="setHeight(i, guest)[0]" [style.width.px]="setHeight(i, guest)[1]" />
+                                    <hr id="hr-{{i}}" #hr class="hr-line" [style.left.px]="setHeight(i, guest)[0]" [style.width.px]="setHeight(i, guest)[1]" />
                                   </div>
                                 </div>
                               </div>
@@ -433,13 +423,13 @@
                                 </div>
                               </div>
                               <div class="e-section-control"></div>
-                              <div class="container">
+                              <div class="d-flex">
                                 <span class="label" (click)="openPopup($event)"> + Infants</span>
                                 <span class="label" (click)="addGuest()"> + Guests</span>
-                                <div class="services">
-                                  <button class="service-button active">Guest Services</button>
-                                  <button class="service-button">Guest Check in</button>
-                                  <button class="service-button">Early Check-in</button>
+                                <div class="ms-auto btn-group-hlx">
+                                  <button>Guest Services</button>
+                                  <button>Guest Check in</button>
+                                  <button>Early Check-in</button>
                                 </div>
                               </div>                              
                             </div>
@@ -664,15 +654,15 @@
       </div>
     </div>
     <div class="col-md-3">
-      <div class="card bg-grey mb-3 rounded-lg">
+      <div class="card hlx mb-3">
         <div class="card-header d-flex justify-content-between">
-          <div class="text-uppercase fs-16 fw-bold">Payment</div>
+          <h2>Payment</h2>
           <div>icon</div>
         </div>
         <div class="card-body pb-0">
-          <table class="table table-borderless table-sm valign-middle text-right mb-0">
+          <table class="table table-borderless table-sm valign-middle text-end fs-14 mb-0">
             <tbody>
-              <tr class="fw-bold">
+              <tr class="fw-bold fs-16">
                 <td width="35%">Room Tariff</td>
                 <td>$132,198.00</td>
               </tr>
@@ -689,8 +679,8 @@
                 <td>00</td>
               </tr>
               <tr class="fw-bold pay-total">
-                <td class="fs-16">Total</td>
-                <td class="text-green fs-22">$132,198.00</td>
+                <td class="fs-18">Total</td>
+                <td class="text-blue fs-24">$132,198.00</td>
               </tr>
               <tr class="fw-bold">
                 <td>Amount Paid</td>
@@ -707,43 +697,48 @@
             </tbody>
           </table>
         </div>
-        <div class="card-footer pay-balance">
-          <table class="table table-borderless table-sm valign-middle text-right mb-0">
+        <div class="card-footer pay-balance py-0">
+          <table class="table table-borderless table-sm valign-middle text-end mb-0">
             <tbody>
               <tr class="fw-bold">
-                <td width="35%" class="fs-16">Balance</td>
-                <td class="text-green fs-22">$132,198.00</td>
+                <td width="35%" class="fs-18">Balance</td>
+                <td class="text-green fs-24">$132,198.00</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <div class="card bg-grey rounded-lg">
-        <div class="card-body pb-0">
-          <table class="table valign-middle mb-0">
-            <tbody>
-              <tr class="fw-bold">
-                <td width="35%">Confirmation:</td>
-                <td><a href="">Send Confirmation Email</a></td>
-              </tr>
-              <tr>
-                <td>Preference:</td>
-                <td><textarea class="form-control" placeholder="Enter Preferences"></textarea></td>
-              </tr>
-              <tr>
-                <td>Tasks:</td>
-                <td class="text-right"><a href=""><i class="btn-add">+</i></a></td>
-              </tr>
-              <tr>
-                <td>Messages:</td>
-                <td class="text-right"><a href=""><i class="btn-add">+</i></a></td>
-              </tr>
-              <tr>
-                <td>Notes:</td>
-                <td class="text-right"><a href=""><i class="btn-add">+</i></a></td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="card hlx">
+        <div class="card-body">
+          <div class="row g-2 mb-2">
+            <div class="col">
+              <input type="text" class="form-control form-control-sm" placeholder="Purpose">
+            </div>
+          </div>
+          <div class="row g-2 mb-2">
+            <div class="col-md-6">
+              <select class="form-control form-control-sm">
+                <option value="">Source</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <select class="form-control form-control-sm">
+                <option value="">Type</option>
+              </select>
+            </div>
+          </div>
+          <div class="row g-2 mb-2">
+            <div class="col-md-6">
+              <select class="form-control form-control-sm">
+                <option value="">Market Segment</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <select class="form-control form-control-sm">
+                <option value="">Sales Person</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
     </div>

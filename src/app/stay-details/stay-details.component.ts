@@ -103,7 +103,7 @@ export class StayDetailsComponent {
   public hoveredDate: string | null = null;
   public tooltipStyle: { [key: string]: string } = {};
   public readonly = true;
-  public scheduleHeight: string = '300px';
+  public scheduleHeight: string = '150px';
   public selectedText: string = '1';
   public isPopupVisible: boolean = false;
   public formattedDate: string = '';
@@ -413,8 +413,8 @@ public cities: { [key: string]: Object }[] = [
     },
   };
   updateScheduleHeight() {
-    const baseHeight = 150;
-    const guestHeight = 150;
+    const baseHeight = 75;
+    const guestHeight = 75;
     const newHeight = baseHeight + this.guestDetails.length * guestHeight;
     this.scheduleHeight = `${newHeight}px`;
   }
