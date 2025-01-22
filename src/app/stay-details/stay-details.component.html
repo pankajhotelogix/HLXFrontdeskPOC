@@ -16,8 +16,8 @@
                   <div class="row g-2 mb-2">
                     <div class="col-md-4">
                       <ejs-dropdownlist id="roomsDropdown" #titleObj [dataSource]="titleData" [fields]="genderFields"
-                      placeholder="Title">
-                    </ejs-dropdownlist>
+                        placeholder="Title" [width]="50">
+                      </ejs-dropdownlist>
                     </div>
                     <div class="col-md-4">
                       <input type="text" class="form-control form-control-sm" placeholder="First Name">
@@ -27,12 +27,28 @@
                     </div>
                   </div>
                   <div class="row g-2 mb-2">
-                    <div class="col-md-1">
+                    <div class="col-md-6">
+                      <ejs-dropdownlist id="games" #sample [dataSource]="country" (change)="onChange1()"
+                        [fields]="fields" [width]="width" [popupWidth]="popupWidth" placeholder="Country">
+                        <ng-template #itemTemplate let-data>
+                          <span>
+                            {{ data.flag }} {{ data.CountryName }} {{ data.dialCode }}
+                          </span>
+                        </ng-template>
+                        <ng-template #valueTemplate let-data>
+                          <span>
+                            {{ data.flag }} {{ data.dialCode }}
+                          </span>
+                        </ng-template>
+                      </ejs-dropdownlist>
+                      <input type="text" class="form-control form-control-sm" placeholder="Mobile">
+                    </div>
+                    <!-- <div class="col-md-1">
                       F
                     </div>
                     <div class="col-md-5">
                       <input type="text" class="form-control form-control-sm" placeholder="Mobile">
-                    </div>
+                    </div> -->
                     <div class="col-md-1">
                       F
                     </div>
@@ -43,8 +59,8 @@
                   <div class="row g-2 mb-2">
                     <div class="col-md-5">
                       <ejs-dropdownlist id="roomsDropdown" #genderObj [dataSource]="genderData" [fields]="genderFields"
-                      placeholder="Choose Gender">
-                    </ejs-dropdownlist>
+                        placeholder="Gender">
+                      </ejs-dropdownlist>
                     </div>
                     <div class="col-md-7">
                       <ejs-datepicker placeholder="MM/DD/YYYY"></ejs-datepicker>
@@ -54,9 +70,9 @@
               </div>
               <div class="row g-2">
                 <div class="col-md-4">
-                  <ejs-dropdownlist id="roomsDropdown" #titleObj [dataSource]="titleData" [fields]="genderFields"
-                      placeholder="Nationality">
-                    </ejs-dropdownlist>
+                  <ejs-dropdownlist id="natioonalityDropdown" #titleObj [dataSource]="country" [fields]="nationalityFields"
+                    placeholder="Nationality">
+                  </ejs-dropdownlist>
                 </div>
                 <div class="col-md-8">
                   <input type="text" class="form-control form-control-sm" placeholder="Email">
@@ -70,49 +86,47 @@
               </div>
               <div class="row g-2 mb-2">
                 <div class="col-md-6">
-                  <ejs-dropdownlist #countryList id='country' [dataSource]='country' [fields]='countryFields' (change)='onChange1()' popupHeight='auto' [placeholder]='countryWaterMark' allowFiltering="true">
+                  <ejs-dropdownlist #countryList id='country' [dataSource]='country' [fields]='countryFields'
+                    (change)='onChange1()' popupHeight='auto' [placeholder]='countryWaterMark' allowFiltering="true">
                     <ng-template #itemTemplate let-data>
-                      <div>
-                          <div class="ename"> {{data.flag}} </div>
-                          <div class="job"> {{data.CountryName}} </div>
-                      </div>
-                  </ng-template>
-                  <ng-template #valueTemplate let-data>
-                      <div>
-                        <div class="ename"> {{data.flag}} </div>
-                        <div class="name"> {{data.CountryName}} </div>
-                      </div>
-                  </ng-template>
+                        <span> {{data.flag}} {{data.CountryName}}</span> 
+                    </ng-template>
+                    <ng-template #valueTemplate let-data>
+                      <span> {{data.flag}} {{data.CountryName}}</span> 
+                    </ng-template>
                   </ejs-dropdownlist>
                 </div>
                 <div class="col-md-6">
-                  <ejs-dropdownlist #stateList id='state' [dataSource]='state' [fields]='stateFields' (change)='onChange2()' [placeholder]='stateWaterMark' popupHeight='auto' allowFiltering="true"
-                  [enabled]='false'>
-                  <ng-template #itemTemplate let-data>
-                    <div>
-                    <div class="name"> {{data.StateName}} </div>
-                    </div>
-                </ng-template>
-                <ng-template #valueTemplate let-data>
-                    <div>
-                    <div class="name"> {{data.StateName}} </div>
-                    </div>
-                </ng-template>
-                </ejs-dropdownlist>
+                  <ejs-dropdownlist #stateList id='state' [dataSource]='state' [fields]='stateFields'
+                    (change)='onChange2()' [placeholder]='stateWaterMark' popupHeight='auto' allowFiltering="true"
+                    [enabled]='false'>
+                    <ng-template #itemTemplate let-data>
+                      <div>
+                        <div class="name"> {{data.StateName}} </div>
+                      </div>
+                    </ng-template>
+                    <ng-template #valueTemplate let-data>
+                      <div>
+                        <div class="name"> {{data.StateName}} </div>
+                      </div>
+                    </ng-template>
+                  </ejs-dropdownlist>
                 </div>
               </div>
               <div class="row g-2">
                 <div class="col-md-6">
-                  <ejs-dropdownlist #cityList id='city' [dataSource]='cities' [fields]='cityFields' [placeholder]='cityWaterMark' [enabled]='false' popupHeight='auto' allowFiltering="true">
+                  <ejs-dropdownlist #cityList id='city' [dataSource]='cities' [fields]='cityFields'
+                    [placeholder]='cityWaterMark' [enabled]='false' popupHeight='auto' allowFiltering="true">
                     <ng-template #itemTemplate let-data>
                       <div>
-                          <div class="ename"> {{data.CityName}} </div>
+                        <div class="ename"> {{data.CityName}} </div>
                       </div>
-                  </ng-template>
-                  <ng-template #valueTemplate let-data>
-                      <div><div class="name"> {{data.CityName}} </div>
+                    </ng-template>
+                    <ng-template #valueTemplate let-data>
+                      <div>
+                        <div class="name"> {{data.CityName}} </div>
                       </div>
-                  </ng-template>
+                    </ng-template>
                   </ejs-dropdownlist>
                 </div>
                 <div class="col-md-6">
@@ -209,8 +223,8 @@
                     <div class="day">{{ startDate | date: 'EEE' }}</div>
                     <div class="date">{{ startDate | date: 'dd' }}</div>
                     <div class="month-year"> {{ startDate | date: 'MMM' }} {{startDate | date: 'yyyy'}}</div>
-                    <ejs-datepicker #datepicker [value]='startDate' [max]="endDate"
-                      style="visibility: hidden" (change)="onStartChange()">
+                    <ejs-datepicker #datepicker [value]='startDate' [max]="endDate" style="visibility: hidden"
+                      (change)="onStartChange()">
                     </ejs-datepicker>
                   </div>
                   <div class="res-date end" (click)="openEndDatePicker()">
@@ -354,7 +368,8 @@
                                 </div>
                                 <div>
                                   <div class="e-section-control">
-                                    <hr id="hr-{{i}}" #hr class="hr-line" [style.left.px]="setHeight(i, guest)[0]" [style.width.px]="setHeight(i, guest)[1]" />
+                                    <hr id="hr-{{i}}" #hr class="hr-line" [style.left.px]="setHeight(i, guest)[0]"
+                                      [style.width.px]="setHeight(i, guest)[1]" />
                                   </div>
                                 </div>
                               </div>
@@ -431,7 +446,7 @@
                                   <button>Guest Check in</button>
                                   <button>Early Check-in</button>
                                 </div>
-                              </div>                              
+                              </div>
                             </div>
                           </ng-template>
                         </e-view>
@@ -452,8 +467,9 @@
                       [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
                       [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
                       [workDays]="workDays" (hover)="onHover($event)" [allowMultiCellSelection]="true"
-                      (renderCell)="onRenderCell($event)" (popupOpen)="onPopupOpenRoom($event)" (popupClose)="onPopupCloseSessionalRate($event)"
-                      (actionBegin)="onActionBegin($event)" cssClass="custom-scheduler2">
+                      (renderCell)="onRenderCell($event)" (popupOpen)="onPopupOpenRoom($event)"
+                      (popupClose)="onPopupCloseSessionalRate($event)" (actionBegin)="onActionBegin($event)"
+                      cssClass="custom-scheduler2">
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
                           <ng-template #eventTemplate let-data *ngFor="let guest of guestDetails;">
@@ -559,8 +575,8 @@
                       [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
                       [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
                       (actionBegin)="onActionBegin($event)" [workDays]="workDays" (hover)="onHover($event)"
-                      (popupOpen)="onPopupOpenSessionalRate($event)" (popupClose)="onPopupCloseSessionalRate($event)" [allowMultiCellSelection]="true"
-                      (renderCell)="onRenderCell($event)" cssClass="custom-scheduler2">
+                      (popupOpen)="onPopupOpenSessionalRate($event)" (popupClose)="onPopupCloseSessionalRate($event)"
+                      [allowMultiCellSelection]="true" (renderCell)="onRenderCell($event)" cssClass="custom-scheduler2">
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
                           <ng-template #eventTemplate let-data>

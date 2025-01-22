@@ -117,6 +117,10 @@ export class StayDetailsComponent {
   public calcualteFare: any;
   public rateList: any;
   public roomfare: any = 0;
+  public maskWidth: string = '100px';
+  public width: string = '70px';
+  public popupWidth: string = '200px';
+  public dynamicMask: string = '000-000-0000';
   public finalAmount: number = 0;
   public rateDetails: any;
   public specialistCategory?: Record<string, any>[];
@@ -150,6 +154,8 @@ export class StayDetailsComponent {
   genderFields = { text: 'name', value: 'id' };
   roomTypeFields = { text: 'type', value: 'id' };
   roomsFields = { text: 'name', value: 'id' };
+  public fields: Object = { text: 'dialCode', value: 'CountryId' };
+  public nationalityFields: Object = { text: 'nationality', value: 'CountryId' };
   public requestRateParams = {
     room_type_id: '',
     fromdate: '',
@@ -162,7 +168,8 @@ export class StayDetailsComponent {
       iso2: "AF",
       dialCode: "+93",
       flag: "🇦🇫",
-      nationality: "Afghan"
+      nationality: "Afghan",
+      phoneLength: 9
     },
     {
       CountryName: "Albania",
@@ -170,7 +177,8 @@ export class StayDetailsComponent {
       iso2: "AL",
       dialCode: "+355",
       flag: "🇦🇱",
-      nationality: "Albanian"
+      nationality: "Albanian",
+      phoneLength: 9
     },
     {
       CountryName: "Algeria",
@@ -178,7 +186,8 @@ export class StayDetailsComponent {
       iso2: "DZ",
       dialCode: "+213",
       flag: "🇩🇿",
-      nationality: "Algerian"
+      nationality: "Algerian",
+      phoneLength: 9
     },
     {
       CountryName: "Australia",
@@ -186,7 +195,8 @@ export class StayDetailsComponent {
       iso2: "AU",
       dialCode: "+61",
       flag: "🇦🇺",
-      nationality: "Australian"
+      nationality: "Australian",
+      phoneLength: 9
     },
     {
       CountryName: "Bangladesh",
@@ -194,7 +204,8 @@ export class StayDetailsComponent {
       iso2: "BD",
       dialCode: "+880",
       flag: "🇧🇩",
-      nationality: "Bangladeshi"
+      nationality: "Bangladeshi",
+      phoneLength: 10
     },
     {
       CountryName: "Canada",
@@ -202,7 +213,8 @@ export class StayDetailsComponent {
       iso2: "CA",
       dialCode: "+1",
       flag: "🇨🇦",
-      nationality: "Canadian"
+      nationality: "Canadian",
+      phoneLength: 10
     },
     {
       CountryName: "China",
@@ -210,7 +222,8 @@ export class StayDetailsComponent {
       iso2: "CN",
       dialCode: "+86",
       flag: "🇨🇳",
-      nationality: "Chinese"
+      nationality: "Chinese",
+      phoneLength: 11
     },
     {
       CountryName: "France",
@@ -218,7 +231,8 @@ export class StayDetailsComponent {
       iso2: "FR",
       dialCode: "+33",
       flag: "🇫🇷",
-      nationality: "French"
+      nationality: "French",
+      phoneLength: 9
     },
     {
       CountryName: "Germany",
@@ -226,7 +240,8 @@ export class StayDetailsComponent {
       iso2: "DE",
       dialCode: "+49",
       flag: "🇩🇪",
-      nationality: "German"
+      nationality: "German",
+      phoneLength: 10
     },
     {
       CountryName: "India",
@@ -234,7 +249,8 @@ export class StayDetailsComponent {
       iso2: "IN",
       dialCode: "+91",
       flag: "🇮🇳",
-      nationality: "Indian"
+      nationality: "Indian",
+      phoneLength: 10
     },
     {
       CountryName: "Italy",
@@ -242,7 +258,8 @@ export class StayDetailsComponent {
       iso2: "IT",
       dialCode: "+39",
       flag: "🇮🇹",
-      nationality: "Italian"
+      nationality: "Italian",
+      phoneLength: 10
     },
     {
       CountryName: "Japan",
@@ -250,7 +267,8 @@ export class StayDetailsComponent {
       iso2: "JP",
       dialCode: "+81",
       flag: "🇯🇵",
-      nationality: "Japanese"
+      nationality: "Japanese",
+      phoneLength: 10
     },
     {
       CountryName: "South Korea",
@@ -258,7 +276,8 @@ export class StayDetailsComponent {
       iso2: "KR",
       dialCode: "+82",
       flag: "🇰🇷",
-      nationality: "Korean"
+      nationality: "Korean",
+      phoneLength: 10
     },
     {
       CountryName: "United Kingdom",
@@ -266,7 +285,8 @@ export class StayDetailsComponent {
       iso2: "GB",
       dialCode: "+44",
       flag: "🇬🇧",
-      nationality: "British"
+      nationality: "British",
+      phoneLength: 10
     },
     {
       CountryName: "United States",
@@ -274,9 +294,10 @@ export class StayDetailsComponent {
       iso2: "US",
       dialCode: "+1",
       flag: "🇺🇸",
-      nationality: "American"
+      nationality: "American",
+      phoneLength: 10
     }
-];
+  ];  
 // define the state DropDownList data
 public state: { [key: string]: Object }[] = [
     { StateName: 'New York', CountryId: '1', StateId: '101' },

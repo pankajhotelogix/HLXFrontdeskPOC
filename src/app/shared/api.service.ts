@@ -37,21 +37,26 @@ export class ApiService {
   }
   
   get(apiEndUrl: string, body: any, headers?: HttpHeaders): Observable<any> {
-    const token = localStorage.getItem('token'); 
-    if (token) {
-      headers = headers || new HttpHeaders();
-      headers = headers.set('Authorization', `Bearer ${token}`);
+    if (typeof window !== 'undefined' && localStorage) {
+        const token = localStorage.getItem('token');
+        if (token) {
+            headers = headers || new HttpHeaders();
+            headers = headers.set('Authorization', `Bearer ${token}`);
+        } else {
+            console.warn('No token found in localStorage');
+        }
     } else {
-      console.warn('No token found in localStorage');
+        console.warn('localStorage is not available on the server');
     }
+
     const options = {
-      headers: headers,
-      params: body
+        headers: headers,
+        params: body
     };
     return this.http
-      .get<any>(apiEndUrl, options)
-      .pipe(catchError(this.handelError));
-  }
+        .get<any>(apiEndUrl, options)
+        .pipe(catchError(this.handelError));
+}
   getWithParams<T>(
     apiEndUrl: string,
     params: Record<string, string | number | boolean> = {},

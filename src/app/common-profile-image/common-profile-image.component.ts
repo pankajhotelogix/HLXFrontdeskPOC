@@ -1,6 +1,6 @@
 import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
  import { ImageEditorComponent,ImageEditorModule } from '@syncfusion/ej2-angular-image-editor';
-import { createElement } from '@syncfusion/ej2-base';
+ import { createElement } from '@syncfusion/ej2-base';
 import { DialogComponent, ButtonPropsModel, PositionDataModel, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { AnimationSettingsModel } from '@syncfusion/ej2-splitbuttons';
 
@@ -8,7 +8,7 @@ import { AnimationSettingsModel } from '@syncfusion/ej2-splitbuttons';
   selector: 'app-common-profile-image',
  encapsulation: ViewEncapsulation.None,
   standalone: true,
-imports: [ DialogModule, ImageEditorModule],
+  imports: [ DialogModule, ImageEditorModule],
   templateUrl: './common-profile-image.component.html',
   styleUrl: './common-profile-image.component.scss'
 })
@@ -129,9 +129,8 @@ public dlgResetBtnClick = (): void => {
   ];
 
   public canvasClicked = (): void => {
-      this.DialogInstance?.show();
-  }
-
+    this.DialogInstance?.show();
+}
   ngAfterViewInit(): void {
       let imageHide = document.getElementsByClassName('sb-desktop-wrapper')[0];
       if (imageHide) {
