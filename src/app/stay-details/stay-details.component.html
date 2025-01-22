@@ -306,77 +306,74 @@
                               </div>
                               <div *ngFor="let guest of guestDetails; let i = index" (click)="$event.stopPropagation()">
                                 <div class="appointment-guest-details">
-                                  <div class="e-section-control">
-                                    <ejs-checkbox></ejs-checkbox>
-                                  </div>
-                                  <div class="e-section-control">
-                                    <span class="room-type" *ngIf="!guest.isEditing">(PO1234)</span>
-                                  </div>
-                                  <div class="e-section-control cutomize-button-size">
-                                    <button ejs-dropdownbutton [items]='items' iconCss="e-ddb-icons e-profile"></button>
-                                  </div>
-                                  <div class="e-section-control">
-                                    <strong *ngIf="!guest.isEditing" class="room-type">{{ guest.title }}</strong>
-                                    <select *ngIf="guest.isEditing" id="rate-select" class="edit-select"
-                                      [(ngModel)]="guest.title">
-                                      <option value="Mr." selected>Mr.</option>
-                                      <option value="Mrs.">Mrs.</option>
-                                      <option value="Ms.">Ms.</option>
-                                      <option value="Dr.">Dr.</option>
-                                    </select>
-                                  </div>
-                                  <div class="e-section-control">
-                                    <strong *ngIf="!guest.isEditing" class="room-type">{{ guest.firstName }}</strong>
-                                    <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.firstName"
-                                      class="edit-input" placeholder="First Name" />
-                                  </div>
-                                  <div class="e-section-control">
-                                    <strong *ngIf="!guest.isEditing" class="room-type">{{ guest.lastName }}</strong>
-                                    <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.lastName"
-                                      class="edit-input" placeholder="Last Name" />
-                                  </div>
-                                  <div class="e-section-control">
-                                    <a href="#" *ngIf="!isEditing" class="room-type link">ID</a>
-                                  </div>
-                                  <div class="e-section-control">
-                                    <div>
-                                      <img *ngIf="!guest.isEditing" src="./assets/Icons/in.svg" alt="flag"
-                                        class="flag-icon" />
-                                      <select *ngIf="guest.isEditing" id="rate-select" class="edit-select"
-                                        [(ngModel)]="guest.flagId">
-                                        <option value="1" selected>India</option>
-                                        <option value="2">Pakistan</option>
-                                        <option value="3">Nepal</option>
-                                        <option value="4">China</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                  <div class="e-section-control">
-                                    <span *ngIf="!guest.isEditing" class="room-type">{{ guest.phoneNumber }}</span>
-                                    <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.phoneNumber"
-                                      class="edit-input" placeholder="Mobile" />
-                                  </div>
-                                  <div class="e-section-control">
-                                    <span *ngIf="!guest.isEditing" class="icon-people">
-                                      <img src="./assets/Icons/calendar_1.svg" alt="calendar">
-                                    </span>
-                                    <div *ngIf="guest.isEditing" class="date-display" (click)="openDateRangePicker()">
-                                      {{ guest.startDate1 | date: 'dd MMM' }} - {{ guest.endDate1 | date: 'dd MMM' }}
-
-                                    </div>
-                                    <ejs-daterangepicker #dateRangePicker *ngIf="guest.isEditing" [min]='startDate'
-                                      [max]='endDate' (change)="onDateRangeChange($event, i)"
-                                      style="visibility: hidden; width: 1px; height: 1px;">
-                                    </ejs-daterangepicker>
-                                  </div>
-                                  <div class="e-section-control">
-                                    <ejs-switch id="checked" [checked]="true"></ejs-switch>
-                                  </div>
-                                  <div class="e-section-control cutomize-button-size">
-                                    <button ejs-dropdownbutton [items]='tooltItem'
-                                      iconCss="speeddial-icons speeddial-icon-edit"
-                                      (select)="onItemSelect($event, i)"></button>
-                                  </div>
+                                  <table class="table table-sm table-borderless">
+                                    <tr>
+                                      <td>
+                                        <ejs-checkbox></ejs-checkbox>
+                                      </td>
+                                      <td>
+                                        <span class="room-type" *ngIf="!guest.isEditing">(PO1234)</span>
+                                      </td>
+                                      <td>
+                                        <button ejs-dropdownbutton [items]='items' iconCss="e-ddb-icons e-profile m-0"></button>
+                                      </td>
+                                      <td>
+                                        <div class="d-flex">
+                                          <div>
+                                            <strong *ngIf="!guest.isEditing">{{ guest.title }}</strong>
+                                            <select *ngIf="guest.isEditing" id="rate-select" class="edit-select" [(ngModel)]="guest.title">
+                                              <option value="Mr." selected>Mr.</option>
+                                              <option value="Mrs.">Mrs.</option>
+                                              <option value="Ms.">Ms.</option>
+                                              <option value="Dr.">Dr.</option>
+                                            </select>
+                                          </div>
+                                          <div>
+                                            <strong *ngIf="!guest.isEditing" class="room-type">{{ guest.firstName }}</strong>
+                                            <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.firstName" class="edit-input" placeholder="First Name" />
+                                          </div>
+                                          <div>
+                                            <strong *ngIf="!guest.isEditing" class="room-type">{{ guest.lastName }}</strong>
+                                            <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.lastName" class="edit-input" placeholder="Last Name" />
+                                          </div>
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <a href="#" *ngIf="!isEditing" class="room-type link">ID</a>
+                                      </td>
+                                      <td>
+                                        <img *ngIf="!guest.isEditing" src="./assets/Icons/in.svg" alt="flag" class="flag-icon" />
+                                        <select *ngIf="guest.isEditing" id="rate-select" class="edit-select" [(ngModel)]="guest.flagId">
+                                          <option value="1" selected>India</option>
+                                          <option value="2">Pakistan</option>
+                                          <option value="3">Nepal</option>
+                                          <option value="4">China</option>
+                                        </select>
+                                      </td>
+                                      <td>
+                                        <span *ngIf="!guest.isEditing" class="room-type">{{ guest.phoneNumber }}</span>
+                                        <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.phoneNumber" class="edit-input" placeholder="Mobile" />
+                                      </td>
+                                      <td>
+                                        <span *ngIf="!guest.isEditing" class="icon-people">
+                                          <img src="./assets/Icons/calendar_1.svg" alt="calendar">
+                                        </span>
+                                        <div *ngIf="guest.isEditing" class="date-display" (click)="openDateRangePicker()">
+                                          {{ guest.startDate1 | date: 'dd MMM' }} - {{ guest.endDate1 | date: 'dd MMM' }}
+                                        </div>
+                                        <ejs-daterangepicker #dateRangePicker *ngIf="guest.isEditing" [min]='startDate'
+                                          [max]='endDate' (change)="onDateRangeChange($event, i)"
+                                          style="visibility: hidden; width: 1px; height: 1px;">
+                                        </ejs-daterangepicker>
+                                      </td>
+                                      <td>
+                                        <ejs-switch id="checked" [checked]="true"></ejs-switch>
+                                      </td>
+                                      <td>
+                                        <button ejs-dropdownbutton [items]='tooltItem' iconCss="speeddial-icons speeddial-icon-edit m-0" (select)="onItemSelect($event, i)"></button>
+                                      </td>
+                                    </tr>
+                                  </table>                                  
                                 </div>
                                 <div>
                                   <div class="e-section-control">
