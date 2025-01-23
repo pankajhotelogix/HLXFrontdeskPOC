@@ -2,6 +2,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
 
+
 body {
   font-family: "Manrope", serif;
   font-optical-sizing: auto;
@@ -507,8 +508,6 @@ a {
   z-index: 10;
   pointer-events: none;
 }
-
-
 .appointment-container {
   width: 100%;
   background: #ffffff;
@@ -518,14 +517,6 @@ a {
   flex-direction: column;
   font-family: 'Arial', sans-serif;
 }
-
-.appointment-header {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-
 .icon-bed {
   display: inline-block;
   width: 16px;
