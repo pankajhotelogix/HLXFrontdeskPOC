@@ -68,6 +68,12 @@ body {
   border-color: #d3d3d3;
   font-size: 14px;
 }
+.fs-11 {
+  font-size: 11px;
+}
+.fs-12 {
+  font-size: 12px;
+}
 .fs-14 {
   font-size: 14px;
 }
@@ -262,7 +268,13 @@ a {
   background-color: rgba(164, 2, 2, .05) !important;
   line-height: 11px;
 }
-
+.guest-details-accordion,
+.guest-details-accordion .e-acrdn-item {
+  border: 0;
+}
+.guest-details-accordion .e-acrdn-header {
+  background: #ebebeb;
+}
 
 /* addded by Nand end */
 

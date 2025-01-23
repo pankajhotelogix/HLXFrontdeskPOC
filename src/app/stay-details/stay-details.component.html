@@ -1,8 +1,8 @@
 <div class="p-4">
   <div class="d-flex title-bar align-items-center">
-    <div class="me-4"><i class="material-icons">add</i></div>
-    <div>STANDARD</div>
-    <div class="mx-3">STD 234</div>
+    <div class="me-4"><i class="material-icons d-block">keyboard_backspace</i></div>
+    <div class="text-blue">STANDARD</div>
+    <div class="text-blue mx-3">STD 234</div>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" value="" id="assignRoom">
       <label class="form-check-label" for="assignRoom">
@@ -17,8 +17,8 @@
         <div class="col-md-4">
           <div class="card hlx mb-3">
             <div class="card-body">
-              <h2 class="mb-2">Guest Details</h2>
-              <div class="row">
+              <h2 class="mb-3">Guest Details</h2>
+              <div class="row g-2">
                 <div class="col-auto">
                   <div class="profile-container">
                     <app-common-profile-image></app-common-profile-image>
@@ -26,52 +26,58 @@
                 </div>
                 <div class="col">
                   <div class="row g-2 mb-2">
-                    <div class="col-md-4">
-                      <ejs-dropdownlist id="roomsDropdown" #titleObj [dataSource]="titleData" [fields]="genderFields"
-                        placeholder="Title" [width]="50">
+                    <div class="col-3">
+                      <ejs-dropdownlist id="roomsDropdown" #titleObj [dataSource]="titleData" [fields]="genderFields" placeholder="Title">
                       </ejs-dropdownlist>
                     </div>
-                    <div class="col-md-4">
-                      <input type="text" class="form-control form-control-sm" placeholder="First Name">
-                    </div>
-                    <div class="col-md-4">
-                      <input type="text" class="form-control form-control-sm" placeholder="Last Name">
+                    <div class="col-9">
+                      <div class="row g-2">
+                        <div class="col">
+                          <input type="text" class="form-control form-control-sm" placeholder="First Name">
+                        </div>
+                        <div class="col">
+                          <input type="text" class="form-control form-control-sm" placeholder="Last Name">
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="row g-2 mb-2">
-                    <div class="col-md-6">
-                      <ejs-dropdownlist id="games" #sample [dataSource]="country" (change)="onChange1()"
-                        [fields]="fields" [width]="width" [popupWidth]="popupWidth" placeholder="Country">
-                        <ng-template #itemTemplate let-data>
-                          <span>
-                            {{ data.flag }} {{ data.CountryName }} {{ data.dialCode }}
-                          </span>
-                        </ng-template>
-                        <ng-template #valueTemplate let-data>
-                          <span>
-                            {{ data.flag }} {{ data.dialCode }}
-                          </span>
-                        </ng-template>
-                      </ejs-dropdownlist>
-                      <input type="text" class="form-control form-control-sm" placeholder="Mobile">
+                    <div class="col-6">
+                      <div class="row g-2">
+                        <div class="col-auto">
+                          <ejs-dropdownlist id="games" #sample [dataSource]="country" (change)="onChange1()"
+                            [fields]="fields" [width]="width" [popupWidth]="popupWidth" placeholder="Country">
+                            <ng-template #itemTemplate let-data>
+                              <span>
+                                {{ data.flag }} {{ data.CountryName }} {{ data.dialCode }}
+                              </span>
+                            </ng-template>
+                            <ng-template #valueTemplate let-data>
+                              <span class="fs-12">
+                                {{ data.flag }} {{ data.dialCode }}
+                              </span>
+                            </ng-template>
+                          </ejs-dropdownlist>
+                        </div>
+                        <div class="col">
+                          <input type="text" class="form-control form-control-sm" placeholder="Mobile">
+                        </div>
+                      </div>
                     </div>
-                    <!-- <div class="col-md-1">
-                      F
-                    </div>
-                    <div class="col-md-5">
-                      <input type="text" class="form-control form-control-sm" placeholder="Mobile">
-                    </div> -->
-                    <div class="col-md-1">
-                      F
-                    </div>
-                    <div class="col-md-5">
-                      <input type="text" class="form-control form-control-sm" placeholder="Phone 2">
+                    <div class="col-6">
+                      <div class="row g-2">
+                        <div class="col-auto">
+                          F
+                        </div>
+                        <div class="col">
+                          <input type="text" class="form-control form-control-sm" placeholder="Phone 2">
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="row g-2 mb-2">
                     <div class="col-md-5">
-                      <ejs-dropdownlist id="roomsDropdown" #genderObj [dataSource]="genderData" [fields]="genderFields"
-                        placeholder="Gender">
+                      <ejs-dropdownlist id="roomsDropdown" #genderObj [dataSource]="genderData" [fields]="genderFields" placeholder="Gender">
                       </ejs-dropdownlist>
                     </div>
                     <div class="col-md-7">
@@ -80,122 +86,121 @@
                   </div>
                 </div>
               </div>
-              <div class="row g-2">
+              <div class="row g-2 mb-3">
                 <div class="col-md-4">
-                  <ejs-dropdownlist id="natioonalityDropdown" #titleObj [dataSource]="country" [fields]="nationalityFields"
-                    placeholder="Nationality">
+                  <ejs-dropdownlist id="natioonalityDropdown" #titleObj [dataSource]="country" [fields]="nationalityFields" placeholder="Nationality">
                   </ejs-dropdownlist>
                 </div>
                 <div class="col-md-8">
                   <input type="text" class="form-control form-control-sm" placeholder="Email">
                 </div>
               </div>
-              <ejs-accordion>
+              <ejs-accordion class="guest-details-accordion">
                 <e-accordionitems>
                   <e-accordionitem expanded='true'>
-                  <ng-template #header>
-              <h4 class="accord my-3">Home Address</h4>
-              </ng-template>
-              <ng-template #content>
-              <div class="row g-2 mb-2">
-                <div class="col">
-                  <input type="text" class="form-control form-control-sm" placeholder="Address">
-                </div>
-              </div>
-              <div class="row g-2 mb-2">
-                <div class="col-md-6">
-                  <ejs-dropdownlist #countryList id='country' [dataSource]='country' [fields]='countryFields'
-                    (change)='onChange1()' popupHeight='auto' [placeholder]='countryWaterMark' allowFiltering="true">
-                    <ng-template #itemTemplate let-data>
-                        <span> {{data.flag}} {{data.CountryName}}</span> 
+                    <ng-template #header>
+                      <h4 class="my-2">Home Address</h4>
                     </ng-template>
-                    <ng-template #valueTemplate let-data>
-                      <span> {{data.flag}} {{data.CountryName}}</span> 
-                    </ng-template>
-                  </ejs-dropdownlist>
-                </div>
-                <div class="col-md-6">
-                  <ejs-dropdownlist #stateList id='state' [dataSource]='state' [fields]='stateFields'
-                    (change)='onChange2()' [placeholder]='stateWaterMark' popupHeight='auto' allowFiltering="true"
-                    [enabled]='false'>
-                    <ng-template #itemTemplate let-data>
-                      <div>
-                        <div class="name"> {{data.StateName}} </div>
+                    <ng-template #content>
+                      <div class="row g-2 mb-2">
+                        <div class="col">
+                          <input type="text" class="form-control form-control-sm" placeholder="Address">
+                        </div>
+                      </div>
+                      <div class="row g-2 mb-2">
+                        <div class="col-md-6">
+                          <ejs-dropdownlist #countryList id='country' [dataSource]='country' [fields]='countryFields'
+                            (change)='onChange1()' popupHeight='auto' [placeholder]='countryWaterMark' allowFiltering="true">
+                            <ng-template #itemTemplate let-data>
+                                <span> {{data.flag}} {{data.CountryName}}</span> 
+                            </ng-template>
+                            <ng-template #valueTemplate let-data>
+                              <span> {{data.flag}} {{data.CountryName}}</span> 
+                            </ng-template>
+                          </ejs-dropdownlist>
+                        </div>
+                        <div class="col-md-6">
+                          <ejs-dropdownlist #stateList id='state' [dataSource]='state' [fields]='stateFields'
+                            (change)='onChange2()' [placeholder]='stateWaterMark' popupHeight='auto' allowFiltering="true"
+                            [enabled]='false'>
+                            <ng-template #itemTemplate let-data>
+                              <div>
+                                <div class="name"> {{data.StateName}} </div>
+                              </div>
+                            </ng-template>
+                            <ng-template #valueTemplate let-data>
+                              <div>
+                                <div class="name"> {{data.StateName}} </div>
+                              </div>
+                            </ng-template>
+                          </ejs-dropdownlist>
+                        </div>
+                      </div>
+                      <div class="row g-2">
+                        <div class="col-md-6">
+                          <ejs-dropdownlist #cityList id='city' [dataSource]='cities' [fields]='cityFields'
+                            [placeholder]='cityWaterMark' [enabled]='false' popupHeight='auto' allowFiltering="true">
+                            <ng-template #itemTemplate let-data>
+                              <div>
+                                <div class="ename"> {{data.CityName}} </div>
+                              </div>
+                            </ng-template>
+                            <ng-template #valueTemplate let-data>
+                              <div>
+                                <div class="name"> {{data.CityName}} </div>
+                              </div>
+                            </ng-template>
+                          </ejs-dropdownlist>
+                        </div>
+                        <div class="col-md-6">
+                          <input type="text" class="form-control form-control-sm" placeholder="Zip Code">
+                        </div>
                       </div>
                     </ng-template>
-                    <ng-template #valueTemplate let-data>
-                      <div>
-                        <div class="name"> {{data.StateName}} </div>
+                  </e-accordionitem>
+                  <e-accordionitem>
+                    <ng-template #header>
+                      <h4 class="my-2">ID</h4>
+                    </ng-template>
+                    <ng-template #content>
+                      <div class="border-bottom mb-2 pb-1">
+                        <div class="row fs-14">
+                          <div class="col-auto">
+                            <strong>Passport No.</strong>: 238xxx
+                          </div>
+                          <div class="col-auto">
+                            <strong>Validity</strong>: Feb 20, 2026
+                          </div>
+                          <div class="col">
+                            <img src="" width="20">
+                          </div>
+                          <div class="col-auto">
+                            E D
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row g-2 mb-3 fs-14">
+                        <div class="col-md-8">
+                          <ejs-dropdownlist id="roomsDropdown" #identificationObj [dataSource]="identification"
+                                    [fields]="identificationFields" placeholder="Identification">
+                            </ejs-dropdownlist>
+                        </div>
+                        <div class="col-md-4 text-end">
+                          <a href="">Fields</a> <span class="mx-2 text-blue">|</span> <a href="">Upload Id</a>
+                        </div>
+                      </div>
+                      <div class="row g-2 mb-2 fs-14">
+                        <div class="col">
+                          <a href="">+Ids</a>
+                        </div>
+                        <div class="col-auto">
+                          <a href="" class="btn btn-sm btn-primary hlx">Save</a>
+                        </div>
                       </div>
                     </ng-template>
-                  </ejs-dropdownlist>
-                </div>
-              </div>
-              <div class="row g-2">
-                <div class="col-md-6">
-                  <ejs-dropdownlist #cityList id='city' [dataSource]='cities' [fields]='cityFields'
-                    [placeholder]='cityWaterMark' [enabled]='false' popupHeight='auto' allowFiltering="true">
-                    <ng-template #itemTemplate let-data>
-                      <div>
-                        <div class="ename"> {{data.CityName}} </div>
-                      </div>
-                    </ng-template>
-                    <ng-template #valueTemplate let-data>
-                      <div>
-                        <div class="name"> {{data.CityName}} </div>
-                      </div>
-                    </ng-template>
-                  </ejs-dropdownlist>
-                </div>
-                <div class="col-md-6">
-                  <input type="text" class="form-control form-control-sm" placeholder="Zip Code">
-                </div>
-              </div>
-            </ng-template>
-          </e-accordionitem>
-          <e-accordionitem>
-            <ng-template #header>
-              <h4 class="accord my-3">ID</h4>
-            </ng-template>
-            <ng-template #content>
-              <div class="border-bottom mb-2 pb-1">
-                <div class="row fs-14">
-                  <div class="col-auto">
-                    <strong>Passport No.</strong>: 238xxx
-                  </div>
-                  <div class="col-auto">
-                    <strong>Validity</strong>: Feb 20, 2026
-                  </div>
-                  <div class="col">
-                    <img src="" width="20">
-                  </div>
-                  <div class="col-auto">
-                    E D
-                  </div>
-                </div>
-              </div>
-              <div class="row g-2 mb-3 fs-14">
-                <div class="col-md-8">
-                  <ejs-dropdownlist id="roomsDropdown" #identificationObj [dataSource]="identification"
-                            [fields]="identificationFields" placeholder="Identification">
-                    </ejs-dropdownlist>
-                </div>
-                <div class="col-md-4 text-end">
-                  <a href="">Fields</a> <span class="mx-2 text-blue">|</span> <a href="">Upload Id</a>
-                </div>
-              </div>
-              <div class="row g-2 mb-2 fs-14">
-                <div class="col">
-                  <a href="">+Ids</a>
-                </div>
-                <div class="col-auto">
-                  <a href="" class="btn btn-sm btn-primary hlx">Save</a>
-                </div>
-              </div>
-            </ng-template>
-          </e-accordionitem>
-        </e-accordionitems>
-      </ejs-accordion>
+                  </e-accordionitem>
+                </e-accordionitems>
+              </ejs-accordion>
             </div>
           </div>
           <div class="card hlx mb-3">
