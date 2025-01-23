@@ -90,7 +90,13 @@
                   <input type="text" class="form-control form-control-sm" placeholder="Email">
                 </div>
               </div>
+              <ejs-accordion>
+                <e-accordionitems>
+                  <e-accordionitem expanded='true'>
+                  <ng-template #header>
               <h4 class="accord my-3">Home Address</h4>
+              </ng-template>
+              <ng-template #content>
               <div class="row g-2 mb-2">
                 <div class="col">
                   <input type="text" class="form-control form-control-sm" placeholder="Address">
@@ -145,7 +151,13 @@
                   <input type="text" class="form-control form-control-sm" placeholder="Zip Code">
                 </div>
               </div>
+            </ng-template>
+          </e-accordionitem>
+          <e-accordionitem>
+            <ng-template #header>
               <h4 class="accord my-3">ID</h4>
+            </ng-template>
+            <ng-template #content>
               <div class="border-bottom mb-2 pb-1">
                 <div class="row fs-14">
                   <div class="col-auto">
@@ -164,9 +176,9 @@
               </div>
               <div class="row g-2 mb-3 fs-14">
                 <div class="col-md-8">
-                  <select class="form-select form-select-sm">
-                    <option value="">Select Id</option>
-                  </select>
+                  <ejs-dropdownlist id="roomsDropdown" #identificationObj [dataSource]="identification"
+                            [fields]="identificationFields" placeholder="Identification">
+                    </ejs-dropdownlist>
                 </div>
                 <div class="col-md-4 text-end">
                   <a href="">Fields</a> <span class="mx-2 text-blue">|</span> <a href="">Upload Id</a>
@@ -180,6 +192,10 @@
                   <a href="" class="btn btn-sm btn-primary hlx">Save</a>
                 </div>
               </div>
+            </ng-template>
+          </e-accordionitem>
+        </e-accordionitems>
+      </ejs-accordion>
             </div>
           </div>
           <div class="card hlx mb-3">

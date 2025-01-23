@@ -55,6 +55,7 @@ import { DropDownListComponent, DropDownListModule, FilteringEventArgs } from '@
 import { CommonProfileImageComponent } from "../common-profile-image/common-profile-image.component";
 import { Query } from '@syncfusion/ej2-data';
 import { EmitType } from '@syncfusion/ej2-base';
+import { AccordionModule } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: 'app-stay-details',
@@ -76,7 +77,8 @@ import { EmitType } from '@syncfusion/ej2-base';
     ReactiveFormsModule,
     HttpClientModule,
     DropDownListModule,
-    CommonProfileImageComponent
+    CommonProfileImageComponent,
+    AccordionModule
 ],
   templateUrl: './stay-details.component.html',
   styleUrl: './stay-details.component.scss',
@@ -103,7 +105,7 @@ export class StayDetailsComponent {
   public hoveredDate: string | null = null;
   public tooltipStyle: { [key: string]: string } = {};
   public readonly = true;
-  public scheduleHeight: string = '150px';
+  public scheduleHeight: string = '200px';
   public selectedText: string = '1';
   public isPopupVisible: boolean = false;
   public formattedDate: string = '';
@@ -156,11 +158,19 @@ export class StayDetailsComponent {
   roomsFields = { text: 'name', value: 'id' };
   public fields: Object = { text: 'dialCode', value: 'CountryId' };
   public nationalityFields: Object = { text: 'nationality', value: 'CountryId' };
+  public identificationFields: Object = { text: 'name', value: 'identificationId' };
   public requestRateParams = {
     room_type_id: '',
     fromdate: '',
     todate: '',
   };
+  public identification: { [key: string]: Object }[] = [
+    { name: 'Passport', identificationId: '1'},
+    { name: 'Pan Number', identificationId: '2' },
+    { name: 'Driving License ', identificationId: '3' },
+    { name: 'Voter Id', identificationId: '4' },
+    { name: 'Aadhaar Number ', identificationId: '5'},
+  ];
   public country: { [key: string]: Object }[] = [
     {
       CountryName: "Afghanistan",
@@ -434,8 +444,8 @@ public cities: { [key: string]: Object }[] = [
     },
   };
   updateScheduleHeight() {
-    const baseHeight = 75;
-    const guestHeight = 75;
+    const baseHeight = 100;
+    const guestHeight = 100;
     const newHeight = baseHeight + this.guestDetails.length * guestHeight;
     this.scheduleHeight = `${newHeight}px`;
   }
@@ -643,7 +653,7 @@ public cities: { [key: string]: Object }[] = [
       .pipe(
         catchError((err) => {
           console.error('Error retrieving room list:', err);
-          alert('Error retrieving room list. Please try again later.');
+         // alert('Error retrieving room list. Please try again later.');
           return of(null);
         })
       )
