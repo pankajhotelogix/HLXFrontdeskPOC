@@ -23,7 +23,11 @@
     font-weight: 500;
   }
 </style>
-
+<div class="e-sample-resize-container">
+<ejs-tab id="tab_default" loadOn="Dynamic">
+  <e-tabitems>
+      <e-tabitem [header]="headerText[0]">
+          <ng-template #content>
 <div class="planner-calendar">
   <div class="doctor-container" style="display:none">
     <div class="app-doctors"></div>
@@ -32,56 +36,37 @@
   </div>
   <div class="drag-sample-wrapper droppable">
     <div class="schedule-container">
-      <div class="title-container" style="display: flex; justify-content: space-between; align-items: center;">
-        <div class="d-flex justify-center align-items ">
-          <!-- <h1 class="title-text frontdesk-icon" >FrontDesk</h1> -->
-          <ejs-tab
-          id="tab_adaptive"
-          #adaptiveTab
-          heightAdjustMode="None"
-          height="50px"
-        >
-          <e-tabitems>
-            <e-tabitem [header]="headerText[0]">
-              <ng-template #content>
-              </ng-template>
-            </e-tabitem>
-            <e-tabitem [header]="headerText[1]">
-              <ng-template #content>
-               <app-stay-details></app-stay-details>
-              </ng-template>
-            </e-tabitem>
-          </e-tabitems>
-        </ejs-tab>
-        </div>
+      <div class="title-container" style="display: flex; justify-content: flex-end; align-items: center;">
+        
         <div class="d-flex justify-center align-items ">
           <div class="icon-bar" style="display: flex; margin-right: 10px; align-items: center; gap: 10px;">
-            <div>
-              <button ejs-button iconCss="e-btn-sb-icon e-prev-icon" (click)="navigateDate(-7)">
-                Pre
-              </button>
-              <button ejs-button iconCss="e-btn-sb-icon e-prev-icon rotate-icon" (click)="navigateDate(7)">
-                Next
-              </button>
-              <!-- <button (click)="importData()">Import</button> -->
-            </div>
-            <div>
-              <img src="assets/Icons/refresh.svg" alt="" class="icon-refresh icon">
-            </div>
-            <div style="width: 1px;height: 30px;background: #cacaca;">
-              &nbsp;
-            </div>
-            <div>
-              <img src="assets/Icons/anchor.svg" alt="" class="icon-anchor icon">
-            </div>
+        <div>
+          <button ejs-button iconCss="e-btn-sb-icon e-prev-icon" (click)="navigateDate(-7)">
+            Pre
+          </button>
+          <button ejs-button iconCss="e-btn-sb-icon e-prev-icon rotate-icon" (click)="navigateDate(7)">
+            Next
+          </button>
+          <!-- <button (click)="importData()">Import</button> -->
+        </div>
+        <div>
+          <img src="assets/Icons/refresh.svg" alt="" class="icon-refresh icon">
+        </div>
+        <div style="width: 1px;height: 30px;background: #cacaca;">
+          &nbsp;
+        </div>
+        <div>
+          <img src="assets/Icons/anchor.svg" alt="" class="icon-anchor icon">
+        </div>
           </div>
           <div class="view-selector" style=" width: 117px;">
-            <ejs-dropdownlist id="scheduleview" [dataSource]="datas" [(value)]="dropDownValue" floatLabelType="Always"
-              (change)="onViewChange($event)">
-            </ejs-dropdownlist>
+        <ejs-dropdownlist id="scheduleview" [dataSource]="datas" [(value)]="dropDownValue" floatLabelType="Always"
+          (change)="onViewChange($event)">
+        </ejs-dropdownlist>
           </div>
         </div>
       </div>
+  
       <div id="main">
         <div
           style="background-color: rgb(3, 1, 1); color: aliceblue; padding-top: 2px; padding-left: 4px; width: 48px;">
@@ -594,6 +579,17 @@
       </ejs-schedule>
     </div>
   </div>
+</div>
+</ng-template>
+</e-tabitem>
+<e-tabitem [header]="headerText[1]">
+    <ng-template #content>
+   <app-stay-details></app-stay-details>
+
+    </ng-template>
+</e-tabitem>
+</e-tabitems>
+</ejs-tab>
 </div>
 <!-- booking view -->
 <!-- <div class="col-lg-12 control-section card-control-section vertical_card_layout">

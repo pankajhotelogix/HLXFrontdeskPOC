@@ -293,6 +293,7 @@ export class CalendarComponent implements OnInit {
     '31 Day',
     'TimelineWeek',
   ];
+ 
   public selectedDepartmentId?: number;
   public getDateParts(date: Date) {
     const day = date.getDate();
@@ -423,7 +424,7 @@ export class CalendarComponent implements OnInit {
     if (event.requestType === 'eventCreate') {
       const data: Record<string, any> =
         event.data instanceof Array ? event.data[0] : event.data;
-      this.selectedDated = data['StartTime'];
+     // this.selectedDated = data['StartTime'];
     }
   }
   onChange(): void {

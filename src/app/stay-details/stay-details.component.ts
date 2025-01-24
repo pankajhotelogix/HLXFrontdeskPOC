@@ -586,6 +586,46 @@ public cities: { [key: string]: Object }[] = [
     };
     return date.toLocaleDateString('en-US', options);
   }
+  timelineStyle: { top: string; left: string; width: string } = { top: '0px', left: '0px', width: '0px' };
+  workCellWidth = 0; // Width of a single work cell
+
+  // ngOnInit(): void {
+  //   // Initialize the timeline to the current hour
+  //   const currentHour = new Date().getHours();
+  //   this.moveToHour(currentHour);
+  // }
+
+  moveToHour(hour: number): void {
+    const workCells = document.querySelectorAll('.e-work-cells');
+    if (workCells.length === 0) {
+      console.warn('No work cells found.');
+      return;
+    }
+
+    // Calculate the width of a single work cell
+    const firstCell = workCells[0] as HTMLElement;
+    this.workCellWidth = firstCell.offsetWidth;
+
+    // Calculate the position based on the hour
+    const leftPosition = this.workCellWidth * hour;
+
+    // Update the timeline marker style
+    this.timelineStyle = {
+      top: '0px', // Adjust as needed
+      left: `${leftPosition}px`,
+      width: `${this.workCellWidth}px`, // Optional: Matches cell width
+    };
+  }
+
+  // Example: Move the timeline marker to the next hour smoothly
+  moveToNextHour(): void {
+    const currentLeft = parseInt(this.timelineStyle?.left || '0', 10);
+    const nextLeft = currentLeft + this.workCellWidth;
+    this.timelineStyle = {
+      ...this.timelineStyle,
+      left: `${nextLeft}px`,
+    };
+  }
   public onHover(args: HoverEventArgs): void {
     const workCells = document.querySelectorAll('.e-work-cells');
     document.querySelector('.date-tooltip') as HTMLElement;
@@ -805,6 +845,7 @@ public cities: { [key: string]: Object }[] = [
     this.adjustSchedulerView();
     this.formatDateRange();
     this.getRoomList();
+
   }
 
   onSelect(event: any): void {

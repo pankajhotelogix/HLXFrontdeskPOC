@@ -486,15 +486,15 @@
                     <div>Rooms</div>
                   </div>
                   <div class="control-section">
-                    <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" height="100px"
-                      class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
+                    <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" height="150px"
+                       [selectedDate]="startDate"
                       [quickInfoOnSelectionEnd]=true [eventSettings]="eventSettings1" [views]="views"
                       [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
                       [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
                       [workDays]="workDays" (hover)="onHover($event)" [allowMultiCellSelection]="true"
                       (renderCell)="onRenderCell($event)" (popupOpen)="onPopupOpenRoom($event)"
                       (popupClose)="onPopupCloseSessionalRate($event)" (actionBegin)="onActionBegin($event)"
-                      cssClass="custom-scheduler2">
+                      cssClass="remove-table-header timeline-resource-grouping custom-scheduler2">
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
                           <ng-template #eventTemplate let-data *ngFor="let guest of guestDetails;">
