@@ -172,10 +172,11 @@
                             <strong>Validity</strong>: Feb 20, 2026
                           </div>
                           <div class="col">
-                            <img src="" width="20">
+                            <i class="material-icons d-block text-blue">image</i>
                           </div>
                           <div class="col-auto">
-                            E D
+                            <i class="material-icons d-block text-blue">edit</i> 
+                            <i class="material-icons d-block text-blue">delete</i>
                           </div>
                         </div>
                       </div>
@@ -778,4 +779,137 @@
       </div>
     </div>
   </div>
+  <div class="footer-btns">
+    <button class="btn btn-green">Save</button>
+    <button class="btn btn-primary hlx">Early Check In</button>
+    <button class="btn btn-primary hlx">Check In</button>
+    <button class="btn btn-primary hlx">Charge No Show</button>
+    <button class="btn btn-green-d">Payment</button>
+    <button class="btn btn-gray">Close</button>
+  </div>
 </div>
+
+
+
+
+
+
+
+<!-- ======= Panels ======= -->
+<div class="row">
+  <div class="col">
+
+
+    <!-- ======= Payment start ======= -->
+    <div class="card dialog-hlx">
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <h3 class="mb-3">Card Owner</h3>
+            <div class="row g-2 mb-2">
+              <div class="col">
+                <select class="form-select form-select-sm">
+                  <option>Select Sharer</option>
+                </select>
+              </div>
+            </div>
+            <div class="row g-2 mb-2 align-items-center">
+              <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="Card Number">
+              </div>
+              <div class="col-auto">
+                <i class="material-icons d-block text-blue">credit_card</i>
+              </div>
+            </div>
+            <div class="row g-2 mb-2">
+              <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="MM">
+              </div>
+              <div class="col"></div>
+              <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="YYYY">
+              </div>
+            </div>
+            <div class="row g-2 mb-2">
+              <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="CVV">
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <h3 class="mb-3">Billing Address</h3>
+            <div class="row g-2 mb-2">
+              <div class="col">
+                <textarea class="form-control form-control-sm" placeholder="Address" style="height: 64px;"></textarea>
+              </div>
+            </div>
+            <div class="row g-2 mb-2">
+              <div class="col">
+                <select class="form-select form-select-sm">
+                  <option>Country</option>
+                </select>
+              </div>
+              <div class="col">
+                <select class="form-select form-select-sm">
+                  <option>State</option>
+                </select>
+              </div>
+            </div>
+            <div class="row g-2 mb-2">
+              <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="City">
+              </div>
+              <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="Zip Code">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3 mb-4">
+          <div class="col">
+            <div class="form-check mb-0 fs-12">
+              <input type="checkbox" value="" id="assignRoom" class="form-check-input">
+              <label for="assignRoom" class="form-check-label">View All Credit Cards</label>
+            </div>
+          </div>
+          <div class="col text-end">
+            <button class="btn btn-sm btn-primary hlx">Save</button>
+            <button class="btn btn-sm btn-gray">Cancel</button>
+          </div>
+        </div>
+        <div class="table-box">
+          <table class="table table-borderless fs-11">
+            <thead class="table-light">
+              <tr>
+                <th scope="col">NAME</th>
+                <th scope="col">CARD NUMBER</th>
+                <th scope="col">TYPE</th>
+                <th scope="col">EXPIRY</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Mr. Deepak Sharma</th>
+                <td>9786-9786-4956-5648</td>
+                <td>Diners</td>
+                <td>8/2024</td>
+                <td><i class="material-icons d-block text-blue">delete</i></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- ======= Payment end ======= -->
+
+
+
+  </div>
+  <div class="col"></div>
+  <div class="col"></div>
+  <div class="col"></div>
+</div>
+ 
+
+
