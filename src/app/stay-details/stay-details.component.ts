@@ -21,12 +21,14 @@ import {
   RenderCellEventArgs,
   PopupCloseEventArgs,
 } from '@syncfusion/ej2-angular-schedule';
-import { CommonModule } from '@angular/common';
+import { CommonModule} from '@angular/common';
+import { NgFor } from '@angular/common';
 import {
   DatePicker,
   DatePickerModule,
   DateRangePicker,
   DateRangePickerModule,
+  TimePickerModule,
 } from '@syncfusion/ej2-angular-calendars';
 import {
   ButtonModule,
@@ -55,7 +57,7 @@ import { DropDownListComponent, DropDownListModule, FilteringEventArgs } from '@
 import { CommonProfileImageComponent } from "../common-profile-image/common-profile-image.component";
 import { Query } from '@syncfusion/ej2-data';
 import { EmitType } from '@syncfusion/ej2-base';
-import { AccordionModule } from '@syncfusion/ej2-angular-navigations';
+import { AccordionModule, SelectEventArgs, TabAllModule } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: 'app-stay-details',
@@ -78,14 +80,16 @@ import { AccordionModule } from '@syncfusion/ej2-angular-navigations';
     HttpClientModule,
     DropDownListModule,
     CommonProfileImageComponent,
-    AccordionModule
+    AccordionModule,
+    TabAllModule,
+    TimePickerModule
 ],
   templateUrl: './stay-details.component.html',
   styleUrl: './stay-details.component.scss',
   encapsulation: ViewEncapsulation.None,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class StayDetailsComponent {
+export class StayDetailsComponent  {
   @ViewChild('scheduleObj') public scheduleObj: ScheduleComponent | undefined;
   @ViewChild('scheduleObj2') public scheduleObj2: ScheduleComponent | undefined;
   @ViewChild('scheduleObj3') public scheduleObj3: ScheduleComponent | undefined;
@@ -156,7 +160,7 @@ export class StayDetailsComponent {
   genderFields = { text: 'name', value: 'id' };
   roomTypeFields = { text: 'type', value: 'id' };
   roomsFields = { text: 'name', value: 'id' };
-  public fields: Object = { text: 'dialCode', value: 'CountryId' };
+   public fields: any[] = [];
   public nationalityFields: Object = { text: 'nationality', value: 'CountryId' };
   public identificationFields: Object = { text: 'name', value: 'identificationId' };
   public requestRateParams = {
@@ -1198,7 +1202,95 @@ public cities: { [key: string]: Object }[] = [
       this.cityObj.text = null;
       this.cityObj.dataBind();
     }
+    public isScheduleRender = false;
+    public headerText = [{ text: 'Arrival' }, { text: 'Departure' }];
   
+    public onSelected(args: SelectEventArgs): void {
+      if (args.selectedIndex === 0) {
+        if (this.headerText[args.selectedIndex].text === 'Front Desk') {
+          this.isScheduleRender = true;
+        }
+      }
+    }
+  
+    public onScheduleCreate(): void {
+      if (this.isScheduleRender) {
+        this.scheduleObj?.refreshLayout();
+        this.isScheduleRender = false;
+      }
+    }
+    
+    // public addField(): void {
+    //   this.fields.push({ text: '', value: '' });
+    // }
+    public removeField(index: number): void {
+      this.fields.splice(index, 1);
+    }
+    addField(): void {
+      this.fields.push({
+        id: this.fields.length,
+        selectedId: null,
+        availableData: [...this.identification]
+      });
+    }
+  
+    onSelectionChange(selectedId: number, fieldId: number): void {
+      const field = this.fields.find((f) => f.id === fieldId);
+      if (field) {
+        field.selectedId = selectedId;
+      }
+      this.updateAvailableData();
+    }
+    fields2= [{ id: 0, selectedId: null, availableData: [...this.identification] }];
+    updateAvailableData(): void {
+      const selectedIds = this.fields
+        .filter((field) => field.selectedId !== null)
+        .map((field) => field.selectedId);
+  
+      this.fields.forEach((field) => {
+        field.availableData = this.identification.filter(
+          (item) => !selectedIds.includes(item['identificationId']) || field.selectedId === item['identificationId']
+        );
+      });
+    }
+    public setWidth1() {
+      const sourceDiv = document.getElementById('scheduleObj2');
+      if (!sourceDiv) {
+        console.error('Source div "scheduleObj2" not found.');
+        return;
+      }
+      const targetDivs = Array.from(
+        document.querySelectorAll('.custom-scheduler2.e-schedule .e-timeline-view .e-appointment, .e-schedule .e-timeline-month-view')
+      ) as HTMLElement[];
+      const width = sourceDiv.offsetWidth;
+      targetDivs.forEach(targetDiv => {
+        if (targetDiv) {
+          targetDiv.style.width = `${width}px`;
+        }
+      });
+
+    }
+    public setWidth2() {
+      const sourceDiv = document.getElementById('scheduleObj1');
+      if (!sourceDiv) {
+        console.error('Source div "scheduleObj2" not found.');
+        return;
+      }
+      const targetDivs = Array.from(
+        document.querySelectorAll('.custom-scheduler1.e-schedule .e-timeline-view .e-appointment, .e-schedule .e-timeline-month-view .e-appointment')
+      ) as HTMLElement[];
+      const width = sourceDiv.offsetWidth;
+      targetDivs.forEach(targetDiv => {
+        if (targetDiv) {
+          targetDiv.style.width = `${width}px`;
+        }
+      });
+
+    }
+    ngAfterViewChecked(): void {
+      this.setWidth1();
+      this.setWidth2();
+      }
 }
 
 interface DateChangeEventArgs {

@@ -46,15 +46,15 @@
                       <div class="row g-2">
                         <div class="col-auto">
                           <ejs-dropdownlist id="games" #sample [dataSource]="country" (change)="onChange1()"
-                            [fields]="fields" [width]="width" [popupWidth]="popupWidth" placeholder="Country">
+                            [fields]="countryFields" [width]="width" [popupWidth]="popupWidth" placeholder="Country">
                             <ng-template #itemTemplate let-data>
                               <span>
-                                {{ data.flag }} {{ data.CountryName }} {{ data.dialCode }}
+                                {{ data?.flag }} {{ data?.CountryName }} {{ data?.dialCode }}
                               </span>
                             </ng-template>
                             <ng-template #valueTemplate let-data>
                               <span class="fs-12">
-                                {{ data.flag }} {{ data.dialCode }}
+                                {{ data?.flag }} {{ data?.dialCode }}
                               </span>
                             </ng-template>
                           </ejs-dropdownlist>
@@ -67,7 +67,20 @@
                     <div class="col-6">
                       <div class="row g-2">
                         <div class="col-auto">
-                          F
+                          <ejs-dropdownlist id="games1" #sample [dataSource]="country" (change)="onChange1()"
+                            [fields]="countryFields" [width]="width" [popupWidth]="popupWidth" placeholder="Country"
+                            [allowFiltering]='true'>
+                            <ng-template #itemTemplate let-data>
+                              <span>
+                                {{ data.flag }} {{ data.CountryName }} {{ data.dialCode }}
+                              </span>
+                            </ng-template>
+                            <ng-template #valueTemplate let-data>
+                              <span class="fs-12">
+                                {{ data.flag }} {{ data.dialCode }}
+                              </span>
+                            </ng-template>
+                          </ejs-dropdownlist>
                         </div>
                         <div class="col">
                           <input type="text" class="form-control form-control-sm" placeholder="Phone 2">
@@ -112,10 +125,10 @@
                           <ejs-dropdownlist #countryList id='country' [dataSource]='country' [fields]='countryFields'
                             (change)='onChange1()' popupHeight='auto' [placeholder]='countryWaterMark' allowFiltering="true">
                             <ng-template #itemTemplate let-data>
-                                <span> {{data.flag}} {{data.CountryName}}</span> 
+                              <span> {{data.flag}} {{data.CountryName}}</span>
                             </ng-template>
                             <ng-template #valueTemplate let-data>
-                              <span> {{data.flag}} {{data.CountryName}}</span> 
+                              <span> {{data.flag}} {{data.CountryName}}</span>
                             </ng-template>
                           </ejs-dropdownlist>
                         </div>
@@ -175,24 +188,25 @@
                             <i class="material-icons d-block text-blue">image</i>
                           </div>
                           <div class="col-auto">
-                            <i class="material-icons d-block text-blue">edit</i> 
+                            <i class="material-icons d-block text-blue">edit</i>
                             <i class="material-icons d-block text-blue">delete</i>
                           </div>
                         </div>
                       </div>
-                      <div class="row g-2 mb-3 fs-14">
+                      <div class="row g-2 mb-3 fs-14" *ngFor="let field of fields; let i = index">
                         <div class="col-md-8">
-                          <ejs-dropdownlist id="roomsDropdown" #identificationObj [dataSource]="identification"
+                          <ejs-dropdownlist  id="roomsDropdown{{ i }}" #identificationObj [dataSource]="identification"
                                     [fields]="identificationFields" placeholder="Identification">
-                            </ejs-dropdownlist>
+                          </ejs-dropdownlist>
                         </div>
                         <div class="col-md-4 text-end">
                           <a href="">Fields</a> <span class="mx-2 text-blue">|</span> <a href="">Upload Id</a>
+                          <span class="mx-2 text-red" *ngIf="fields.length > 1" (click)="removeField(i)">Remove</span>
                         </div>
                       </div>
                       <div class="row g-2 mb-2 fs-14">
                         <div class="col">
-                          <a href="">+Ids</a>
+                          <a (click)="addField()">+Ids</a>
                         </div>
                         <div class="col-auto">
                           <a href="" class="btn btn-sm btn-primary hlx">Save</a>
@@ -200,6 +214,99 @@
                       </div>
                     </ng-template>
                   </e-accordionitem>
+                  <e-accordionitem>
+                    <ng-template #header>
+                      <h4 class="my-2">Arrival</h4>
+                    </ng-template>
+                  <ng-template #content>
+                    <div class="row g-2 mb-2">
+                      <div class="col">
+                        <ejs-tab id="tab_default" loadOn="Dynamic" (selected)="onSelected($event)">
+                          <e-tabitems>
+                            <e-tabitem [header]="headerText[0]">
+                              <ng-template #content>
+                                <div class="row g-2 mb-2">
+                                  <div class="col-md-6">
+                                    <ejs-dropdownlist #countryList id='country' [dataSource]='country' [fields]='countryFields'
+                                      (change)='onChange1()' popupHeight='auto' [placeholder]='countryWaterMark'
+                                      allowFiltering="true">
+                                      <ng-template #itemTemplate let-data>
+                                        <span> {{data.flag}} {{data.CountryName}}</span>
+                                      </ng-template>
+                                      <ng-template #valueTemplate let-data>
+                                        <span> {{data.flag}} {{data.CountryName}}</span>
+                                      </ng-template>
+                                    </ejs-dropdownlist>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Arrival/Flight">
+                                  </div>
+                                </div>
+                                <div class="row g-2">
+                                  <div class="col-md-6">
+                                    <ejs-timepicker id='timepicker' placeholder="Arrival Time"></ejs-timepicker>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <label for="task">Asisgn Task : </label>
+                                    <ejs-checkbox></ejs-checkbox>
+                                  </div>
+                                </div>
+                                <div class="row g-2">
+                                  <div class="col-md-6">
+                                    <label for="email">Assign Email : </label>
+                                    <ejs-checkbox>pankaj</ejs-checkbox>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <a href="" class="btn btn-sm btn-primary hlx">Save</a>
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </e-tabitem>
+                            <e-tabitem [header]="headerText[1]">
+                              <ng-template #content>
+                                <div class="row g-2 mb-2">
+                                  <div class="col-md-6">
+                                    <ejs-dropdownlist #countryList id='country' [dataSource]='country' [fields]='countryFields'
+                                      (change)='onChange1()' popupHeight='auto' [placeholder]='countryWaterMark'
+                                      allowFiltering="true">
+                                      <ng-template #itemTemplate let-data>
+                                        <span> {{data.flag}} {{data.CountryName}}</span>
+                                      </ng-template>
+                                      <ng-template #valueTemplate let-data>
+                                        <span> {{data.flag}} {{data.CountryName}}</span>
+                                      </ng-template>
+                                    </ejs-dropdownlist>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Departure/Flight">
+                                  </div>
+                                </div>
+                                <div class="row g-2">
+                                  <div class="col-md-6">
+                                    <ejs-timepicker id='timepicker' placeholder="Departure Time"></ejs-timepicker>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <label for="task">Asisgn Task : </label>
+                                    <ejs-checkbox></ejs-checkbox>
+                                  </div>
+                                </div>
+                                <div class="row g-2">
+                                  <div class="col-md-6">
+                                    <label for="email">Assign Email : </label>
+                                    <ejs-checkbox></ejs-checkbox>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <a href="" class="btn btn-sm btn-primary hlx">Save</a>
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </e-tabitem>
+                          </e-tabitems>
+                        </ejs-tab>
+                      </div>
+                    </div>
+                  </ng-template>
+                </e-accordionitem>
                 </e-accordionitems>
               </ejs-accordion>
             </div>
@@ -267,7 +374,7 @@
                     </ejs-datepicker>
                   </div>
                   <div class="control-section">
-                    <ejs-schedule #scheduleObj width="100%" height="100px"
+                    <ejs-schedule #scheduleObj id="scheduleObj1" width="100%" height="100px"
                       class="remove-table-header1 timeline-resource-grouping remove-table-header first-schedular-height"
                       [selectedDate]="startDate" [views]="views" [currentView]="'TimelineDay'"
                       [eventSettings]="eventSettings" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
@@ -300,7 +407,7 @@
                     <div>GUESTS</div>
                   </div>
                   <div class="control-section">
-                    <ejs-schedule #scheduleObj4 width="100%" [height]="scheduleHeight"
+                    <ejs-schedule #scheduleObj4  width="100%" [height]="scheduleHeight"
                       class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
                       [eventSettings]="eventSetting" [views]="views" [currentView]="'TimelineDay'"
                       [showHeaderBar]="false" [showTimeIndicator]="false" [rowAutoHeight]="true"
@@ -361,13 +468,20 @@
                                         <a href="#" *ngIf="!isEditing" class="room-type link">ID</a>
                                       </td>
                                       <td>
-                                        <img *ngIf="!guest.isEditing" src="./assets/Icons/in.svg" alt="flag" class="flag-icon" />
-                                        <select *ngIf="guest.isEditing" id="rate-select" class="form-select form-select-sm country" [(ngModel)]="guest.flagId">
-                                          <option value="1" selected>India</option>
-                                          <option value="2">Pakistan</option>
-                                          <option value="3">Nepal</option>
-                                          <option value="4">China</option>
-                                        </select>
+                                        <span *ngIf="!guest.isEditing" class="room-type">{{ guest.dialCode }}</span>
+                                        <ejs-dropdownlist id="games3" #sample [dataSource]="country" (change)="onChange1()"
+                                        [fields]="countryFields" [width]="width" [popupWidth]="popupWidth" placeholder="Country">
+                                        <ng-template #itemTemplate let-data>
+                                          <span>
+                                            {{ data.flag }} {{ data.CountryName }} {{ data.dialCode }}
+                                          </span>
+                                        </ng-template>
+                                        <ng-template #valueTemplate let-data>
+                                          <span class="fs-12">
+                                            {{ data.flag }} {{ data.dialCode }}
+                                          </span>
+                                        </ng-template>
+                                      </ejs-dropdownlist>
                                       </td>
                                       <td>
                                         <span *ngIf="!guest.isEditing" class="room-type">{{ guest.phoneNumber }}</span>
@@ -392,7 +506,7 @@
                                         <button ejs-dropdownbutton [items]='tooltItem' iconCss="speeddial-icons speeddial-icon-edit" class="m-0" (select)="onItemSelect($event, i)"></button>
                                       </td>
                                     </tr>
-                                  </table>                                  
+                                  </table>
                                 </div>
                                 <!-- <div>
                                   <div class="e-section-control">
@@ -510,7 +624,7 @@
                                     <a href="#" class="room-link">{{ data.Subject }} {{ data.Room }}</a>
                                   </div>
                                   <div class="booking-date text-blue">
-                                      {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
+                                    {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
                                   </div>
                                   <div class="total-guest">
                                     <span class="guest-info">
@@ -1113,6 +1227,3 @@
   <div class="col"></div>
   <div class="col"></div>
 </div>
- 
-
-
