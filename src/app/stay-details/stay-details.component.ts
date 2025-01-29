@@ -109,7 +109,7 @@ export class StayDetailsComponent  {
   public hoveredDate: string | null = null;
   public tooltipStyle: { [key: string]: string } = {};
   public readonly = true;
-  public scheduleHeight: string = '200px';
+  public scheduleHeight: string = '220px';
   public selectedText: string = '1';
   public isPopupVisible: boolean = false;
   public formattedDate: string = '';
@@ -632,7 +632,7 @@ public cities: { [key: string]: Object }[] = [
   }
   public onHover(args: HoverEventArgs): void {
     const workCells = document.querySelectorAll('.e-work-cells');
-    document.querySelector('.date-tooltip') as HTMLElement;
+    const tooltip = document.querySelector('.date-tooltip') as HTMLElement;
     workCells.forEach((cell) => cell.classList.remove('vertical-highlight'));
     if (args.element && args.element.classList.contains('e-work-cells')) {
       const hoveredCell = args.element as HTMLTableCellElement;
@@ -929,53 +929,38 @@ public cities: { [key: string]: Object }[] = [
       };
       reader.readAsDataURL(file);
     }
-  setHeight(idIndex: number, details: any) {
-    let hr = document.getElementById('hr-' + idIndex );
-    let guestDetail = this.guestDetails[0];
-    let totalCell = this.calculateDays(
-      new Date(guestDetail.startDate1),
-      new Date(guestDetail.endDate1)
-    );
-
-    let perCellWidth = 100 / totalCell;
-    let currentDiff = this.calculateDays(
-      new Date(details.startDate1),
-      new Date(details.endDate1)
-    );
-
-    let bothStartDateDiff =
-      this.calculateDays(
-        new Date(guestDetail.startDate1),
-        new Date(details.startDate1)
-      ) - 1;
-    const firstChild = document.querySelector('.e-work-cells:first-child');
-    const secondChild = document.querySelector('.e-work-cells:nth-child(2)');
-    const lastChild = document.querySelector('.e-work-cells:last-child');
-
-    let firstWidth = 0;
-    let secondWidth = 0;
-    let lastWidth = 0;
-    if (firstChild) {
-      firstWidth = (firstChild as HTMLElement).getBoundingClientRect().width;
-    }
-    if (secondChild) {
-      secondWidth = (secondChild as HTMLElement).getBoundingClientRect().width;
-    }
-
-    if (lastChild) {
-      lastWidth = (lastChild as HTMLElement).getBoundingClientRect().width;
-    }
-    let left =
-      firstWidth + (bothStartDateDiff - 2) * secondWidth + secondWidth / 2;
-    let width =
-      firstWidth + (currentDiff - 2) * secondWidth + lastWidth * 2;
-    if (hr) {
-      hr.style.left = `${left}px`;
-      hr.style.width = `${width}px`;
-    }
-
-    return [left < 0 ? 0 : left, width];
+    setHeight(idIndex: number, details: any): [number, number] {
+      const hr = document.getElementById(`hr-${idIndex}`);
+      const guestDetail = this.guestDetails[0];
+  
+      const totalCell = this.calculateDays(
+          new Date(guestDetail.startDate1),
+          new Date(guestDetail.endDate1)
+      );
+  
+      const perCellWidth = 100 / totalCell;
+      const currentDiff = this.calculateDays(
+          new Date(details.startDate1),
+          new Date(details.endDate1)
+      );
+  
+      const bothStartDateDiff = 
+          this.calculateDays(new Date(guestDetail.startDate1), new Date(details.startDate1)) - 1;
+      const workCells = document.querySelectorAll('.e-work-cells');
+      const firstWidth = workCells[0]?.getBoundingClientRect().width || 0;
+      const secondWidth = workCells[1]?.getBoundingClientRect().width || firstWidth;
+      const lastWidth = workCells[workCells.length - 1]?.getBoundingClientRect().width || firstWidth;
+      const left = firstWidth + (bothStartDateDiff - 2) * secondWidth + secondWidth / 2;
+      const width = firstWidth + (currentDiff - 2) * secondWidth + lastWidth;
+  
+      if (hr) {
+          hr.style.left = `${Math.max(left, 0)}px`;
+          hr.style.width = `${width}px`;
+      }
+  
+      return [Math.max(left, 0), width];
   }
+  
   public onPopupOpenSplitRooms1(args: any) {
     if ( args.type == 'QuickInfo' && args.target.classList.contains('e-work-cells')
     ) {

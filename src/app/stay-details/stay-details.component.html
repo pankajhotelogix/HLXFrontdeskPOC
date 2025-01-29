@@ -46,15 +46,15 @@
                       <div class="row g-2">
                         <div class="col-auto">
                           <ejs-dropdownlist id="games" #sample [dataSource]="country" (change)="onChange1()"
-                            [fields]="countryFields" [width]="width" [popupWidth]="popupWidth" placeholder="Country">
+                            [fields]="countryFields" [width]="width" [popupWidth]="popupWidth" placeholder="iso">
                             <ng-template #itemTemplate let-data>
                               <span>
-                                {{ data?.flag }} {{ data?.CountryName }} {{ data?.dialCode }}
+                                {{ data.flag }} {{ data.CountryName }} {{ data.dialCode }}
                               </span>
                             </ng-template>
                             <ng-template #valueTemplate let-data>
                               <span class="fs-12">
-                                {{ data?.flag }} {{ data?.dialCode }}
+                                {{ data.flag }}
                               </span>
                             </ng-template>
                           </ejs-dropdownlist>
@@ -68,7 +68,7 @@
                       <div class="row g-2">
                         <div class="col-auto">
                           <ejs-dropdownlist id="games1" #sample [dataSource]="country" (change)="onChange1()"
-                            [fields]="countryFields" [width]="width" [popupWidth]="popupWidth" placeholder="Country"
+                            [fields]="countryFields" [width]="width" [popupWidth]="popupWidth" placeholder="iso"
                             [allowFiltering]='true'>
                             <ng-template #itemTemplate let-data>
                               <span>
@@ -77,7 +77,7 @@
                             </ng-template>
                             <ng-template #valueTemplate let-data>
                               <span class="fs-12">
-                                {{ data.flag }} {{ data.dialCode }}
+                                {{ data.flag }}
                               </span>
                             </ng-template>
                           </ejs-dropdownlist>
@@ -478,7 +478,7 @@
                                         </ng-template>
                                         <ng-template #valueTemplate let-data>
                                           <span class="fs-12">
-                                            {{ data.flag }} {{ data.dialCode }}
+                                            {{ data.flag }}
                                           </span>
                                         </ng-template>
                                       </ejs-dropdownlist>
@@ -508,12 +508,12 @@
                                     </tr>
                                   </table>
                                 </div>
-                                <!-- <div>
+                                <div>
                                   <div class="e-section-control">
                                     <hr id="hr-{{i}}" #hr class="hr-line" [style.left.px]="setHeight(i, guest)[0]"
                                       [style.width.px]="setHeight(i, guest)[1]" />
                                   </div>
-                                </div> -->
+                                </div>
                               </div>
                               <div class="popup-overlay" *ngIf="isPopupVisible">
                                 <div class="form-container" (click)="$event.stopPropagation()">
