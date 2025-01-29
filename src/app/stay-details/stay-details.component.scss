@@ -9,6 +9,27 @@ body {
   font-weight: 500;
   font-style: normal;
 }
+.material-icons {
+  font-size: 20px;
+}
+.icon-flag {
+  padding-top: 8px;
+  height: 30px;
+}
+.e-ddl-icon::before,
+.e-btn-icon::before {
+  content: "\e84f" !important;
+  font-size: 9px !important;
+}
+.e-accordion .e-acrdn-item.e-select {
+  margin-bottom: 2px;
+}
+.e-accordion .e-acrdn-item.e-select .e-acrdn-header {
+  border-radius: 8px !important;
+}
+.pointer {
+  cursor: pointer;
+}
 .title-bar {
   background: rgba(40, 86, 162, 0.10);
   box-shadow: 2px 2px 10px 0px rgba(45, 15, 80, 0.10);
@@ -118,11 +139,15 @@ button  {
   margin: 0 6px;
 }
 .footer-btns {
-  box-shadow: 2px 2px 10px 0px #2D0F501A;
+  background: #fff;
+  box-shadow: 2px 2px 10px 0px rgba(45, 15, 80, 0.2);
   padding: 6px;
-  margin-top: 24px;
   text-align: right;
-  border-radius: 8px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 999;
 }
 .footer-btns button {
   margin: 6px;
