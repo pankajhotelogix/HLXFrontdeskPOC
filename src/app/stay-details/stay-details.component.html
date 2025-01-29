@@ -177,7 +177,7 @@
                     </ng-template>
                     <ng-template #content>
                       <div class="border-bottom mb-2 pb-1">
-                        <div class="row fs-14">
+                        <div class="row g-2 fs-14">
                           <div class="col-auto">
                             <strong>Passport No.</strong>: 238xxx
                           </div>
@@ -185,23 +185,23 @@
                             <strong>Validity</strong>: Feb 20, 2026
                           </div>
                           <div class="col">
-                            <i class="material-icons d-block text-blue">image</i>
+                            <i class="material-icons text-blue">image</i>
                           </div>
                           <div class="col-auto">
-                            <i class="material-icons d-block text-blue">edit</i>
-                            <i class="material-icons d-block text-blue">delete</i>
+                            <i class="material-icons text-blue">edit</i>
+                            <i class="material-icons text-blue">delete</i>
                           </div>
                         </div>
                       </div>
                       <div class="row g-2 mb-3 fs-14" *ngFor="let field of fields; let i = index">
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                           <ejs-dropdownlist  id="roomsDropdown{{ i }}" #identificationObj [dataSource]="identification"
                                     [fields]="identificationFields" placeholder="Identification">
                           </ejs-dropdownlist>
                         </div>
-                        <div class="col-md-4 text-end">
-                          <a href="">Fields</a> <span class="mx-2 text-blue">|</span> <a href="">Upload Id</a>
-                          <span class="mx-2 text-red" *ngIf="fields.length > 1" (click)="removeField(i)">Remove</span>
+                        <div class="col-md-5 text-end">
+                          <a href="">Fields</a> <span class="mx-2 text-blue">|</span> <a href="">Upload Id</a> <span class="mx-2 text-blue">|</span> 
+                          <span *ngIf="fields.length > 1" (click)="removeField(i)"><i class="material-icons text-blue">delete</i></span>
                         </div>
                       </div>
                       <div class="row g-2 mb-2 fs-14">
