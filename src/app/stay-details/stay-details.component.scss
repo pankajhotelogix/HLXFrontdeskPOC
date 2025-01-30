@@ -129,6 +129,9 @@ a {
   color: #4699F5;
   text-decoration: none;
 }
+.text-gray {
+  color: #666 !important; 
+}
 .text-blue {
   color: #4699F5 !important; 
 }
@@ -267,7 +270,7 @@ button  {
   width: 87px;
 }
 .res-details .e-appointment-details {
-    padding: 20px !important;
+    padding: 12px !important;
     border: 1px solid #ebebeb;
 }
 .res-details .e-schedule {
@@ -298,7 +301,7 @@ button  {
   background: linear-gradient(90deg, #EBEBEB 0%, #FFFFFF 100%);
   border-bottom: 1px solid #A40202 !important;
   position: relative;
-  padding: 8px;
+  padding: 0 8px;
   border-radius: 4px 4px 0 2px;
   margin-bottom: 2px;
 }

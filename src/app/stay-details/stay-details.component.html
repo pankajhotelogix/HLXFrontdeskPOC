@@ -407,11 +407,17 @@
                           <ng-template #eventTemplate let-data>
                             <div class="w-100">
                               <div class="d-flex mb-3" (click)="$event.stopPropagation()">
+                                <div class="me-2">
+                                  <i class="material-icons d-block text-gray">person</i>
+                                </div>
                                 <div class="e-section-control cutomize-button-size me-3">
                                   <button ejs-dropdownbutton [items]="totalUser" iconCss="e-ddb-icons e-profile"
                                     (select)="onSelect($event)" [cssClass]="'custom-dropdown'">
                                     {{ selectedText }}
                                   </button>
+                                </div>
+                                <div class="me-2">
+                                  <i class="material-icons d-block text-gray">child_care</i>
                                 </div>
                                 <div class="e-section-control cutomize-button-size">
                                   <button ejs-dropdownbutton [items]="totalChild" iconCss="e-ddb-icons e-profile"
