@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Inject, PLATFORM_ID, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
  import { ImageEditorComponent,ImageEditorModule } from '@syncfusion/ej2-angular-image-editor';
  import { createElement } from '@syncfusion/ej2-base';
 import { DialogComponent, ButtonPropsModel, PositionDataModel, DialogModule } from '@syncfusion/ej2-angular-popups';
 import { AnimationSettingsModel } from '@syncfusion/ej2-splitbuttons';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-common-profile-image',
@@ -13,10 +14,10 @@ import { AnimationSettingsModel } from '@syncfusion/ej2-splitbuttons';
   styleUrl: './common-profile-image.component.scss'
 })
 export class CommonProfileImageComponent implements AfterViewInit {
-  @ViewChild('Dialog')
-  public DialogInstance: DialogComponent | undefined;
+  @ViewChild('Dialog', { static: false }) DialogInstance: DialogComponent | undefined;
   @ViewChild('ImageEditor')
   public ImageEditorInstance: ImageEditorComponent | undefined;
+ 
   public toolbarItems: string[] = [];
   public header: string = 'Edit Profile Image';
   public showCloseIcon: Boolean = true;
@@ -25,9 +26,13 @@ export class CommonProfileImageComponent implements AfterViewInit {
   public height: string = '420px';
   public visible: boolean = false;
   public animationSettings: AnimationSettingsModel = { effect: 'None' };
-  public target: string = '.control-section-image';
+  public target: string = '.control-section';
   public position: PositionDataModel = { X: 'center', Y: 100 };
   public imgSrc: string = '';
+  constructor(
+    private renderer: Renderer2,
+    @Inject(PLATFORM_ID) private platformId: object
+) {}
   public created = (): void => {
       if (this.ImageEditorInstance?.theme && window.location.href.split('#')[1]) {
           this.ImageEditorInstance.theme = window.location.href.split('#')[1].split('/')[1];
@@ -63,7 +68,7 @@ export class CommonProfileImageComponent implements AfterViewInit {
   }
   
   public onOpenDialog = (event: any): void => {
-      this.DialogInstance!.show();
+      this.DialogInstance?.show();
   };
 
   public imageChanged = (args: any): void=> {
@@ -129,16 +134,25 @@ public dlgResetBtnClick = (): void => {
   ];
 
   public canvasClicked = (): void => {
-    this.DialogInstance?.show();
-}
-ngAfterViewInit(): void {
-  let imageHide = document.getElementsByClassName('sb-desktop-wrapper')[0];
-  if (imageHide) {
-      (document.getElementsByClassName('sb-desktop-wrapper')[0] as HTMLElement).onclick = (args: any) : void => {
-          if (args.target.className.indexOf('col-lg-12 control-section') > -1 || args.target.className.indexOf('sb-content') > -1) {
-              this.DialogInstance?.hide();
-          }
-      }
+    if (this.DialogInstance) {
+      this.DialogInstance.show();
+    } else {
+      console.warn('DialogInstance is not initialized');
     }
-  }
+  };
+  ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return; // Ensure this only runs in the browser
+
+    const imageHide = document.getElementsByClassName('sb-desktop-wrapper')[0] as HTMLElement;
+    
+    if (imageHide) {
+        this.renderer.listen(imageHide, 'click', (event: Event) => {
+            const target = event.target as HTMLElement;
+            
+            if (target.classList.contains('col-lg-12') || target.classList.contains('sb-content')) {
+                this.DialogInstance?.hide();
+            }
+        });
+    }
+}
 }

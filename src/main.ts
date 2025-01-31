@@ -5,7 +5,6 @@ import { registerLicense } from '@syncfusion/ej2-base';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from './environments/environment';
 import { enableProdMode, importProvidersFrom } from '@angular/core';
-import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 
 if (environment.production) {
@@ -18,7 +17,6 @@ bootstrapApplication(AppComponent, {
   providers: [
     ...(appConfig.providers || []),
     importProvidersFrom(AngularFireModule.initializeApp(environment.firebaseConfig)),
-    provideHttpClient(withFetch()),
     provideRouter([])
   ],
 }).catch((err) => console.error('Error bootstrapping the application:', err));

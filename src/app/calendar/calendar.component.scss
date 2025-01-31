@@ -1,4 +1,4 @@
-@import '../common.scss';
+ @import '../common.scss';
 .planner-calendar {
   font-size: 14px;
   color: black;
@@ -725,7 +725,7 @@ button, input, optgroup, select, textarea {
   font-size: inherit;
   line-height: inherit;
   height: 28px;
-  width: 75px;
+  width: auto;
 }
 .dashboard-image,
 .scheduler-image,
@@ -1226,9 +1226,9 @@ letter-spacing: 0.1px;
   margin: 30px auto;
   padding-top: 50px;
 }
-.control-section {
-  margin: 12px auto;
-}
+// .control-section {
+//   margin: 12px auto;
+// }
 .e-popup.e-popup-open.e-dialog {
   display: inline-flex;
   width: 695px !important;
@@ -2070,7 +2070,7 @@ content: "\e71c";
 .cb-icons {
   margin: auto;
   font-family: 'Card_Icon';
-  speak: none;
+  //speak: none;
   width: 38px !important;
   height: 38px !important;
   font-size: 37px !important;

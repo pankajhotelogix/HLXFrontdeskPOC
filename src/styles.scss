@@ -225,7 +225,7 @@ button {
 
 .e-btn-sb-icon {
 	font-family: 'btn-icon' !important;
-	speak: none;
+	//speak: none;
 	font-style: normal;
 	font-weight: normal;
 	font-variant: normal;
@@ -242,16 +242,16 @@ button {
 .e-prev-icon::before {
   content: '\e702';
 }
-@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-calendars/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-lists/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-angular-schedule/styles/material.css'; 
- @import '../node_modules/@syncfusion/ej2-layouts/styles/material.css';
+// @import '../node_modules/@syncfusion/ej2-base/styles/material.css';
+// @import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+// @import '../node_modules/@syncfusion/ej2-calendars/styles/material.css';
+// @import '../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';
+// @import '../node_modules/@syncfusion/ej2-inputs/styles/material.css';
+// @import '../node_modules/@syncfusion/ej2-lists/styles/material.css';
+// @import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
+// @import '../node_modules/@syncfusion/ej2-navigations/styles/material.css';
+// @import '../node_modules/@syncfusion/ej2-angular-schedule/styles/material.css'; 
+//  @import '../node_modules/@syncfusion/ej2-layouts/styles/material.css';
 
 @font-face {
 	font-family: 'btn-icon';

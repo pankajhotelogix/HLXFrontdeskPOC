@@ -15,6 +15,7 @@ import { DialogComponent, DialogModule } from '@syncfusion/ej2-angular-popups';
 import {
   AppBarModule,
   HeaderPosition,
+  SelectEventArgs,
   SidebarModule,
   TabAllModule,
   TabComponent,
@@ -135,8 +136,6 @@ L10n.load({
   encapsulation: ViewEncapsulation.None,
 })
 export class CalendarComponent implements OnInit {
-  // @ViewChild("addEditPatientObj") addEditPatientObj: AddEditPatientComponent;
-  // @ViewChild("addEditDoctorObj") addEditDoctorObj: AddEditDoctorComponent;
   @ViewChild('scheduleObj') scheduleObj?: ScheduleComponent;
   @ViewChild('treeObj') treeObj?: TreeViewComponent;
   @ViewChild('specialistObj') specialistObj?: DialogComponent;
@@ -312,7 +311,7 @@ export class CalendarComponent implements OnInit {
     return `${year}-${month}-${day}`;
   }
   public onPopupOpen(args: any) {
-    console.log(args);
+   // console.log(args);
     this.requestParams.room_type_id = args.data.DepartmentId;
     this.requestParams.room_id = args.data.DoctorId;
     this.requestParams.checkin_date = this.getDate(args.data.StartTime);
@@ -971,58 +970,71 @@ export class CalendarComponent implements OnInit {
         console.error('Error importing data: ', error);
       });
   }
-  openNewTab() {
-    const url = this.router.serializeUrl(
-      this.router.createUrlTree(['/stayDetails'])
-    );
-    window.open(url, '_blank');
-  }
-  public onCellRender(args: any): void {
-    alert(args);
-    const cellDate: Date = args.date;
-    if (cellDate >= this.hideStartDate && cellDate <= this.hideEndDate) {
-      args.element.style.display = 'none';
-    }
-  }
+  // openNewTab() {
+  //   const url = this.router.serializeUrl(
+  //     this.router.createUrlTree(['/stayDetails'])
+  //   );
+  //   window.open(url, '_blank');
+  // }
+  // public onCellRender(args: any): void {
+  //  // alert(args);
+  //   const cellDate: Date = args.date;
+  //   if (cellDate >= this.hideStartDate && cellDate <= this.hideEndDate) {
+  //     args.element.style.display = 'none';
+  //   }
+  // }
   public onCloseClick(): void {
     this.scheduleObj?.quickPopup.quickPopupHide();
 }
 
-public placeValue: string = 'top';
+// public placeValue: string = 'top';
 
 // Mapping DropDownList value property
-public value: string = 'scrollable';
+ //public value: string = 'scrollable';
 
 // Mapping Tab items Header property
 public headerText = [{ text: 'FrontDesk' }, { text: 'Single' }];
-
-// Change event funtion for DropDownList component
-public placeChange(e: Object): void {
-  if (this.placeObj && this.tabObj) {
-    this.tabObj.headerPlacement = this.placeObj.text as any;
-  }
-  this.tabObj?.dataBind();
-}
-
-// Change event funtion for DropDownList component
-public onChangeTab(e: Object): void {
-  if (this.dropDownObj) {
-    this.value = this.dropDownObj.value?.toString() ?? '';
-    //set overflowMode property to Tab Component
-    if (this.dropDownObj.value === 'scrollable') {
-      if (this.tabObj) {
-        this.tabObj.overflowMode = 'Scrollable';
-      }
-    } else {
-      if (this.tabObj) {
-        this.tabObj.overflowMode = 'Popup';
-      }
-    }
-    if (this.tabObj) {
-      this.tabObj.dataBind();
+public isScheduleRender = false;
+public onSelected(args: SelectEventArgs): void {
+  if (args.selectedIndex === 0) {
+    if (this.headerText[args.selectedIndex].text === 'Front Desk') {
+      this.isScheduleRender = true;
     }
   }
 }
+public onScheduleCreate(): void {
+  if (this.isScheduleRender) {
+    this.scheduleObj?.refreshLayout();
+    this.isScheduleRender = false;
+  }
+}
+// Change event funtion for DropDownList component
+// public placeChange(e: Object): void {
+//   if (this.placeObj && this.tabObj) {
+//     this.tabObj.headerPlacement = this.placeObj.text as any;
+//   }
+//   this.tabObj?.dataBind();
+// }
+
+// // Change event funtion for DropDownList component
+// public onChangeTab(e: Object): void {
+//   if (this.dropDownObj) {
+//     this.value = this.dropDownObj.value?.toString() ?? '';
+//     //set overflowMode property to Tab Component
+//     if (this.dropDownObj.value === 'scrollable') {
+//       if (this.tabObj) {
+//         this.tabObj.overflowMode = 'Scrollable';
+//       }
+//     } else {
+//       if (this.tabObj) {
+//         this.tabObj.overflowMode = 'Popup';
+//       }
+//     }
+//     if (this.tabObj) {
+//       this.tabObj.dataBind();
+//     }
+//   }
+// }
 }
 export interface requestParams {
   checkin_date: string;

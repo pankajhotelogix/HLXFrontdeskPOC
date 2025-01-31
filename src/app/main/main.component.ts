@@ -10,7 +10,7 @@ import {
 } from "@syncfusion/ej2-angular-navigations";
 import { Router } from "@angular/router";
 import { AnimationSettingsModel } from "@syncfusion/ej2-angular-popups";
-import { NgClass, NgStyle } from '@angular/common';
+import { CommonModule, NgClass, NgStyle } from '@angular/common';
 import { NgModel } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 
@@ -19,7 +19,7 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [ButtonModule,   TreeViewModule, SidebarModule ,AppBarModule,
     RadioButtonModule, RouterOutlet,
-    TreeViewModule, NgStyle],
+    TreeViewModule,CommonModule],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })

@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-md-12">
+            <ejs-appbar >
+                
+                    <img style="width: 135px;" src="./assets/Icons/logo-new-2n5.png" />
+                    <button ejs-dropdownbutton cssClass="e-inherit e-appbar-menu"
+                    [items]='productDropDownButtonItems' content="Frontdesk"></button>
+                        <button ejs-dropdownbutton cssClass="e-inherit e-appbar-menu"
+                            [items]='productDropDownButtonItems' content="Housekeeping"></button>
+                        <button ejs-dropdownbutton cssClass="e-inherit e-appbar-menu "
+                            [items]='companyDropDownButtonItems' content="My Bar Lounge"></button>
+                            <button ejs-dropdownbutton cssClass="e-inherit e-appbar-menu "
+                            [items]='companyDropDownButtonItems' content="Zen Body SPA"></button>
+                            <button ejs-dropdownbutton cssClass="e-inherit e-appbar-menu "
+                            [items]='companyDropDownButtonItems' content="Other"></button>
+                        <div class="e-appbar-spacer"></div>
+                        <div style="width: 200px; margin-right:10px">
+                            <span class="e-input-group e-control-wrapper e-inherit">
+                                <input type="text" class="e-searchinput e-input" placeholder="Search">
+                                <span class="e-icons e-search e-input-group-icon"></span>
+                            </span>
+                        </div>
+                        <div class="e-appbar-separator"></div>
+                        <button ejs-button [ngStyle]="{
+                            'background-color': isDarkTheme ? '#343a40' : '#75777afc',
+                            'color': isDarkTheme ? '#fff' : '#000'
+                          }" 
+                          (click)="toggleTheme()"><img 
+                          [src]="isDarkTheme ? './assets/Icons/dark_mode.svg' : './assets/Icons/light_mode.svg'" 
+                          alt="Theme Icon" 
+                          width="20" 
+                          height="20"
+                        />
+                        {{ isDarkTheme ? 'Dark' : 'Light' }}</button>
+                        <button ejs-button>Login</button>
+                        <ejs-menu cssClass="e-inherit e-appbar-icon-menu" [items]='verticalMenuItems' (beforeItemRender)='onBeforeItemRender($event)'></ejs-menu>
+            </ejs-appbar>
+        </div>
+    </div>

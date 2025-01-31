@@ -10,8 +10,8 @@
   </div>    
 </div>
 <div class="e-img-editor-sample" id="profile-dialog">
-    <ejs-dialog [position]="position" #Dialog [buttons]='dlgButtons' [visible]='visible' [header]='header' [showCloseIcon]='showCloseIcon' [target]='target' [width]='width' [height]='height' (open)="dialogOpen()" (close)="dialogClose()" style="    left: 0px !important;
-top: 60px !important;" >
+    <ejs-dialog [position]="position" #Dialog [buttons]='dlgButtons' [visible]='visible' [header]='header' [showCloseIcon]='showCloseIcon' [target]='target' [width]='width' [height]='height' (open)="dialogOpen()" (close)="dialogClose()" style="left: 0px !important;
+      top: 60px !important; position: relative;" >
     <ng-template #content>
         <ejs-imageeditor #ImageEditor [toolbar]='toolbarItems' (created)="created()" (fileOpened)="fileOpened()"> </ejs-imageeditor>
     </ng-template>

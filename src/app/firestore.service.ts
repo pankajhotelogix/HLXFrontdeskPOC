@@ -6,17 +6,22 @@ import {
   Query,
 } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
-
+interface Booking {
+  room_id: string;
+  checkin_date: string;
+  
+}
 @Injectable({
   providedIn: 'root',
 })
+
 export class FirestoreService {
   constructor(
     private db: AngularFireDatabase,
     private firestore: AngularFirestore
   ) {}
-  getItemsByDateRange(startDate?: string, endDate?: string): Observable<any[]> {
-    let itemsRef = this.firestore.collection('bookings', (ref: any) => {
+  getItemsByDateRange(startDate?: string, endDate?: string): Observable<Booking[]> {
+    let itemsRef = this.firestore.collection<Booking>('bookings', (ref: any) => {
       let query: Query<DocumentData> = ref;
       if (startDate) {
         query = query.where('checkin_date', '>=', startDate);
@@ -31,15 +36,24 @@ export class FirestoreService {
 
     return itemsRef.valueChanges();
   }
-  saveData(path: string, data: any) {
-    return this.db.object(path).set(data);
+
+  async saveData(path: string, data: any) {
+    try {
+      await this.db.object(path).set(data);
+      console.log('Data saved successfully!');
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
   }
+
   getData(path: string): Observable<any> {
     return this.db.object(path).valueChanges();
   }
-  getCollection(collection: string) {
+
+  getCollection(collection: string): Observable<any[]> {
     return this.firestore.collection(collection).valueChanges();
   }
+
   addDocument(collectionName: string, data: any): Promise<any> {
     return this.firestore
       .collection(collectionName)
@@ -53,8 +67,9 @@ export class FirestoreService {
         throw error;
       });
   }
+
   async importData(collectionPath: string, data: any[]): Promise<void> {
-    if (!data || !Array.isArray(data)) {
+    if (!Array.isArray(data) || data.length === 0) {
       console.error('Invalid or missing data:', data);
       return;
     }

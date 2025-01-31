@@ -6,6 +6,9 @@ import {
   ViewChildren,
   ViewEncapsulation,
   ElementRef,
+  Renderer2,
+  PLATFORM_ID,
+  Inject,
 } from '@angular/core';
 import {
   DayService,
@@ -21,7 +24,7 @@ import {
   RenderCellEventArgs,
   PopupCloseEventArgs,
 } from '@syncfusion/ej2-angular-schedule';
-import { CommonModule} from '@angular/common';
+import { CommonModule, isPlatformBrowser} from '@angular/common';
 import { NgFor } from '@angular/common';
 import {
   DatePicker,
@@ -98,6 +101,7 @@ export class StayDetailsComponent  {
   @ViewChild('roomTypeObj', { static: false }) roomTypeObj!: DropDownListComponent;
   @ViewChild('roomsObj', { static: false }) roomsObj!: DropDownListComponent;
   @ViewChild('roomObj', { static: false }) roomObj!: DropDownListComponent;
+  @ViewChild('scheduleObj1', { static: false }) scheduleObj1!: ElementRef;
 
   @ViewChildren('hr') hrs!: QueryList<ElementRef>;
   @ViewChild('dateRangePicker', { static: false })
@@ -599,70 +603,133 @@ public cities: { [key: string]: Object }[] = [
   //   this.moveToHour(currentHour);
   // }
 
-  moveToHour(hour: number): void {
-    const workCells = document.querySelectorAll('.e-work-cells');
-    if (workCells.length === 0) {
-      console.warn('No work cells found.');
-      return;
-    }
+  // moveToHour(hour: number): void {
+  //   const workCells = document.querySelectorAll('.e-work-cells');
+  //   if (workCells.length === 0) {
+  //     console.warn('No work cells found.');
+  //     return;
+  //   }
 
-    // Calculate the width of a single work cell
-    const firstCell = workCells[0] as HTMLElement;
-    this.workCellWidth = firstCell.offsetWidth;
+  //   // Calculate the width of a single work cell
+  //   const firstCell = workCells[0] as HTMLElement;
+  //   this.workCellWidth = firstCell.offsetWidth;
 
-    // Calculate the position based on the hour
-    const leftPosition = this.workCellWidth * hour;
+  //   // Calculate the position based on the hour
+  //   const leftPosition = this.workCellWidth * hour;
 
-    // Update the timeline marker style
-    this.timelineStyle = {
-      top: '0px', // Adjust as needed
-      left: `${leftPosition}px`,
-      width: `${this.workCellWidth}px`, // Optional: Matches cell width
+  //   // Update the timeline marker style
+  //   this.timelineStyle = {
+  //     top: '0px', // Adjust as needed
+  //     left: `${leftPosition}px`,
+  //     width: `${this.workCellWidth}px`, // Optional: Matches cell width
+  //   };
+  // }
+
+  // moveToNextHour(): void {
+  //   const currentLeft = parseInt(this.timelineStyle?.left || '0', 10);
+  //   const nextLeft = currentLeft + this.workCellWidth;
+  //   this.timelineStyle = {
+  //     ...this.timelineStyle,
+  //     left: `${nextLeft}px`,
+  //   };
+  // }
+  // public onHover(args: HoverEventArgs): void {
+  //   const workCells = document.querySelectorAll('.e-work-cells');
+  //   const tooltip = document.querySelector('.date-tooltip') as HTMLElement;
+  //   workCells.forEach((cell) => cell.classList.remove('vertical-highlight'));
+  //   if (args.element && args.element.classList.contains('e-work-cells')) {
+  //     const hoveredCell = args.element as HTMLTableCellElement;
+  //     const columnIndex = hoveredCell.cellIndex;
+  //     const tableRows = document.querySelectorAll('.e-content-table tr');
+  //     tableRows.forEach((row) => {
+  //       const cell = row.querySelectorAll('.e-work-cells')[columnIndex];
+  //       if (cell) {
+  //         cell.classList.add('vertical-highlight');
+  //       }
+  //     });
+  //     const rect = hoveredCell.getBoundingClientRect();
+  //     this.tooltipStyle = {
+  //       top: `${rect.top - 10}px`,
+  //       left: `${rect.left + rect.width / 2}px`,
+  //     };
+  //     const value = hoveredCell.getAttribute('aria-label');
+  //     if (value) {
+  //       const dateString = value.split(' at ')[0];
+  //       const date = new Date(dateString);
+  //       const options: Intl.DateTimeFormatOptions = {
+  //         day: '2-digit',
+  //         month: 'short',
+  //       };
+  //       this.hoveredDate = date.toLocaleDateString('en-GB', options);
+  //     }
+  //   } else {
+  //     this.hoveredDate = null;
+  //   }
+  // }
+private previousCell: HTMLElement | null = null;
+public onHover(args: HoverEventArgs): void {
+  const workCells = document.querySelectorAll('.e-work-cells');
+  workCells.forEach((cell: any) => {
+    cell.removeEventListener('mousemove', this.handleMouseMove);
+  });
+
+  if (args.element && args.element.classList.contains('e-work-cells')) {
+    const hoveredCell = args.element as HTMLTableCellElement;
+
+    this.clearPreviousLine();
+    hoveredCell.addEventListener('mousemove', this.handleMouseMove);
+    this.previousCell = hoveredCell;
+  } else {
+    this.clearPreviousLine();
+    this.hoveredDate = null;
+  }
+}
+
+private handleMouseMove = (event: MouseEvent): void => {
+  const cell = event.target as HTMLElement;
+  let dottedLine = cell.querySelector('.dotted-line') as HTMLElement;
+
+  if (!dottedLine) {
+    dottedLine = document.createElement('div');
+    dottedLine.classList.add('dotted-line');
+    dottedLine.style.position = 'absolute';
+    dottedLine.style.height = '100%';
+    dottedLine.style.top = '0';
+    dottedLine.style.borderRight = '1px dashed black';
+    dottedLine.style.pointerEvents = 'none';
+    cell.style.position = 'relative';
+    cell.appendChild(dottedLine);
+  }
+
+  const rect = cell.getBoundingClientRect();
+  const offsetX = event.clientX - rect.left;
+  dottedLine.style.left = `${offsetX}px`;
+  this.tooltipStyle = {
+    top: `${event.clientY - 40}px`,
+    left: `${event.clientX - 430}px`, 
+  };
+  const value = cell.getAttribute('aria-label');
+  if (value) {
+    const dateString = value.split(' at ')[0];
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+      day: '2-digit',
+      month: 'short',
     };
+    this.hoveredDate = date.toLocaleDateString('en-GB', options);
   }
+};
 
-  // Example: Move the timeline marker to the next hour smoothly
-  moveToNextHour(): void {
-    const currentLeft = parseInt(this.timelineStyle?.left || '0', 10);
-    const nextLeft = currentLeft + this.workCellWidth;
-    this.timelineStyle = {
-      ...this.timelineStyle,
-      left: `${nextLeft}px`,
-    };
-  }
-  public onHover(args: HoverEventArgs): void {
-    const workCells = document.querySelectorAll('.e-work-cells');
-    const tooltip = document.querySelector('.date-tooltip') as HTMLElement;
-    workCells.forEach((cell) => cell.classList.remove('vertical-highlight'));
-    if (args.element && args.element.classList.contains('e-work-cells')) {
-      const hoveredCell = args.element as HTMLTableCellElement;
-      const columnIndex = hoveredCell.cellIndex;
-      const tableRows = document.querySelectorAll('.e-content-table tr');
-      tableRows.forEach((row) => {
-        const cell = row.querySelectorAll('.e-work-cells')[columnIndex];
-        if (cell) {
-          cell.classList.add('vertical-highlight');
-        }
-      });
-      const rect = hoveredCell.getBoundingClientRect();
-      this.tooltipStyle = {
-        top: `${rect.top - 10}px`,
-        left: `${rect.left + rect.width / 2}px`,
-      };
-      const value = hoveredCell.getAttribute('aria-label');
-      if (value) {
-        const dateString = value.split(' at ')[0];
-        const date = new Date(dateString);
-        const options: Intl.DateTimeFormatOptions = {
-          day: '2-digit',
-          month: 'short',
-        };
-        this.hoveredDate = date.toLocaleDateString('en-GB', options);
-      }
-    } else {
-      this.hoveredDate = null;
+private clearPreviousLine(): void {
+  if (this.previousCell) {
+    const existingLine = this.previousCell.querySelector('.dotted-line');
+    if (existingLine) {
+      existingLine.remove();
     }
+    this.previousCell.removeEventListener('mousemove', this.handleMouseMove);
+    this.previousCell = null;
   }
+}
   onPopupCloseSessionalRate(args: PopupCloseEventArgs | any) {
     if (args.type === 'Editor') {
       args.data.StartTime  = args.element.querySelector(".e-daterangepicker").ej2_instances[0].startDate;
@@ -689,6 +756,8 @@ public cities: { [key: string]: Object }[] = [
   }
   constructor(
     private mainService: MainService,
+    private renderer: Renderer2,
+        @Inject(PLATFORM_ID) private platformId: object
 
   ){}
   getRoomList(): void {
@@ -820,14 +889,14 @@ public cities: { [key: string]: Object }[] = [
       this.scheduleObj?.openEditor(args.data, 'Add');
       args.element.classList.add('dialog-open');
       args.element.setAttribute('id', 'srk-id');
-      let bookingsData = localStorage.getItem('bookingsData');
-      let locBookings = bookingsData ? JSON.parse(bookingsData) : {};
-      if (args.data && args.data[0]) {
-        let rec = args.data[0];
-        locBookings[rec.Id] = rec;
-        localStorage.setItem('bookingsData', JSON.stringify(locBookings));
-      }
-    }
+    //   let bookingsData = localStorage.getItem('bookingsData');
+    //   let locBookings = bookingsData ? JSON.parse(bookingsData) : {};
+    //   if (args.data && args.data[0]) {
+    //     let rec = args.data[0];
+    //     locBookings[rec.Id] = rec;
+    //     localStorage.setItem('bookingsData', JSON.stringify(locBookings));
+    //   }
+     }
   }
 
   showTooltip(event: MouseEvent, date: string): void {
@@ -945,7 +1014,7 @@ public cities: { [key: string]: Object }[] = [
       );
   
       const bothStartDateDiff = 
-          this.calculateDays(new Date(guestDetail.startDate1), new Date(details.startDate1)) - 1;
+      this.calculateDays(new Date(guestDetail.startDate1), new Date(details.startDate1)) - 1;
       const workCells = document.querySelectorAll('.e-work-cells');
       const firstWidth = workCells[0]?.getBoundingClientRect().width || 0;
       const secondWidth = workCells[1]?.getBoundingClientRect().width || firstWidth;
@@ -965,17 +1034,17 @@ public cities: { [key: string]: Object }[] = [
     if ( args.type == 'QuickInfo' && args.target.classList.contains('e-work-cells')
     ) {
       args.cancel = true;
-      console.log(args.data)
+     // console.log(args.data)
       this.scheduleObj?.openEditor(args.data, 'Add');
       args.element.classList.add('dialog-open');
       args.element.setAttribute('id', 'srk-id');
-      let bookingsData = localStorage.getItem('bookingsData');
-      let locBookings = bookingsData ? JSON.parse(bookingsData) : {};
-      if (args.data && args.data[0]) {
-        let rec = args.data[0];
-        locBookings[rec.Id] = rec;
-        localStorage.setItem('bookingsData', JSON.stringify(locBookings));
-      }
+     // let bookingsData = localStorage.getItem('bookingsData');
+      //let locBookings = bookingsData ? JSON.parse(bookingsData) : {};
+      // if (args.data && args.data[0]) {
+      //   let rec = args.data[0];
+      //   locBookings[rec.Id] = rec;
+      //   localStorage.setItem('bookingsData', JSON.stringify(locBookings));
+      // }
     }
   }
   getDate(date?: string) {
@@ -1001,14 +1070,14 @@ public cities: { [key: string]: Object }[] = [
       //this.getAvailableRoomList();
       args.element.classList.add('dialog-open');
       args.element.setAttribute('id', 'srk-id');
-      let bookingsData = localStorage.getItem('bookingsData');
-      let locBookings = bookingsData ? JSON.parse(bookingsData) : {};
-      if (args.data && args.data[0]) {
-        let rec = args.data[0];
-        locBookings[rec.Id] = rec;
-       // this.updateBookingData(Object.values(locBookings));
-       // localStorage.setItem('bookingsData', JSON.stringify(locBookings));
-      }
+      // let bookingsData = localStorage.getItem('bookingsData');
+      // let locBookings = bookingsData ? JSON.parse(bookingsData) : {};
+      // if (args.data && args.data[0]) {
+      //   let rec = args.data[0];
+      //   locBookings[rec.Id] = rec;
+      //   this.updateBookingData(Object.values(locBookings));
+      //   localStorage.setItem('bookingsData', JSON.stringify(locBookings));
+      // }
     }
   }
   public onPopupOpenSessionalRate(args: any) {
@@ -1029,12 +1098,12 @@ public cities: { [key: string]: Object }[] = [
       this.getSessionalRateList();
       args.element.classList.add('dialog-open');
       args.element.setAttribute('id', 'srk-id');
-      let bookingsData = localStorage.getItem('bookingsData');
-      let locBookings = bookingsData ? JSON.parse(bookingsData) : {};
-      if (args.data && args.data[0]) {
-        let rec = args.data[0];
-        locBookings[rec.Id] = rec;
-      }
+      // let bookingsData = localStorage.getItem('bookingsData');
+      // let locBookings = bookingsData ? JSON.parse(bookingsData) : {};
+      // if (args.data && args.data[0]) {
+      //   let rec = args.data[0];
+      //   locBookings[rec.Id] = rec;
+      // }
     }
   }
   onActionBegin(event: any) {
@@ -1238,44 +1307,44 @@ public cities: { [key: string]: Object }[] = [
         );
       });
     }
-    public setWidth1() {
-      const sourceDiv = document.getElementById('scheduleObj2');
+    private setWidthbookings(sourceId: string, targetSelector: string): void {
+      if (!isPlatformBrowser(this.platformId)) return; 
+      const sourceDiv = document.getElementById(sourceId);
       if (!sourceDiv) {
-        console.error('Source div "scheduleObj2" not found.');
-        return;
+          console.error(`Source div "${sourceId}" not found.`);
+          return;
       }
-      const targetDivs = Array.from(
-        document.querySelectorAll('.custom-scheduler2.e-schedule .e-timeline-view .e-appointment, .e-schedule .e-timeline-month-view')
-      ) as HTMLElement[];
-      const width = sourceDiv.offsetWidth;
-      targetDivs.forEach(targetDiv => {
-        if (targetDiv) {
-          targetDiv.style.width = `${width}px`;
-        }
-      });
 
-    }
-    public setWidth2() {
-      const sourceDiv = document.getElementById('scheduleObj1');
-      if (!sourceDiv) {
-        console.error('Source div "scheduleObj2" not found.');
-        return;
-      }
-      const targetDivs = Array.from(
-        document.querySelectorAll('.custom-scheduler1.e-schedule .e-timeline-view .e-appointment, .e-schedule .e-timeline-month-view .e-appointment')
-      ) as HTMLElement[];
+      const targetDivs = document.querySelectorAll(targetSelector) as NodeListOf<HTMLElement>;
       const width = sourceDiv.offsetWidth;
-      targetDivs.forEach(targetDiv => {
-        if (targetDiv) {
-          targetDiv.style.width = `${width}px`;
-        }
-      });
 
-    }
-    ngAfterViewChecked(): void {
-      this.setWidth1();
-      this.setWidth2();
+      targetDivs.forEach(targetDiv => {
+          if (targetDiv) {
+              this.renderer.setStyle(targetDiv, 'width', `${width}px`);
+          }
+      });
+  }
+
+  public setWidth1(): void {
+      this.setWidthbookings(
+          'scheduleObj2',
+          '.custom-scheduler2.e-schedule .e-timeline-view .e-appointment, .e-schedule .e-timeline-month-view'
+      );
+  }
+
+  public setWidth2(): void {
+      this.setWidthbookings(
+          'scheduleObj1',
+          '.custom-scheduler1.e-schedule .e-timeline-view .e-appointment, .e-schedule .e-timeline-month-view .e-appointment'
+      );
+  }
+
+  ngAfterViewChecked(): void {
+      if (isPlatformBrowser(this.platformId)) {
+          this.setWidth1();
+          this.setWidth2();
       }
+  }
 }
 
 interface DateChangeEventArgs {
