@@ -497,11 +497,8 @@ button  {
   border-radius: 3px;
   font-size: 12px;
 }
-
 .date-tooltip {
-  top: 50px !important;
   position: absolute;
-  transform: translate(-50%, -100%);
   background-color: #ffffff;
   color: #A40202;
   font-size: 14px;
@@ -512,14 +509,33 @@ button  {
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
   pointer-events: none;
   z-index: 1000;
-  text-align: center;
-  width: auto;
   white-space: nowrap;
   line-height: 20px;
-  text-align: center;
   font-family: Manrope;
-  left: 25px;
 }
+
+// .date-tooltip {
+//   top: 50px !important;
+//   position: absolute;
+//   transform: translate(-50%, -100%);
+//   background-color: #ffffff;
+//   color: #A40202;
+//   font-size: 14px;
+//   font-weight: 700;
+//   border: 2px solid #e8e8e8;
+//   border-radius: 4px;
+//   padding: 3px 8px;
+//   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+//   pointer-events: none;
+//   z-index: 1000;
+//   text-align: center;
+//   width: auto;
+//   white-space: nowrap;
+//   line-height: 20px;
+//   text-align: center;
+//   font-family: Manrope;
+//   left: 25px;
+// }
 
 .e-schedule .e-work-cells {
   white-space: nowrap;

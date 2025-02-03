@@ -116,6 +116,8 @@ export class StayDetailsComponent  {
   public scheduleHeight: string = '220px';
   public selectedText: string = '1';
   public isPopupVisible: boolean = false;
+  public isAddOnPopupVisible: boolean = false;
+  public isTaxEsPopupVisible: boolean = false;
   public formattedDate: string = '';
   public bookingDate: string = 'Jan 22 - Jan 30';
   public isTooltipVisible: boolean = false;
@@ -500,6 +502,13 @@ public cities: { [key: string]: Object }[] = [
       this.toggleSave(index);
     }
   }
+  public productDropDownButtonItems: ItemModel[] = [
+    { text: 'Developer' },
+    { text: 'Analytics' },
+    { text: 'Reporting' },
+    { text: 'E-Signature' },
+    { text: 'Help Desk' }
+  ];
   toggleDelete(index: number): void {
     console.log(`Delete action for guest at index ${index}`);
     alert(`Delete action triggered for ${this.guestDetails[index].name}`);
@@ -666,70 +675,133 @@ public cities: { [key: string]: Object }[] = [
   //     this.hoveredDate = null;
   //   }
   // }
-private previousCell: HTMLElement | null = null;
-public onHover(args: HoverEventArgs): void {
-  const workCells = document.querySelectorAll('.e-work-cells');
-  workCells.forEach((cell: any) => {
-    cell.removeEventListener('mousemove', this.handleMouseMove);
-  });
+  private previousCells: HTMLElement[] = [];
 
-  if (args.element && args.element.classList.contains('e-work-cells')) {
-    const hoveredCell = args.element as HTMLTableCellElement;
-
-    this.clearPreviousLine();
-    hoveredCell.addEventListener('mousemove', this.handleMouseMove);
-    this.previousCell = hoveredCell;
-  } else {
-    this.clearPreviousLine();
-    this.hoveredDate = null;
-  }
-}
-
-private handleMouseMove = (event: MouseEvent): void => {
-  const cell = event.target as HTMLElement;
-  let dottedLine = cell.querySelector('.dotted-line') as HTMLElement;
-
-  if (!dottedLine) {
-    dottedLine = document.createElement('div');
-    dottedLine.classList.add('dotted-line');
-    dottedLine.style.position = 'absolute';
-    dottedLine.style.height = '100%';
-    dottedLine.style.top = '0';
-    dottedLine.style.borderRight = '1px dashed black';
-    dottedLine.style.pointerEvents = 'none';
-    cell.style.position = 'relative';
-    cell.appendChild(dottedLine);
-  }
-
-  const rect = cell.getBoundingClientRect();
-  const offsetX = event.clientX - rect.left;
-  dottedLine.style.left = `${offsetX}px`;
-  this.tooltipStyle = {
-    top: `${event.clientY - 40}px`,
-    left: `${event.clientX - 430}px`, 
-  };
-  const value = cell.getAttribute('aria-label');
-  if (value) {
-    const dateString = value.split(' at ')[0];
-    const date = new Date(dateString);
-    const options: Intl.DateTimeFormatOptions = {
-      day: '2-digit',
-      month: 'short',
-    };
-    this.hoveredDate = date.toLocaleDateString('en-GB', options);
-  }
-};
-
-private clearPreviousLine(): void {
-  if (this.previousCell) {
-    const existingLine = this.previousCell.querySelector('.dotted-line');
-    if (existingLine) {
-      existingLine.remove();
+  private addDottedLineToCell(cell: HTMLElement): void {
+    let dottedLine = cell.querySelector('.dotted-line') as HTMLElement;
+    if (!dottedLine) {
+      dottedLine = document.createElement('div');
+      dottedLine.classList.add('dotted-line');
+      dottedLine.style.position = 'absolute';
+      dottedLine.style.height = '100%';
+      dottedLine.style.top = '0';
+      dottedLine.style.borderRight = '1px dashed black';
+      dottedLine.style.pointerEvents = 'none';
+      cell.style.position = 'relative';
+      cell.appendChild(dottedLine);
     }
-    this.previousCell.removeEventListener('mousemove', this.handleMouseMove);
-    this.previousCell = null;
+    const cellWidth = cell.offsetWidth;
+    dottedLine.style.left = `${cellWidth / 2}px`;
   }
-}
+
+  public onHover(args: HoverEventArgs): void {
+    this.clearPreviousLines();
+    if (args.element && args.element.classList.contains('e-work-cells')) {
+      const hoveredCell = args.element as HTMLTableCellElement;
+      const columnIndex = hoveredCell.cellIndex;
+      const tableRows = document.querySelectorAll('.e-content-table tr');
+
+      let topMostCell: HTMLElement | null = hoveredCell;
+      tableRows.forEach((row, index) => {
+        const cell = row.querySelectorAll('.e-work-cells')[columnIndex] as HTMLElement;
+        if (cell) {
+          cell.classList.add('vertical-highlight');
+          this.addDottedLineToCell(cell);
+          cell.addEventListener('mousemove', this.handleMouseMove);
+          if (index === 0) {
+            topMostCell = cell;
+          }
+        }
+      });
+      if (topMostCell) {
+        const rect = topMostCell.getBoundingClientRect();
+        this.setupTooltip(hoveredCell, rect);
+      }
+
+      this.previousCells = Array.from(document.querySelectorAll('.vertical-highlight'));
+    } else {
+      this.clearPreviousLines();
+      this.hoveredDate = null;
+    }
+  }
+
+  private setupTooltip(hoveredCell: HTMLTableCellElement, rect: DOMRect): void {
+    const value = hoveredCell.getAttribute('aria-label');
+    if (value) {
+      const dateString = value.split(' at ')[0];
+      const date = new Date(dateString);
+      const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short' };
+      this.hoveredDate = date.toLocaleDateString('en-GB', options);
+    }
+
+    let tooltip = document.getElementById('date-tooltip') as HTMLElement;
+    if (!tooltip) {
+      tooltip = document.createElement('div');
+      tooltip.id = 'date-tooltip';
+      tooltip.classList.add('date-tooltip');
+      document.body.appendChild(tooltip);
+    }
+
+    tooltip.textContent = this.hoveredDate;
+    this.updateTooltipPosition(rect.left + rect.width / 2, rect.top);
+    tooltip.style.display = 'block';
+  }
+
+  private updateTooltipPosition(x: number, y: number): void {
+    const tooltip = document.getElementById('date-tooltip');
+    if (tooltip) {
+      tooltip.style.left = `${x}px`;
+      tooltip.style.top = `${y - 40}px`;
+      tooltip.style.transform = 'translateX(-50%)';
+    }
+  }
+
+  private handleMouseMove = (event: MouseEvent): void => {
+    const cell = event.target as HTMLElement;
+    const rect = cell.getBoundingClientRect();
+    const offsetX = event.clientX - rect.left;
+    this.previousCells.forEach((highlightedCell) => {
+      const dottedLine = highlightedCell.querySelector('.dotted-line') as HTMLElement;
+      if (dottedLine) {
+        dottedLine.style.left = `${offsetX}px`;
+      }
+    });
+    if (this.previousCells.length > 0) {
+      const topMostCell = this.previousCells[0];
+      const topRect = topMostCell.getBoundingClientRect();
+      this.updateTooltipPosition(event.clientX, topRect.top);
+    }
+  };
+
+  private clearPreviousLines(): void {
+    if (this.previousCells) {
+      this.previousCells.forEach((cell) => {
+        cell.classList.remove('vertical-highlight');
+        const dottedLine = cell.querySelector('.dotted-line');
+        if (dottedLine) {
+          dottedLine.remove();
+        }
+        cell.removeEventListener('mousemove', this.handleMouseMove);
+      });
+      this.previousCells = [];
+    }
+
+    const tooltip = document.getElementById('date-tooltip');
+    if (tooltip) {
+      tooltip.style.display = 'none';
+    }
+  }
+  
+  ngOnDestroy() {
+    // Check if we are in a browser before accessing the document
+    if (isPlatformBrowser(this.platformId)) {
+      this.clearPreviousLines();
+      const tooltip = document.getElementById('date-tooltip');
+      if (tooltip) {
+        tooltip.remove();
+      }
+    }
+  }
   onPopupCloseSessionalRate(args: PopupCloseEventArgs | any) {
     if (args.type === 'Editor') {
       args.data.StartTime  = args.element.querySelector(".e-daterangepicker").ej2_instances[0].startDate;
@@ -875,9 +947,20 @@ private clearPreviousLine(): void {
   openPopup(event: MouseEvent): void {
     this.isPopupVisible = true;
   }
-
+  openAddOOnPopup(event: MouseEvent): void {
+    this.isAddOnPopupVisible = true;
+  }
+  openTaxEsPopup(event: MouseEvent): void {
+    this.isTaxEsPopupVisible = true;
+  }
   closePopup(): void {
     this.isPopupVisible = false;
+  }
+  closeAddOOnPopup(): void {
+    this.isAddOnPopupVisible = false;
+  }
+  closeTaxeesPopup(): void {
+    this.isTaxEsPopupVisible = false;
   }
   public onPopupOpenSplitRooms(args: any) {
     if (

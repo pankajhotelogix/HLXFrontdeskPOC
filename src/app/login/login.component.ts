@@ -60,24 +60,12 @@ export class LoginComponent {
     },
   ];
   @ViewChild('formElement') element: any;
-
-  // public Submit(): void {
-  //   this.onFormSubmit();
-  // }
-  // public onFormSubmit(): void {
-  //   this.dialogObj?.show();
-  //   setTimeout(() => {
-  //     this.router.navigate(['/calendar']);
-  //   }, 2000);
-  // }
-
   onSubmit(): void {
     if (this.UserDetails) {
       this.authService.login(this.UserDetails).subscribe({
         next: (response) => {
-         // console.log(response.data);
           localStorage.setItem('token', response.data.token);
-          this.router.navigate(['/calendar']);
+          this.router.navigate(['/frontdesk']);
         },
         error: (err) => {
           this.errorMessage = 'Invalid login credentials';

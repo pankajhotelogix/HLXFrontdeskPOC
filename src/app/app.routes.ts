@@ -13,5 +13,5 @@ export const routes: Routes = [
         { path: 'stayDetails', component: StayDetailsComponent},
         {path: 'details', component: GanttDetailsComponent},
         {path: 'image', component: CommonProfileImageComponent},
-        { path: 'pankaj', component: SidebarComponent},
+        {path: 'frontdesk', component: SidebarComponent},
 ];
