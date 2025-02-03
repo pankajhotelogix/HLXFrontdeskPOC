@@ -242,12 +242,35 @@ button  {
   top: 60%;
   left: 12px;
 }
+.hr-line-container {
+  height: 1px;
+  margin: 0 0 2px;
+  position: relative;
+}
 .hr-line {
   border: none;
-  border-top: 2px solid #A40202;
- // width: 701px !important;
+  border-top: 1px solid #A40202;
   position: absolute;
-  margin-left: -10px;
+  margin: 0;
+  opacity: 1;
+  overflow: visible;
+}
+.hr-line:before,
+.hr-line:after {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #A40202;
+}
+.hr-line:before {
+  left: -2px;
+  bottom: -2px;
+}
+.hr-line:after {
+  right: -2px;
+  bottom: -2px;
 }
 .res-details .guest-title {
   padding-right: 0px;
@@ -297,28 +320,9 @@ button  {
 }
 .appointment-guest-details {
   background: linear-gradient(90deg, #EBEBEB 0%, #FFFFFF 100%);
-  border-bottom: 1px solid #A40202 !important;
   position: relative;
   padding: 0 8px;
   border-radius: 4px 4px 0 2px;
-  margin-bottom: 2px;
-}
-.appointment-guest-details:before,
-.appointment-guest-details:after {
-  content: "";
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #A40202;
-}
-.appointment-guest-details:before {
-  left: -2px;
-  bottom: -2px;
-}
-.appointment-guest-details:after {
-  right: -2px;
-  bottom: -2px;
 }
 .appointment-guest-details table {
   margin: 0;

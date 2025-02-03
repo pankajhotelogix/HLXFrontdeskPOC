@@ -505,11 +505,9 @@
                                     </tr>
                                   </table>
                                 </div>
-                                <div>
-                                  <div class="e-section-control">
-                                    <hr id="hr-{{i}}" #hr class="hr-line" [style.left.px]="setHeight(i, guest)[0]"
-                                      [style.width.px]="setHeight(i, guest)[1]" />
-                                  </div>
+                                <div class="hr-line-container">
+                                  <hr id="hr-{{i}}" #hr class="hr-line" [style.left.px]="setHeight(i, guest)[0]"
+                                    [style.width.px]="setHeight(i, guest)[1]" />
                                 </div>
                               </div>
                               <div class="popup-overlay" *ngIf="isPopupVisible">
