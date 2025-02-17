@@ -14,8 +14,6 @@ import {
 import { DialogComponent, DialogModule } from '@syncfusion/ej2-angular-popups';
 import {
   AppBarModule,
-  HeaderPosition,
-  SelectEventArgs,
   SidebarModule,
   TabAllModule,
   TabComponent,
@@ -357,15 +355,11 @@ export class CalendarComponent implements OnInit {
     return `${year}-${month}-${day}`;
   }
   public onPopupOpen(args: any) {
-    if (!args.data) return; // Ensure args.data is present
-  
+    if (!args.data) return; 
     this.requestParams.checkin_date = this.getDate(args.data.StartTime);
     this.requestParams.checkout_date = this.getDate(args.data.EndTime);
     this.requestParams.room_stay[0].room_type_id = args.data.DepartmentId || '';
     this.requestParams.rate[0].rate_id = args.data.RateId || '';
-    //this.requestParams.room_id = args.data.DoctorId || ''; // Assuming DoctorId is room_id
-  
-    // Bind related request parameters
     this.requestRateParams.room_type_id = args.data.DepartmentId || '';
     this.requestRoomParams.room_type_id = args.data.DepartmentId || '';
     this.requestRateParams.fromdate = this.getDate(args.data.StartTime);
@@ -373,27 +367,18 @@ export class CalendarComponent implements OnInit {
     this.requestCalculationFare.roomTypeId = args.data.DepartmentId || '';
     this.requestCalculationFare.fromDate = this.getDate(args.data.StartTime);
     this.requestCalculationFare.toDate = this.getDate(args.data.EndTime);
-  
-    // Handle QuickInfo popup for new bookings
     if (
       args.type === 'QuickInfo' &&
       args.target.classList.contains('e-work-cells')
     ) {
       args.cancel = true;
       this.scheduleObj?.openEditor(args.data, 'Add');
-  
-      // Fetch room and rate details
       this.getSessionalRateList();
       this.getAvailableRoomList();
-  
-      // Mark element with class and ID
       args.element.classList.add('dialog-open');
       args.element.setAttribute('id', 'srk-id');
-  
-      // Manage local storage for booking data
       let bookingsData = localStorage.getItem('bookingsData');
-      let locBookings = bookingsData ? JSON.parse(bookingsData) : {};
-  
+      let locBookings = bookingsData ? JSON.parse(bookingsData) : {}; 
       if (args.data && args.data.Id) {
         locBookings[args.data.Id] = args.data;
         this.updateBookingData(Object.values(locBookings));
@@ -483,7 +468,6 @@ export class CalendarComponent implements OnInit {
     if (event.requestType === 'eventCreate') {
       const data: Record<string, any> =
         event.data instanceof Array ? event.data[0] : event.data;
-     // this.selectedDated = data['StartTime'];
     }
   }
   onChange(): void {
@@ -572,9 +556,7 @@ export class CalendarComponent implements OnInit {
       this.firestoreService
         .getItemsByDateRange(this.selectedStartDate, this.selectedEndDate)
         .subscribe((data: any[]) => {
-          //let locData1 = (data as any[]) || [];
           let locData = data;
-        //  console.log(locData);
           locData = locData.map((booking: any, index) => ({
             Id: index + 1,
             Name: booking?.owner_details?.first_name || 'Unknown',
@@ -749,7 +731,7 @@ export class CalendarComponent implements OnInit {
     const startString = this.formatDate(startDate);
     const endString = this.formatDate(endDate);
     this.selectedDateRange = `${startString} - ${endString}`;
-    console.log(this.selectedDateRange);
+  //  console.log(this.selectedDateRange);
   }
 
   public formatDate(date: Date): string {
@@ -856,111 +838,6 @@ export class CalendarComponent implements OnInit {
       this.finalAmount += singleDateFare;
     }
   }
-  
-  // reloadBookingFare() {
-  //   const { adult: adults, child: children, rate_id: rateId } = this.requestParams;
-  //   const totalPersons = adults + children;
-  //   const maxChildOccupancy = 3;
-  
-  //   if (totalPersons >= 4) {
-  //     alert('Total Occupancy cannot be greater than Higher Occupancys');
-  //     return;
-  //   }
-  
-  //   if (!this.rateList?.data) {
-  //     alert('Rate data is unavailable');
-  //     return;
-  //   }
-  
-  //   const totalDates = Object.keys(this.rateList.data);
-  //   this.roomfare = 0;
-  //   this.finalAmount = 0;
-  
-  //   for (const date of totalDates) {
-  //     const datePrices = this.rateList.data[date];
-  //     const selectedPackage = datePrices.find((pac: any) => pac.package_id === rateId);
-  
-  //     if (!selectedPackage) {
-  //       alert('No package found for the selected rate');
-  //       return;
-  //     }
-  
-  //     const rateGrid = selectedPackage.rategrid_grid_data;
-  //     const adultRateIndex = rateGrid.findIndex((rate: any) => rate.occupancy === adults);
-  
-  //     if (adultRateIndex < 0) {
-  //       alert('Total Occupancy cannot be greater than Higher Occupancys');
-  //       return;
-  //     }
-  
-  //     const adultRate = parseFloat(rateGrid[adultRateIndex].ratehigh);
-  //     const childRates = rateGrid.slice(adultRateIndex + 1, adultRateIndex + 1 + Math.min(maxChildOccupancy, children))
-  //       .map((rate: any) => parseFloat(rate.extchildratehigh));
-  
-  //     const singleDateFare = adultRate + childRates.reduce((sum: any, rate: any) => sum + rate, 0);
-  
-  //     if (!this.roomfare) {
-  //       this.roomfare = adultRate;
-  //     }
-  
-  //     this.finalAmount += singleDateFare;
-  //   }
-  // }
-  
-  // reloadBookingFare() {
-  //   const totalPersons = this.requestParams.adult + this.requestParams.child;
-  //   if (totalPersons >= 4) {
-  //     alert('Total Occupancy cannot be greater than Higher Occupancys');
-  //     return;
-  //   }
-  //   let occupancyChild = this.requestParams.child;
-  //   let occupancyAdult = this.requestParams.adult;
-  //   const totalDates = Object.keys(this.rateList.data);
-  //   this.roomfare = 0;
-  //   const maxChildOccupancy = 3;
-  //   this.finalAmount = 0;
-  //   for (let d of totalDates) {
-  //     let singleDateFare: number = 0;
-  //     let datePrices = this.rateList.data[d];
-  //     const selectedPackage = datePrices.find((pac: any) => {
-  //       return pac.package_id == this.requestParams.rate_id;
-  //     });
-  //     if (!selectedPackage) {
-  //       alert('no package');
-  //       return;
-  //     }
-  //     let rategrid_grid_data = selectedPackage.rategrid_grid_data;
-
-  //     const rateDetailIndex = rategrid_grid_data.findIndex((rate: any) => {
-  //       return rate.occupancy == occupancyAdult;
-  //     });
-
-  //     if (rateDetailIndex < 0) {
-  //       alert('Total Occupancy cannot be greater than Higher Occupancys');
-  //       return;
-  //     }
-  //     const rateDetails = rategrid_grid_data[rateDetailIndex];
-  //     singleDateFare += parseFloat(rateDetails.ratehigh);
-  //     if (!this.roomfare) {
-  //       this.roomfare = parseFloat(rateDetails.ratehigh);
-  //     }
-  //     if (occupancyChild) {
-  //       singleDateFare += parseFloat(rateDetails.extchildratehigh);
-  //       if (occupancyChild > 1) {
-  //         for (
-  //           let i = 1;
-  //           i < Math.min(maxChildOccupancy, occupancyChild);
-  //           i++
-  //         ) {
-  //           singleDateFare += parseFloat(
-  //             rategrid_grid_data[rateDetailIndex + i].extchildratehigh
-  //           );
-  //         }
-  //       }
-  //     }
-  //     this.finalAmount += singleDateFare;
-  //   }
-  // }
   onCellClick(args: CellClickEventArgs): void {
     this.scheduleObj?.openEditor(args, 'Add');
   }
@@ -1087,23 +964,15 @@ addNewTab(buttonName: string) {
   if (this.scheduleObj) {
     this.scheduleObj?.closeEditor();
   }
-
-  // Extract guest details
   const firstName = this.requestParams.res_guest[0]?.guest?.personal_contact?.first_name || 'Guest';
   const lastName = this.requestParams.res_guest[0]?.guest?.personal_contact?.last_name || '';
   const tabName = `${buttonName} - ${firstName} ${lastName}`.trim(); 
-
-  // Determine the component based on buttonName
   const contentType = this.componentMap[buttonName] || 'stay-details';
-
-  // Check if tab already exists
   const tabExists = this.tabItems.some(tab => tab.header.text === tabName);
   if (tabExists) {
     this.tabObj.selectedItem = this.tabItems.findIndex(tab => tab.header.text === tabName);
     return;
   }
-
-  // Create a new tab entry
   const newTab = {
     header: { text: tabName },
     content: contentType

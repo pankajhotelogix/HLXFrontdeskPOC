@@ -93,7 +93,7 @@ export class HeaderBarComponent {
     if (this.isDarkTheme) {
   
       if (themeLink) {
-        themeLink.href = 'https://cdn.syncfusion.com/ej2/bootstrap-dark.css';
+        themeLink.href = 'https://cdn.syncfusion.com/ej2/27.2.3/bootstrap-dark.css';
       }
       document.body.classList.remove('light-theme');
       document.body.classList.add('dark-theme');
@@ -109,7 +109,7 @@ export class HeaderBarComponent {
       }
     } else {
       if (themeLink) {
-        themeLink.href = 'https://cdn.syncfusion.com/ej2/bootstrap.css';
+        themeLink.href = 'https://cdn.syncfusion.com/ej2/27.2.3/bootstrap.css';
       }
       document.body.classList.remove('dark-theme');
       document.body.classList.add('light-theme');

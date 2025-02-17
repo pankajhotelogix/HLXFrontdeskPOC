@@ -636,6 +636,7 @@ public cities: { [key: string]: Object }[] = [
       dottedLine.style.top = '0';
       dottedLine.style.borderRight = '1px dashed black';
       dottedLine.style.pointerEvents = 'none';
+      dottedLine.style.zIndex = '99';
       cell.style.position = 'relative';
       cell.appendChild(dottedLine);
     }
@@ -740,9 +741,7 @@ public cities: { [key: string]: Object }[] = [
       tooltip.style.display = 'none';
     }
   }
-  
   ngOnDestroy() {
-    // Check if we are in a browser before accessing the document
     if (isPlatformBrowser(this.platformId)) {
       this.clearPreviousLines();
       const tooltip = document.getElementById('date-tooltip');
@@ -787,7 +786,6 @@ public cities: { [key: string]: Object }[] = [
       .pipe(
         catchError((err) => {
           console.error('Error retrieving room list:', err);
-         // alert('Error retrieving room list. Please try again later.');
           return of(null);
         })
       )
@@ -1270,7 +1268,6 @@ public cities: { [key: string]: Object }[] = [
       this.finalAmount += singleDateFare;
     }
   }
-   // Array to hold the dynamic tab data
 
    public countryFields: Object = { value: 'CountryId', text: 'CountryName' };
     public stateFields: Object = { value: 'StateId', text: 'StateName' };

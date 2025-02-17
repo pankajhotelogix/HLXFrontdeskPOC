@@ -689,6 +689,7 @@ public cities: { [key: string]: Object }[] = [
       dottedLine.style.top = '0';
       dottedLine.style.borderRight = '1px dashed black';
       dottedLine.style.pointerEvents = 'none';
+      dottedLine.style.zIndex = '99';
       cell.style.position = 'relative';
       cell.appendChild(dottedLine);
     }
