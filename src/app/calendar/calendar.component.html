@@ -24,10 +24,11 @@
   }
 </style>
 <div class="e-sample-resize-container">
-  <ejs-tab id="tab_default" loadOn="Dynamic">
+  <ejs-tab #tabObj id="tab_orientation" loadOn="Dynamic" [animation]="tabAnimation" [showCloseButton]='enableClose'>
     <e-tabitems>
-      <e-tabitem [header]="headerText[0]">
+      <e-tabitem *ngFor="let tab of tabItems; let i = index" [header]="tab.header">
         <ng-template #content>
+          <ng-container *ngIf="tab.content === 'schedule'">
           <div class="planner-calendar">
             <div class="doctor-container" style="display:none">
               <div class="app-doctors"></div>
@@ -40,6 +41,12 @@
 
                   <div class="d-flex justify-center align-items ">
                     <div class="icon-bar" style="display: flex; margin-right: 10px; align-items: center; gap: 10px;">
+                      <div>
+                    
+                        <ejs-dropdownlist id='header-styles' width='90%' #styles [dataSource]='dataStyles' (change)='styleChange($event)' [value]='styleValue' [fields]='styleFields'>
+                        </ejs-dropdownlist>
+
+                      </div>
                       <div>
                         <button ejs-button iconCss="e-btn-sb-icon e-prev-icon" (click)="navigateDate(-7)">
                           Pre
@@ -131,24 +138,26 @@
                       </div>
                     </ng-template>
                   </ng-template>
+
                   <ng-template #editorTemplate let-data>
                     <div class="popup-size">
                       <div class="room-details modal-reservation">
                         <div class="room-info popup-body-first-size">
-                          <div class="room-name ">
+                          <div class="room-name">
                             <img src="./assets/Icons/Vector.svg" alt="">
-                            <select id="department" class="select-room pankaj-tag" [(ngModel)]="data['DepartmentId']"
-                              (change)="getSessionalRateList()" name="department">
+                            <select id="department" class="select-room pankaj-tag"
+                              [(ngModel)]="requestParams.room_stay[0].room_type_id" (change)="getSessionalRateList()"
+                              name="department">
                               <option value="" disabled>Select</option>
                               <option *ngFor="let category of specialistCategory" [value]="category['DepartmentId']">
-                                {{category['Text'] }}
+                                {{ category['Text'] }}
                               </option>
                             </select>
                             <select id="room-type" class="select-room pankaj-tag" name="room-type"
-                              [(ngModel)]="requestParams.room_id">
-                              <option value="" disabled> Select</option>
-                              <option *ngFor="let room of vaccantRoomList" [value]="room">
-                                {{room[room] }}
+                              [(ngModel)]="requestParams.room_stay[0].room_id">
+                              <option value="" disabled>Select</option>
+                              <option *ngFor="let room of vaccantRoomList" [value]="room.room_id">
+                                {{ room.room_name }}
                               </option>
                             </select>
                           </div>
@@ -159,6 +168,7 @@
                             <label for="day-use" style="margin: 0px; white-space: nowrap;">Day Use</label>
                           </div>
                         </div>
+
                         <div class="guest-rate-info popup-body-size">
                           <div class="guests">
                             <div style="width: 48%;">
@@ -182,7 +192,7 @@
                             </div>
                             <div style="width: 52%;">
                               <select id="rate" class="session-icon pankaj-tag" style="padding-left: 10px;" name="rate"
-                                [(ngModel)]="requestParams.rate_id" (change)="reloadBookingFare()">
+                                [(ngModel)]="requestParams.rate[0].rate_id" (change)="reloadBookingFare()">
                                 <option value="" disabled>Select</option>
                                 <option *ngFor="let rate of sessionalRate" [value]="rate.package_id">
                                   {{ rate.package_pkgname }}
@@ -197,6 +207,7 @@
                               </select>
                             </div>
                           </div>
+
                           <div class="contact-info basic-details">
                             <div class="d-flex align-items-center">
                               <select id="title" style="width: 67px;" class="pankaj-tag" name="title">
@@ -206,21 +217,21 @@
                               </select>
                               <input type="text" placeholder="First name" name="fname"
                                 class="input-text input-text-field required p-0"
-                                [(ngModel)]="requestParams.owner_details.first_name" required>
+                                [(ngModel)]="requestParams.res_guest[0].guest.personal_contact.first_name" required>
                               <input type="text" placeholder="Last name" name="lname"
                                 class="input-text input-text-field p-0"
-                                [(ngModel)]="requestParams.owner_details.last_name" required>
+                                [(ngModel)]="requestParams.res_guest[0].guest.personal_contact.last_name" required>
                             </div>
                             <div class="contact basic-details-email">
                               <div class="d-flex align-items-center">
-                                <input type="text" placeholder="Phone" name="phone" style=" width: 182px;"
-                                  class="input-text-field p-0" [(ngModel)]="requestParams.owner_details.phone_number"
-                                  required>
+                                <input type="text" placeholder="Phone" name="phone" style="width: 182px;"
+                                  class="input-text-field p-0"
+                                  [(ngModel)]="requestParams.res_guest[0].guest.personal_contact.phone" required>
                                 <img src="./assets/Icons/phone.svg" alt="">
                                 <img src="./assets/Icons/email.svg" alt=""
                                   style="background: #1C1B1F1F; margin-left: 5px;">
                                 <input type="text" placeholder="Email" name="email"
-                                  style=" width: 367px; margin-left: 5px;" class="input-text-field p-0">
+                                  style="width: 367px; margin-left: 5px;" class="input-text-field p-0">
                               </div>
                             </div>
                           </div>
@@ -244,9 +255,9 @@
                           <button class="checkin-btn">Check-in</button>
                         </div>
                         <div class="button-margin">
-                          <a class="anchor-tag">Single</a>
-                          <a class="anchor-tag">Group</a>
-                          <a class="anchor-tag">Agent / Corporate</a>
+                          <a class="anchor-tag" (click)="bookingReservation()" (click)="addNewTab('Single')">Single</a>
+                          <a class="anchor-tag" (click)="bookingReservation()" (click)="addNewTab('Group')">Group</a>
+                          <a class="anchor-tag" (click)="bookingReservation()" (click)="addNewTab('Agent')">Agent / Corporate</a>
                         </div>
                       </div>
                     </div>
@@ -290,8 +301,7 @@
                       <div class="e-popup-header noor">
                         <div class="e-header-icon-wrapper">
                           <div *ngIf="data.elementType == 'event'" class="subject d-flex align-items-center gap-3"
-                            style="
-                gap: 15px;">
+                            style="gap: 15px;">
                             <div>
                               <button class="e-close e-close-icon e-icons" title="Close" (click)="onCloseClick()">
                               </button>
@@ -306,14 +316,12 @@
                                 class="reserve-text reserve-id"> /
                                 Res#23445622</span></div>
                           </div>
-
                           <button class="enable-editing-btn" title="Edit">Enable Editing</button>
-                          <!-- <button class="e-close e-close-icon e-icons" title="Close" (click)="onCloseClick()"></button> -->
                         </div>
                       </div>
                     </div>
                   </ng-template>
-                  <!-- Content Template -->
+
                   <ng-template #quickInfoTemplatesContent let-data>
                     <div *ngIf="data.elementType == 'cell'" class="e-cell-content">
                       <form class="e-schedule-form">
@@ -406,19 +414,6 @@
 
                                     </div>
                                   </div>
-                                  <!-- <div class="e-card-content e-card-left" style="text-align:left">
-                          <table>
-                            <tr>
-                              <td>johndoe&#64;mail.com</td>
-                            </tr>
-                            <tr>
-                              <td>011-141-221</td>
-                            </tr>
-                            <tr>
-                              <td>www.johndoe.com</td>
-                            </tr>
-                          </table>
-                        </div> -->
                                 </div>
                               </div>
                               <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4">
@@ -459,13 +454,11 @@
                               </div>
                               <div class="col-xs-8 col-sm-8 col-lg-8 col-md-8">
                                 <div tabindex="0" class="e-card profile" style="justify-content: flex-start;">
-                                  <!-- <div class="e-card-header">
-                          <div class="e-card-header-image e-card-corner"></div>
-                        </div> -->
+
                                   <div class="e-card-header">
                                     <div class="e-card-header-caption">
                                       <div class="e-card-header-title">STAY DETAILS</div>
-                                      <!-- <div class="e-card-sub-title">Sales Coordinator</div> -->
+
                                     </div>
                                   </div>
                                   <div class="e-card-separator"></div>
@@ -563,8 +556,6 @@
                       </div>
                     </div>
                   </ng-template>
-
-                  <!-- Footer Template -->
                   <ng-template #quickInfoTemplatesFooter let-data>
                     <div *ngIf="data.elementType == 'cell'" class="e-cell-footer">
                       <div class="left-button">
@@ -591,13 +582,20 @@
               </div>
             </div>
           </div>
+        </ng-container>
+        <ng-container *ngIf="tab.content === 'stay-details'">
+          <app-stay-details></app-stay-details>
+        </ng-container>
+        <ng-container *ngIf="tab.content === 'group-reservation'">
+          <app-group-res-details></app-group-res-details>
+        </ng-container>
         </ng-template>
       </e-tabitem>
-      <e-tabitem [header]="headerText[1]">
+      <!-- <e-tabitem *ngFor="let tab of tabItems; let i = index" [header]="tab.header">
         <ng-template #content>
           <app-stay-details></app-stay-details>
         </ng-template>
-      </e-tabitem>
+      </e-tabitem> -->
     </e-tabitems>
   </ejs-tab>
 </div>

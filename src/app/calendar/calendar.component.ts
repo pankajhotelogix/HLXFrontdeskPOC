@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild, OnInit, ChangeDetectionStrategy, Type } from '@angular/core';
 import {
   addClass,
   L10n,
@@ -80,6 +80,7 @@ import { ApiService } from '../shared/api.service';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { StayDetailsComponent } from "../stay-details/stay-details.component";
 import { Router } from '@angular/router';
+import { GroupResDetailsComponent } from '../group-res-details/group-res-details.component';
 L10n.load({
   'en-US': {
     schedule: {
@@ -115,7 +116,8 @@ L10n.load({
     DropDownListModule,
     AngularFireDatabaseModule,
     TabAllModule,
-    StayDetailsComponent
+    StayDetailsComponent,
+    GroupResDetailsComponent
 ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
@@ -134,6 +136,7 @@ L10n.load({
     FirestoreService,
   ],
   encapsulation: ViewEncapsulation.None,
+
 })
 export class CalendarComponent implements OnInit {
   @ViewChild('scheduleObj') scheduleObj?: ScheduleComponent;
@@ -142,6 +145,8 @@ export class CalendarComponent implements OnInit {
   @ViewChild('dropdownObj') dropdownObj?: DropDownList;
   @ViewChild('waitingObj') waitingObj?: DialogComponent;
   @ViewChild('calendarToast') toastObj?: ToastComponent;
+  @ViewChild('styles')
+    public styleObj: DropDownListComponent | undefined;
   @ViewChild('datepicker', { static: false }) datePicker?: DatePicker;
   @ViewChild('dateRangePicker', { static: false })
   dateRangePicker?: DateRangePicker;
@@ -150,8 +155,8 @@ export class CalendarComponent implements OnInit {
   public dropDownObj: DropDownListComponent | undefined;
   @ViewChild('place')
   public placeObj: DropDownListComponent | undefined;
-  @ViewChild('adaptiveTab')
-  public tabObj: TabComponent | undefined;
+  @ViewChild('tabObj') tabObj!: TabComponent;
+  public tabAnimation =  { previous: { effect: 'None' },next: { effect: 'None' } }
   public selectedView: string = 'Month';
   public isSelected = true;
   public dayInterval = 1;
@@ -177,6 +182,7 @@ export class CalendarComponent implements OnInit {
   public dropDownValue: any = '31 Day';
   selectedStartDate?: string;
   selectedEndDate?: string;
+  public enableClose: boolean = true;
   public group: GroupModel = {
     enableCompactView: false,
     resources: ['Departments', 'Doctors'],
@@ -188,7 +194,7 @@ export class CalendarComponent implements OnInit {
     id: 'Id',
     text: 'Name',
   };
-  public requestParams = {
+  public requestParamsOld = {
     rsv_type: 'f',
     room_type_id: '',
     status: 'RESERVE',
@@ -207,6 +213,42 @@ export class CalendarComponent implements OnInit {
       phone_number: '',
     },
   };
+
+  public requestParams = {
+    checkin_date: '',
+    checkout_date: '',
+    checkin_time: "10:20:00",
+    checkout_time: "14:45:50",
+    res_status: "RESERVE",
+    adult: 1,
+    child: 0,
+    bed: 1,
+    room_stay: [
+      {
+        room_type_id: '',
+        room_id: '',
+      }
+    ],
+    rate: [
+      {  
+        rate_id: ''
+      }
+    ],
+    res_guest: [
+      {
+        guest: {
+          personal_contact: {
+            first_name: "Manu",
+            last_name: "Sharma",
+            phone: "6734887",
+            email: ""
+          }
+        },
+        owner: true,
+        person_type: "Adult"
+      }
+    ]
+  }
   public requestCalculationFare = {
     hotelid: 4444,
     roomTypeId: '',
@@ -221,6 +263,9 @@ export class CalendarComponent implements OnInit {
     room_type_id: '',
     fromdate: '',
     todate: '',
+  };
+  public requestRoomParams = {
+    room_type_id: '',
   };
   @ViewChild('dateformat')
   public roomfare: any = 0;
@@ -294,6 +339,7 @@ export class CalendarComponent implements OnInit {
   ];
  
   public selectedDepartmentId?: number;
+  // tabItems: any;
   public getDateParts(date: Date) {
     const day = date.getDate();
     const dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
@@ -311,38 +357,51 @@ export class CalendarComponent implements OnInit {
     return `${year}-${month}-${day}`;
   }
   public onPopupOpen(args: any) {
-   // console.log(args);
-    this.requestParams.room_type_id = args.data.DepartmentId;
-    this.requestParams.room_id = args.data.DoctorId;
+    if (!args.data) return; // Ensure args.data is present
+  
     this.requestParams.checkin_date = this.getDate(args.data.StartTime);
     this.requestParams.checkout_date = this.getDate(args.data.EndTime);
-    this.requestRateParams.room_type_id = args.data.DepartmentId;
+    this.requestParams.room_stay[0].room_type_id = args.data.DepartmentId || '';
+    this.requestParams.rate[0].rate_id = args.data.RateId || '';
+    //this.requestParams.room_id = args.data.DoctorId || ''; // Assuming DoctorId is room_id
+  
+    // Bind related request parameters
+    this.requestRateParams.room_type_id = args.data.DepartmentId || '';
+    this.requestRoomParams.room_type_id = args.data.DepartmentId || '';
     this.requestRateParams.fromdate = this.getDate(args.data.StartTime);
     this.requestRateParams.todate = this.getDate(args.data.EndTime);
-    this.requestCalculationFare.roomTypeId = args.data.DepartmentId;
+    this.requestCalculationFare.roomTypeId = args.data.DepartmentId || '';
     this.requestCalculationFare.fromDate = this.getDate(args.data.StartTime);
     this.requestCalculationFare.toDate = this.getDate(args.data.EndTime);
+  
+    // Handle QuickInfo popup for new bookings
     if (
-      args.type == 'QuickInfo' &&
+      args.type === 'QuickInfo' &&
       args.target.classList.contains('e-work-cells')
     ) {
       args.cancel = true;
       this.scheduleObj?.openEditor(args.data, 'Add');
+  
+      // Fetch room and rate details
       this.getSessionalRateList();
-      //this.getAvailableRoomList();
+      this.getAvailableRoomList();
+  
+      // Mark element with class and ID
       args.element.classList.add('dialog-open');
       args.element.setAttribute('id', 'srk-id');
+  
+      // Manage local storage for booking data
       let bookingsData = localStorage.getItem('bookingsData');
       let locBookings = bookingsData ? JSON.parse(bookingsData) : {};
-      if (args.data && args.data[0]) {
-        let rec = args.data[0];
-        locBookings[rec.Id] = rec;
+  
+      if (args.data && args.data.Id) {
+        locBookings[args.data.Id] = args.data;
         this.updateBookingData(Object.values(locBookings));
         localStorage.setItem('bookingsData', JSON.stringify(locBookings));
       }
     }
   }
-
+  
   constructor(
     private dataService: DataService,
     private mainService: MainService,
@@ -370,6 +429,7 @@ export class CalendarComponent implements OnInit {
       }
     }
   }
+  
   private getEventData(): Record<string, any> {
     if (!this.scheduleObj) {
       throw new Error('Schedule object is not initialized.');
@@ -459,41 +519,30 @@ export class CalendarComponent implements OnInit {
       .subscribe((res: any) => {
         if (res?.data) {
           const records = res.data;
-          const list: any[] = Object.entries(records);
+          const list: any[] = records.map((roomType: any) => ({
+            DepartmentId: roomType.id.toString(),
+            Id: roomType.id,
+            Text: roomType.name,
+            Color: '#F538B2',
+          }));
 
-          this.specialistCategory = list.reduce(
-            (acc: any[], [key, value]: any) => {
-              acc.push({
-                DepartmentId: key,
-                Id: value.name,
-                Text: value.name,
-                Color: '#F538B2',
-              });
-              return acc;
-            },
-            []
-          );
+          this.specialistCategory = list;
 
-          this.resourceDataSource = list.reduce(
-            (acc: any[], [key, value]: any) => {
-              const roomArr = Object.keys(value.rooms || {}).map(
-                (roomKey: any) => ({
-                  Text: value.rooms[roomKey].name,
-                  Name: value.rooms[roomKey].name,
-                  Id: roomKey,
-                  DepartmentId: key,
-                  Color: '#bbdc00',
-                  Designation: 'Clinical Research Scientist',
-                })
-              );
-              acc = [...acc, ...roomArr];
-              return acc;
-            },
-            []
-          );
+          this.resourceDataSource = records.reduce((acc: any[], roomType: any) => {
+            const roomArr = Object.values(roomType.rooms || {}).map((room: any) => ({
+              Text: room.room_name,
+              Name: room.room_name,
+              Id: room.id,
+              DepartmentId: roomType.id.toString(),
+              Color: '#bbdc00',
+              Designation: 'Room',
+            }));
+            return [...acc, ...roomArr];
+          }, []);
         }
       });
   }
+
   ngOnInit(): void {
     this.updateDays(new Date());
     this.getRoomList();
@@ -525,7 +574,7 @@ export class CalendarComponent implements OnInit {
         .subscribe((data: any[]) => {
           //let locData1 = (data as any[]) || [];
           let locData = data;
-          console.log(locData);
+        //  console.log(locData);
           locData = locData.map((booking: any, index) => ({
             Id: index + 1,
             Name: booking?.owner_details?.first_name || 'Unknown',
@@ -745,7 +794,7 @@ export class CalendarComponent implements OnInit {
         this.rateList = res;
 
         if (this.sessionalRate.length > 0) {
-          this.requestParams.rate_id = this.sessionalRate[0].package_id;
+          this.requestParams.rate[0].rate_id = this.sessionalRate[0].package_id;
         }
         this.reloadBookingFare();
       },
@@ -756,17 +805,19 @@ export class CalendarComponent implements OnInit {
     });
   }
   reloadBookingFare() {
-    const { adult: adults, child: children, rate_id: rateId } = this.requestParams;
-    const totalPersons = adults + children;
+    const { adult, child, rate, room_stay } = this.requestParams;
+    const rateId = rate[0]?.rate_id; 
+    const roomTypeId = room_stay[0]?.room_type_id;
+    const totalPersons = adult + child;
     const maxChildOccupancy = 3;
   
     if (totalPersons >= 4) {
-      alert('Total Occupancy cannot be greater than Higher Occupancys');
+      alert('Total Occupancy cannot be greater than Higher Occupancy.');
       return;
     }
   
     if (!this.rateList?.data) {
-      alert('Rate data is unavailable');
+      alert('Rate data is unavailable.');
       return;
     }
   
@@ -779,20 +830,21 @@ export class CalendarComponent implements OnInit {
       const selectedPackage = datePrices.find((pac: any) => pac.package_id === rateId);
   
       if (!selectedPackage) {
-        alert('No package found for the selected rate');
+        alert('No package found for the selected rate.');
         return;
       }
   
       const rateGrid = selectedPackage.rategrid_grid_data;
-      const adultRateIndex = rateGrid.findIndex((rate: any) => rate.occupancy === adults);
+      const adultRateIndex = rateGrid.findIndex((rate: any) => rate.occupancy === adult);
   
       if (adultRateIndex < 0) {
-        alert('Total Occupancy cannot be greater than Higher Occupancys');
+        alert('Total Occupancy cannot be greater than Higher Occupancy.');
         return;
       }
   
       const adultRate = parseFloat(rateGrid[adultRateIndex].ratehigh);
-      const childRates = rateGrid.slice(adultRateIndex + 1, adultRateIndex + 1 + Math.min(maxChildOccupancy, children))
+      const childRates = rateGrid
+        .slice(adultRateIndex + 1, adultRateIndex + 1 + Math.min(maxChildOccupancy, child))
         .map((rate: any) => parseFloat(rate.extchildratehigh));
   
       const singleDateFare = adultRate + childRates.reduce((sum: any, rate: any) => sum + rate, 0);
@@ -804,6 +856,56 @@ export class CalendarComponent implements OnInit {
       this.finalAmount += singleDateFare;
     }
   }
+  
+  // reloadBookingFare() {
+  //   const { adult: adults, child: children, rate_id: rateId } = this.requestParams;
+  //   const totalPersons = adults + children;
+  //   const maxChildOccupancy = 3;
+  
+  //   if (totalPersons >= 4) {
+  //     alert('Total Occupancy cannot be greater than Higher Occupancys');
+  //     return;
+  //   }
+  
+  //   if (!this.rateList?.data) {
+  //     alert('Rate data is unavailable');
+  //     return;
+  //   }
+  
+  //   const totalDates = Object.keys(this.rateList.data);
+  //   this.roomfare = 0;
+  //   this.finalAmount = 0;
+  
+  //   for (const date of totalDates) {
+  //     const datePrices = this.rateList.data[date];
+  //     const selectedPackage = datePrices.find((pac: any) => pac.package_id === rateId);
+  
+  //     if (!selectedPackage) {
+  //       alert('No package found for the selected rate');
+  //       return;
+  //     }
+  
+  //     const rateGrid = selectedPackage.rategrid_grid_data;
+  //     const adultRateIndex = rateGrid.findIndex((rate: any) => rate.occupancy === adults);
+  
+  //     if (adultRateIndex < 0) {
+  //       alert('Total Occupancy cannot be greater than Higher Occupancys');
+  //       return;
+  //     }
+  
+  //     const adultRate = parseFloat(rateGrid[adultRateIndex].ratehigh);
+  //     const childRates = rateGrid.slice(adultRateIndex + 1, adultRateIndex + 1 + Math.min(maxChildOccupancy, children))
+  //       .map((rate: any) => parseFloat(rate.extchildratehigh));
+  
+  //     const singleDateFare = adultRate + childRates.reduce((sum: any, rate: any) => sum + rate, 0);
+  
+  //     if (!this.roomfare) {
+  //       this.roomfare = adultRate;
+  //     }
+  
+  //     this.finalAmount += singleDateFare;
+  //   }
+  // }
   
   // reloadBookingFare() {
   //   const totalPersons = this.requestParams.adult + this.requestParams.child;
@@ -878,9 +980,9 @@ export class CalendarComponent implements OnInit {
     }
   }
   getAvailableRoomList(): void {
-    this.mainService.getAvailableRoomList(this.requestRateParams).subscribe({
+    this.mainService.getAvailableRoomList(this.requestRoomParams).subscribe({
       next: (res: any) => {
-        this.vaccantRoomList = res.data[this.requestRateParams.fromdate];
+        this.vaccantRoomList = res.data;
       },
       error: (err: any) => {
         console.error('Failed to load rate list:', err);
@@ -940,25 +1042,24 @@ export class CalendarComponent implements OnInit {
       });
   }
   bookingReservation() {
-    const { first_name, last_name, phone_number } =
-      this.requestParams.owner_details;
-    if (!first_name || !last_name || !phone_number) {
-      alert(
-        'Please fill in all required fields: First Name, Last Name, and Phone Number.'
-      );
+    const guestInfo = this.requestParams.res_guest[0]?.guest?.personal_contact;
+  
+    if (!guestInfo || !guestInfo.first_name || !guestInfo.last_name || !guestInfo.phone) {
+      alert('Please fill in all required fields: First Name, Last Name, and Phone Number.');
       return;
     }
+  
     this.mainService.save(this.requestParams).subscribe({
       next: (res: any) => {
         this.addNewDocument();
         this.scheduleObj?.closeEditor();
-        this.requestParams;
       },
       error: (err) => {
         alert(err);
       },
     });
   }
+  
   importData() {
     const dataToImport = this.dataService.getBookingRequestData();
     this.firestoreService
@@ -970,71 +1071,83 @@ export class CalendarComponent implements OnInit {
         console.error('Error importing data: ', error);
       });
   }
-  // openNewTab() {
-  //   const url = this.router.serializeUrl(
-  //     this.router.createUrlTree(['/stayDetails'])
-  //   );
-  //   window.open(url, '_blank');
-  // }
-  // public onCellRender(args: any): void {
-  //  // alert(args);
-  //   const cellDate: Date = args.date;
-  //   if (cellDate >= this.hideStartDate && cellDate <= this.hideEndDate) {
-  //     args.element.style.display = 'none';
-  //   }
-  // }
   public onCloseClick(): void {
     this.scheduleObj?.quickPopup.quickPopupHide();
 }
-
-// public placeValue: string = 'top';
-
-// Mapping DropDownList value property
- //public value: string = 'scrollable';
-
-// Mapping Tab items Header property
-public headerText = [{ text: 'FrontDesk' }, { text: 'Single' }];
 public isScheduleRender = false;
-public onSelected(args: SelectEventArgs): void {
-  if (args.selectedIndex === 0) {
-    if (this.headerText[args.selectedIndex].text === 'Front Desk') {
-      this.isScheduleRender = true;
-    }
+private componentMap: { [key: string]: string } = {
+  'Single': 'stay-details',
+  'Group': 'group-reservation',
+  'FrontDesk': 'schedule'
+};
+public tabItems: { header: { text: string }, content: string | Type<any> }[] = [
+  { header: { text: 'FrontDesk' }, content: 'schedule' }
+];
+addNewTab(buttonName: string) {
+  if (this.scheduleObj) {
+    this.scheduleObj?.closeEditor();
   }
-}
-public onScheduleCreate(): void {
-  if (this.isScheduleRender) {
-    this.scheduleObj?.refreshLayout();
-    this.isScheduleRender = false;
-  }
-}
-// Change event funtion for DropDownList component
-// public placeChange(e: Object): void {
-//   if (this.placeObj && this.tabObj) {
-//     this.tabObj.headerPlacement = this.placeObj.text as any;
-//   }
-//   this.tabObj?.dataBind();
-// }
 
-// // Change event funtion for DropDownList component
-// public onChangeTab(e: Object): void {
-//   if (this.dropDownObj) {
-//     this.value = this.dropDownObj.value?.toString() ?? '';
-//     //set overflowMode property to Tab Component
-//     if (this.dropDownObj.value === 'scrollable') {
-//       if (this.tabObj) {
-//         this.tabObj.overflowMode = 'Scrollable';
-//       }
-//     } else {
-//       if (this.tabObj) {
-//         this.tabObj.overflowMode = 'Popup';
-//       }
-//     }
-//     if (this.tabObj) {
-//       this.tabObj.dataBind();
-//     }
-//   }
-// }
+  // Extract guest details
+  const firstName = this.requestParams.res_guest[0]?.guest?.personal_contact?.first_name || 'Guest';
+  const lastName = this.requestParams.res_guest[0]?.guest?.personal_contact?.last_name || '';
+  const tabName = `${buttonName} - ${firstName} ${lastName}`.trim(); 
+
+  // Determine the component based on buttonName
+  const contentType = this.componentMap[buttonName] || 'stay-details';
+
+  // Check if tab already exists
+  const tabExists = this.tabItems.some(tab => tab.header.text === tabName);
+  if (tabExists) {
+    this.tabObj.selectedItem = this.tabItems.findIndex(tab => tab.header.text === tabName);
+    return;
+  }
+
+  // Create a new tab entry
+  const newTab = {
+    header: { text: tabName },
+    content: contentType
+  };
+
+  this.tabItems = [...this.tabItems, newTab];
+
+  setTimeout(() => {
+    if (this.tabObj) {
+      this.tabObj.selectedItem = this.tabItems.length - 1;
+    }
+  });
+}
+public dataStyles: Object[] = [
+  { id: 'default', class: 'Default' }, { id: 'fill', class: 'Fill' }, { id: 'accent', class: 'Accent' }
+];
+public placeFields: Object = { text: 'position', value: 'id' };
+public styleFields: Object = { text: 'class', value: 'id' };
+public placeValue: string = 'top';
+public styleValue: string = 'default';   
+public styleChange(e: Object): void {
+  this.styleValue = this.styleObj?.value?.toString() || '';
+  setTimeout(() => {
+    if (!this.tabObj) {
+      console.warn('tabObj is still not initialized');
+      return;
+    }
+    this.removeStyleClass();
+    let name: string = this.styleValue;
+    if (name === 'fill') {
+      this.tabObj.element.classList.add('e-fill');
+    } else if (name === 'accent') {
+      this.tabObj.element.classList.add('e-background');
+      this.tabObj.element.classList.add('e-accent');
+    }
+    (this.tabObj as any).refreshActiveBorder();
+  }, 100);
+}
+
+public removeStyleClass(): void {
+  this.tabObj?.element.classList.remove('e-fill');
+  this.tabObj?.element.classList.remove('e-background');
+  this.tabObj?.element.classList.remove('e-accent');
+}
 }
 export interface requestParams {
   checkin_date: string;

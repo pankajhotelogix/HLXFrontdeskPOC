@@ -1,4 +1,4 @@
- @import '../common.scss';
+@import '../common.scss';
 .planner-calendar {
   font-size: 14px;
   color: black;
@@ -833,6 +833,12 @@ height: 20px;
     color: #333;
     vertical-align: middle;
     width: 245px;
+}
+
+.dark-theme .e-schedule .e-timeline-view .e-resource-left-td, 
+.dark-theme .e-schedule .e-timeline-month-view .e-resource-left-td {
+  background-color: #333;
+    color: #333;
 }
 .e-timeline-view .e-resource-column-table, .e-schedule .e-timeline-month-view .e-resource-column-table{
   width: 235px  !important
@@ -2512,3 +2518,25 @@ padding: 0px 0px 0px 0px !important;
 //   width: 100%;
 // }
 
+.dark-theme .planner-calendar .drag-sample-wrapper .schedule-container .title-container {
+
+  background: #333;
+
+}
+#tab_adaptive .e-content .e-item {
+  font-size: 12px;
+  padding: 10px;
+  text-align: justify;
+}
+
+#tab_adaptive .e-content {
+  overflow-y: auto;
+}
+.template-container {
+  height: 63px;
+  padding: 7px 16px 0 16px;
+  border-bottom: 1px solid gainsboro;
+}
+.template-container:hover {
+  background: #eee;
+}

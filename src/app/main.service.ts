@@ -11,7 +11,7 @@ export class MainService {
     return this.api.get(Constant.listBaseUrl+'get_room_type', params);
   }
   save(params?: any) {
-    return this.api.post(Constant.saveBaseUrl+'save_reservation', params);
+    return this.api.post(Constant.saveBaseUrl+'create_reservation', params);
   }
   getGuestlist(params?: any) {
     return this.api.post(Constant.guestBaseUrl+'get_guest', params);
@@ -20,6 +20,6 @@ export class MainService {
     return this.api.getWithParams(Constant.fareBaseUrl+'get_available_rate', params);
   }
   getAvailableRoomList(params?: any) {
-    return this.api.get(Constant.listBaseUrl+'get_vaccant_room', params);
+    return this.api.get(Constant.listBaseUrl+'get_room', params);
   }
 }

@@ -86,7 +86,6 @@ export class HeaderBarComponent {
   }
   toggleTheme() {
     this.isDarkTheme = !this.isDarkTheme;
-
     const themeLink = document.getElementById('theme') as HTMLLinkElement;
     const sidebarSection = document.getElementById('sidebar-section');
     const titleContainerSection = document.getElementsByClassName('title-container');
@@ -126,5 +125,4 @@ export class HeaderBarComponent {
       }
     }
   }
-
 }

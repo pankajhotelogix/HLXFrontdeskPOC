@@ -1,6 +1,46 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+.stay-details-component-class {
+.remove-table-header {
+  overflow: hidden;
+}
 
+.e-schedule {
+  width: 100%;
+  min-width: 400px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.e-schedule .e-timeline-view .e-timeline-table {
+  table-layout: fixed;
+  overflow: hidden;
+}
+
+.e-schedule .e-timeline-view .e-timeline-header,
+.e-schedule .e-timeline-view .e-timeline-content {
+  overflow: hidden;
+}
+
+.custom-event {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  border-left: 5px solid;
+  margin-bottom: 5px;
+}
+
+.e-schedule .e-timeline-month-view .e-work-cells {
+  height: 80px;
+}
+
+.e-schedule .e-timeline-week-view .e-work-cells {
+  height: 50px;
+}
+
+.e-schedule .e-resource-left-td {
+  display: none;
+}
+}
 body {
   font-family: "Manrope", serif;
   font-optical-sizing: auto;
@@ -377,53 +417,10 @@ button  {
 .dialog-hlx td {
   color: #8a8a8a;
 }
-/* addded by Nand end */
-
-
-.remove-table-header {
-  overflow: hidden;
-}
-
-.e-schedule {
-  width: 100%;
-  min-width: 400px;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.e-schedule .e-timeline-view .e-timeline-table {
-  table-layout: fixed;
-  overflow: hidden;
-}
-
-.e-schedule .e-timeline-view .e-timeline-header,
-.e-schedule .e-timeline-view .e-timeline-content {
-  overflow: hidden;
-}
-
-.custom-event {
-  padding: 10px;
-  background-color: #f9f9f9;
-  border-radius: 4px;
-  border-left: 5px solid;
-  margin-bottom: 5px;
-}
-
-.e-schedule .e-timeline-month-view .e-work-cells {
-  height: 80px;
-}
-
-.e-schedule .e-timeline-week-view .e-work-cells {
-  height: 50px;
-}
-
-.e-schedule .e-resource-left-td {
-  display: none;
-}
-
 .remove-table-header .e-schedule-table.e-outer-table tr:first-child .e-date-header-container {
   display: none;
 }
+
 
 .timeline-resource-grouping.e-schedule .e-timeline-month-view .e-date-header-wrap table col,
 .timeline-resource-grouping.e-schedule .e-timeline-month-view .e-content-wrap table col {
@@ -447,7 +444,7 @@ button  {
 //  // width: 700px !important;
 //   left: -2px !important;
 // }
-.custom-scheduler1.e-schedule .e-timeline-view .e-appointment,
+.custom-scheduler1.e-schedule .e-timeline-view .e-appointment, .stay-details-component-class
 .e-schedule .e-timeline-month-view .e-appointment {
   background: white !important;
   border: 1px solid #e8eaf6;
@@ -463,7 +460,15 @@ button  {
  // width: 701px !important;
   left: -2px !important;
 }
-
+.dark-theme .custom-scheduler1.e-schedule .e-timeline-view .e-appointment, 
+.dark-theme .stay-details-component-class.e-schedule .e-timeline-month-view .e-appointment,
+.dark-theme .custom-scheduler2.e-schedule .e-timeline-view .e-appointment,
+.dark-theme .e-schedule .e-timeline-month-view,
+.dark-theme .custom-scheduler3.e-schedule .e-timeline-view .e-appointment, 
+.dark-theme .e-schedule .e-timeline-month-view .e-appointment {
+  background: black !important;
+  color: black;
+}
 .custom-scheduler2.e-schedule .e-timeline-view .e-appointment,
 .e-schedule .e-timeline-month-view {
   background: white !important;
@@ -478,7 +483,14 @@ button  {
   height: auto;
   left: -2px !important;
 }
-
+.custom-scheduler3.e-schedule .e-timeline-view .e-appointment,
+.e-schedule .e-timeline-month-view .e-appointment {
+  background: white !important;
+  border: 1px solid #e8eaf6;
+  border-radius: 2px;
+  color: #fff;
+  height: Auto;
+}
 .e-schedule .e-timeline-view .e-date-header-wrap table col,
 .e-schedule .e-timeline-view .e-content-wrap table col,
 .e-schedule .e-timeline-month-view .e-date-header-wrap table col,

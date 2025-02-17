@@ -102,7 +102,6 @@ export class StayDetailsComponent  {
   @ViewChild('roomsObj', { static: false }) roomsObj!: DropDownListComponent;
   @ViewChild('roomObj', { static: false }) roomObj!: DropDownListComponent;
   @ViewChild('scheduleObj1', { static: false }) scheduleObj1!: ElementRef;
-
   @ViewChildren('hr') hrs!: QueryList<ElementRef>;
   @ViewChild('dateRangePicker', { static: false })
   dateRangePicker?: DateRangePicker;
@@ -118,6 +117,9 @@ export class StayDetailsComponent  {
   public isPopupVisible: boolean = false;
   public isAddOnPopupVisible: boolean = false;
   public isTaxEsPopupVisible: boolean = false;
+  public isDiscountPopupVisible: boolean = false;
+  public isOtherDiscountPopupVisible: boolean = false;
+  public isCardPopupVisible: boolean = false;
   public formattedDate: string = '';
   public bookingDate: string = 'Jan 22 - Jan 30';
   public isTooltipVisible: boolean = false;
@@ -793,7 +795,6 @@ public cities: { [key: string]: Object }[] = [
   }
   
   ngOnDestroy() {
-    // Check if we are in a browser before accessing the document
     if (isPlatformBrowser(this.platformId)) {
       this.clearPreviousLines();
       const tooltip = document.getElementById('date-tooltip');
@@ -801,6 +802,10 @@ public cities: { [key: string]: Object }[] = [
         tooltip.remove();
       }
     }
+    if (!this.isDestroyed) {
+      this.isDestroyed = true;
+      this.scheduleObj?.destroy();
+  }
   }
   onPopupCloseSessionalRate(args: PopupCloseEventArgs | any) {
     if (args.type === 'Editor') {
@@ -953,6 +958,15 @@ public cities: { [key: string]: Object }[] = [
   openTaxEsPopup(event: MouseEvent): void {
     this.isTaxEsPopupVisible = true;
   }
+  openDiscountPopup(event: MouseEvent): void {
+    this.isDiscountPopupVisible = true;
+  }
+  openOtherDiscountPopup(event: MouseEvent): void {
+    this.isOtherDiscountPopupVisible = true;
+  }
+  openCardPopup(event: MouseEvent): void {
+    this.isCardPopupVisible = true;
+  }
   closePopup(): void {
     this.isPopupVisible = false;
   }
@@ -962,13 +976,22 @@ public cities: { [key: string]: Object }[] = [
   closeTaxeesPopup(): void {
     this.isTaxEsPopupVisible = false;
   }
+  closeDiscountPopup(): void {
+    this.isDiscountPopupVisible = false;
+  }
+  closeOtherDiscountPopup(): void {
+    this.isOtherDiscountPopupVisible = false;
+  }
+  closeCardPopup(): void {
+    this.isCardPopupVisible = false;
+  }
   public onPopupOpenSplitRooms(args: any) {
     if (
       args.type == 'QuickInfo' &&
       args.target.classList.contains('e-work-cells')
     ) {
       args.cancel = true;
-      console.log(args.data);
+     // console.log(args.data);
       this.scheduleObj?.openEditor(args.data, 'Add');
       args.element.classList.add('dialog-open');
       args.element.setAttribute('id', 'srk-id');
@@ -1391,22 +1414,24 @@ public cities: { [key: string]: Object }[] = [
       });
     }
     private setWidthbookings(sourceId: string, targetSelector: string): void {
-      if (!isPlatformBrowser(this.platformId)) return; 
+      if (!isPlatformBrowser(this.platformId)) return;
+  
       const sourceDiv = document.getElementById(sourceId);
       if (!sourceDiv) {
-          console.error(`Source div "${sourceId}" not found.`);
+          console.warn(`Source div "${sourceId}" not found. Retrying...`);
           return;
       }
-
+  
       const targetDivs = document.querySelectorAll(targetSelector) as NodeListOf<HTMLElement>;
       const width = sourceDiv.offsetWidth;
-
+  
       targetDivs.forEach(targetDiv => {
           if (targetDiv) {
               this.renderer.setStyle(targetDiv, 'width', `${width}px`);
           }
       });
   }
+  
 
   public setWidth1(): void {
       this.setWidthbookings(
@@ -1427,8 +1452,13 @@ public cities: { [key: string]: Object }[] = [
           this.setWidth1();
           this.setWidth2();
       }
+      setTimeout(() => {
+        this.setWidthbookings("scheduleObj2", ".target-class"); 
+      }, 100);
   }
-}
+  private isDestroyed = false;
+
+  }  
 
 interface DateChangeEventArgs {
   startDate: Date;

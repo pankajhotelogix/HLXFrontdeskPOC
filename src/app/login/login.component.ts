@@ -47,6 +47,7 @@ export class LoginComponent {
       username: 'murli.jha@hotelogix.com',
       password: '111111',
       hotelid: '4444',
+      force_login:true
     };
   }
   constructor(private router: Router, private authService: AuthService) {}

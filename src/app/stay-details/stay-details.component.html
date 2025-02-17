@@ -596,7 +596,7 @@
                     <div>Rooms</div>
                   </div>
                   <div class="control-section">
-                    <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" height="150px"
+                    <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" height="200px"
                        [selectedDate]="startDate"
                       [quickInfoOnSelectionEnd]=true [eventSettings]="eventSettings1" [views]="views"
                       [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
@@ -604,7 +604,7 @@
                       [workDays]="workDays" (hover)="onHover($event)" [allowMultiCellSelection]="true"
                       (renderCell)="onRenderCell($event)" (popupOpen)="onPopupOpenRoom($event)"
                       (popupClose)="onPopupCloseSessionalRate($event)" (actionBegin)="onActionBegin($event)"
-                      cssClass="remove-table-header timeline-resource-grouping custom-scheduler2">
+                      cssClass="remove-table-header timeline-resource-grouping custom-scheduler3">
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
                           <ng-template #eventTemplate let-data *ngFor="let guest of guestDetails;">
@@ -709,13 +709,13 @@
                         <e-view option="TimelineDay" [interval]="viewInterval">
                           <ng-template #eventTemplate let-data>
                             <div class="">
-                              <hr style="
+                              <!-- <hr style="
                             border: none;
                             border-top: 2px solid #A40202;
                             margin: 10px -6px;
                             flex-grow: 1;
                             width: 701px;
-                          " />
+                          " /> -->
                               <div class="appointment-header">
                                 <strong>$ {{data.Rates}}</strong>
                                 <span class="room-id">{{data.Package}}</span>
@@ -801,7 +801,7 @@
       <div class="card hlx mb-3">
         <div class="card-header d-flex justify-content-between">
           <h2>Payment</h2>
-          <div>icon</div>
+          <div (click)="openCardPopup($event)"><img src="./assets/Icons/card-icons.png"></div>
         </div>
         <div class="card-body">
           <table class="table table-borderless table-sm align-middle text-end fs-14 mb-0">
@@ -819,7 +819,7 @@
                 <td>00</td>
               </tr>
               <tr>
-                <td><a class="label" (click)="openAddOOnPopup($event)">Tax(es)</a></td>
+                <td><a class="label" (click)="openTaxEsPopup($event)">Tax(es)</a></td>
                 <td>00</td>
               </tr>
               <tr class="fw-bold pay-total">
@@ -831,11 +831,11 @@
                 <td>00</td>
               </tr>
               <tr>
-                <td><a href="">Discount</a></td>
+                <td><a class="label" (click)="openDiscountPopup($event)">Discount</a></td>
                 <td>00</td>
               </tr>
               <tr>
-                <td><a href="">Other Discount</a></td>
+                <td><a class="label" (click)="openOtherDiscountPopup($event)">Other Discount</a></td>
                 <td>00</td>
               </tr>
             </tbody>
@@ -967,121 +967,203 @@
     </div>
     <div class="mt-3 text-center">
       <button class="btn btn-sm btn-primary hlx">Save</button>
-      <button class="btn btn-sm btn-gray">Cancel</button>
+      <button class="btn btn-sm btn-gray" (click)="closeTaxeesPopup()">Cancel</button>
     </div>
   </div>
 </div>
 </div>
-
-
-
-
-<!-- ======= Panels ======= -->
-<div class="row">
-  <div class="col">
-
-
-    <!-- ======= Payment start ======= -->
-    <div class="card dialog-hlx">
-      <div class="card-body">
-        <div class="row">
+</div>
+<div class="popup-overlay" *ngIf="isDiscountPopupVisible">
+  <div class="form-container" (click)="$event.stopPropagation()">
+<div class="card dialog-hlx">
+  <div class="card-body">
+    <div class="table-box">
+      <table class="table table-borderless fs-11">
+        <thead class="table-light">
+          <tr>
+            <th>DATES</th>
+            <th class="text-center">ADD-ONs</th>
+            <th class="text-center">ALLOC. QTY.</th>
+            <th class="text-end">AMMOUNT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>12-07-2024</td>
+            <td class="text-center">Pickup and tour</td>
+            <td class="text-end">5</td>
+            <td class="text-end">$ 546</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row mt-3 mb-3 align-items-center fw-bold text-end">
+      <div class="col-4 fs-18">
+        Total
+      </div>
+      <div class="col fs-20 text-green">
+        $ 546
+      </div>
+    </div>
+    <div class="mt-3 text-center">
+      <button class="btn btn-sm btn-primary hlx">Save</button>
+      <button class="btn btn-sm btn-gray" (click)="closeDiscountPopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<div class="popup-overlay" *ngIf="isOtherDiscountPopupVisible">
+  <div class="form-container" (click)="$event.stopPropagation()">
+<div class="card dialog-hlx">
+  <div class="card-body">
+    <div class="table-box">
+      <table class="table table-borderless fs-11">
+        <thead class="table-light">
+          <tr>
+            <th>DATES</th>
+            <th class="text-center">ADD-ONs</th>
+            <th class="text-center">ALLOC. QTY.</th>
+            <th class="text-end">AMMOUNT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>12-07-2024</td>
+            <td class="text-center">Pickup and tour</td>
+            <td class="text-end">5</td>
+            <td class="text-end">$ 546</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row mt-3 mb-3 align-items-center fw-bold text-end">
+      <div class="col-4 fs-18">
+        Total
+      </div>
+      <div class="col fs-20 text-green">
+        $ 546
+      </div>
+    </div>
+    <div class="mt-3 text-center">
+      <button class="btn btn-sm btn-primary hlx">Save</button>
+      <button class="btn btn-sm btn-gray" (click)="closeOtherDiscountPopup()">Cancel</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<div class="popup-overlay" *ngIf="isCardPopupVisible">
+  <div class="form-container" (click)="$event.stopPropagation()">
+<div class="card dialog-hlx">
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <h3 class="mb-3">Card Owner</h3>
+        <div class="row g-2 mb-2">
           <div class="col">
-            <h3 class="mb-3">Card Owner</h3>
-            <div class="row g-2 mb-2">
-              <div class="col">
-                <select class="form-select form-select-sm">
-                  <option>Select Sharer</option>
-                </select>
-              </div>
-            </div>
-            <div class="row g-2 mb-2 align-items-center">
-              <div class="col">
-                <input type="text" class="form-control form-control-sm" placeholder="Card Number">
-              </div>
-              <div class="col-auto">
-                <i class="material-icons d-block text-blue">credit_card</i>
-              </div>
-            </div>
-            <div class="row g-2 mb-2">
-              <div class="col">
-                <input type="text" class="form-control form-control-sm" placeholder="MM">
-              </div>
-              <div class="col-auto">/</div>
-              <div class="col">
-                <input type="text" class="form-control form-control-sm" placeholder="YYYY">
-              </div>
-            </div>
-            <div class="row g-2 mb-2">
-              <div class="col">
-                <input type="text" class="form-control form-control-sm" placeholder="CVV">
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <h3 class="mb-3">Billing Address</h3>
-            <div class="row g-2 mb-2">
-              <div class="col">
-                <textarea class="form-control form-control-sm" placeholder="Address" style="height: 64px;"></textarea>
-              </div>
-            </div>
-            <div class="row g-2 mb-2">
-              <div class="col">
-                <select class="form-select form-select-sm">
-                  <option>Country</option>
-                </select>
-              </div>
-              <div class="col">
-                <select class="form-select form-select-sm">
-                  <option>State</option>
-                </select>
-              </div>
-            </div>
-            <div class="row g-2 mb-2">
-              <div class="col">
-                <input type="text" class="form-control form-control-sm" placeholder="City">
-              </div>
-              <div class="col">
-                <input type="text" class="form-control form-control-sm" placeholder="Zip Code">
-              </div>
-            </div>
+            <select class="form-select form-select-sm">
+              <option>Select Sharer</option>
+            </select>
           </div>
         </div>
-        <div class="row mt-3 mb-4">
+        <div class="row g-2 mb-2 align-items-center">
           <div class="col">
-            <div class="form-check mb-0 fs-12">
-              <input type="checkbox" value="" id="assignRoom" class="form-check-input">
-              <label for="assignRoom" class="form-check-label">View All Credit Cards</label>
-            </div>
+            <input type="text" class="form-control form-control-sm" placeholder="Card Number">
           </div>
-          <div class="col text-end">
-            <button class="btn btn-sm btn-primary hlx">Save</button>
-            <button class="btn btn-sm btn-gray">Cancel</button>
+          <div class="col-auto">
+            <i class="material-icons d-block text-blue">credit_card</i>
           </div>
         </div>
-        <div class="table-box">
-          <table class="table table-borderless fs-11">
-            <thead class="table-light">
-              <tr>
-                <th>NAME</th>
-                <th>CARD NUMBER</th>
-                <th>TYPE</th>
-                <th>EXPIRY</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Mr. Deepak Sharma</td>
-                <td>9786-9786-4956-5648</td>
-                <td>Diners</td>
-                <td>8/2024</td>
-                <td><i class="material-icons d-block text-blue">delete</i></td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="row g-2 mb-2">
+          <div class="col">
+            <input type="text" class="form-control form-control-sm" placeholder="MM">
+          </div>
+          <div class="col-auto">/</div>
+          <div class="col">
+            <input type="text" class="form-control form-control-sm" placeholder="YYYY">
+          </div>
+        </div>
+        <div class="row g-2 mb-2">
+          <div class="col">
+            <input type="text" class="form-control form-control-sm" placeholder="CVV">
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <h3 class="mb-3">Billing Address</h3>
+        <div class="row g-2 mb-2">
+          <div class="col">
+            <textarea class="form-control form-control-sm" placeholder="Address" style="height: 64px;"></textarea>
+          </div>
+        </div>
+        <div class="row g-2 mb-2">
+          <div class="col">
+            <select class="form-select form-select-sm">
+              <option>Country</option>
+            </select>
+          </div>
+          <div class="col">
+            <select class="form-select form-select-sm">
+              <option>State</option>
+            </select>
+          </div>
+        </div>
+        <div class="row g-2 mb-2">
+          <div class="col">
+            <input type="text" class="form-control form-control-sm" placeholder="City">
+          </div>
+          <div class="col">
+            <input type="text" class="form-control form-control-sm" placeholder="Zip Code">
+          </div>
         </div>
       </div>
     </div>
+    <div class="row mt-3 mb-4">
+      <div class="col">
+        <div class="form-check mb-0 fs-12">
+          <input type="checkbox" value="" id="assignRoom" class="form-check-input">
+          <label for="assignRoom" class="form-check-label">View All Credit Cards</label>
+        </div>
+      </div>
+      <div class="col text-end">
+        <button class="btn btn-sm btn-primary hlx">Save</button>
+        <button class="btn btn-sm btn-gray" (click)="closeCardPopup()">Cancel</button>
+      </div>
+    </div>
+    <div class="table-box">
+      <table class="table table-borderless fs-11">
+        <thead class="table-light">
+          <tr>
+            <th>NAME</th>
+            <th>CARD NUMBER</th>
+            <th>TYPE</th>
+            <th>EXPIRY</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mr. Deepak Sharma</td>
+            <td>9786-9786-4956-5648</td>
+            <td>Diners</td>
+            <td>8/2024</td>
+            <td><i class="material-icons d-block text-blue">delete</i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<!-- ======= Panels ======= -->
+<!-- <div class="row">
+  <div class="col"> -->
+
+
+    <!-- ======= Payment start ======= -->
+   
     <!-- ======= Payment end ======= -->
     <br><br>
     <!-- ======= Room taxes start ======= -->
@@ -1089,122 +1171,19 @@
     <!-- ======= Room taxes end ======= -->
     <br><br>
     <!-- ======= Add On Charges start ======= -->
-    <div class="card dialog-hlx">
-      <div class="card-body">
-        <div class="table-box">
-          <table class="table table-borderless fs-11">
-            <thead class="table-light">
-              <tr>
-                <th>DATES</th>
-                <th class="text-center">DESCRIPTION</th>
-                <th class="text-end">AMMOUNT</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>12-07-2024</td>
-                <td class="text-center">Rack Rate</td>
-                <td class="text-end">$ 546</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="row mt-3 mb-3 align-items-center fw-bold text-end">
-          <div class="col-4 fs-18">
-            Total
-          </div>
-          <div class="col fs-20 text-green">
-            $ 546
-          </div>
-        </div>
-        <div class="mt-3 text-center">
-          <button class="btn btn-sm btn-primary hlx">Save</button>
-          <button class="btn btn-sm btn-gray">Cancel</button>
-        </div>
-      </div>
-    </div>
+   
     <!-- ======= Add On Charges end ======= -->
     <br><br>
     <!-- ======= Discount start ======= -->
-    <div class="card dialog-hlx">
-      <div class="card-body">
-        <div class="table-box">
-          <table class="table table-borderless fs-11">
-            <thead class="table-light">
-              <tr>
-                <th>DATES</th>
-                <th class="text-center">ADD-ONs</th>
-                <th class="text-center">ALLOC. QTY.</th>
-                <th class="text-end">AMMOUNT</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>12-07-2024</td>
-                <td class="text-center">Pickup and tour</td>
-                <td class="text-end">5</td>
-                <td class="text-end">$ 546</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="row mt-3 mb-3 align-items-center fw-bold text-end">
-          <div class="col-4 fs-18">
-            Total
-          </div>
-          <div class="col fs-20 text-green">
-            $ 546
-          </div>
-        </div>
-        <div class="mt-3 text-center">
-          <button class="btn btn-sm btn-primary hlx">Save</button>
-          <button class="btn btn-sm btn-gray">Cancel</button>
-        </div>
-      </div>
-    </div>
+
     <!-- ======= Discount end ======= -->
     <br><br>
     <!-- ======= Other Discount Charges start ======= -->
-    <div class="card dialog-hlx">
-      <div class="card-body">
-        <div class="table-box">
-          <table class="table table-borderless fs-11">
-            <thead class="table-light">
-              <tr>
-                <th>DATES</th>
-                <th class="text-center">ADD-ONs</th>
-                <th class="text-center">ALLOC. QTY.</th>
-                <th class="text-end">AMMOUNT</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>12-07-2024</td>
-                <td class="text-center">Pickup and tour</td>
-                <td class="text-end">5</td>
-                <td class="text-end">$ 546</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="row mt-3 mb-3 align-items-center fw-bold text-end">
-          <div class="col-4 fs-18">
-            Total
-          </div>
-          <div class="col fs-20 text-green">
-            $ 546
-          </div>
-        </div>
-        <div class="mt-3 text-center">
-          <button class="btn btn-sm btn-primary hlx">Save</button>
-          <button class="btn btn-sm btn-gray">Cancel</button>
-        </div>
-      </div>
-    </div>
+   
     <!-- ======= Other Discount Charges end ======= -->
     <br><br>
     <!-- ======= Add Infants start ======= -->
-    <div class="card dialog-hlx">
+    <!-- <div class="card dialog-hlx">
       <div class="card-body">
         <select class="form-select form-select-sm">
           <option>Select</option>
@@ -1223,11 +1202,11 @@
           <button class="btn btn-sm btn-gray">Cancel</button>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- ======= Add Infants end ======= -->
     <br><br>
     <!-- ======= Guest Early Check in start ======= -->
-    <div class="card dialog-hlx">
+    <!-- <div class="card dialog-hlx">
       <div class="card-body">
         <input type="text" placeholder="Reason" class="form-control form-control-sm">
         <table class="table table-borderless align-middle fs-14 mb-0">
@@ -1251,13 +1230,13 @@
           <button class="btn btn-sm btn-gray">Cancel</button>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- ======= Guest Early Check in end ======= -->
 
 
 
-  </div>
+  <!-- </div>
   <div class="col"></div>
   <div class="col"></div>
   <div class="col"></div>
-</div>
+</div> -->

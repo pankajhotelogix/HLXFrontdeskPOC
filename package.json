@@ -41,7 +41,6 @@
     "@syncfusion/ej2-buttons": "^27.2.4",
     "@syncfusion/ej2-dropdowns": "^27.2.4",
     "@syncfusion/ej2-image-editor": "^28.1.39",
-    "@syncfusion/ej2-material-theme": "~27.2.5",
     "@syncfusion/ej2-ng-buttons": "^16.3.17",
     "bootstrap": "^5.3.3",
     "country-state-city": "^3.2.1",
