@@ -1,8 +1,7 @@
-<div class="control-section"
-    style="width: 100vw; height: 96vh; display: flex; justify-content: center; align-items: center;">
-    <div class="col-lg-12">
+<div class="control-section" class="d-flex justify-content-center align-items-center" style="width: 100vw; height: 96vh;">
+    <div class="d-flex flex-column w-100">
         <h4 class="form-title">Welcome to Hotelogix 3.O</h4>
-        <div class="control_wrapper" id="control_wrapper" style="margin: 25px auto;">
+        <div class="control_wrapper" id="control_wrapper">
             <form #userForm="ngForm" novalidate>
                 <div class="form-group template">
                     <div class="e-float-input e-input-group" [ngClass]="{'e-success': hotelid?.valid}">

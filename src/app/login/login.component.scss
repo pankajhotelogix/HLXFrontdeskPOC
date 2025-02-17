@@ -1,23 +1,17 @@
-.control_wrapper {
-    max-width: 500px;
-    min-width: 245px;
-    margin: auto;
-  }
   .address-field {
   resize: none;
   }
-  
   .e-error {
     padding-top: 7px;
   }
-  
   #control_wrapper {
-  max-width: 500px;
-  margin: auto;
-  border: 0.5px solid #BEBEBE;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.36);
-  padding: 1% 4% 0%;
- // background: #f9f9f9;
+    width: 90%;
+    max-width: 500px;
+    margin: 25px auto;
+    border: 1px solid #BEBEBE;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.36);
+    padding: 24px 48px;
+  // background: #f9f9f9;
   }
   .highcontrast #control_wrapper,
   .bootstrap-dark #control_wrapper,
@@ -134,7 +128,7 @@
     color: #22b24b;
   }
   .form-group.template {
-    padding-top: 8px;
+    padding-bottom: 8px;
   }
   .form-group #mobile-no input[type=number]::-webkit-inner-spin-button,
   .form-group #mobile-no input[type=number]::-webkit-outer-spin-button {

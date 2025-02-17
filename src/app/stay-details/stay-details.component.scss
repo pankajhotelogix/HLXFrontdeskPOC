@@ -194,6 +194,7 @@ button  {
   margin: 6px;
   font-size: 14px;
   padding: 6px 24px;
+  height: auto;
 }
 .btn-primary.hlx {
   background-color: #2856A2;
@@ -889,19 +890,19 @@ button  {
   background-color: #27408B;
 }
 
-.e-popup.e-popup-open.e-dialog {
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  width: 273px !important;
-}
-.e-popup.e-popup-open.e-dialog {
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  //width: 273px !important;
-  width: 325px !important;
-  left: 0px !important;
-  top: 60px !important;
-}
+// .e-popup.e-popup-open.e-dialog {
+//   display: -ms-inline-flexbox;
+//   display: inline-flex;
+//   width: 273px !important;
+// }
+// .e-popup.e-popup-open.e-dialog {
+//   display: -ms-inline-flexbox;
+//   display: inline-flex;
+//   //width: 273px !important;
+//   width: 325px !important;
+//   left: 0px !important;
+//   top: 60px !important;
+// }
 .calendar-icon {
   position: relative;
   width: 20px;
