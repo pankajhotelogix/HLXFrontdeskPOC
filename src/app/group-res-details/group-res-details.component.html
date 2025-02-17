@@ -336,354 +336,356 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <div tabindex="0" class="card hlx" id="basic">
-            <div class="card-body p-5">
-              <!-- <div *ngIf="hoveredDate" class="date-tooltip" [ngStyle]="tooltipStyle">
-                  {{ hoveredDate }}
-                </div> -->
-              <div class="res-details">
-                <div class="position-relative">
-                  <div class="res-date" (click)="openStartDatePicker()">
-                    <div class="day">{{ startDate | date: 'EEE' }}</div>
-                    <div class="date">{{ startDate | date: 'dd' }}</div>
-                    <div class="month-year"> {{ startDate | date: 'MMM' }} {{startDate | date: 'yyyy'}}</div>
-                    <ejs-datepicker #datepicker [value]='startDate' [max]="endDate" style="visibility: hidden"
-                      (change)="onStartChange()">
-                    </ejs-datepicker>
-                  </div>
-                  <div class="res-date end" (click)="openEndDatePicker()">
-                    <div class="day">{{ endDate | date: 'EEE' }}</div>
-                    <div class="date">{{ endDate | date: 'dd' }}</div>
-                    <div class="month-year"> {{ endDate | date: 'MMM' }} {{endDate | date: 'yyyy'}}</div>
-                    <ejs-datepicker #enddatepicker [value]='endDate' [min]="startDate" style="visibility: hidden"
-                      (change)="onEndChange()">
-                    </ejs-datepicker>
-                  </div>
-                  <div class="control-section">
-                    <ejs-schedule #scheduleObj id="scheduleObj1" width="100%" height="100px"
-                      class="remove-table-header1 timeline-resource-grouping remove-table-header first-schedular-height"
-                      [selectedDate]="startDate" [views]="views" [currentView]="'TimelineDay'"
-                      [eventSettings]="eventSettings" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
-                      [showHeaderBar]="false" [showTimeIndicator]="false" [workDays]="workDays"
-                      (hover)="onHover($event)" (dataBound)="adjustWorkCellWidths()" (popupOpen)="onPopupOpen($event)"
-                      cssClass="custom-scheduler1">
-                      <e-views>
-                        <e-view option="TimelineDay" [interval]="viewInterval">
-                          <ng-template #eventTemplate let-data>
-                            <div>
-                              <hr style="
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-8">
+              <div tabindex="0" class="card hlx" id="basic">
+                <div class="card-body p-5">
+                  <!-- <div *ngIf="hoveredDate" class="date-tooltip" [ngStyle]="tooltipStyle">
+                      {{ hoveredDate }}
+                    </div> -->
+                  <div class="res-details">
+                    <div class="position-relative">
+                      <div class="res-date" (click)="openStartDatePicker()">
+                        <div class="day">{{ startDate | date: 'EEE' }}</div>
+                        <div class="date">{{ startDate | date: 'dd' }}</div>
+                        <div class="month-year"> {{ startDate | date: 'MMM' }} {{startDate | date: 'yyyy'}}</div>
+                        <ejs-datepicker #datepicker [value]='startDate' [max]="endDate" style="visibility: hidden"
+                          (change)="onStartChange()">
+                        </ejs-datepicker>
+                      </div>
+                      <div class="res-date end" (click)="openEndDatePicker()">
+                        <div class="day">{{ endDate | date: 'EEE' }}</div>
+                        <div class="date">{{ endDate | date: 'dd' }}</div>
+                        <div class="month-year"> {{ endDate | date: 'MMM' }} {{endDate | date: 'yyyy'}}</div>
+                        <ejs-datepicker #enddatepicker [value]='endDate' [min]="startDate" style="visibility: hidden"
+                          (change)="onEndChange()">
+                        </ejs-datepicker>
+                      </div>
+                      <div class="control-section">
+                        <ejs-schedule #scheduleObj id="scheduleObj1" width="100%" height="100px"
+                          class="remove-table-header1 timeline-resource-grouping remove-table-header first-schedular-height"
+                          [selectedDate]="startDate" [views]="views" [currentView]="'TimelineDay'"
+                          [eventSettings]="eventSettings" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
+                          [showHeaderBar]="false" [showTimeIndicator]="false" [workDays]="workDays"
+                          (hover)="onHover($event)" (dataBound)="adjustWorkCellWidths()" (popupOpen)="onPopupOpen($event)"
+                          cssClass="custom-scheduler1">
+                          <e-views>
+                            <e-view option="TimelineDay" [interval]="viewInterval">
+                              <ng-template #eventTemplate let-data>
+                                <div>
+                                  <hr style="
+                                      border: none;
+                                      border-top: 2px solid #A40202; 
+                                      margin: 10px -6px;
+                                      flex-grow: 1;
+                                      width: 701px;" />
+                                  <!-- <div class="appointment-header-split">
+                                      <strong class="room-type">Split</strong>
+                                      <span class="room-id">+</span>
+                                    </div> -->
+                                </div>
+                              </ng-template>
+                            </e-view>
+                          </e-views>
+                        </ejs-schedule>
+                      </div>
+                    </div>
+                    <div class="position-relative">
+                      <div class="title-vertical">
+                        <div>Rooms</div>
+                      </div>
+                      <div class="control-section">
+                        <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" height="200px" [selectedDate]="startDate"
+                          [quickInfoOnSelectionEnd]=true [eventSettings]="eventSettings1" [views]="views"
+                          [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
+                          [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
+                          [workDays]="workDays" (hover)="onHover($event)" [allowMultiCellSelection]="true"
+                          (renderCell)="onRenderCell($event)" (popupOpen)="onPopupOpenRoom($event)"
+                          (popupClose)="onPopupCloseSessionalRate($event)" (actionBegin)="onActionBegin($event)"
+                          cssClass="remove-table-header timeline-resource-grouping custom-scheduler3">
+                          <e-views>
+                            <e-view option="TimelineDay" [interval]="viewInterval">
+                              <ng-template #eventTemplate let-data *ngFor="let guest of guestDetails;">
+                                <div class="w-100">
+                                  <div class="hlx-hr"></div>
+                                  <div class="appointment-header">
+                                    <div class="e-section-control">
+                                      <div class="room-details mt-3">
+                                        <span class="icon-bed">
+                                          <img src="./assets/Icons/bed.svg" alt="Room" class="room-icon">
+                                        </span>
+                                        <a href="#" class="room-link">{{ data.Subject }} {{ data.Room }}</a>
+                                      </div>
+                                      <div class="booking-date text-blue">
+                                        {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
+                                      </div>
+                                      <div class="total-guest">
+                                        <span class="guest-info">
+                                          <img src="./assets/Icons/user.svg" alt="Guests" class="guest-icon">
+                                          {{ data.Guest }}
+                                        </span>
+                                        <span class="child-info">
+                                          <img src="./assets/Icons/child.svg" alt="Children" class="child-icon">
+                                          {{ data.Child }}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </e-view>
+                          </e-views>
+                          <ng-template #quickInfoTemplatesContent let-data>
+                            <div class="quick-info-content">
+                              <div class="quick-content-area"></div>
+                              <ejs-dropdownlist id="roomTypeDropdown" #roomTypeObj [dataSource]="roomTypeData"
+                                [fields]="roomTypeFields" placeholder="Choose Room Type">
+                              </ejs-dropdownlist>
+                            </div>
+                            <div class="quick-content-area">
+                              <ejs-dropdownlist id="roomsDropdown" #roomsObj [dataSource]="roomsData" [fields]="roomsFields"
+                                placeholder="Choose Room">
+                              </ejs-dropdownlist>
+                            </div>
+                            <div class="quick-action-buttons">
+                              <button ejs-button cssClass="e-primary" (click)="onSave()">Save</button>
+                              <button ejs-button cssClass="e-flat" (click)="onCancel()">Cancel</button>
+                            </div>
+                          </ng-template>
+                          <ng-template #editorHeaderTemplate let-data>
+                            <div *ngIf="data.Subject; else createNewEvent">
+                              {{ data.Subject }}
+                            </div>
+                            <ng-template #createNewEvent>
+                              <div style="display: flex; gap: 10px; justify-content: space-between;">
+                                <label style="color: white;">Add Quick Reservation</label>
+                              </div>
+                            </ng-template>
+                          </ng-template>
+                          <ng-template #editorTemplate let-data>
+                            <div class="popup-header">Add Rooms</div>
+                            <div class="popup-input">
+                              <div style="position: relative;">
+                                <label style="font-size: 15px;font-weight: 600; cursor: pointer;"
+                                  (click)="openDateRangePicker()">
+                                  {{ data.StartTime | date:'MMM dd'}} - {{ endDate | date:'MMM dd' }}
+                                </label>
+                                <ejs-daterangepicker #dateRangePicker [min]="startDate" [max]="endDate"
+                                  [startDate]="data.StartTime" [endDate]="data.EndTime"
+                                  style="visibility: hidden; width: 1px;"></ejs-daterangepicker>
+                              </div>
+                            </div>
+                            <div class="quick-info-content">
+                              <div class="quick-content-area"></div>
+                              <ejs-dropdownlist id="roomTypeDropdown" #roomTypeObj [dataSource]="roomTypeData"
+                                [fields]="roomTypeFields" placeholder="Choose Room Type">
+                              </ejs-dropdownlist>
+                            </div>
+                            <div class="quick-content-area">
+                              <ejs-dropdownlist id="roomsDropdown" #roomsObj [dataSource]="roomsData" [fields]="roomsFields"
+                                placeholder="Choose Room">
+                              </ejs-dropdownlist>
+                            </div>
+                          </ng-template>
+                        </ejs-schedule>
+                      </div>
+                    </div>
+                    <div class="position-relative">
+                      <div class="title-vertical">
+                        <div>Rates</div>
+                      </div>
+                      <div class="control-section">
+                        <ejs-schedule #scheduleObj3 width="100%" height="100px"
+                          class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
+                          [quickInfoOnSelectionEnd]="true" [eventSettings]="eventSettings" [views]="views"
+                          [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
+                          [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
+                          (actionBegin)="onActionBegin($event)" [workDays]="workDays" (hover)="onHover($event)"
+                          (popupOpen)="onPopupOpenSessionalRate($event)" (popupClose)="onPopupCloseSessionalRate($event)"
+                          [allowMultiCellSelection]="true" (renderCell)="onRenderCell($event)" cssClass="custom-scheduler2">
+                          <e-views>
+                            <e-view option="TimelineDay" [interval]="viewInterval">
+                              <ng-template #eventTemplate let-data>
+                                <div class="">
+                                  <hr style="
                                   border: none;
-                                  border-top: 2px solid #A40202; 
+                                  border-top: 2px solid #A40202;
+                                  margin: 10px -6px;
+                                  flex-grow: 1;
+                                  width: 701px;
+                                " />
+                                  <div class="appointment-header">
+                                    <strong>$ {{data.Rates}}</strong>
+                                    <span class="room-id">{{data.Package}}</span>
+                                  </div>
+                                  <div class="appointment-info">
+                                    <span class="child-count">None</span>
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </e-view>
+                          </e-views>
+                          <ng-template #editorHeaderTemplate let-data>
+                            <div *ngIf="data.Subject; else createNewEvent">
+                              {{ data.Subject }}
+                            </div>
+                            <ng-template #createNewEvent>
+                              <div style="display: flex; gap: 10px; justify-content: space-between;">
+                                <label style="color: white;">Add Quick Reservation</label>
+                              </div>
+                            </ng-template>
+                          </ng-template>
+                          <ng-template #editorTemplate let-data (click)="$event.stopPropagation()">
+                            <div class="popup-header">Add Rate</div>
+                            <div class="popup-input">
+                              <div style="position: relative;">
+                                <label style="font-size: 15px;font-weight: 600; cursor: pointer;"
+                                  (click)="openDateRangePicker()">
+                                  {{ data.StartTime | date:'MMM dd'}} - {{ endDate | date:'MMM dd' }}
+                                </label>
+                                <ejs-daterangepicker #dateRangePicker [min]="startDate" [max]="endDate"
+                                  [startDate]="data.StartTime" [endDate]="data.EndTime"
+                                  style="visibility: hidden; width: 1px;"></ejs-daterangepicker>
+                              </div>
+                            </div>
+                            <div class="e-section-control">
+                              <label>Rate Type</label>
+                              <select id="rate-type" style="width: 210px; height: 37px;" [(ngModel)]="data.rateType">
+                                <option value="" disabled>Select</option>
+                                <option *ngFor="let rate of sessionalRate" [value]="rate.package_id">
+                                  {{ rate.name }}
+                                </option>
+                              </select>
+                            </div>
+                          </ng-template>
+                        </ejs-schedule>
+                      </div>
+                    </div>
+                    <div class="position-relative">
+                      <div class="title-vertical">
+                        <div>ADD ONS</div>
+                      </div>
+                      <div class="control-section">
+                        <ejs-schedule #scheduleObj4 width="100%" height="100px"
+                          class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
+                          [eventSettings]="eventSetting" [views]="views" [currentView]="'TimelineDay'"
+                          [showHeaderBar]="false" [showTimeIndicator]="false"
+                          [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }" [workDays]="workDays"
+                          (hover)="onHover($event)" (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler2">
+                          <e-views>
+                            <e-view option="TimelineDay" [interval]="viewInterval">
+                              <ng-template #eventTemplate let-data>
+                                <div>
+                                  <hr style="
+                                  border: none;
+                                  border-top: 2px solid #A40202;
                                   margin: 10px -6px;
                                   flex-grow: 1;
                                   width: 701px;" />
-                              <!-- <div class="appointment-header-split">
-                                  <strong class="room-type">Split</strong>
-                                  <span class="room-id">+</span>
-                                </div> -->
-                            </div>
-                          </ng-template>
-                        </e-view>
-                      </e-views>
-                    </ejs-schedule>
-                  </div>
-                </div>
-                <div class="position-relative">
-                  <div class="title-vertical">
-                    <div>Rooms</div>
-                  </div>
-                  <div class="control-section">
-                    <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" height="200px" [selectedDate]="startDate"
-                      [quickInfoOnSelectionEnd]=true [eventSettings]="eventSettings1" [views]="views"
-                      [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
-                      [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
-                      [workDays]="workDays" (hover)="onHover($event)" [allowMultiCellSelection]="true"
-                      (renderCell)="onRenderCell($event)" (popupOpen)="onPopupOpenRoom($event)"
-                      (popupClose)="onPopupCloseSessionalRate($event)" (actionBegin)="onActionBegin($event)"
-                      cssClass="remove-table-header timeline-resource-grouping custom-scheduler3">
-                      <e-views>
-                        <e-view option="TimelineDay" [interval]="viewInterval">
-                          <ng-template #eventTemplate let-data *ngFor="let guest of guestDetails;">
-                            <div class="w-100">
-                              <div class="hlx-hr"></div>
-                              <div class="appointment-header">
-                                <div class="e-section-control">
-                                  <div class="room-details mt-3">
-                                    <span class="icon-bed">
-                                      <img src="./assets/Icons/bed.svg" alt="Room" class="room-icon">
-                                    </span>
-                                    <a href="#" class="room-link">{{ data.Subject }} {{ data.Room }}</a>
-                                  </div>
-                                  <div class="booking-date text-blue">
-                                    {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
-                                  </div>
-                                  <div class="total-guest">
-                                    <span class="guest-info">
-                                      <img src="./assets/Icons/user.svg" alt="Guests" class="guest-icon">
-                                      {{ data.Guest }}
-                                    </span>
-                                    <span class="child-info">
-                                      <img src="./assets/Icons/child.svg" alt="Children" class="child-icon">
-                                      {{ data.Child }}
-                                    </span>
-                                  </div>
                                 </div>
-                              </div>
-                            </div>
-                          </ng-template>
-                        </e-view>
-                      </e-views>
-                      <ng-template #quickInfoTemplatesContent let-data>
-                        <div class="quick-info-content">
-                          <div class="quick-content-area"></div>
-                          <ejs-dropdownlist id="roomTypeDropdown" #roomTypeObj [dataSource]="roomTypeData"
-                            [fields]="roomTypeFields" placeholder="Choose Room Type">
-                          </ejs-dropdownlist>
-                        </div>
-                        <div class="quick-content-area">
-                          <ejs-dropdownlist id="roomsDropdown" #roomsObj [dataSource]="roomsData" [fields]="roomsFields"
-                            placeholder="Choose Room">
-                          </ejs-dropdownlist>
-                        </div>
-                        <div class="quick-action-buttons">
-                          <button ejs-button cssClass="e-primary" (click)="onSave()">Save</button>
-                          <button ejs-button cssClass="e-flat" (click)="onCancel()">Cancel</button>
-                        </div>
-                      </ng-template>
-                      <ng-template #editorHeaderTemplate let-data>
-                        <div *ngIf="data.Subject; else createNewEvent">
-                          {{ data.Subject }}
-                        </div>
-                        <ng-template #createNewEvent>
-                          <div style="display: flex; gap: 10px; justify-content: space-between;">
-                            <label style="color: white;">Add Quick Reservation</label>
-                          </div>
-                        </ng-template>
-                      </ng-template>
-                      <ng-template #editorTemplate let-data>
-                        <div class="popup-header">Add Rooms</div>
-                        <div class="popup-input">
-                          <div style="position: relative;">
-                            <label style="font-size: 15px;font-weight: 600; cursor: pointer;"
-                              (click)="openDateRangePicker()">
-                              {{ data.StartTime | date:'MMM dd'}} - {{ endDate | date:'MMM dd' }}
-                            </label>
-                            <ejs-daterangepicker #dateRangePicker [min]="startDate" [max]="endDate"
-                              [startDate]="data.StartTime" [endDate]="data.EndTime"
-                              style="visibility: hidden; width: 1px;"></ejs-daterangepicker>
-                          </div>
-                        </div>
-                        <div class="quick-info-content">
-                          <div class="quick-content-area"></div>
-                          <ejs-dropdownlist id="roomTypeDropdown" #roomTypeObj [dataSource]="roomTypeData"
-                            [fields]="roomTypeFields" placeholder="Choose Room Type">
-                          </ejs-dropdownlist>
-                        </div>
-                        <div class="quick-content-area">
-                          <ejs-dropdownlist id="roomsDropdown" #roomsObj [dataSource]="roomsData" [fields]="roomsFields"
-                            placeholder="Choose Room">
-                          </ejs-dropdownlist>
-                        </div>
-                      </ng-template>
-                    </ejs-schedule>
+                              </ng-template>
+                            </e-view>
+                          </e-views>
+                        </ejs-schedule>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="position-relative">
-                  <div class="title-vertical">
-                    <div>Rates</div>
-                  </div>
-                  <div class="control-section">
-                    <ejs-schedule #scheduleObj3 width="100%" height="100px"
-                      class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
-                      [quickInfoOnSelectionEnd]="true" [eventSettings]="eventSettings" [views]="views"
-                      [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
-                      [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
-                      (actionBegin)="onActionBegin($event)" [workDays]="workDays" (hover)="onHover($event)"
-                      (popupOpen)="onPopupOpenSessionalRate($event)" (popupClose)="onPopupCloseSessionalRate($event)"
-                      [allowMultiCellSelection]="true" (renderCell)="onRenderCell($event)" cssClass="custom-scheduler2">
-                      <e-views>
-                        <e-view option="TimelineDay" [interval]="viewInterval">
-                          <ng-template #eventTemplate let-data>
-                            <div class="">
-                              <hr style="
-                              border: none;
-                              border-top: 2px solid #A40202;
-                              margin: 10px -6px;
-                              flex-grow: 1;
-                              width: 701px;
-                            " />
-                              <div class="appointment-header">
-                                <strong>$ {{data.Rates}}</strong>
-                                <span class="room-id">{{data.Package}}</span>
-                              </div>
-                              <div class="appointment-info">
-                                <span class="child-count">None</span>
-                              </div>
-                            </div>
-                          </ng-template>
-                        </e-view>
-                      </e-views>
-                      <ng-template #editorHeaderTemplate let-data>
-                        <div *ngIf="data.Subject; else createNewEvent">
-                          {{ data.Subject }}
-                        </div>
-                        <ng-template #createNewEvent>
-                          <div style="display: flex; gap: 10px; justify-content: space-between;">
-                            <label style="color: white;">Add Quick Reservation</label>
-                          </div>
-                        </ng-template>
-                      </ng-template>
-                      <ng-template #editorTemplate let-data (click)="$event.stopPropagation()">
-                        <div class="popup-header">Add Rate</div>
-                        <div class="popup-input">
-                          <div style="position: relative;">
-                            <label style="font-size: 15px;font-weight: 600; cursor: pointer;"
-                              (click)="openDateRangePicker()">
-                              {{ data.StartTime | date:'MMM dd'}} - {{ endDate | date:'MMM dd' }}
-                            </label>
-                            <ejs-daterangepicker #dateRangePicker [min]="startDate" [max]="endDate"
-                              [startDate]="data.StartTime" [endDate]="data.EndTime"
-                              style="visibility: hidden; width: 1px;"></ejs-daterangepicker>
-                          </div>
-                        </div>
-                        <div class="e-section-control">
-                          <label>Rate Type</label>
-                          <select id="rate-type" style="width: 210px; height: 37px;" [(ngModel)]="data.rateType">
-                            <option value="" disabled>Select</option>
-                            <option *ngFor="let rate of sessionalRate" [value]="rate.package_id">
-                              {{ rate.name }}
-                            </option>
-                          </select>
-                        </div>
-                      </ng-template>
-                    </ejs-schedule>
-                  </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card hlx mb-3">
+                <div class="card-header d-flex justify-content-between">
+                  <h2>Payment</h2>
+                  <div (click)="openCardPopup($event)"><img src="./assets/Icons/card-icons.png"></div>
                 </div>
-                <div class="position-relative">
-                  <div class="title-vertical">
-                    <div>ADD ONS</div>
+                <div class="card-body">
+                  <table class="table table-borderless table-sm align-middle text-end fs-14 mb-0">
+                    <tbody>
+                      <tr class="fw-bold fs-16">
+                        <td width="35%">Room Tariff</td>
+                        <td>$132,198.00</td>
+                      </tr>
+                      <tr>
+                        <td><a class="label" (click)="openAddOOnPopup($event)">Add Ons</a></td>
+                        <td>00</td>
+                      </tr>
+                      <tr>
+                        <td>Other Charges</td>
+                        <td>00</td>
+                      </tr>
+                      <tr>
+                        <td><a class="label" (click)="openTaxEsPopup($event)">Tax(es)</a></td>
+                        <td>00</td>
+                      </tr>
+                      <tr class="fw-bold pay-total">
+                        <td class="fs-18">Total</td>
+                        <td class="text-blue fs-24">$132,198.00</td>
+                      </tr>
+                      <tr class="fw-bold">
+                        <td>Amount Paid</td>
+                        <td>00</td>
+                      </tr>
+                      <tr>
+                        <td><a class="label" (click)="openDiscountPopup($event)">Discount</a></td>
+                        <td>00</td>
+                      </tr>
+                      <tr>
+                        <td><a class="label" (click)="openOtherDiscountPopup($event)">Other Discount</a></td>
+                        <td>00</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="card-footer pay-balance py-0">
+                  <table class="table table-borderless table-sm align-middle text-end mb-0">
+                    <tbody>
+                      <tr class="fw-bold">
+                        <td width="35%" class="fs-18">Balance</td>
+                        <td class="text-green fs-24">$132,198.00</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="card hlx">
+                <div class="card-body">
+                  <h2 class="mb-3">Mis</h2>
+                  <div class="row g-2 mb-2">
+                    <div class="col">
+                      <input type="text" class="form-control form-control-sm" placeholder="Purpose">
+                    </div>
                   </div>
-                  <div class="control-section">
-                    <ejs-schedule #scheduleObj4 width="100%" height="100px"
-                      class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
-                      [eventSettings]="eventSetting" [views]="views" [currentView]="'TimelineDay'"
-                      [showHeaderBar]="false" [showTimeIndicator]="false"
-                      [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }" [workDays]="workDays"
-                      (hover)="onHover($event)" (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler2">
-                      <e-views>
-                        <e-view option="TimelineDay" [interval]="viewInterval">
-                          <ng-template #eventTemplate let-data>
-                            <div>
-                              <hr style="
-                              border: none;
-                              border-top: 2px solid #A40202;
-                              margin: 10px -6px;
-                              flex-grow: 1;
-                              width: 701px;" />
-                            </div>
-                          </ng-template>
-                        </e-view>
-                      </e-views>
-                    </ejs-schedule>
+                  <div class="row g-2 mb-2">
+                    <div class="col-md-6">
+                      <select class="form-select form-select-sm">
+                        <option value="">Source</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <select class="form-select form-select-sm">
+                        <option value="">Type</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row g-2 mb-2">
+                    <div class="col-md-6">
+                      <select class="form-select form-select-sm">
+                        <option value="">Market Segment</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <select class="form-select form-select-sm">
+                        <option value="">Sales Person</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card hlx mb-3">
-            <div class="card-header d-flex justify-content-between">
-              <h2>Payment</h2>
-              <div (click)="openCardPopup($event)"><img src="./assets/Icons/card-icons.png"></div>
-            </div>
-            <div class="card-body">
-              <table class="table table-borderless table-sm align-middle text-end fs-14 mb-0">
-                <tbody>
-                  <tr class="fw-bold fs-16">
-                    <td width="35%">Room Tariff</td>
-                    <td>$132,198.00</td>
-                  </tr>
-                  <tr>
-                    <td><a class="label" (click)="openAddOOnPopup($event)">Add Ons</a></td>
-                    <td>00</td>
-                  </tr>
-                  <tr>
-                    <td>Other Charges</td>
-                    <td>00</td>
-                  </tr>
-                  <tr>
-                    <td><a class="label" (click)="openTaxEsPopup($event)">Tax(es)</a></td>
-                    <td>00</td>
-                  </tr>
-                  <tr class="fw-bold pay-total">
-                    <td class="fs-18">Total</td>
-                    <td class="text-blue fs-24">$132,198.00</td>
-                  </tr>
-                  <tr class="fw-bold">
-                    <td>Amount Paid</td>
-                    <td>00</td>
-                  </tr>
-                  <tr>
-                    <td><a class="label" (click)="openDiscountPopup($event)">Discount</a></td>
-                    <td>00</td>
-                  </tr>
-                  <tr>
-                    <td><a class="label" (click)="openOtherDiscountPopup($event)">Other Discount</a></td>
-                    <td>00</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="card-footer pay-balance py-0">
-              <table class="table table-borderless table-sm align-middle text-end mb-0">
-                <tbody>
-                  <tr class="fw-bold">
-                    <td width="35%" class="fs-18">Balance</td>
-                    <td class="text-green fs-24">$132,198.00</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        <div class="card hlx">
-          <div class="card-body">
-            <h2 class="mb-3">Mis</h2>
-            <div class="row g-2 mb-2">
-              <div class="col">
-                <input type="text" class="form-control form-control-sm" placeholder="Purpose">
-              </div>
-            </div>
-            <div class="row g-2 mb-2">
-              <div class="col-md-6">
-                <select class="form-select form-select-sm">
-                  <option value="">Source</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <select class="form-select form-select-sm">
-                  <option value="">Type</option>
-                </select>
-              </div>
-            </div>
-            <div class="row g-2 mb-2">
-              <div class="col-md-6">
-                <select class="form-select form-select-sm">
-                  <option value="">Market Segment</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <select class="form-select form-select-sm">
-                  <option value="">Sales Person</option>
-                </select>
-              </div>
-            </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-9">
-          <div class="card hlx mb-3">
+          <div class="card hlx mt-3 mb-5">
             <div class="card-header d-flex justify-content-between">
               <h2>Rooming #countryList</h2>
             </div>
