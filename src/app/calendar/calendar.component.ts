@@ -215,8 +215,8 @@ export class CalendarComponent implements OnInit {
   public requestParams = {
     checkin_date: '',
     checkout_date: '',
-    checkin_time: "10:20:00",
-    checkout_time: "14:45:50",
+    checkin_time: "10:00:00",
+    checkout_time: "14:00:00",
     res_status: "RESERVE",
     adult: 1,
     child: 0,
@@ -526,7 +526,6 @@ export class CalendarComponent implements OnInit {
         }
       });
   }
-
   ngOnInit(): void {
     this.updateDays(new Date());
     this.getRoomList();
@@ -918,14 +917,30 @@ export class CalendarComponent implements OnInit {
         console.error('Error adding Booking:', error);
       });
   }
+  // bookingReservation() {
+  //   const guestInfo = this.requestParams.res_guest[0]?.guest?.personal_contact;
+  //   if (!guestInfo || !guestInfo.first_name || !guestInfo.last_name || !guestInfo.phone) {
+  //     alert('Please fill in all required fields: First Name, Last Name, and Phone Number.');
+  //     return;
+  //   }
+  //   this.mainService.save(this.requestParams).subscribe({
+  //     next: (res: any) => {
+  //       this.addNewDocument();
+  //       this.scheduleObj?.closeEditor();
+  //     },
+  //     error: (err) => {
+  //       alert(err);
+  //     },
+  //   });
+  // }
   bookingReservation() {
     const guestInfo = this.requestParams.res_guest[0]?.guest?.personal_contact;
-  
+    
     if (!guestInfo || !guestInfo.first_name || !guestInfo.last_name || !guestInfo.phone) {
       alert('Please fill in all required fields: First Name, Last Name, and Phone Number.');
       return;
     }
-  
+    localStorage.setItem('stayDetails', JSON.stringify(this.requestParams));
     this.mainService.save(this.requestParams).subscribe({
       next: (res: any) => {
         this.addNewDocument();
@@ -979,7 +994,6 @@ addNewTab(buttonName: string) {
   };
 
   this.tabItems = [...this.tabItems, newTab];
-
   setTimeout(() => {
     if (this.tabObj) {
       this.tabObj.selectedItem = this.tabItems.length - 1;

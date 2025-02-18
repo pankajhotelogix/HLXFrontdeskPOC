@@ -24,9 +24,9 @@
   }
 </style>
 <div class="e-sample-resize-container">
-  <ejs-tab #tabObj id="tab_orientation" loadOn="Dynamic" [animation]="tabAnimation" [showCloseButton]='enableClose'>
+  <ejs-tab #tabObj id="tab_orientation" loadOn="Dynamic" [animation]="tabAnimation" [showCloseButton]='enableClose' >
     <e-tabitems>
-      <e-tabitem *ngFor="let tab of tabItems; let i = index" [header]="tab.header">
+      <e-tabitem *ngFor="let tab of tabItems; let i = index" [header]="tab.header" >
         <ng-template #content>
           <ng-container *ngIf="tab.content === 'schedule'">
           <div class="planner-calendar">
@@ -231,6 +231,7 @@
                                 <img src="./assets/Icons/email.svg" alt=""
                                   style="background: #1C1B1F1F; margin-left: 5px;">
                                 <input type="text" placeholder="Email" name="email"
+                                [(ngModel)]="requestParams.res_guest[0].guest.personal_contact.email"
                                   style="width: 367px; margin-left: 5px;" class="input-text-field p-0">
                               </div>
                             </div>
@@ -584,10 +585,10 @@
           </div>
         </ng-container>
         <ng-container *ngIf="tab.content === 'stay-details'">
-          <app-stay-details></app-stay-details>
+          <app-stay-details [requestData]="requestParams"></app-stay-details>
         </ng-container>
         <ng-container *ngIf="tab.content === 'group-reservation'">
-          <app-group-res-details></app-group-res-details>
+          <app-group-res-details [requestData]="requestParams"></app-group-res-details>
         </ng-container>
         </ng-template>
       </e-tabitem>

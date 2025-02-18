@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, ElementRef, Inject, PLATFORM_ID, QueryList, Renderer2, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Inject, Input, OnChanges, PLATFORM_ID, QueryList, Renderer2, SimpleChanges, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { ButtonModule, CheckBoxModule, SpeedDialModule, SwitchAllModule } from '@syncfusion/ej2-angular-buttons';
 import { DatePicker, DatePickerModule, DateRangePicker, DateRangePickerModule, TimePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { DropDownListComponent, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
@@ -39,7 +39,7 @@ import { Query } from '@syncfusion/ej2-data';
   styleUrl: './group-res-details.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class GroupResDetailsComponent {
+export class GroupResDetailsComponent implements OnChanges {
   @ViewChild('scheduleObj') public scheduleObj: ScheduleComponent | undefined;
   @ViewChild('scheduleObj2') public scheduleObj2: ScheduleComponent | undefined;
   @ViewChild('scheduleObj3') public scheduleObj3: ScheduleComponent | undefined;
@@ -52,10 +52,12 @@ export class GroupResDetailsComponent {
   @ViewChildren('hr') hrs!: QueryList<ElementRef>;
   @ViewChild('dateRangePicker', { static: false })
   dateRangePicker?: DateRangePicker;
+  @Input() tab: any;
+  @Input() requestData: any;
   @ViewChildren(ScheduleComponent)
   public schedulers!: QueryList<ScheduleComponent>;
-  public startDate: Date = new Date(2024, 10, 10, 16, 0);
-  public endDate: Date = new Date(2024, 10, 15, 11, 0);
+  public startDate: Date = new Date();
+  public endDate: Date = new Date();
   public hoveredDate: string | null = null;
   public tooltipStyle: { [key: string]: string } = {};
   public readonly = true;
@@ -86,10 +88,23 @@ export class GroupResDetailsComponent {
   public rateDetails: any;
   public specialistCategory?: Record<string, any>[];
   public timeScaleOptions: TimeScaleModel = { enable: true, slotCount: 9 };
-  public viewInterval: number = this.calculateDays(
-    this.startDate,
-    this.endDate
-  );
+  public get viewInterval(): number {
+    return this.calculateDays(this.startDate, this.endDate);
+  }
+  public views = [
+    {
+      option: 'TimelineDay',
+      interval: this.calculateDays(this.startDate, this.endDate),
+    },
+  ];
+  public eventSettings: EventSettingsModel = {
+      dataSource: [],
+  };
+  
+  public eventSettings1: EventSettingsModel = {
+      dataSource: [],
+  };
+  public eventSetting: EventSettingsModel = { dataSource: [] };
   roomTypeData = [
     { id: 1, type: 'Single' },
     { id: 2, type: 'Double' },
@@ -267,7 +282,6 @@ export class GroupResDetailsComponent {
       phoneLength: 10
     }
   ];  
-// define the state DropDownList data
 public state: { [key: string]: Object }[] = [
     { StateName: 'New York', CountryId: '1', StateId: '101' },
     { StateName: 'Queensland', CountryId: '2', StateId: '104' },
@@ -276,7 +290,6 @@ public state: { [key: string]: Object }[] = [
     { StateName: 'Virginia ', CountryId: '1', StateId: '102' },
     { StateName: 'Washington', CountryId: '1', StateId: '103' }
 ];
-// define the city DropDownList data
 public cities: { [key: string]: Object }[] = [
     { CityName: 'Aberdeen', StateId: '103', CityId: 207 },
     { CityName: 'Alexandria', StateId: '102', CityId: 204 },
@@ -368,8 +381,33 @@ public cities: { [key: string]: Object }[] = [
       startDate1: '2024-11-10',
       endDate1: '2024-11-15',
     },
+    {
+      title: 'Ms.',
+      firstName: 'Jane',
+      lastName: 'Smith',
+      phoneNumber: '+91-9876543222',
+      isEditing: false,
+      gender: 2,
+      flagId: 2,
+      startDate1: '2024-11-12',
+      endDate1: '2024-11-18',
+    },
+    {
+      title: 'Mr.',
+      firstName: 'Robert',
+      lastName: 'Brown',
+      phoneNumber: '+91-9876543233',
+      isEditing: false,
+      gender: 1,
+      flagId: 3,
+      startDate1: '2024-11-15',
+      endDate1: '2024-11-20',
+    }
   ];
   addGuest() {
+    const checkinDate = this.requestData?.checkin_date ? this.requestData.checkin_date : '2024-11-10';
+    const checkoutDate = this.requestData?.checkout_date ? this.requestData.checkout_date : '2024-11-15';
+  
     this.guestDetails.push({
       title: '',
       firstName: '',
@@ -378,17 +416,21 @@ public cities: { [key: string]: Object }[] = [
       isEditing: true,
       gender: 1,
       flagId: 1,
-      startDate1: '2024-11-10',
-      endDate1: '2024-11-15',
+      startDate1: checkinDate,
+      endDate1: checkoutDate,
     });
+  
     this.updateScheduleHeight();
   }
+  
   public requestParams = {
     rsv_type: 'f',
     room_type_id: '',
     status: 'RESERVE',
     checkin_date: '',
     checkout_date: '',
+    checkin_time: "10:00:00",
+    checkout_time: "14:00:00",
     adult: 1,
     child: 0,
     room_id: '',
@@ -441,8 +483,6 @@ public cities: { [key: string]: Object }[] = [
   }
   onItemSelect(args: MenuEventArgs, index: number): void {
     const selectedText = args.item.text;
-    //console.log(`Selected action: ${selectedText} for guest index ${index}`);
-
     if (selectedText === 'Edit') {
       this.toggleEdit(index);
     } else if (selectedText === 'Delete') {
@@ -467,69 +507,56 @@ public cities: { [key: string]: Object }[] = [
     console.log(`Save action for guest at index ${index}`);
     alert(`Save action triggered for ${this.guestDetails[index].name}`);
   }
-  public views = [
-    {
-      option: 'TimelineDay',
-      interval: this.calculateDays(this.startDate, this.endDate),
-    },
-  ];
-  public eventSettings: EventSettingsModel = {
-    dataSource: [
-      {
-        Id: 1,
-        Subject: 'DELUXE',
-        Room: 'DLX-345',
-        Guest: 3,
-        Child: 0,
-        StartTime: new Date(2024, 10, 10, 16, 0),
-        EndTime: new Date(2024, 10, 12, 11, 0),
-        PrimaryColor: '#1aaa55',
-        SecondaryColor: '#7fa900',
-        Rates: 300,
-        Package: 'Seasonal',
-      },
-    ],
-  };
-  public eventSettings1: EventSettingsModel = {
-    dataSource: [
-      {
-        Id: 1,
-        Subject: 'DELUXE',
-        Room: 'DLX-345',
-        Guest: 3,
-        Child: 0,
-        StartTime: new Date(2024, 10, 10, 16, 0),
-        EndTime: new Date(2024, 10, 15, 11, 0),
-        PrimaryColor: '#1aaa55',
-        SecondaryColor: '#7fa900',
-        Rates: 300,
-        Package: 'Seasonal',
-      },
-    ],
-  };
+  updateEventSettings() {
+    const checkinDate = this.requestData?.checkin_date ?? '2024-11-10';
+    const checkoutDate = this.requestData?.checkout_date ?? '2024-11-15';
+    const checkinTime = this.requestData?.checkin_time ?? '11:00:00';
+    const checkoutTime = this.requestData?.checkout_time ?? '16:00:00';
 
-  public eventSetting: EventSettingsModel = {
-    dataSource: [
-      {
-        Id: 1,
-        Subject: 'Event 1',
-        StartTime: new Date(2024, 10, 10, 16, 0),
-        EndTime: new Date(2024, 10, 11, 11, 0),
-      },
-      {
-        Id: 2,
-        Subject: 'Event 2',
-        StartTime: new Date(2024, 10, 11, 16, 0),
-        EndTime: new Date(2024, 10, 12, 11, 0),
-      },
-      {
-        Id: 3,
-        Subject: 'Event 3',
-        StartTime: new Date(2024, 10, 13, 16, 0),
-        EndTime: new Date(2024, 10, 15, 11, 0),
-      },
-    ],
-  };
+    const startDate = new Date(
+      parseInt(checkinDate.split('-')[0]), 
+      parseInt(checkinDate.split('-')[1]) - 1, 
+      parseInt(checkinDate.split('-')[2]), 
+      parseInt(checkinTime.split(':')[0]), 
+      parseInt(checkinTime.split(':')[1]), 
+      parseInt(checkinTime.split(':')[2])
+    );
+
+    const endDate = new Date(
+      parseInt(checkoutDate.split('-')[0]), 
+      parseInt(checkoutDate.split('-')[1]) - 1,
+      parseInt(checkoutDate.split('-')[2]), 
+      parseInt(checkoutTime.split(':')[0]), 
+      parseInt(checkoutTime.split(':')[1]), 
+      parseInt(checkoutTime.split(':')[2])
+    );
+
+    this.eventSettings1 = {
+      dataSource: [
+        {
+          Id: 1,
+          Subject: 'DELUXE',
+          StartTime: startDate,
+          EndTime: endDate,
+          Room: 'DLX-345',
+          Guest: this.requestData?.adult || 3,
+          Child: this.requestData?.child || 0,
+          PrimaryColor: '#1aaa55',
+          SecondaryColor: '#7fa900',
+          Rates: 300,
+          Package: 'Seasonal',
+        },
+      ],
+    };
+
+    this.eventSettings = {
+      dataSource: Array.isArray(this.eventSettings1.dataSource) ? [...this.eventSettings1.dataSource] : [],  // ✅ Ensuring the data source is updated properly
+    };
+
+    console.log("Updated event settings:", this.eventSettings); // ✅ Debugging log
+}
+
+  
   public workDays: number[] = [0, 1, 2, 3, 4, 5];
   public allowInline = true;
   public groupSettings: GroupModel = {
@@ -553,77 +580,7 @@ public cities: { [key: string]: Object }[] = [
     return date.toLocaleDateString('en-US', options);
   }
   timelineStyle: { top: string; left: string; width: string } = { top: '0px', left: '0px', width: '0px' };
-  workCellWidth = 0; // Width of a single work cell
-
-  // ngOnInit(): void {
-  //   // Initialize the timeline to the current hour
-  //   const currentHour = new Date().getHours();
-  //   this.moveToHour(currentHour);
-  // }
-
-  // moveToHour(hour: number): void {
-  //   const workCells = document.querySelectorAll('.e-work-cells');
-  //   if (workCells.length === 0) {
-  //     console.warn('No work cells found.');
-  //     return;
-  //   }
-
-  //   // Calculate the width of a single work cell
-  //   const firstCell = workCells[0] as HTMLElement;
-  //   this.workCellWidth = firstCell.offsetWidth;
-
-  //   // Calculate the position based on the hour
-  //   const leftPosition = this.workCellWidth * hour;
-
-  //   // Update the timeline marker style
-  //   this.timelineStyle = {
-  //     top: '0px', // Adjust as needed
-  //     left: `${leftPosition}px`,
-  //     width: `${this.workCellWidth}px`, // Optional: Matches cell width
-  //   };
-  // }
-
-  // moveToNextHour(): void {
-  //   const currentLeft = parseInt(this.timelineStyle?.left || '0', 10);
-  //   const nextLeft = currentLeft + this.workCellWidth;
-  //   this.timelineStyle = {
-  //     ...this.timelineStyle,
-  //     left: `${nextLeft}px`,
-  //   };
-  // }
-  // public onHover(args: HoverEventArgs): void {
-  //   const workCells = document.querySelectorAll('.e-work-cells');
-  //   const tooltip = document.querySelector('.date-tooltip') as HTMLElement;
-  //   workCells.forEach((cell) => cell.classList.remove('vertical-highlight'));
-  //   if (args.element && args.element.classList.contains('e-work-cells')) {
-  //     const hoveredCell = args.element as HTMLTableCellElement;
-  //     const columnIndex = hoveredCell.cellIndex;
-  //     const tableRows = document.querySelectorAll('.e-content-table tr');
-  //     tableRows.forEach((row) => {
-  //       const cell = row.querySelectorAll('.e-work-cells')[columnIndex];
-  //       if (cell) {
-  //         cell.classList.add('vertical-highlight');
-  //       }
-  //     });
-  //     const rect = hoveredCell.getBoundingClientRect();
-  //     this.tooltipStyle = {
-  //       top: `${rect.top - 10}px`,
-  //       left: `${rect.left + rect.width / 2}px`,
-  //     };
-  //     const value = hoveredCell.getAttribute('aria-label');
-  //     if (value) {
-  //       const dateString = value.split(' at ')[0];
-  //       const date = new Date(dateString);
-  //       const options: Intl.DateTimeFormatOptions = {
-  //         day: '2-digit',
-  //         month: 'short',
-  //       };
-  //       this.hoveredDate = date.toLocaleDateString('en-GB', options);
-  //     }
-  //   } else {
-  //     this.hoveredDate = null;
-  //   }
-  // }
+  workCellWidth = 0; 
   private previousCells: HTMLElement[] = [];
 
   private addDottedLineToCell(cell: HTMLElement): void {
@@ -966,9 +923,59 @@ public cities: { [key: string]: Object }[] = [
     this.adjustSchedulerView();
     this.formatDateRange();
     this.getRoomList();
+    console.log(this.requestData);
 
   }
+  updateRequestParams() {
+    if (this.requestData?.res_guest?.length) {
+      const guest = this.requestData.res_guest[0];
+      this.requestParams.owner_details.first_name = guest.personal_contact?.first_name || '';
+      this.requestParams.owner_details.last_name = guest.personal_contact?.last_name || '';
+    }
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['requestData'] && this.requestData) {
+      this.updateDates();
+      this.updateEventSettings();
+      this.updateRequestParams();
+    }
+  }
 
+  // updateDates() {
+  //   if (this.requestData?.checkin_date && this.requestData?.checkout_date) {
+  //     const checkinDateParts = this.requestData.checkin_date.split('-');
+  //     const checkinTimeParts = this.requestData.checkin_time ? this.requestData.checkin_time.split(':') : ['12', '00', '00'];
+
+  //     const checkoutDateParts = this.requestData.checkout_date.split('-');
+  //     const checkoutTimeParts = this.requestData.checkout_time ? this.requestData.checkout_time.split(':') : ['12', '00', '00']; 
+  //     this.startDate = new Date(
+  //       parseInt(checkinDateParts[0]), // Year
+  //       parseInt(checkinDateParts[1]) - 1, // Month (0-based index)
+  //       parseInt(checkinDateParts[2]), // Day
+  //       parseInt(checkinTimeParts[0]), // Hour
+  //       parseInt(checkinTimeParts[1]), // Minute
+  //       parseInt(checkinTimeParts[2])  // Second
+  //     );
+
+  //     this.endDate = new Date(
+  //       parseInt(checkoutDateParts[0]), 
+  //       parseInt(checkoutDateParts[1]) - 1, 
+  //       parseInt(checkoutDateParts[2]), 
+  //       parseInt(checkoutTimeParts[0]), 
+  //       parseInt(checkoutTimeParts[1]), 
+  //       parseInt(checkoutTimeParts[2])
+  //     );
+  //   }
+  // }
+  updateDates() {
+    if (this.requestData?.checkin_date && this.requestData?.checkout_date) {
+      const checkinDateTime = `${this.requestData.checkin_date}T${this.requestData.checkin_time || '11:00:00'}`;
+      this.startDate = new Date(checkinDateTime);
+      const checkoutDateTime = `${this.requestData.checkout_date}T${this.requestData.checkout_time || '14:00:00'}`;
+      this.endDate = new Date(checkoutDateTime);
+    }
+  }
+  
   onSelect(event: any): void {
     const selectedGuestCount = parseInt(event.item.text.split(' ')[0], 10);
     this.selectedText = event.item.text;
@@ -986,12 +993,8 @@ public cities: { [key: string]: Object }[] = [
         endDate1: '2024-11-15',
       },
     ];
-    for (let i = 1; i < selectedGuestCount; i++) {
-      this.addGuest();
-    }
   }
   onSelectGender(event: any): void {
-  //  const selectedGuestCount = parseInt(event.item.text.split(' ')[0], 10);
     this.selectedText = event.item.text;
   }
   enableEdit(index: number) {
@@ -1011,28 +1014,10 @@ public cities: { [key: string]: Object }[] = [
   openDateRangePicker() {
     this.dateRangePicker?.show();
   }
-  // onDateRangeChange(event: any, i: any): void {
-  //   const selectedDates = event.value;
-  //   // console.log(i,"srk babu")
-  // //  console.log(selectedDates.length);
-  //   if (selectedDates && selectedDates.length === 2) {
-  //     const [startDate, endDate] = selectedDates;
-  //     // this.guestDetails.forEach((guest) => {
-  //     //   guest.startDate1 = startDate;
-  //     //   guest.endDate1 = endDate;
-  //     // });
-  //     this.guestDetails[i]  = {
-  //       startDate1: startDate,
-  //       endDate1: endDate,
-  //     };
-  //     this.guestDetails[i].isEditing = !this.guestDetails[i].isEditing;
-  //   }
-  // }
   public onDateRangeChange(event: any, index: number): void {
     if (event.startDate && event.endDate) {
       this.guestDetails[index].startDate1 = event.startDate;
       this.guestDetails[index].endDate1 = event.endDate;
-     // this.guestDetails[index].isEditing = !this.guestDetails[index].isEditing;
       
     }
   }
@@ -1082,17 +1067,9 @@ public cities: { [key: string]: Object }[] = [
     if ( args.type == 'QuickInfo' && args.target.classList.contains('e-work-cells')
     ) {
       args.cancel = true;
-     // console.log(args.data)
       this.scheduleObj?.openEditor(args.data, 'Add');
       args.element.classList.add('dialog-open');
       args.element.setAttribute('id', 'srk-id');
-     // let bookingsData = localStorage.getItem('bookingsData');
-      //let locBookings = bookingsData ? JSON.parse(bookingsData) : {};
-      // if (args.data && args.data[0]) {
-      //   let rec = args.data[0];
-      //   locBookings[rec.Id] = rec;
-      //   localStorage.setItem('bookingsData', JSON.stringify(locBookings));
-      // }
     }
   }
   getDate(date?: string) {
@@ -1103,7 +1080,6 @@ public cities: { [key: string]: Object }[] = [
     return `${year}-${month}-${day}`;
   }
   public onPopupOpenRoom(args: any) {
-   // console.log(args);
     this.requestParams.room_type_id = args.data.DepartmentId;
     this.requestParams.room_id = args.data.DoctorId;
     this.requestParams.checkin_date = this.getDate(args.data.StartTime);
@@ -1162,16 +1138,16 @@ public cities: { [key: string]: Object }[] = [
     }
   }
   public onRenderCell(args: RenderCellEventArgs): void {
-    if (args.elementType == 'workCells') {
-      if (args.date) {
-        if (args.date.getDay() === 6) {
-          (args.element as any).style.background = '#888888 ';
-          (args.element as any).style.opacity = '0.1';
-        }
-        if (args.date.getDay() === 0) {
-          (args.element as any).style.background = '#888888';
-          (args.element as any).style.opacity = '0.1';
-        }
+    if (args.elementType === 'workCells' && args.date) {
+      const cellDate = new Date(args.date.setHours(0, 0, 0, 0));
+      const startDate = new Date(this.startDate.setHours(0, 0, 0, 0));
+      const endDate = new Date(this.endDate.setHours(0, 0, 0, 0));
+  
+      // ✅ Disable cells outside the selected date range
+      if (cellDate < startDate || cellDate > endDate) {
+        (args.element as HTMLElement).style.background = '#e0e0e0';
+        (args.element as HTMLElement).style.opacity = '0.5';
+        (args.element as HTMLElement).style.pointerEvents = 'none'; // Prevent interaction
       }
     }
   }
@@ -1320,10 +1296,6 @@ public cities: { [key: string]: Object }[] = [
         this.isScheduleRender = false;
       }
     }
-    
-    // public addField(): void {
-    //   this.fields.push({ text: '', value: '' });
-    // }
     public removeField(index: number): void {
       this.fields.splice(index, 1);
     }

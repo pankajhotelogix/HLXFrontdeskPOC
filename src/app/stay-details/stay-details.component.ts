@@ -9,6 +9,9 @@ import {
   Renderer2,
   PLATFORM_ID,
   Inject,
+  SimpleChanges,
+  Input,
+  OnChanges,
 } from '@angular/core';
 import {
   DayService,
@@ -92,7 +95,7 @@ import { AccordionModule, SelectEventArgs, TabAllModule } from '@syncfusion/ej2-
   encapsulation: ViewEncapsulation.None,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class StayDetailsComponent  {
+export class StayDetailsComponent  implements OnChanges{
   @ViewChild('scheduleObj') public scheduleObj: ScheduleComponent | undefined;
   @ViewChild('scheduleObj2') public scheduleObj2: ScheduleComponent | undefined;
   @ViewChild('scheduleObj3') public scheduleObj3: ScheduleComponent | undefined;
@@ -107,8 +110,10 @@ export class StayDetailsComponent  {
   dateRangePicker?: DateRangePicker;
   @ViewChildren(ScheduleComponent)
   public schedulers!: QueryList<ScheduleComponent>;
-  public startDate: Date = new Date(2024, 10, 10, 16, 0);
-  public endDate: Date = new Date(2024, 10, 15, 11, 0);
+  @Input() tab: any;
+  @Input() requestData: any;
+  public startDate: Date = new Date();
+  public endDate: Date = new Date();
   public hoveredDate: string | null = null;
   public tooltipStyle: { [key: string]: string } = {};
   public readonly = true;
@@ -139,10 +144,16 @@ export class StayDetailsComponent  {
   public rateDetails: any;
   public specialistCategory?: Record<string, any>[];
   public timeScaleOptions: TimeScaleModel = { enable: true, slotCount: 9 };
-  public viewInterval: number = this.calculateDays(
-    this.startDate,
-    this.endDate
-  );
+  public get viewInterval(): number {
+    return this.calculateDays(this.startDate, this.endDate);
+  }
+  public eventSettings: EventSettingsModel = {
+    dataSource: [],
+};
+
+public eventSettings1: EventSettingsModel = {
+    dataSource: [],
+};
   roomTypeData = [
     { id: 1, type: 'Single' },
     { id: 2, type: 'Double' },
@@ -526,40 +537,113 @@ public cities: { [key: string]: Object }[] = [
       interval: this.calculateDays(this.startDate, this.endDate),
     },
   ];
-  public eventSettings: EventSettingsModel = {
-    dataSource: [
-      {
-        Id: 1,
-        Subject: 'DELUXE',
-        Room: 'DLX-345',
-        Guest: 3,
-        Child: 0,
-        StartTime: new Date(2024, 10, 10, 16, 0),
-        EndTime: new Date(2024, 10, 12, 11, 0),
-        PrimaryColor: '#1aaa55',
-        SecondaryColor: '#7fa900',
-        Rates: 300,
-        Package: 'Seasonal',
-      },
-    ],
-  };
-  public eventSettings1: EventSettingsModel = {
-    dataSource: [
-      {
-        Id: 1,
-        Subject: 'DELUXE',
-        Room: 'DLX-345',
-        Guest: 3,
-        Child: 0,
-        StartTime: new Date(2024, 10, 10, 16, 0),
-        EndTime: new Date(2024, 10, 15, 11, 0),
-        PrimaryColor: '#1aaa55',
-        SecondaryColor: '#7fa900',
-        Rates: 300,
-        Package: 'Seasonal',
-      },
-    ],
-  };
+  updateEventSettings() {
+    const checkinDate = this.requestData?.checkin_date ?? '2024-11-10';
+    const checkoutDate = this.requestData?.checkout_date ?? '2024-11-15';
+    const checkinTime = this.requestData?.checkin_time ?? '11:00:00';
+    const checkoutTime = this.requestData?.checkout_time ?? '16:00:00';
+  
+    const startDate = new Date(
+      parseInt(checkinDate.split('-')[0]), 
+      parseInt(checkinDate.split('-')[1]) - 1, 
+      parseInt(checkinDate.split('-')[2]), 
+      parseInt(checkinTime.split(':')[0]), 
+      parseInt(checkinTime.split(':')[1]), 
+      parseInt(checkinTime.split(':')[2])
+    );
+  
+    const endDate = new Date(
+      parseInt(checkoutDate.split('-')[0]), 
+      parseInt(checkoutDate.split('-')[1]) -1, 
+      parseInt(checkoutDate.split('-')[2]), 
+      parseInt(checkoutTime.split(':')[0]), 
+      parseInt(checkoutTime.split(':')[1]), 
+      parseInt(checkoutTime.split(':')[2])
+    );
+  
+    this.eventSettings1 = {
+      dataSource: [
+        {
+          Id: 1,
+          Subject: 'DELUXE',
+          StartTime: startDate,
+          EndTime: endDate,
+          Room: 'DLX-345',
+          Guest: this.requestData?.adult || 3,
+          Child: this.requestData?.child || 0,
+          PrimaryColor: '#1aaa55',
+          SecondaryColor: '#7fa900',
+          Rates: 300,
+          Package: 'Seasonal',
+        },
+      ],
+    };
+    this.eventSettings = {
+      dataSource: [
+        {
+          Id: 1,
+          Subject: 'DELUXE',
+          StartTime: startDate,
+          EndTime: endDate,
+          Room: 'DLX-345',
+          Guest: this.requestData?.adult || 3,
+          Child: this.requestData?.child || 0,
+          PrimaryColor: '#1aaa55',
+          SecondaryColor: '#7fa900',
+          Rates: 300,
+          Package: 'Seasonal',
+        },
+      ],
+    };
+  }
+  updateDates() {
+    if (this.requestData?.checkin_date && this.requestData?.checkout_date) {
+      const checkinDateTime = `${this.requestData.checkin_date}T${this.requestData.checkin_time || '11:00:00'}`;
+      this.startDate = new Date(checkinDateTime);
+      const checkoutDateTime = `${this.requestData.checkout_date}T${this.requestData.checkout_time || '14:00:00'}`;
+      this.endDate = new Date(checkoutDateTime);
+    }
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['requestData'] && this.requestData) {
+      this.updateDates();
+      this.updateEventSettings();
+    }
+  }
+  // public eventSettings: EventSettingsModel = {
+  //   dataSource: [
+  //     {
+  //       Id: 1,
+  //       Subject: 'DELUXE',
+  //       Room: 'DLX-345',
+  //       Guest: 3,
+  //       Child: 0,
+  //       StartTime: new Date(2024, 10, 10, 16, 0),
+  //       EndTime: new Date(2024, 10, 12, 11, 0),
+  //       PrimaryColor: '#1aaa55',
+  //       SecondaryColor: '#7fa900',
+  //       Rates: 300,
+  //       Package: 'Seasonal',
+  //     },
+  //   ],
+  // };
+  // public eventSettings1: EventSettingsModel = {
+  //   dataSource: [
+  //     {
+  //       Id: 1,
+  //       Subject: 'DELUXE',
+  //       Room: 'DLX-345',
+  //       Guest: 3,
+  //       Child: 0,
+  //       StartTime: new Date(2024, 10, 10, 16, 0),
+  //       EndTime: new Date(2024, 10, 15, 11, 0),
+  //       PrimaryColor: '#1aaa55',
+  //       SecondaryColor: '#7fa900',
+  //       Rates: 300,
+  //       Package: 'Seasonal',
+  //     },
+  //   ],
+  // };
 
   public eventSetting: EventSettingsModel = {
     dataSource: [

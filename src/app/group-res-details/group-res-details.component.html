@@ -27,10 +27,12 @@
                     <div class="col-9">
                       <div class="row g-2">
                         <div class="col">
-                          <input type="text" class="form-control form-control-sm" placeholder="First Name">
+                          <input type="text" class="form-control form-control-sm" placeholder="First Name"
+                                 [(ngModel)]="requestData.res_guest[0].guest.personal_contact.first_name" name="firstName">
                         </div>
                         <div class="col">
-                          <input type="text" class="form-control form-control-sm" placeholder="Last Name">
+                          <input type="text" class="form-control form-control-sm" placeholder="Last Name"
+                                 [(ngModel)]="requestData.res_guest[0].guest.personal_contact.last_name" name="lastName">
                         </div>
                       </div>
                     </div>
@@ -54,7 +56,8 @@
                           </ejs-dropdownlist>
                         </div>
                         <div class="col">
-                          <input type="text" class="form-control form-control-sm" placeholder="Mobile">
+                          <input type="text" class="form-control form-control-sm" placeholder="Mobile" 
+                          [(ngModel)]="requestData.res_guest[0].guest.personal_contact.phone" name="phone">
                         </div>
                       </div>
                     </div>
@@ -101,7 +104,8 @@
                   </ejs-dropdownlist>
                 </div>
                 <div class="col-md-8">
-                  <input type="text" class="form-control form-control-sm" placeholder="Email">
+                  <input type="text" class="form-control form-control-sm" placeholder="Email"
+                  [(ngModel)]="requestData.res_guest[0].guest.personal_contact.email" name="email">
                 </div>
               </div>
               <ejs-accordion class="guest-details-accordion">
@@ -364,12 +368,12 @@
                       </div>
                       <div class="control-section">
                         <ejs-schedule #scheduleObj id="scheduleObj1" width="100%" height="100px"
-                          class="remove-table-header1 timeline-resource-grouping remove-table-header first-schedular-height"
-                          [selectedDate]="startDate" [views]="views" [currentView]="'TimelineDay'"
-                          [eventSettings]="eventSettings" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
-                          [showHeaderBar]="false" [showTimeIndicator]="false" [workDays]="workDays"
-                          (hover)="onHover($event)" (dataBound)="adjustWorkCellWidths()" (popupOpen)="onPopupOpen($event)"
-                          cssClass="custom-scheduler1">
+                        class="remove-table-header1 timeline-resource-grouping remove-table-header first-schedular-height"
+                        [selectedDate]="startDate" [views]="views" [currentView]="'TimelineDay'"
+                        [eventSettings]="eventSettings" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
+                        [showHeaderBar]="false" [showTimeIndicator]="false" [workDays]="workDays"
+                        (hover)="onHover($event)" (dataBound)="adjustWorkCellWidths()" (popupOpen)="onPopupOpen($event)"
+                        cssClass="custom-scheduler1">
                           <e-views>
                             <e-view option="TimelineDay" [interval]="viewInterval">
                               <ng-template #eventTemplate let-data>
@@ -396,14 +400,15 @@
                         <div>Rooms</div>
                       </div>
                       <div class="control-section">
-                        <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" height="200px" [selectedDate]="startDate"
-                          [quickInfoOnSelectionEnd]=true [eventSettings]="eventSettings1" [views]="views"
-                          [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
-                          [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
-                          [workDays]="workDays" (hover)="onHover($event)" [allowMultiCellSelection]="true"
-                          (renderCell)="onRenderCell($event)" (popupOpen)="onPopupOpenRoom($event)"
-                          (popupClose)="onPopupCloseSessionalRate($event)" (actionBegin)="onActionBegin($event)"
-                          cssClass="remove-table-header timeline-resource-grouping custom-scheduler3">
+                        <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" height="150"
+                        [selectedDate]="startDate"
+                       [quickInfoOnSelectionEnd]=true [eventSettings]="eventSettings1" [views]="views"
+                       [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
+                       [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
+                       [workDays]="workDays" (hover)="onHover($event)" [allowMultiCellSelection]="true"
+                       (renderCell)="onRenderCell($event)" (popupOpen)="onPopupOpenRoom($event)"
+                       (popupClose)="onPopupCloseSessionalRate($event)" (actionBegin)="onActionBegin($event)"
+                       cssClass="remove-table-header timeline-resource-grouping custom-scheduler2">
                           <e-views>
                             <e-view option="TimelineDay" [interval]="viewInterval">
                               <ng-template #eventTemplate let-data *ngFor="let guest of guestDetails;">
@@ -496,14 +501,14 @@
                         <div>Rates</div>
                       </div>
                       <div class="control-section">
-                        <ejs-schedule #scheduleObj3 width="100%" height="100px"
-                          class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
-                          [quickInfoOnSelectionEnd]="true" [eventSettings]="eventSettings" [views]="views"
-                          [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
-                          [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
-                          (actionBegin)="onActionBegin($event)" [workDays]="workDays" (hover)="onHover($event)"
-                          (popupOpen)="onPopupOpenSessionalRate($event)" (popupClose)="onPopupCloseSessionalRate($event)"
-                          [allowMultiCellSelection]="true" (renderCell)="onRenderCell($event)" cssClass="custom-scheduler2">
+                        <ejs-schedule #scheduleObj3 id="scheduleObj3" width="100%" height="100px"
+                      class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
+                      [quickInfoOnSelectionEnd]="true" [eventSettings]="eventSettings1" [views]="views"
+                      [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
+                      [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
+                      (actionBegin)="onActionBegin($event)" [workDays]="workDays" (hover)="onHover($event)"
+                      (popupOpen)="onPopupOpenSessionalRate($event)" (popupClose)="onPopupCloseSessionalRate($event)"
+                      [allowMultiCellSelection]="true" (renderCell)="onRenderCell($event)" cssClass="custom-scheduler2">
                           <e-views>
                             <e-view option="TimelineDay" [interval]="viewInterval">
                               <ng-template #eventTemplate let-data>
@@ -568,11 +573,11 @@
                       </div>
                       <div class="control-section">
                         <ejs-schedule #scheduleObj4 width="100%" height="100px"
-                          class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
-                          [eventSettings]="eventSetting" [views]="views" [currentView]="'TimelineDay'"
-                          [showHeaderBar]="false" [showTimeIndicator]="false"
-                          [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }" [workDays]="workDays"
-                          (hover)="onHover($event)" (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler2">
+                        class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
+                        [eventSettings]="eventSettings1" [views]="views" [currentView]="'TimelineDay'"
+                        [showHeaderBar]="false" [showTimeIndicator]="false"
+                        [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }" [workDays]="workDays"
+                        (hover)="onHover($event)" (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler2">
                           <e-views>
                             <e-view option="TimelineDay" [interval]="viewInterval">
                               <ng-template #eventTemplate let-data>
@@ -583,6 +588,13 @@
                                   margin: 10px -6px;
                                   flex-grow: 1;
                                   width: 701px;" />
+                                </div>
+                                <div class="appointment-header">
+                                  <strong>$ {{data.Rates}}</strong>
+                                  <span class="room-id">{{data.Package}}</span>
+                                </div>
+                                <div class="appointment-info">
+                                  <span class="child-count">None</span>
                                 </div>
                               </ng-template>
                             </e-view>
@@ -685,57 +697,58 @@
               </div>
             </div>
           </div>
-          <div class="card hlx mt-3 mb-5">
+          <div class="card hlx mt-3 mb-5" (click)="$event.stopPropagation()">
             <div class="card-header d-flex justify-content-between">
               <h2>Rooming List</h2>
             </div>
             <div class="card-body">
-              <table class="table table-borderless table-sm align-middle text-end fs-14 mb-0">
-                <tbody>
-                  <tr class="fw-bold fs-16">
-                    <td width="35%">Room Tariff</td>
-                    <td>$132,198.00</td>
-                  </tr>
-                  <tr>
-                    <td><a class="label" (click)="openAddOOnPopup($event)">Add Ons</a></td>
-                    <td>00</td>
-                  </tr>
-                  <tr>
-                    <td>Other Charges</td>
-                    <td>00</td>
-                  </tr>
-                  <tr>
-                    <td><a class="label" (click)="openTaxEsPopup($event)">Tax(es)</a></td>
-                    <td>00</td>
-                  </tr>
-                  <tr class="fw-bold pay-total">
-                    <td class="fs-18">Total</td>
-                    <td class="text-blue fs-24">$132,198.00</td>
-                  </tr>
-                  <tr class="fw-bold">
-                    <td>Amount Paid</td>
-                    <td>00</td>
-                  </tr>
-                  <tr>
-                    <td><a class="label" (click)="openDiscountPopup($event)">Discount</a></td>
-                    <td>00</td>
-                  </tr>
-                  <tr>
-                    <td><a class="label" (click)="openOtherDiscountPopup($event)">Other Discount</a></td>
-                    <td>00</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="card-footer pay-balance py-0">
-              <table class="table table-borderless table-sm align-middle text-end mb-0">
-                <tbody>
-                  <tr class="fw-bold">
-                    <td width="35%" class="fs-18">Balance</td>
-                    <td class="text-green fs-24">$132,198.00</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div *ngFor="let guest of guestDetails;">
+                <div class="appointment-guest-details">
+                  <table width="100%" class="table table-sm table-borderless">
+                    <tr>
+                      <td>
+                        <ejs-checkbox></ejs-checkbox>
+                      </td>
+                      <td>
+                        <span class="room-type">0123456</span>
+                      </td>
+                      <td>
+                        <div class="d-flex">
+                          <div>
+                            <button ejs-dropdownbutton cssClass="e-inherit e-appbar-menu"
+                            [items]='productDropDownButtonItems' content="Standard"></button>
+                          </div>
+                          <div class="mx-1">
+                            <button ejs-dropdownbutton cssClass="e-inherit e-appbar-menu"
+                              [items]='productDropDownButtonItems' content="STD-203"></button>
+                          </div>
+                            <div>
+                            <a class="room-type" style="color: #336699">Guest</a>
+                            </div>
+                          <div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="" style="color: #336699" (click)="openDateRangePicker()">
+                          {{ guest.startDate1 | date: 'dd MMM' }} - {{ guest.endDate1 | date: 'dd MMM' }}
+                        </div>
+                      </td>
+                      <td> 
+                      <td>
+                        <div class="mx-1">
+                          <i class="material-icons d-block text-gray">child_care</i>
+                       </div>
+                      </td> 
+                      <td>
+                        <div class="mx-1">
+                          <a class="room-type" style="color: #336699">$1233444</a>
+                        </div>
+                      </td> 
+                    </tr>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
