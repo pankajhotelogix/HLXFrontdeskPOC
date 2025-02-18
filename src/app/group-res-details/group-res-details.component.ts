@@ -1142,12 +1142,10 @@ public cities: { [key: string]: Object }[] = [
       const cellDate = new Date(args.date.setHours(0, 0, 0, 0));
       const startDate = new Date(this.startDate.setHours(0, 0, 0, 0));
       const endDate = new Date(this.endDate.setHours(0, 0, 0, 0));
-  
-      // ✅ Disable cells outside the selected date range
       if (cellDate < startDate || cellDate > endDate) {
         (args.element as HTMLElement).style.background = '#e0e0e0';
         (args.element as HTMLElement).style.opacity = '0.5';
-        (args.element as HTMLElement).style.pointerEvents = 'none'; // Prevent interaction
+        (args.element as HTMLElement).style.pointerEvents = 'none'; 
       }
     }
   }
