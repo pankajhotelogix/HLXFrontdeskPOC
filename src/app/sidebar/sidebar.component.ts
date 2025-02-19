@@ -18,16 +18,16 @@ export class SidebarComponent {
   public sidebarMenuInstance!: SidebarComponent;
   public menuItems: MenuItemModel[] = [
     {
-      text: 'Overview',
+      text: 'Room Operations',
       iconCss: 'icon-user icon',
       items: [
-        { text: 'All Data' },
-        { text: 'Category2' },
-        { text: 'Category3' },
+        { text: 'Check in list' },
+        { text: 'Check out list' },
+        { text: 'Reservation list' },
       ],
     },
     {
-      text: 'Notification',
+      text: 'Management Dashboard',
       iconCss: 'icon-bell-alt icon',
       items: [
         { text: 'Change Profile' },
@@ -36,12 +36,12 @@ export class SidebarComponent {
       ],
     },
     {
-      text: 'Info',
+      text: 'Guest look-up',
       iconCss: 'icon-tag icon',
       items: [{ text: 'Message' }, { text: 'Facebook' }, { text: 'Twitter' }],
     },
     {
-      text: 'Comments',
+      text: 'House Status',
       iconCss: 'icon-comment-inv-alt2 icon',
       items: [
         { text: 'Category1' },
@@ -50,7 +50,7 @@ export class SidebarComponent {
       ],
     },
     {
-      text: 'Bookmarks',
+      text: 'Tariff Chart',
       iconCss: 'icon-bookmark icon',
       items: [
         { text: 'All Comments' },
@@ -59,7 +59,7 @@ export class SidebarComponent {
       ],
     },
     {
-      text: 'Images',
+      text: 'Accounts',
       iconCss: 'icon-picture icon',
       items: [{ text: 'Add Name' }, { text: 'Add Mobile Number' }],
     },
