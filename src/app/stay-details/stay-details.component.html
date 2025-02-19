@@ -400,7 +400,7 @@
                   <div class="control-section">
                     <ejs-schedule #scheduleObj4  width="100%" [height]="scheduleHeight"
                       class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
-                      [eventSettings]="eventSetting" [views]="views" [currentView]="'TimelineDay'"
+                      [eventSettings]="eventSettings1" [views]="views" [currentView]="'TimelineDay'"
                       [showHeaderBar]="false" [showTimeIndicator]="false" [rowAutoHeight]="true"
                       [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }" [workDays]="workDays"
                       (hover)="onHover($event)" (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler1">
@@ -604,12 +604,19 @@
                       [workDays]="workDays" (hover)="onHover($event)" [allowMultiCellSelection]="true"
                       (renderCell)="onRenderCell($event)" (popupOpen)="onPopupOpenRoom($event)"
                       (popupClose)="onPopupCloseSessionalRate($event)" (actionBegin)="onActionBegin($event)"
-                      cssClass="remove-table-header timeline-resource-grouping custom-scheduler3">
+                      cssClass="remove-table-header timeline-resource-grouping custom-scheduler2">
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
                           <ng-template #eventTemplate let-data *ngFor="let guest of guestDetails;">
                             <div class="w-100">
-                              <div class="hlx-hr"></div>
+                              <div>
+                                <hr style="
+                              border: none;
+                              border-top: 2px solid #A40202;
+                              margin: 10px -6px;
+                              flex-grow: 1;
+                              width: 701px;" />
+                              </div>
                               <div class="appointment-header">
                                 <div class="e-section-control">
                                   <div class="room-details mt-3">

@@ -154,6 +154,9 @@ export class StayDetailsComponent  implements OnChanges{
 public eventSettings1: EventSettingsModel = {
     dataSource: [],
 };
+public eventSetting: EventSettingsModel = {
+  dataSource: [],
+};
   roomTypeData = [
     { id: 1, type: 'Single' },
     { id: 2, type: 'Double' },
@@ -595,6 +598,16 @@ public cities: { [key: string]: Object }[] = [
         },
       ],
     };
+    this.eventSettings  = {
+        dataSource: [
+          {
+            Id: 1,
+            Subject: 'Event 1',
+            StartTime: startDate,
+            EndTime: endDate,
+          },
+        ]
+      }
   }
   updateDates() {
     if (this.requestData?.checkin_date && this.requestData?.checkout_date) {
@@ -645,28 +658,28 @@ public cities: { [key: string]: Object }[] = [
   //   ],
   // };
 
-  public eventSetting: EventSettingsModel = {
-    dataSource: [
-      {
-        Id: 1,
-        Subject: 'Event 1',
-        StartTime: new Date(2024, 10, 10, 16, 0),
-        EndTime: new Date(2024, 10, 11, 11, 0),
-      },
-      {
-        Id: 2,
-        Subject: 'Event 2',
-        StartTime: new Date(2024, 10, 11, 16, 0),
-        EndTime: new Date(2024, 10, 12, 11, 0),
-      },
-      {
-        Id: 3,
-        Subject: 'Event 3',
-        StartTime: new Date(2024, 10, 13, 16, 0),
-        EndTime: new Date(2024, 10, 15, 11, 0),
-      },
-    ],
-  };
+  // public eventSetting: EventSettingsModel = {
+  //   dataSource: [
+  //     {
+  //       Id: 1,
+  //       Subject: 'Event 1',
+  //       StartTime: new Date(2024, 10, 10, 16, 0),
+  //       EndTime: new Date(2024, 10, 11, 11, 0),
+  //     },
+  //     {
+  //       Id: 2,
+  //       Subject: 'Event 2',
+  //       StartTime: new Date(2024, 10, 11, 16, 0),
+  //       EndTime: new Date(2024, 10, 12, 11, 0),
+  //     },
+  //     {
+  //       Id: 3,
+  //       Subject: 'Event 3',
+  //       StartTime: new Date(2024, 10, 13, 16, 0),
+  //       EndTime: new Date(2024, 10, 15, 11, 0),
+  //     },
+  //   ],
+  // };
   public workDays: number[] = [0, 1, 2, 3, 4, 5];
   public allowInline = true;
   public groupSettings: GroupModel = {
