@@ -5,16 +5,16 @@
             <app-calendar></app-calendar>
         </div>
         <ejs-sidebar id="menuSidebar" class="sidebar-menu" #sidebarMenuInstance [enableDock]="enableDock"
-            [dockSize]="dockSize" [width]="width" [target]="target" [isOpen]="false" type="false">
+            [dockSize]="dockSize" [width]="width" [target]="target" [isOpen]="false" [type]="'Push'">
             <div class="main-menu">
                 <div>
-                    <ejs-toolbar id="menuToolbar" (clicked)="toolbarCliked($event)">
+                    <ejs-toolbar id="menuToolbar" (clicked)="toolbarClicked($event)">
                         <e-items>
                             <e-item prefixIcon="icon-menu" tooltipText="Menu"></e-item>
                             <e-item>
                          <ng-template #template>
                           <div class="e-folder">
-                            <div class="e-folder-name">Navigation</div>
+                            <div class="e-folder-name"></div>
                           </div>
                         </ng-template>
                             </e-item>

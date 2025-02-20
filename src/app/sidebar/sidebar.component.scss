@@ -151,8 +151,11 @@
 }
 
 #sidebarmenu .icon-menu:before {
-    content: '\e914';
-    font-family: 'sbicons'
+    content: '\e207';
+}
+#sidebarmenu .icon-menu::after {
+    content: '\e5cd';
+   
 }
 
 /*Specifies the sample level styles for sidebar for dock & closed state */

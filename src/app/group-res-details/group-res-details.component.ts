@@ -62,6 +62,7 @@ export class GroupResDetailsComponent implements OnChanges {
   public tooltipStyle: { [key: string]: string } = {};
   public readonly = true;
   public scheduleHeight: string = '220px';
+  public scheduleRoomingHeight: string = '220px';
   public selectedText: string = '1';
   public isPopupVisible: boolean = false;
   public isAddOnPopupVisible: boolean = false;
@@ -369,41 +370,41 @@ public cities: { [key: string]: Object }[] = [
       iconCss: 'e-ddb-icons e-profile icon-blue',
     },
   ];
-  public guestDetails: any[] = [
-    {
-      title: 'Mr.',
-      firstName: 'Deepak',
-      lastName: 'Sharma',
-      phoneNumber: '+91-9827205727',
-      isEditing: false,
-      gender: 1,
-      flagId: 1,
-      startDate1: '2024-11-10',
-      endDate1: '2024-11-15',
-    },
-    {
-      title: 'Ms.',
-      firstName: 'Jane',
-      lastName: 'Smith',
-      phoneNumber: '+91-9876543222',
-      isEditing: false,
-      gender: 2,
-      flagId: 2,
-      startDate1: '2024-11-12',
-      endDate1: '2024-11-18',
-    },
-    {
-      title: 'Mr.',
-      firstName: 'Robert',
-      lastName: 'Brown',
-      phoneNumber: '+91-9876543233',
-      isEditing: false,
-      gender: 1,
-      flagId: 3,
-      startDate1: '2024-11-15',
-      endDate1: '2024-11-20',
-    }
-  ];
+  // public guestDetails: any[] = [
+  //   {
+  //     title: 'Mr.',
+  //     firstName: 'Deepak',
+  //     lastName: 'Sharma',
+  //     phoneNumber: '+91-9827205727',
+  //     isEditing: false,
+  //     gender: 1,
+  //     flagId: 1,
+  //     startDate1: '2024-11-10',
+  //     endDate1: '2024-11-15',
+  //   },
+  //   {
+  //     title: 'Ms.',
+  //     firstName: 'Jane',
+  //     lastName: 'Smith',
+  //     phoneNumber: '+91-9876543222',
+  //     isEditing: false,
+  //     gender: 2,
+  //     flagId: 2,
+  //     startDate1: '2024-11-12',
+  //     endDate1: '2024-11-18',
+  //   },
+  //   {
+  //     title: 'Mr.',
+  //     firstName: 'Robert',
+  //     lastName: 'Brown',
+  //     phoneNumber: '+91-9876543233',
+  //     isEditing: false,
+  //     gender: 1,
+  //     flagId: 3,
+  //     startDate1: '2024-11-15',
+  //     endDate1: '2024-11-20',
+  //   }
+  // ];
   addGuest() {
     const checkinDate = this.requestData?.checkin_date ? this.requestData.checkin_date : '2024-11-10';
     const checkoutDate = this.requestData?.checkout_date ? this.requestData.checkout_date : '2024-11-15';
@@ -550,10 +551,10 @@ public cities: { [key: string]: Object }[] = [
     };
 
     this.eventSettings = {
-      dataSource: Array.isArray(this.eventSettings1.dataSource) ? [...this.eventSettings1.dataSource] : [],  // ✅ Ensuring the data source is updated properly
+      dataSource: Array.isArray(this.eventSettings1.dataSource) ? [...this.eventSettings1.dataSource] : [],
     };
 
-    console.log("Updated event settings:", this.eventSettings); // ✅ Debugging log
+    console.log("Updated event settings:", this.eventSettings); 
 }
 
   
@@ -570,7 +571,7 @@ public cities: { [key: string]: Object }[] = [
   calculateDays(start: Date, end: Date): number {
     const diffTime = Math.abs(end.getTime() - start.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays + 1;
+    return diffDays;
   }
   private formatDate(date: Date): string {
     const options: Intl.DateTimeFormatOptions = {
@@ -640,7 +641,6 @@ public cities: { [key: string]: Object }[] = [
       const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short' };
       this.hoveredDate = date.toLocaleDateString('en-GB', options);
     }
-
     let tooltip = document.getElementById('date-tooltip') as HTMLElement;
     if (!tooltip) {
       tooltip = document.createElement('div');
@@ -938,8 +938,41 @@ public cities: { [key: string]: Object }[] = [
       this.updateDates();
       this.updateEventSettings();
       this.updateRequestParams();
+      this.updateGuestDetails();
     }
   }
+  public guestDetails: any[] = [];
+
+updateGuestDetails() {
+  if (this.requestData?.res_guest?.length) {
+    this.guestDetails = this.requestData.res_guest.map((guest: any, index: number) => ({
+      title: guest.person_type === 'Adult' ? 'Mr.' : 'Ms.',
+      firstName: guest.guest.personal_contact.first_name || '',
+      lastName: guest.guest.personal_contact.last_name || '',
+      phoneNumber: guest.guest.personal_contact.phone || '',
+      isEditing: false,
+      gender: guest.person_type === 'Adult' ? 1 : 2,
+      flagId: index + 1, // Assigning a unique ID
+      startDate1: this.requestData.checkin_date || '',  // ✅ Set from requestData
+      endDate1: this.requestData.checkout_date || '',   // ✅ Set from requestData
+    }));
+  } else {
+    // Fallback: Default dummy data
+    this.guestDetails = [
+      {
+        title: 'Mr.',
+        firstName: 'Deepak',
+        lastName: 'Sharma',
+        phoneNumber: '+91-9827205727',
+        isEditing: false,
+        gender: 1,
+        flagId: 1,
+        startDate1: this.requestData?.checkin_date || '2021-08-07',
+        endDate1: this.requestData?.checkout_date || '2021-08-08',
+      },
+    ];
+  }
+}
 
   // updateDates() {
   //   if (this.requestData?.checkin_date && this.requestData?.checkout_date) {

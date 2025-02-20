@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ClickEventArgs, MenuItemModel, MenuModule, SidebarModule, ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 import { Router } from '@angular/router';
 import { CalendarComponent } from "../calendar/calendar.component";
@@ -13,7 +13,7 @@ import { HeaderBarComponent } from "../header-bar/header-bar.component";
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
-export class SidebarComponent {
+export class SidebarComponent implements AfterViewInit {
   @ViewChild('sidebarMenuInstance')
   public sidebarMenuInstance!: SidebarComponent;
   public menuItems: MenuItemModel[] = [
@@ -77,14 +77,35 @@ export class SidebarComponent {
   public dockSize: string = '40px';
   public width: string = '220px';
   public target: string = '.main-menu-content';
+  isOpen: any;
   constructor(private router: Router) {}
-
-  toolbarCliked(args: ClickEventArgs) {
-    if (args.item.tooltipText == 'Menu') {
-      this.sidebarMenuInstance.toggle();
+  ngAfterViewInit() {
+    this.sidebarMenuInstance.hide();
+  }
+  hide() {
+    throw new Error('Method not implemented.');
+  }
+  // toolbarCliked(args: ClickEventArgs) {
+  //   if (args.item.tooltipText == 'Menu') {
+  //     this.sidebarMenuInstance.toggle();
+  //   }
+  // }
+  // toggle() {
+  //   throw new Error('Method not implemented.');
+  // }
+  menuIcon: string = 'e-icons e-menu';
+  toolbarClicked(args: ClickEventArgs) {
+    if (args.item.tooltipText === 'Menu') {
+      if (this.sidebarMenuInstance.isOpen) {
+        this.sidebarMenuInstance.hide(); // Close if open
+        this.menuIcon = 'e-icons e-menu'; // Change to menu icon
+      } else {
+        this.sidebarMenuInstance.show(); // Open if closed
+        this.menuIcon = 'e-icons e-close'; // Change to close icon
+      }
     }
   }
-  toggle() {
+  show() {
     throw new Error('Method not implemented.');
   }
 }
