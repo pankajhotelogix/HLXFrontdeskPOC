@@ -724,24 +724,26 @@
                               <td>
                                 <div class="d-flex">
                                   <div>
-                                    <ejs-dropdownlist
+                                    <ejs-dropdownlist 
                                       id="roomTypeDropdown"
                                       [dataSource]="specialistCategory"
-                                      (change)="onRoomTypeChange($event.value)"
-                                      placeholder="Select Room Type"
-                                      [(ngModel)]="selectedRoomType"
-                                      [fields]="{ text: 'name', value: 'DepartmentId' }">
+                                      [(ngModel)]="guest.roomTypeId"
+                                      [fields]="{ text: 'name', value: 'DepartmentId' }"
+                                      (change)="onRoomTypeChange(guest, $event.value)"
+                                      placeholder="Select Room Type">
                                     </ejs-dropdownlist>
                                   </div>
+                                  
                                   <div class="mx-1">
-                                    <ejs-dropdownlist
+                                    <ejs-dropdownlist 
                                       id="roomDropdown"
-                                      [dataSource]="resourceDataSource"
-                                      placeholder="Select Room"
-                                      [(ngModel)]="selectedRoom"
-                                      [fields]="{ text: 'Text', value: 'Id' }">
+                                      [dataSource]="guest.availableRooms"
+                                      [(ngModel)]="guest.roomId"
+                                      [fields]="{ text: 'Text', value: 'Id' }"
+                                      placeholder="Select Room">
                                     </ejs-dropdownlist>
                                   </div>
+                                  
                                   <div>
                                     <a class="room-type" style="color: #336699">Guest</a>
                                   </div>

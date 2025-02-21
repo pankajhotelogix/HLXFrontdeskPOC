@@ -267,8 +267,13 @@
                     <div class='template-wrap'>
                       <div class="airline-details" style="display: flex; align-items: center; gap:10px">
                         <div>
-                          <ejs-checkbox name="ejscheckbox" *ngIf="data.resourceData.ClassName !== 'e-parent-node'"
-                            [checked]="false"></ejs-checkbox>
+                          <ejs-checkbox 
+                          name="ejscheckbox"
+                          *ngIf="data.resourceData.ClassName !== 'e-parent-node'"
+                          [checked]="isRoomSelected(data.resourceData.Id, data.resourceData.DepartmentId)"
+                          (change)="onRoomSelectionChange(data.resourceData, $event.checked, data.resourceData.DepartmentId)">
+                        </ejs-checkbox>
+                
                         </div>
                         <div class="resource-name" style="margin: 2px 5px;">{{getResourceName(data)}}</div>
                       </div>

@@ -337,7 +337,7 @@ export class CalendarComponent implements OnInit {
   ];
  
   public selectedDepartmentId?: number;
-  // tabItems: any;
+  selectedRoomType!: string;
   public getDateParts(date: Date) {
     const day = date.getDate();
     const dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
@@ -950,6 +950,26 @@ export class CalendarComponent implements OnInit {
         alert(err);
       },
     });
+  }
+  public selectedRooms: string[] = [];
+  isRoomSelected(roomId: string, roomTypeId: string): boolean {
+    return this.requestParams.room_stay.some(
+      room => room.room_id === roomId && room.room_type_id === roomTypeId
+    );
+  }
+  onRoomSelectionChange(room: any, isChecked: boolean, roomTypeId: string): void {
+    if (isChecked) {
+      this.requestParams.room_stay.push({
+        room_type_id: roomTypeId, 
+        room_id: room.Id,
+      });
+    } else {
+      this.requestParams.room_stay = this.requestParams.room_stay.filter(
+        r => !(r.room_id === room.Id && r.room_type_id === roomTypeId)
+      );
+    }
+  
+    console.log("Updated Selected Rooms:", this.requestParams.room_stay);
   }
   
   importData() {
