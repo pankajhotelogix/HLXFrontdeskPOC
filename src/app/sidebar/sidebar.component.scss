@@ -151,12 +151,12 @@
 }
 
 #sidebarmenu .icon-menu:before {
-    content: '\e207';
+    content: '\e207' !important;
 }
-#sidebarmenu .icon-menu::after {
-    content: '\e5cd';
+// #sidebarmenu .icon-menu::after {
+//     content: '\e5cd';
    
-}
+// }
 
 /*Specifies the sample level styles for sidebar for dock & closed state */
 .bootstrap5 #sidebarmenu .sidebar-menu.e-dock.e-close .e-menu-wrapper ul .e-menu-item,

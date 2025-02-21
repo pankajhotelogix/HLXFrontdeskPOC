@@ -89,6 +89,7 @@ export class GroupResDetailsComponent implements OnChanges {
   public rateDetails: any;
   public specialistCategory?: Record<string, any>[];
   public timeScaleOptions: TimeScaleModel = { enable: true, slotCount: 9 };
+  allRoomsData: any;
   public get viewInterval(): number {
     return this.calculateDays(this.startDate, this.endDate);
   }
@@ -738,52 +739,69 @@ public cities: { [key: string]: Object }[] = [
 
   ){}
   getRoomList(): void {
+    if (!this.requestData?.room_stay?.length) {
+      console.error('No room type data found in requestData');
+      return;
+    }
+  
+    const selectedRoomTypeId = this.requestData.room_stay[0]?.room_type_id || '';
+    const selectedRoomId = this.requestData.room_stay[0]?.room_id || '';
+  
     this.mainService
       .getRoomTypeList()
       .pipe(
         catchError((err) => {
           console.error('Error retrieving room list:', err);
+          alert('Error retrieving room list. Please try again later.');
           return of(null);
         })
       )
       .subscribe((res: any) => {
         if (res?.data) {
-          const records = res.data;
-          const list: any[] = Object.entries(records);
-
-          this.specialistCategory = list.reduce(
-            (acc: any[], [key, value]: any) => {
-              acc.push({
-                DepartmentId: key,
-                Id: value.name,
-                Text: value.name,
-                Color: '#F538B2',
-              });
-              return acc;
-            },
-            []
+          const roomTypes = res.data;
+  
+          // ✅ Populate Room Type Dropdown
+          this.specialistCategory = roomTypes.map((roomType: any) => ({
+            DepartmentId: roomType.id.toString(),
+            name: roomType.name, // Used in the dropdown
+          }));
+  
+          // ✅ Set Default Selected Room Type
+          this.selectedRoomType = selectedRoomTypeId;
+  
+          // Find the selected room type from requestData
+          const selectedRoomType = roomTypes.find(
+            (roomType: any) => roomType.id.toString() === selectedRoomTypeId
           );
-
-          this.resourceDataSource = list.reduce(
-            (acc: any[], [key, value]: any) => {
-              const roomArr = Object.keys(value.rooms || {}).map(
-                (roomKey: any) => ({
-                  Text: value.rooms[roomKey].name,
-                  Name: value.rooms[roomKey].name,
-                  Id: roomKey,
-                  DepartmentId: key,
-                  Color: '#bbdc00',
-                  Designation: 'Clinical Research Scientist',
-                })
-              );
-              acc = [...acc, ...roomArr];
-              return acc;
-            },
-            []
-          );
+  
+          if (!selectedRoomType) {
+            console.warn(`Room type ID ${selectedRoomTypeId} not found`);
+            return;
+          }
+  
+          // ✅ Convert rooms object to an array
+          const roomsArray = selectedRoomType.rooms
+            ? Object.values(selectedRoomType.rooms)
+            : [];
+  
+          if (!roomsArray.length) {
+            console.warn(`No rooms found for Room Type ID: ${selectedRoomTypeId}`);
+            return;
+          }
+  
+          // ✅ Populate Room Dropdown
+          this.resourceDataSource = roomsArray.map((room: any) => ({
+            Text: room.room_name,
+            Id: room.id,
+          }));
+  
+          // ✅ Set Default Selected Room Based on requestData
+          this.selectedRoom = selectedRoomId;
         }
       });
   }
+  
+  
   onPopupOpen(args: PopupOpenEventArgs): void {
     if (args.type === 'QuickInfo') {
       args.cancel = true;
@@ -929,8 +947,13 @@ public cities: { [key: string]: Object }[] = [
   updateRequestParams() {
     if (this.requestData?.res_guest?.length) {
       const guest = this.requestData.res_guest[0];
-      this.requestParams.owner_details.first_name = guest.personal_contact?.first_name || '';
-      this.requestParams.owner_details.last_name = guest.personal_contact?.last_name || '';
+      this.requestParams.owner_details.first_name = guest.guest?.personal_contact?.first_name || '';
+      this.requestParams.owner_details.last_name = guest.guest?.personal_contact?.last_name || '';
+      if (this.requestData?.room_stay?.length) {
+        const roomStay = this.requestData.room_stay[0];
+        this.requestParams.room_type_id = roomStay.room_type_id || '';
+        this.requestParams.room_id = roomStay.room_id || '';
+      }
     }
   }
   ngOnChanges(changes: SimpleChanges) {
@@ -942,38 +965,105 @@ public cities: { [key: string]: Object }[] = [
     }
   }
   public guestDetails: any[] = [];
-
-updateGuestDetails() {
-  if (this.requestData?.res_guest?.length) {
-    this.guestDetails = this.requestData.res_guest.map((guest: any, index: number) => ({
-      title: guest.person_type === 'Adult' ? 'Mr.' : 'Ms.',
-      firstName: guest.guest.personal_contact.first_name || '',
-      lastName: guest.guest.personal_contact.last_name || '',
-      phoneNumber: guest.guest.personal_contact.phone || '',
-      isEditing: false,
-      gender: guest.person_type === 'Adult' ? 1 : 2,
-      flagId: index + 1, // Assigning a unique ID
-      startDate1: this.requestData.checkin_date || '',  // ✅ Set from requestData
-      endDate1: this.requestData.checkout_date || '',   // ✅ Set from requestData
-    }));
-  } else {
-    // Fallback: Default dummy data
-    this.guestDetails = [
-      {
-        title: 'Mr.',
-        firstName: 'Deepak',
-        lastName: 'Sharma',
-        phoneNumber: '+91-9827205727',
-        isEditing: false,
-        gender: 1,
-        flagId: 1,
-        startDate1: this.requestData?.checkin_date || '2021-08-07',
-        endDate1: this.requestData?.checkout_date || '2021-08-08',
-      },
-    ];
+  updateGuestDetails() {
+    const numberOfAdults = this.requestData?.adult || 1;
+    if (this.requestData?.res_guest?.length) {
+      this.guestDetails = Array.from({ length: numberOfAdults }, (_, index) => {
+        const guestData = this.requestData.res_guest[index] || {};
+        const roomType = this.requestData?.room_stay?.[index]?.room_type_id || 'Default Room Type';
+  
+        return {
+          title: guestData.person_type === 'Adult' ? 'Mr.' : 'Ms.',
+          firstName: guestData.guest?.personal_contact?.first_name || `Guest ${index + 1}`,
+          lastName: guestData.guest?.personal_contact?.last_name || '',
+          phoneNumber: guestData.guest?.personal_contact?.phone || '',
+          isEditing: false,
+          gender: guestData.person_type === 'Adult' ? 1 : 2,
+          flagId: index + 1,
+          startDate1: this.requestData.checkin_date || '',
+          endDate1: this.requestData.checkout_date || '',
+          roomTypeId: roomType,
+        };
+      });
+    } else {
+      this.guestDetails = Array.from({ length: numberOfAdults }, (_, index) => {
+        const roomType = this.requestData?.room_stay?.[index]?.room_type_id || 'Default Room Type';
+  
+        return {
+          title: 'Mr.',
+          firstName: `Guest ${index + 1}`,
+          lastName: '',
+          phoneNumber: '',
+          isEditing: false,
+          gender: 1,
+          flagId: index + 1,
+          startDate1: this.requestData?.checkin_date || '2021-08-07',
+          endDate1: this.requestData?.checkout_date || '2021-08-08',
+          roomTypeId: roomType,
+        };
+      });
+    }
   }
-}
-
+  updateRoomList(selectedRoomTypeId: string | null): void {
+    if (selectedRoomTypeId) {
+      this.resourceDataSource = this.allRoomsData.filter(
+        (room: Record<string, any>) => room['DepartmentId'] === selectedRoomTypeId
+      );
+    } else {
+      this.resourceDataSource = [];
+    }
+  }
+public selectedRoomType: string = ''; // Default Selected Room Type ID
+public selectedRoom: string = ''; // Default Selected Room ID
+  onRoomTypeChange(selectedRoomTypeId: string): void {
+    this.selectedRoomType = selectedRoomTypeId;
+    const selectedRoomType = this.specialistCategory?.find(
+      (roomType) => roomType['DepartmentId'] === selectedRoomTypeId
+    );
+  
+    if (!selectedRoomType) {
+      console.warn('Selected Room Type not found.');
+      this.resourceDataSource = [];
+      return;
+    }
+  
+    // ✅ Filter rooms based on the new room type
+    this.mainService
+      .getRoomTypeList()
+      .pipe(
+        catchError((err) => {
+          console.error('Error retrieving room list:', err);
+          alert('Error retrieving room list. Please try again later.');
+          return of(null);
+        })
+      )
+      .subscribe((res: any) => {
+        if (res?.data) {
+          const roomTypes = res.data;
+          const newSelectedRoomType = roomTypes.find(
+            (roomType: any) => roomType.id.toString() === selectedRoomTypeId
+          );
+  
+          if (!newSelectedRoomType || !newSelectedRoomType.rooms) {
+            this.resourceDataSource = [];
+            console.warn(`No rooms found for Room Type ID: ${selectedRoomTypeId}`);
+            return;
+          }
+  
+          this.resourceDataSource = Object.values(newSelectedRoomType.rooms).map(
+            (room: any) => ({
+              Text: room.room_name,
+              Id: room.id,
+            })
+          );
+  
+          // ✅ Reset selected room when room type changes
+          this.selectedRoom = this.resourceDataSource.length ? this.resourceDataSource[0]['Id'] : '';
+        }
+      });
+  }
+  
+  
   // updateDates() {
   //   if (this.requestData?.checkin_date && this.requestData?.checkout_date) {
   //     const checkinDateParts = this.requestData.checkin_date.split('-');
