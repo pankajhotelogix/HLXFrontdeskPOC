@@ -8,12 +8,12 @@
         <span class="speeddial-icons speeddial-icon-edit"></span>
     </span>
   </div>    
-</div>
-<div class="e-img-editor-sample" id="profile-dialog">
+  <div class="e-img-editor-sample" id="profile-dialog">
     <ejs-dialog [position]="position" #Dialog [buttons]='dlgButtons' [visible]='visible' [header]='header' [showCloseIcon]='showCloseIcon' [target]='target' [width]='width' [height]='height' (open)="dialogOpen()" (close)="dialogClose()" style="left: 0px !important;
-      top: 60px !important; position: relative;" >
+      top: 60px !important;" >
     <ng-template #content>
         <ejs-imageeditor #ImageEditor [toolbar]='toolbarItems' (created)="created()" (fileOpened)="fileOpened()"> </ejs-imageeditor>
     </ng-template>
 </ejs-dialog>
+</div>
 </div>

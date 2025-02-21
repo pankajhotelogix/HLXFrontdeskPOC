@@ -311,7 +311,7 @@
               </ejs-accordion>
             </div>
           </div>
-          <div class="card bg-grey rounded-lg">
+          <div class="card bg-grey box-shaodw-without-border rounded-lg">
             <div class="card-body pb-0">
               <table class="table align-middle mb-0">
                 <tbody>
@@ -343,13 +343,13 @@
         <div class="col-md-9">
           <div class="row">
             <div class="col-md-8">
-              <div tabindex="0" class="card hlx" id="basic">
+              <div tabindex="0" class="card hlx box-shaodw-without-border" id="basic">
                 <div class="card-body p-5">
                   <!-- <div *ngIf="hoveredDate" class="date-tooltip" [ngStyle]="tooltipStyle">
                       {{ hoveredDate }}
                     </div> -->
                   <div class="res-details">
-                    <div class="position-relative">
+                    <div class="position-relative mb-3">
                       <div class="res-date" (click)="openStartDatePicker()">
                         <div class="day">{{ startDate | date: 'EEE' }}</div>
                         <div class="date">{{ startDate | date: 'dd' }}</div>
@@ -395,7 +395,7 @@
                         </ejs-schedule>
                       </div>
                     </div>
-                    <div class="position-relative">
+                    <div class="position-relative mb-3">
                       <div class="title-vertical">
                         <div>Rooms</div>
                       </div>
@@ -415,8 +415,8 @@
                                 <div class="w-100">
                                   <div class="hlx-hr"></div>
                                   <div class="appointment-header">
-                                    <div class="e-section-control">
-                                      <div class="room-details mt-3">
+                                    <div class="e-section-control align-items-start">
+                                      <div class="room-details mt-3 p-0">
                                         <span class="icon-bed">
                                           <img src="./assets/Icons/bed.svg" alt="Room" class="room-icon">
                                         </span>
@@ -496,7 +496,7 @@
                         </ejs-schedule>
                       </div>
                     </div>
-                    <div class="position-relative">
+                    <div class="position-relative mb-3">
                       <div class="title-vertical">
                         <div>Rates</div>
                       </div>
@@ -568,7 +568,7 @@
                         </ejs-schedule>
                       </div>
                     </div>
-                    <div class="position-relative">
+                    <div class="position-relative mb-3">
                       <div class="title-vertical">
                         <div>ADD ONS</div>
                       </div>
@@ -608,7 +608,7 @@
               </div>
             </div>
             <div class="col-md-4">
-              <div class="card hlx mb-3">
+              <div class="card hlx box-shaodw-without-border mb-3">
                 <div class="card-header d-flex justify-content-between">
                   <h2>Payment</h2>
                   <div (click)="openCardPopup($event)"><img src="./assets/Icons/card-icons.png"></div>
