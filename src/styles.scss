@@ -529,18 +529,18 @@ button + button  {
 .res-date .day {
   background: #336699;
   color: #fff;
-  font-size: calc(9px + 0.390625vw);
+  font-size: calc(7px + 0.390625vw);
   font-weight: 700;
   padding: calc(1.1px + 0.05vw);
 }
 .res-date .date {
   margin-top: 4px;
-  font-size: calc(5px + 1.8vw);
+  font-size: calc(1px + 1.8vw);
   line-height: calc(3px + 1.8vw);
   font-weight: 600;
 }
 .res-date .month-year {
-  font-size: calc(8px + 0.390625vw);
+  font-size: calc(6px + 0.390625vw);
 }
 .title-vertical {
   background: #336699;
@@ -725,6 +725,14 @@ button + button  {
 .timeline-resource-grouping.e-schedule .e-timeline-month-view .e-date-header-wrap table col,
 .timeline-resource-grouping.e-schedule .e-timeline-month-view .e-content-wrap table col {
   width: auto !important;
+}
+
+.pending-status-badge{
+  border: 1px solid #A40202;
+  border-radius: 10px;
+  color: #A40202;
+  line-height: 1.1;
+  padding: 3px 5px;
 }
 
 // .e-schedule .e-timeline-view .e-appointment, .e-schedule .e-timeline-month-view .e-appointment {
