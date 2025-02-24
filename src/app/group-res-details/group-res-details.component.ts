@@ -577,7 +577,7 @@ public cities: { [key: string]: Object }[] = [
 
       let topMostCell: HTMLElement | null = hoveredCell;
       tableRows.forEach((row, index) => {
-        const cell = row.querySelectorAll('.e-work-cells')[columnIndex] as HTMLElement;
+        const cell = row.querySelectorAll('.custom-scheduler1 .e-work-cells, .custom-scheduler2 .e-work-cells, .custom-scheduler3 .e-work-cells')[columnIndex] as HTMLElement;
         if (cell) {
           cell.classList.add('vertical-highlight');
           this.addDottedLineToCell(cell);
@@ -703,93 +703,6 @@ public cities: { [key: string]: Object }[] = [
         @Inject(PLATFORM_ID) private platformId: object
 
   ){}
-  // getRoomList(): void {
-  //   if (!this.requestData?.room_stay?.length) {
-  //     console.error('No room type data found in requestData');
-  //     return;
-  //   }
-  
-  //   const selectedRoomTypeId = this.requestData.room_stay[0]?.room_type_id || '';
-  //   const selectedRoomId = this.requestData.room_stay[0]?.room_id || '';
-  
-  //   this.mainService
-  //     .getRoomTypeList()
-  //     .pipe(
-  //       catchError((err) => {
-  //         console.error('Error retrieving room list:', err);
-  //         alert('Error retrieving room list. Please try again later.');
-  //         return of(null);
-  //       })
-  //     )
-  //     .subscribe((res: any) => {
-  //       if (res?.data) {
-  //         const roomTypes = res.data;
-  //         this.specialistCategory = roomTypes.map((roomType: any) => ({
-  //           DepartmentId: roomType.id.toString(),
-  //           name: roomType.name,
-  //         }));
-  //         this.selectedRoomType = selectedRoomTypeId;
-  //         const selectedRoomType = roomTypes.find(
-  //           (roomType: any) => roomType.id.toString() === selectedRoomTypeId
-  //         );
-  
-  //         if (!selectedRoomType) {
-  //           console.warn(`Room type ID ${selectedRoomTypeId} not found`);
-  //           return;
-  //         }
-  //         const roomsArray = selectedRoomType.rooms
-  //           ? Object.values(selectedRoomType.rooms)
-  //           : [];
-  
-  //         if (!roomsArray.length) {
-  //           console.warn(`No rooms found for Room Type ID: ${selectedRoomTypeId}`);
-  //           return;
-  //         }
-  //         this.resourceDataSource = roomsArray.map((room: any) => ({
-  //           Text: room.room_name,
-  //           Id: room.id,
-  //         }));
-  //         this.selectedRoom = selectedRoomId;
-  //       }
-  //     });
-  // }
-  // onRoomTypeChange(selectedRoomTypeId: string): void {
-  //   this.selectedRoomType = selectedRoomTypeId;
-  
-  //   this.mainService
-  //     .getRoomTypeList()
-  //     .pipe(
-  //       catchError((err) => {
-  //         console.error('Error retrieving room list:', err);
-  //         alert('Error retrieving room list. Please try again later.');
-  //         return of(null);
-  //       })
-  //     )
-  //     .subscribe((res: any) => {
-  //       if (res?.data) {
-  //         const roomTypes = res.data;
-  //         const newSelectedRoomType = roomTypes.find(
-  //           (roomType: any) => roomType.id.toString() === selectedRoomTypeId
-  //         );
-  
-  //         if (!newSelectedRoomType || !newSelectedRoomType.rooms) {
-  //           this.resourceDataSource = [];
-  //           console.warn(`No rooms found for Room Type ID: ${selectedRoomTypeId}`);
-  //           return;
-  //         }
-  
-  //         this.resourceDataSource = Object.keys(newSelectedRoomType.rooms).map(
-  //           (key) => newSelectedRoomType.rooms[key]
-  //         ).map((room: any) => ({
-  //           Text: room.room_name,
-  //           Id: room.id,
-  //         }));
-  //         this.selectedRoom = this.resourceDataSource.length ? this.resourceDataSource[0]['Id'] : '';
-  //       }
-  //     });
-  // }
-  
-  
   onPopupOpen(args: PopupOpenEventArgs): void {
     if (args.type === 'QuickInfo') {
       args.cancel = true;
@@ -896,17 +809,9 @@ public cities: { [key: string]: Object }[] = [
       args.target.classList.contains('e-work-cells')
     ) {
       args.cancel = true;
-     // console.log(args.data);
       this.scheduleObj?.openEditor(args.data, 'Add');
       args.element.classList.add('dialog-open');
       args.element.setAttribute('id', 'srk-id');
-    //   let bookingsData = localStorage.getItem('bookingsData');
-    //   let locBookings = bookingsData ? JSON.parse(bookingsData) : {};
-    //   if (args.data && args.data[0]) {
-    //     let rec = args.data[0];
-    //     locBookings[rec.Id] = rec;
-    //     localStorage.setItem('bookingsData', JSON.stringify(locBookings));
-    //   }
      }
   }
 
@@ -988,83 +893,8 @@ public cities: { [key: string]: Object }[] = [
       this.resourceDataSource = [];
     }
   }
-public selectedRoomType: string = ''; // Default Selected Room Type ID
-public selectedRoom: string = ''; // Default Selected Room ID
-  // onRoomTypeChange(selectedRoomTypeId: string): void {
-  //   this.selectedRoomType = selectedRoomTypeId;
-  //   const selectedRoomType = this.specialistCategory?.find(
-  //     (roomType) => roomType['DepartmentId'] === selectedRoomTypeId
-  //   );
-  
-  //   if (!selectedRoomType) {
-  //     console.warn('Selected Room Type not found.');
-  //     this.resourceDataSource = [];
-  //     return;
-  //   }
-  
-  //   // ✅ Filter rooms based on the new room type
-  //   this.mainService
-  //     .getRoomTypeList()
-  //     .pipe(
-  //       catchError((err) => {
-  //         console.error('Error retrieving room list:', err);
-  //         alert('Error retrieving room list. Please try again later.');
-  //         return of(null);
-  //       })
-  //     )
-  //     .subscribe((res: any) => {
-  //       if (res?.data) {
-  //         const roomTypes = res.data;
-  //         const newSelectedRoomType = roomTypes.find(
-  //           (roomType: any) => roomType.id.toString() === selectedRoomTypeId
-  //         );
-  
-  //         if (!newSelectedRoomType || !newSelectedRoomType.rooms) {
-  //           this.resourceDataSource = [];
-  //           console.warn(`No rooms found for Room Type ID: ${selectedRoomTypeId}`);
-  //           return;
-  //         }
-  
-  //         this.resourceDataSource = Object.values(newSelectedRoomType.rooms).map(
-  //           (room: any) => ({
-  //             Text: room.room_name,
-  //             Id: room.id,
-  //           })
-  //         );
-  
-  //         // ✅ Reset selected room when room type changes
-  //         this.selectedRoom = this.resourceDataSource.length ? this.resourceDataSource[0]['Id'] : '';
-  //       }
-  //     });
-  // }
-  
-  
-  // updateDates() {
-  //   if (this.requestData?.checkin_date && this.requestData?.checkout_date) {
-  //     const checkinDateParts = this.requestData.checkin_date.split('-');
-  //     const checkinTimeParts = this.requestData.checkin_time ? this.requestData.checkin_time.split(':') : ['12', '00', '00'];
-
-  //     const checkoutDateParts = this.requestData.checkout_date.split('-');
-  //     const checkoutTimeParts = this.requestData.checkout_time ? this.requestData.checkout_time.split(':') : ['12', '00', '00']; 
-  //     this.startDate = new Date(
-  //       parseInt(checkinDateParts[0]), // Year
-  //       parseInt(checkinDateParts[1]) - 1, // Month (0-based index)
-  //       parseInt(checkinDateParts[2]), // Day
-  //       parseInt(checkinTimeParts[0]), // Hour
-  //       parseInt(checkinTimeParts[1]), // Minute
-  //       parseInt(checkinTimeParts[2])  // Second
-  //     );
-
-  //     this.endDate = new Date(
-  //       parseInt(checkoutDateParts[0]), 
-  //       parseInt(checkoutDateParts[1]) - 1, 
-  //       parseInt(checkoutDateParts[2]), 
-  //       parseInt(checkoutTimeParts[0]), 
-  //       parseInt(checkoutTimeParts[1]), 
-  //       parseInt(checkoutTimeParts[2])
-  //     );
-  //   }
-  // }
+public selectedRoomType: string = '';
+public selectedRoom: string = '';
   updateDates() {
     if (this.requestData?.checkin_date && this.requestData?.checkout_date) {
       const checkinDateTime = `${this.requestData.checkin_date}T${this.requestData.checkin_time || '11:00:00'}`;
@@ -1203,7 +1033,6 @@ public selectedRoom: string = ''; // Default Selected Room ID
     }
   }
   public onPopupOpenSessionalRate(args: any) {
-  //  console.log(args);
     this.requestParams.room_type_id = args.data.DepartmentId;
     this.requestParams.room_id = args.data.DoctorId;
     this.requestParams.checkin_date = this.getDate(args.data.StartTime);
@@ -1478,14 +1307,10 @@ public selectedRoom: string = ''; // Default Selected Room ID
       .subscribe((res: any) => {
         if (res?.data) {
           const roomTypes = res.data;
-  
-          // ✅ Store available room types
           this.specialistCategory = roomTypes.map((roomType: any) => ({
             DepartmentId: roomType.id.toString(),
             name: roomType.name,
           }));
-  
-          // ✅ Store rooms grouped by Room Type ID
           this.filteredRooms = {};
           roomTypes.forEach((roomType: any) => {
             this.filteredRooms[roomType.id.toString()] = roomType.rooms
@@ -1497,8 +1322,6 @@ public selectedRoom: string = ''; // Default Selected Room ID
           });
   
           console.log('Filtered Rooms:', this.filteredRooms);
-  
-          // ✅ Ensure selectedRoomType and selectedRoom are set
           this.updateGuestDetails();
         }
       });
@@ -1506,13 +1329,8 @@ public selectedRoom: string = ''; // Default Selected Room ID
   
   onRoomTypeChange(guest: any, selectedTypeId: string): void {
     guest.roomTypeId = selectedTypeId;
-  
-    // ✅ Update available rooms for the selected room type
     guest.availableRooms = this.filteredRooms[selectedTypeId] || [];
-  
-    // ✅ Auto-select the first available room if exists
     guest.roomId = guest.availableRooms.length ? guest.availableRooms[0].Id : '';
-  
     console.log('Updated Guest Room Type:', guest.roomTypeId);
     console.log('Available Rooms:', guest.availableRooms);
   }
@@ -1527,8 +1345,6 @@ public selectedRoom: string = ''; // Default Selected Room ID
     this.guestDetails = this.requestData.room_stay.map((roomData: any, index: number) => {
       const guestData = this.requestData.res_guest?.[index] || {}; 
       const roomTypeId = roomData.room_type_id || ''; 
-  
-      // ✅ Fetch available rooms for the selected room type
       const availableRooms = this.filteredRooms[roomTypeId] || [];
   
       return {
@@ -1543,15 +1359,12 @@ public selectedRoom: string = ''; // Default Selected Room ID
         endDate1: this.requestData.checkout_date || '',
         roomTypeId: roomTypeId,
         roomId: roomData.room_id || '',
-        availableRooms: availableRooms,  // ✅ Bind available rooms
+        availableRooms: availableRooms,
       };
     });
   
     console.log("Updated Guest Details:", this.guestDetails);
   }
-  
-  
-  
   
 }
 

@@ -501,15 +501,14 @@
                         <div>Rates</div>
                       </div>
                       <div class="control-section">
-                        <ejs-schedule #scheduleObj3 id="scheduleObj3" width="100%" height="100px"
-                          class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
-                          [quickInfoOnSelectionEnd]="true" [eventSettings]="eventSettings1" [views]="views"
-                          [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
-                          [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
-                          (actionBegin)="onActionBegin($event)" [workDays]="workDays" (hover)="onHover($event)"
-                          (popupOpen)="onPopupOpenSessionalRate($event)"
-                          (popupClose)="onPopupCloseSessionalRate($event)" [allowMultiCellSelection]="true"
-                          (renderCell)="onRenderCell($event)" cssClass="custom-scheduler2">
+                        <ejs-schedule #scheduleObj3 width="100%" height="100px"
+                      class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
+                      [quickInfoOnSelectionEnd]="true" [eventSettings]="eventSettings" [views]="views"
+                      [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
+                      [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
+                      (actionBegin)="onActionBegin($event)" [workDays]="workDays" (hover)="onHover($event)"
+                      (popupOpen)="onPopupOpenSessionalRate($event)" (popupClose)="onPopupCloseSessionalRate($event)"
+                      [allowMultiCellSelection]="true" (renderCell)="onRenderCell($event)" cssClass="custom-scheduler2">
                           <e-views>
                             <e-view option="TimelineDay" [interval]="viewInterval">
                               <ng-template #eventTemplate let-data>
@@ -574,11 +573,11 @@
                       </div>
                       <div class="control-section">
                         <ejs-schedule #scheduleObj4 width="100%" height="100px"
-                          class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
-                          [eventSettings]="eventSettings1" [views]="views" [currentView]="'TimelineDay'"
-                          [showHeaderBar]="false" [showTimeIndicator]="false"
-                          [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }" [workDays]="workDays"
-                          (hover)="onHover($event)" (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler2">
+                        class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
+                        [eventSettings]="eventSetting" [views]="views" [currentView]="'TimelineDay'"
+                        [showHeaderBar]="false" [showTimeIndicator]="false"
+                        [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }" [workDays]="workDays"
+                        (hover)="onHover($event)" (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler2">
                           <e-views>
                             <e-view option="TimelineDay" [interval]="viewInterval">
                               <ng-template #eventTemplate let-data>
