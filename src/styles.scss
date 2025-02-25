@@ -28,6 +28,22 @@ a,
   color: #0366d6;
 }
 
+
+// ########################################  GRID System Applied #############################
+.grid-container{
+  display: grid;
+  grid-template-columns: 30% 70%;
+}
+.second-grid-container{
+  display: grid;
+  grid-template-columns: 60% 40%;
+}
+
+// ########################################  GRID System Applied #############################
+
+
+
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;

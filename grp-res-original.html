@@ -1,0 +1,1114 @@
+<div class="p-2">
+    <div class="d-flex title-bar align-items-center">
+      <div class="me-4"><i class="material-icons d-block">keyboard_backspace</i></div>
+      <h1 class="ms-auto">Web Ref id. # 11111111</h1>
+      <h1 class="ms-auto">Reserved /Res # 11111111</h1>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-3 pe-2">
+            <div class="card hlx mb-3">
+              <div class="card-body">
+                <h2 class="mb-3">Group Owner</h2>
+                <div class="row g-2">
+                  <div class="col-auto">
+                    <div class="profile-container">
+                      <app-common-profile-image></app-common-profile-image>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="row g-2 mb-2">
+                      <div class="col-3">
+                        <ejs-dropdownlist id="roomsDropdown" #titleObj [dataSource]="titleData" [fields]="genderFields"
+                          placeholder="Title">
+                        </ejs-dropdownlist>
+                      </div>
+                      <div class="col-9">
+                        <div class="row g-2">
+                          <div class="col">
+                            <input type="text" class="form-control form-control-sm" placeholder="First Name"
+                              [(ngModel)]="requestData.res_guest[0].guest.personal_contact.first_name" name="firstName">
+                          </div>
+                          <div class="col">
+                            <input type="text" class="form-control form-control-sm" placeholder="Last Name"
+                              [(ngModel)]="requestData.res_guest[0].guest.personal_contact.last_name" name="lastName">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row g-2 mb-2">
+                      <div class="col-6">
+                        <div class="row g-2">
+                          <div class="col-auto">
+                            <ejs-dropdownlist id="games" #sample [dataSource]="country" (change)="onChange1()"
+                              [fields]="countryFields" [width]="37" [popupWidth]="popupWidth" placeholder="iso">
+                              <ng-template #itemTemplate let-data>
+                                <span>
+                                  {{ data.flag }} {{ data.CountryName }} {{ data.dialCode }}
+                                </span>
+                              </ng-template>
+                              <ng-template #valueTemplate let-data>
+                                <span class="fs-12 d-block icon-flag">
+                                  {{ data.flag }}
+                                </span>
+                              </ng-template>
+                            </ejs-dropdownlist>
+                          </div>
+                          <div class="col">
+                            <input type="text" class="form-control form-control-sm" placeholder="Mobile"
+                              [(ngModel)]="requestData.res_guest[0].guest.personal_contact.phone" name="phone">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="row g-2">
+                          <div class="col-auto">
+                            <ejs-dropdownlist id="games1" #sample [dataSource]="country" (change)="onChange1()"
+                              [fields]="countryFields" [width]="37" [popupWidth]="popupWidth" placeholder="iso"
+                              [allowFiltering]='true'>
+                              <ng-template #itemTemplate let-data>
+                                <span>
+                                  {{ data.flag }} {{ data.CountryName }} {{ data.dialCode }}
+                                </span>
+                              </ng-template>
+                              <ng-template #valueTemplate let-data>
+                                <span class="fs-12 d-block icon-flag">
+                                  {{ data.flag }}
+                                </span>
+                              </ng-template>
+                            </ejs-dropdownlist>
+                          </div>
+                          <div class="col">
+                            <input type="text" class="form-control form-control-sm" placeholder="Phone 2">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row g-2 mb-2">
+                      <div class="col-md-5">
+                        <ejs-dropdownlist id="roomsDropdown" #genderObj [dataSource]="genderData" [fields]="genderFields"
+                          placeholder="Gender">
+                        </ejs-dropdownlist>
+                      </div>
+                      <div class="col-md-7">
+                        <ejs-datepicker placeholder="MM/DD/YYYY"></ejs-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row g-2 mb-3">
+                  <div class="col-md-4">
+                    <ejs-dropdownlist id="natioonalityDropdown" #titleObj [dataSource]="country"
+                      [fields]="nationalityFields" placeholder="Nationality">
+                    </ejs-dropdownlist>
+                  </div>
+                  <div class="col-md-8">
+                    <input type="text" class="form-control form-control-sm" placeholder="Email"
+                      [(ngModel)]="requestData.res_guest[0].guest.personal_contact.email" name="email">
+                  </div>
+                </div>
+                <ejs-accordion class="guest-details-accordion">
+                  <e-accordionitems>
+                    <e-accordionitem expanded='true'>
+                      <ng-template #header>
+                        <h4 class="my-2">Home Address</h4>
+                      </ng-template>
+                      <ng-template #content>
+                        <div class="row g-2 mb-2">
+                          <div class="col">
+                            <input type="text" class="form-control form-control-sm" placeholder="Address">
+                          </div>
+                        </div>
+                        <div class="row g-2 mb-2">
+                          <div class="col-md-6">
+                            <ejs-dropdownlist #countryList id='country' [dataSource]='country' [fields]='countryFields'
+                              (change)='onChange1()' popupHeight='auto' [placeholder]='countryWaterMark'
+                              allowFiltering="true">
+                              <ng-template #itemTemplate let-data>
+                                <span> {{data.flag}} {{data.CountryName}}</span>
+                              </ng-template>
+                              <ng-template #valueTemplate let-data>
+                                <span> {{data.flag}} {{data.CountryName}}</span>
+                              </ng-template>
+                            </ejs-dropdownlist>
+                          </div>
+                          <div class="col-md-6">
+                            <ejs-dropdownlist #stateList id='state' [dataSource]='state' [fields]='stateFields'
+                              (change)='onChange2()' [placeholder]='stateWaterMark' popupHeight='auto'
+                              allowFiltering="true" [enabled]='false'>
+                              <ng-template #itemTemplate let-data>
+                                <div>
+                                  <div class="name"> {{data.StateName}} </div>
+                                </div>
+                              </ng-template>
+                              <ng-template #valueTemplate let-data>
+                                <div>
+                                  <div class="name"> {{data.StateName}} </div>
+                                </div>
+                              </ng-template>
+                            </ejs-dropdownlist>
+                          </div>
+                        </div>
+                        <div class="row g-2">
+                          <div class="col-md-6">
+                            <ejs-dropdownlist #cityList id='city' [dataSource]='cities' [fields]='cityFields'
+                              [placeholder]='cityWaterMark' [enabled]='false' popupHeight='auto' allowFiltering="true">
+                              <ng-template #itemTemplate let-data>
+                                <div>
+                                  <div class="ename"> {{data.CityName}} </div>
+                                </div>
+                              </ng-template>
+                              <ng-template #valueTemplate let-data>
+                                <div>
+                                  <div class="name"> {{data.CityName}} </div>
+                                </div>
+                              </ng-template>
+                            </ejs-dropdownlist>
+                          </div>
+                          <div class="col-md-6">
+                            <input type="text" class="form-control form-control-sm" placeholder="Zip Code">
+                          </div>
+                        </div>
+                      </ng-template>
+                    </e-accordionitem>
+                    <e-accordionitem>
+                      <ng-template #header>
+                        <h4 class="my-2">ID</h4>
+                      </ng-template>
+                      <ng-template #content>
+                        <div class="border-bottom mb-2 pb-1">
+                          <div class="row g-2 fs-14">
+                            <div class="col-auto">
+                              <strong>Passport No.</strong>: 238xxx
+                            </div>
+                            <div class="col-auto">
+                              <strong>Validity</strong>: Feb 20, 2026
+                            </div>
+                            <div class="col">
+                              <i class="material-icons text-blue">image</i>
+                            </div>
+                            <div class="col-auto">
+                              <i class="material-icons text-blue">edit</i>
+                              <i class="material-icons text-blue">delete</i>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row g-2 mb-3 fs-14 align-items-center" *ngFor="let field of fields; let i = index">
+                          <div class="col">
+                            <ejs-dropdownlist id="roomsDropdown{{ i }}" #identificationObj [dataSource]="identification"
+                              [fields]="identificationFields" placeholder="Identification">
+                            </ejs-dropdownlist>
+                          </div>
+                          <div class="col-auto text-end">
+                            <a href="">Fields</a> <span class="mx-2 text-blue">|</span> <a href="">Upload Id</a>
+                          </div>
+                          <div class="col-auto text-end" *ngIf="fields.length > 1">
+                            <i class="material-icons text-blue" (click)="removeField(i)">delete</i>
+                          </div>
+                        </div>
+                        <div class="row g-2 mb-2 fs-14">
+                          <div class="col">
+                            <a (click)="addField()" class="pointer">+Ids</a>
+                          </div>
+                          <div class="col-auto">
+                            <a href="" class="btn btn-sm btn-primary hlx">Save</a>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </e-accordionitem>
+                    <e-accordionitem>
+                      <ng-template #header>
+                        <h4 class="my-2">Arrival / Departure</h4>
+                      </ng-template>
+                      <ng-template #content>
+                        <ejs-tab id="tab_default" loadOn="Dynamic" (selected)="onSelected($event)">
+                          <e-tabitems>
+                            <e-tabitem [header]="headerText[0]">
+                              <ng-template #content>
+                                <div class="row g-2 mb-2">
+                                  <div class="col">
+                                    <ejs-dropdownlist #countryList id='country' [dataSource]='country'
+                                      [fields]='countryFields' (change)='onChange1()' popupHeight='auto'
+                                      [placeholder]='countryWaterMark' allowFiltering="true">
+                                      <ng-template #itemTemplate let-data>
+                                        <span> {{data.flag}} {{data.CountryName}}</span>
+                                      </ng-template>
+                                      <ng-template #valueTemplate let-data>
+                                        <span> {{data.flag}} {{data.CountryName}}</span>
+                                      </ng-template>
+                                    </ejs-dropdownlist>
+                                  </div>
+                                  <div class="col">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Arrival/Flight">
+                                  </div>
+                                </div>
+                                <div class="row g-2 mb-2 align-items-center">
+                                  <div class="col">
+                                    <ejs-timepicker id='timepicker' placeholder="Arrival Time"></ejs-timepicker>
+                                  </div>
+                                  <div class="col">
+                                    <label for="task">Asisgn Task:</label>
+                                    <ejs-checkbox></ejs-checkbox>
+                                  </div>
+                                </div>
+                                <div class="row g-2 mb-2">
+                                  <div class="col">
+                                    <label for="email">Assign Email:</label>
+                                    <ejs-checkbox></ejs-checkbox>
+                                  </div>
+                                  <div class="col">
+                                    <a href="" class="btn btn-sm btn-primary hlx">Save</a>
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </e-tabitem>
+                            <e-tabitem [header]="headerText[1]">
+                              <ng-template #content>
+                                <div class="row g-2 mb-2">
+                                  <div class="col">
+                                    <ejs-dropdownlist #countryList id='country' [dataSource]='country'
+                                      [fields]='countryFields' (change)='onChange1()' popupHeight='auto'
+                                      [placeholder]='countryWaterMark' allowFiltering="true">
+                                      <ng-template #itemTemplate let-data>
+                                        <span> {{data.flag}} {{data.CountryName}}</span>
+                                      </ng-template>
+                                      <ng-template #valueTemplate let-data>
+                                        <span> {{data.flag}} {{data.CountryName}}</span>
+                                      </ng-template>
+                                    </ejs-dropdownlist>
+                                  </div>
+                                  <div class="col">
+                                    <input type="text" class="form-control form-control-sm"
+                                      placeholder="Departure/Flight">
+                                  </div>
+                                </div>
+                                <div class="row g-2 mb-2 align-items-center">
+                                  <div class="col">
+                                    <ejs-timepicker id='timepicker' placeholder="Departure Time"></ejs-timepicker>
+                                  </div>
+                                  <div class="col">
+                                    <label for="task">Asisgn Task:</label>
+                                    <ejs-checkbox></ejs-checkbox>
+                                  </div>
+                                </div>
+                                <div class="row g-2 mb-2 align-items-center">
+                                  <div class="col">
+                                    <label for="email">Assign Email:</label>
+                                    <ejs-checkbox></ejs-checkbox>
+                                  </div>
+                                  <div class="col">
+                                    <a href="" class="btn btn-sm btn-primary hlx">Save</a>
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </e-tabitem>
+                          </e-tabitems>
+                        </ejs-tab>
+                      </ng-template>
+                    </e-accordionitem>
+                  </e-accordionitems>
+                </ejs-accordion>
+              </div>
+            </div>
+            <div class="card bg-grey box-shaodw-without-border rounded-lg">
+              <div class="card-body px-2 pb-0">
+                <table class="table align-middle mb-0">
+                  <tbody>
+                    <tr>
+                      <td width="35%" class="fw-bold">Confirmation:</td>
+                      <td class="fs-14"><a href="">Send Confirmation Email</a></td>
+                    </tr>
+                    <tr>
+                      <td class="fw-bold">Preference:</td>
+                      <td><textarea class="form-control fs-14" placeholder="Enter Preferences"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <div class="d-flex justify-content-between">
+                          <p class="mb-0 fw-bold">Tasks:</p>
+                          <a href="" class="btn-add">+</a>
+                        </div>
+                        <div class="my-2">
+                          <div class="d-flex my-3 justify-content-between align-items-start">
+                            <p class="mb-0 fw-bold fs-14">POS</p>
+                            <p class="mb-0 fw-bold fs-14">10-02-2024 / 6:38:34 PM</p>
+                            <p class="mb-0 pending-status-badge"><span>pending</span></p>
+                          </div>
+                          <p class="mb-0 text-muted fs-14">The Syncfusion DataGrid is a feature-rich
+                            blazor component for displaying data in a tabular format. Its wide range of functionalitie The
+                            Syncfusion DataGrid is a feature-rich blazor component for displaying data in a tabular
+                            format. Its wide range of functionalitie zor component for displaying data in a tabular
+                            format. Its wide range o </p>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <div class="d-flex justify-content-between">
+                          <p class="mb-0 fw-bold">Messages:</p>
+                          <a href="" class="btn-add">+</a>
+                        </div>
+                        <div class="my-2">
+                          <div class="d-flex my-3 justify-content-between align-items-start">
+                            <p class="mb-0 fw-bold fs-14">Sharukh</p>
+                            <p class="mb-0 fw-bold fs-14">10-02-2024 / 6:38:34 PM</p>
+                            <p class="mb-0 pending-status-badge"><span>pending</span></p>
+                          </div>
+                          <p class="mb-0 text-muted fs-14">The Syncfusion DataGrid is a feature-rich
+                            blazor component for displaying data in a tabular format. Its wide range of functionalitie The
+                            Syncfusion DataGrid is a feature-rich blazor component for displaying data in a tabular
+                            format. Its wide range of functionalitie zor component for displaying data in a tabular
+                            format. Its wide range o </p>
+                        </div>
+                        <div class="my-2">
+                          <div class="d-flex my-3 justify-content-between align-items-start">
+                            <p class="mb-0 fw-bold fs-14">Sharukh</p>
+                            <p class="mb-0 fw-bold fs-14">10-02-2024 / 6:38:34 PM</p>
+                            <p class="mb-0 pending-status-badge"><span>pending</span></p>
+                          </div>
+                          <p class="mb-0 text-muted fs-14">The Syncfusion DataGrid is a feature-rich
+                            blazor component for displaying data in a tabular format. Its wide range of functionalitie The
+                            Syncfusion DataGrid is a feature-rich blazor component for displaying data in a tabular
+                            format. Its wide range of functionalitie zor component for displaying data in a tabular
+                            format. Its wide range o </p>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <div class="d-flex justify-content-between">
+                          <p class="mb-0 fw-bold">Notes:</p>
+                          <a href="" class="btn-add">+</a>
+                        </div>
+                        <div class="my-2">
+                          <div class="d-flex my-3 justify-content-between align-items-start">
+                            <p class="mb-0 fw-bold fs-14">POS</p>
+                            <p class="mb-0 fw-bold fs-14">10-02-2024 / 6:38:34 PM</p>
+                            <p class="mb-0 pending-status-badge"><span>pending</span></p>
+                          </div>
+                          <p class="mb-0 text-muted fs-14">The Syncfusion DataGrid is a feature-rich
+                            blazor component for displaying data in a tabular format. Its wide range of functionalitie The
+                            Syncfusion DataGrid is a feature-rich blazor component for displaying data in a tabular
+                            format. Its wide range of functionalitie zor component for displaying data in a tabular
+                            format. Its wide range o </p>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9 ps-2">
+            <div class="row">
+              <div class="col-md-8 px-2">
+                <div tabindex="0" class="card hlx box-shaodw-without-border" id="basic">
+                  <div class="card-body p-5 pt-4">
+                    <!-- <div *ngIf="hoveredDate" class="date-tooltip" [ngStyle]="tooltipStyle">
+                        {{ hoveredDate }}
+                      </div> -->
+                    <div class="res-details">
+                      <div class="position-relative mb-3">
+                        <div class="res-date" (click)="openStartDatePicker()">
+                          <div class="day">{{ startDate | date: 'EEE' }}</div>
+                          <div class="date">{{ startDate | date: 'dd' }}</div>
+                          <div class="month-year"> {{ startDate | date: 'MMM' }} {{startDate | date: 'yyyy'}}</div>
+                          <ejs-datepicker #datepicker [value]='startDate' [max]="endDate" style="visibility: hidden"
+                            (change)="onStartChange()">
+                          </ejs-datepicker>
+                        </div>
+                        <div class="res-date end" (click)="openEndDatePicker()">
+                          <div class="day">{{ endDate | date: 'EEE' }}</div>
+                          <div class="date">{{ endDate | date: 'dd' }}</div>
+                          <div class="month-year"> {{ endDate | date: 'MMM' }} {{endDate | date: 'yyyy'}}</div>
+                          <ejs-datepicker #enddatepicker [value]='endDate' [min]="startDate" style="visibility: hidden"
+                            (change)="onEndChange()">
+                          </ejs-datepicker>
+                        </div>
+                        <div class="control-section">
+                          <ejs-schedule #scheduleObj id="scheduleObj1" width="100%" height="100px"
+                            class="remove-table-header1 timeline-resource-grouping remove-table-header first-schedular-height"
+                            [selectedDate]="startDate" [views]="views" [currentView]="'TimelineDay'"
+                            [eventSettings]="eventSettings" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
+                            [showHeaderBar]="false" [showTimeIndicator]="false" [workDays]="workDays"
+                            (hover)="onHover($event)" (dataBound)="adjustWorkCellWidths()"
+                            (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler1">
+                            <e-views>
+                              <e-view option="TimelineDay" [interval]="viewInterval">
+                                <ng-template #eventTemplate let-data>
+                                  <div>
+                                    <hr style="
+                                        border: none;
+                                        border-top: 2px solid #A40202; 
+                                        margin: 10px -6px;
+                                        flex-grow: 1;
+                                        width: 701px;" />
+                                    <!-- <div class="appointment-header-split">
+                                        <strong class="room-type">Split</strong>
+                                        <span class="room-id">+</span>
+                                      </div> -->
+                                  </div>
+                                </ng-template>
+                              </e-view>
+                            </e-views>
+                          </ejs-schedule>
+                        </div>
+                      </div>
+                      <div class="position-relative mb-3">
+                        <div class="title-vertical">
+                          <div>Rooms</div>
+                        </div>
+                        <div class="control-section">
+                          <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" height="150"
+                            [selectedDate]="startDate" [quickInfoOnSelectionEnd]=true [eventSettings]="eventSettings1"
+                            [views]="views" [currentView]="'TimelineDay'" [showHeaderBar]="false"
+                            [allowDragAndDrop]="true" [showTimeIndicator]="false"
+                            [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }" [workDays]="workDays"
+                            (hover)="onHover($event)" [allowMultiCellSelection]="true" (renderCell)="onRenderCell($event)"
+                            (popupOpen)="onPopupOpenRoom($event)" (popupClose)="onPopupCloseSessionalRate($event)"
+                            (actionBegin)="onActionBegin($event)"
+                            cssClass="remove-table-header timeline-resource-grouping custom-scheduler2">
+                            <e-views>
+                              <e-view option="TimelineDay" [interval]="viewInterval">
+                                <ng-template #eventTemplate let-data *ngFor="let guest of guestDetails;">
+                                  <div class="w-100">
+                                    <div class="hlx-hr"></div>
+                                    <div class="appointment-header">
+                                      <div class="e-section-control align-items-start">
+                                        <div class="room-details mt-3 p-0">
+                                          <span class="icon-bed">
+                                            <img src="./assets/Icons/bed.svg" alt="Room" class="room-icon">
+                                          </span>
+                                          <a href="#" class="room-link">{{ data.Subject }} {{ data.Room }}</a>
+                                        </div>
+                                        <div class="booking-date text-blue">
+                                          {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
+                                        </div>
+                                        <div class="total-guest">
+                                          <span class="guest-info">
+                                            <img src="./assets/Icons/user.svg" alt="Guests" class="guest-icon">
+                                            {{ data.Guest }}
+                                          </span>
+                                          <span class="child-info">
+                                            <img src="./assets/Icons/child.svg" alt="Children" class="child-icon">
+                                            {{ data.Child }}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </ng-template>
+                              </e-view>
+                            </e-views>
+                            <ng-template #quickInfoTemplatesContent let-data>
+                              <div class="quick-info-content">
+                                <div class="quick-content-area"></div>
+                                <ejs-dropdownlist id="roomTypeDropdown" #roomTypeObj [dataSource]="roomTypeData"
+                                  [fields]="roomTypeFields" placeholder="Choose Room Type">
+                                </ejs-dropdownlist>
+                              </div>
+                              <div class="quick-content-area">
+                                <ejs-dropdownlist id="roomsDropdown" #roomsObj [dataSource]="roomsData"
+                                  [fields]="roomsFields" placeholder="Choose Room">
+                                </ejs-dropdownlist>
+                              </div>
+                              <div class="quick-action-buttons">
+                                <button ejs-button cssClass="e-primary" (click)="onSave()">Save</button>
+                                <button ejs-button cssClass="e-flat" (click)="onCancel()">Cancel</button>
+                              </div>
+                            </ng-template>
+                            <ng-template #editorHeaderTemplate let-data>
+                              <div *ngIf="data.Subject; else createNewEvent">
+                                {{ data.Subject }}
+                              </div>
+                              <ng-template #createNewEvent>
+                                <div style="display: flex; gap: 10px; justify-content: space-between;">
+                                  <label style="color: white;">Add Quick Reservation</label>
+                                </div>
+                              </ng-template>
+                            </ng-template>
+                            <ng-template #editorTemplate let-data>
+                              <div class="popup-header">Add Rooms</div>
+                              <div class="popup-input">
+                                <div style="position: relative;">
+                                  <label style="font-size: 15px;font-weight: 600; cursor: pointer;"
+                                    (click)="openDateRangePicker()">
+                                    {{ data.StartTime | date:'MMM dd'}} - {{ endDate | date:'MMM dd' }}
+                                  </label>
+                                  <ejs-daterangepicker #dateRangePicker [min]="startDate" [max]="endDate"
+                                    [startDate]="data.StartTime" [endDate]="data.EndTime"
+                                    style="visibility: hidden; width: 1px;"></ejs-daterangepicker>
+                                </div>
+                              </div>
+                              <div class="quick-info-content">
+                                <div class="quick-content-area"></div>
+                                <ejs-dropdownlist id="roomTypeDropdown" #roomTypeObj [dataSource]="roomTypeData"
+                                  [fields]="roomTypeFields" placeholder="Choose Room Type">
+                                </ejs-dropdownlist>
+                              </div>
+                              <div class="quick-content-area">
+                                <ejs-dropdownlist id="roomsDropdown" #roomsObj [dataSource]="roomsData"
+                                  [fields]="roomsFields" placeholder="Choose Room">
+                                </ejs-dropdownlist>
+                              </div>
+                            </ng-template>
+                          </ejs-schedule>
+                        </div>
+                      </div>
+                      <div class="position-relative mb-3">
+                        <div class="title-vertical">
+                          <div>Rates</div>
+                        </div>
+                        <div class="control-section">
+                          <ejs-schedule #scheduleObj3 width="100%" height="100px"
+                        class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
+                        [quickInfoOnSelectionEnd]="true" [eventSettings]="eventSettings" [views]="views"
+                        [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
+                        [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
+                        (actionBegin)="onActionBegin($event)" [workDays]="workDays" (hover)="onHover($event)"
+                        (popupOpen)="onPopupOpenSessionalRate($event)" (popupClose)="onPopupCloseSessionalRate($event)"
+                        [allowMultiCellSelection]="true" (renderCell)="onRenderCell($event)" cssClass="custom-scheduler2">
+                            <e-views>
+                              <e-view option="TimelineDay" [interval]="viewInterval">
+                                <ng-template #eventTemplate let-data>
+                                  <div class="">
+                                    <hr style="
+                                    border: none;
+                                    border-top: 2px solid #A40202;
+                                    margin: 10px -6px;
+                                    flex-grow: 1;
+                                    width: 701px;
+                                  " />
+                                    <div class="appointment-header">
+                                      <strong>$ {{data.Rates}}</strong>
+                                      <span class="room-id">{{data.Package}}</span>
+                                    </div>
+                                    <div class="appointment-info">
+                                      <span class="child-count">None</span>
+                                    </div>
+                                  </div>
+                                </ng-template>
+                              </e-view>
+                            </e-views>
+                            <ng-template #editorHeaderTemplate let-data>
+                              <div *ngIf="data.Subject; else createNewEvent">
+                                {{ data.Subject }}
+                              </div>
+                              <ng-template #createNewEvent>
+                                <div style="display: flex; gap: 10px; justify-content: space-between;">
+                                  <label style="color: white;">Add Quick Reservation</label>
+                                </div>
+                              </ng-template>
+                            </ng-template>
+                            <ng-template #editorTemplate let-data (click)="$event.stopPropagation()">
+                              <div class="popup-header">Add Rate</div>
+                              <div class="popup-input">
+                                <div style="position: relative;">
+                                  <label style="font-size: 15px;font-weight: 600; cursor: pointer;"
+                                    (click)="openDateRangePicker()">
+                                    {{ data.StartTime | date:'MMM dd'}} - {{ endDate | date:'MMM dd' }}
+                                  </label>
+                                  <ejs-daterangepicker #dateRangePicker [min]="startDate" [max]="endDate"
+                                    [startDate]="data.StartTime" [endDate]="data.EndTime"
+                                    style="visibility: hidden; width: 1px;"></ejs-daterangepicker>
+                                </div>
+                              </div>
+                              <div class="e-section-control">
+                                <label>Rate Type</label>
+                                <select id="rate-type" style="width: 210px; height: 37px;" [(ngModel)]="data.rateType">
+                                  <option value="" disabled>Select</option>
+                                  <option *ngFor="let rate of sessionalRate" [value]="rate.package_id">
+                                    {{ rate.name }}
+                                  </option>
+                                </select>
+                              </div>
+                            </ng-template>
+                          </ejs-schedule>
+                        </div>
+                      </div>
+                      <div class="position-relative mb-3">
+                        <div class="title-vertical">
+                          <div>ADD ONS</div>
+                        </div>
+                        <div class="control-section">
+                          <ejs-schedule #scheduleObj4 width="100%" height="100px"
+                          class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
+                          [eventSettings]="eventSetting" [views]="views" [currentView]="'TimelineDay'"
+                          [showHeaderBar]="false" [showTimeIndicator]="false"
+                          [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }" [workDays]="workDays"
+                          (hover)="onHover($event)" (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler2">
+                            <e-views>
+                              <e-view option="TimelineDay" [interval]="viewInterval">
+                                <ng-template #eventTemplate let-data>
+                                  <div>
+                                    <hr style="
+                                    border: none;
+                                    border-top: 2px solid #A40202;
+                                    margin: 10px -6px;
+                                    flex-grow: 1;
+                                    width: 701px;" />
+                                  </div>
+                                  <div class="appointment-header">
+                                    <strong>$ {{data.Rates}}</strong>
+                                    <span class="room-id">{{data.Package}}</span>
+                                  </div>
+                                  <div class="appointment-info">
+                                    <span class="child-count">None</span>
+                                  </div>
+                                </ng-template>
+                              </e-view>
+                            </e-views>
+                          </ejs-schedule>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 ps-2">
+                <div class="card hlx box-shaodw-without-border mb-3">
+                  <div class="card-header d-flex justify-content-between">
+                    <h2>Payment</h2>
+                    <div (click)="openCardPopup($event)"><img src="./assets/Icons/card-icons.png"></div>
+                  </div>
+                  <div class="card-body py-2 px-2">
+                    <table class="table table-borderless table-sm align-middle text-end fs-14 mb-0">
+                      <tbody>
+                        <tr class="fw-bold fs-16">
+                          <td width="35%">Room Tariff</td>
+                          <td>$132,198.00</td>
+                        </tr>
+                        <tr>
+                          <td><a class="label" (click)="openAddOOnPopup($event)">Add Ons</a></td>
+                          <td>00</td>
+                        </tr>
+                        <tr>
+                          <td>Other Charges</td>
+                          <td>00</td>
+                        </tr>
+                        <tr>
+                          <td><a class="label" (click)="openTaxEsPopup($event)">Tax(es)</a></td>
+                          <td>00</td>
+                        </tr>
+                        <tr class="fw-bold pay-total">
+                          <td class="fs-18">Total</td>
+                          <td class="text-blue fs-24">$132,198.00</td>
+                        </tr>
+                        <tr class="fw-bold">
+                          <td>Amount Paid</td>
+                          <td>00</td>
+                        </tr>
+                        <tr>
+                          <td><a class="label" (click)="openDiscountPopup($event)">Discount</a></td>
+                          <td>00</td>
+                        </tr>
+                        <tr>
+                          <td><a class="label" (click)="openOtherDiscountPopup($event)">Other Discount</a></td>
+                          <td>00</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="card-footer pay-balance py-0">
+                    <table class="table table-borderless table-sm align-middle text-end mb-0">
+                      <tbody>
+                        <tr class="fw-bold">
+                          <td width="35%" class="fs-18">Balance</td>
+                          <td class="text-green fs-24">$132,198.00</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="card hlx my-4">
+                  <div class="card-body">
+                    <h2 class="mb-3">Pay Terms</h2>
+                    <div class="row g-2 mb-2">
+                      <div class="col-12">
+                        <p class="mb-0 text-muted">Payment needs to be collected from the guest</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card hlx">
+                  <div class="card-body">
+                    <h2 class="mb-3">Mis</h2>
+                    <div class="row g-2 mb-2">
+                      <div class="col">
+                        <input type="text" class="form-control form-control-sm" placeholder="Purpose">
+                      </div>
+                    </div>
+                    <div class="row g-2 mb-2">
+                      <div class="col-md-6">
+                        <select class="form-select form-select-sm">
+                          <option value="">Source</option>
+                        </select>
+                      </div>
+                      <div class="col-md-6">
+                        <select class="form-select form-select-sm">
+                          <option value="">Type</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row g-2 mb-2">
+                      <div class="col-md-6">
+                        <select class="form-select form-select-sm">
+                          <option value="">Market Segment</option>
+                        </select>
+                      </div>
+                      <div class="col-md-6">
+                        <select class="form-select form-select-sm">
+                          <option value="">Sales Person</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card hlx mt-3 mb-5">
+              <div class="card-header d-flex justify-content-between">
+                <h2>Rooming List</h2>
+              </div>
+              <ejs-schedule #scheduleObj4 width="100%" [height]="scheduleRoomingHeight"
+                class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
+                [eventSettings]="eventSettings1" [views]="views" [currentView]="'TimelineDay'" [showHeaderBar]="false"
+                [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
+                [workDays]="workDays" (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler5">
+                <e-views>
+                  <e-view option="TimelineDay" [interval]="viewInterval">
+                    <ng-template #eventTemplate let-data>
+                      <div class="card-body" (click)="$event.stopPropagation()">
+                        <div *ngFor="let guest of guestDetails;">
+                          <div class="appointment-guest-details">
+                            <table width="100%" class="table table-sm table-borderless">
+                              <tr>
+                                <td>
+                                  <ejs-checkbox></ejs-checkbox>
+                                </td>
+                                <td>
+                                  <span class="room-type">0123456</span>
+                                </td>
+                                <td>
+                                  <div class="d-flex">
+                                    <div>
+                                      <ejs-dropdownlist id="roomTypeDropdown" [dataSource]="specialistCategory"
+                                        [(ngModel)]="guest.roomTypeId" [fields]="{ text: 'name', value: 'DepartmentId' }"
+                                        (change)="onRoomTypeChange(guest, $event.value)" placeholder="Select Room Type">
+                                      </ejs-dropdownlist>
+                                    </div>
+  
+                                    <div class="mx-1">
+                                      <ejs-dropdownlist id="roomDropdown" [dataSource]="guest.availableRooms"
+                                        [(ngModel)]="guest.roomId" [fields]="{ text: 'Text', value: 'Id' }"
+                                        placeholder="Select Room">
+                                      </ejs-dropdownlist>
+                                    </div>
+  
+                                    <div>
+                                      <a class="room-type" style="color: #336699">Guest</a>
+                                    </div>
+                                    <div>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="" style="color: #336699" (click)="openDateRangePicker()">
+                                    {{ guest.startDate1 | date: 'dd MMM' }} - {{ guest.endDate1 | date: 'dd MMM' }}
+                                  </div>
+                                </td>
+                                <td>
+                                <td>
+                                  <div class="mx-1">
+                                    <i class="material-icons d-block text-gray">child_care</i>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="mx-1">
+                                    <a class="room-type" style="color: #336699">$1233444</a>
+                                  </div>
+                                </td>
+                              </tr>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </e-view>
+                </e-views>
+              </ejs-schedule>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-btns d-none">
+      <button class="btn btn-green">Save</button>
+      <button class="btn btn-primary hlx">Early Check In</button>
+      <button class="btn btn-primary hlx">Check In</button>
+      <button class="btn btn-primary hlx">Charge No Show</button>
+      <button class="btn btn-green-d">Payment</button>
+      <button class="btn btn-gray">Close</button>
+    </div>
+  </div>
+  <div class="popup-overlay" *ngIf="isAddOnPopupVisible">
+    <div class="form-container" (click)="$event.stopPropagation()">
+      <div class="card dialog-hlx">
+        <div class="card-body">
+          <div class="table-box">
+            <table class="table table-borderless fs-11">
+              <thead class="table-light">
+                <tr>
+                  <th>DATES</th>
+                  <th class="text-center">DESCRIPTION</th>
+                  <th class="text-end">AMMOUNT</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>12-07-2024</td>
+                  <td class="text-center">Rack Rate</td>
+                  <td class="text-end">$ 546</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row mt-3 mb-3 align-items-center fw-bold text-end">
+            <div class="col-4 fs-18">
+              Total
+            </div>
+            <div class="col fs-20 text-green">
+              $ 546
+            </div>
+          </div>
+          <div class="mt-3 text-center">
+            <button class="btn btn-sm btn-primary hlx">Save</button>
+            <button class="btn btn-sm btn-gray" (click)="closeAddOOnPopup()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="popup-overlay" *ngIf="isTaxEsPopupVisible">
+    <div class="form-container" (click)="$event.stopPropagation()">
+      <div class="card dialog-hlx">
+        <div class="card-body">
+          <div class="table-box">
+            <table class="table table-borderless fs-11">
+              <thead class="table-light">
+                <tr>
+                  <th>Room Tax</th>
+                  <th>xxxxx</th>
+                  <th>yyyyy</th>
+                  <th width="30"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Tax 1</td>
+                  <td></td>
+                  <td></td>
+                  <td><i class="material-icons d-block text-blue">delete</i></td>
+                </tr>
+                <tr>
+                  <td>Tax 2</td>
+                  <td></td>
+                  <td></td>
+                  <td><i class="material-icons d-block text-blue">delete</i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="mt-3 text-center">
+            <button class="btn btn-sm btn-primary hlx">Save</button>
+            <button class="btn btn-sm btn-gray" (click)="closeTaxeesPopup()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="popup-overlay" *ngIf="isDiscountPopupVisible">
+    <div class="form-container" (click)="$event.stopPropagation()">
+      <div class="card dialog-hlx">
+        <div class="card-body">
+          <div class="table-box">
+            <table class="table table-borderless fs-11">
+              <thead class="table-light">
+                <tr>
+                  <th>DATES</th>
+                  <th class="text-center">ADD-ONs</th>
+                  <th class="text-center">ALLOC. QTY.</th>
+                  <th class="text-end">AMMOUNT</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>12-07-2024</td>
+                  <td class="text-center">Pickup and tour</td>
+                  <td class="text-end">5</td>
+                  <td class="text-end">$ 546</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row mt-3 mb-3 align-items-center fw-bold text-end">
+            <div class="col-4 fs-18">
+              Total
+            </div>
+            <div class="col fs-20 text-green">
+              $ 546
+            </div>
+          </div>
+          <div class="mt-3 text-center">
+            <button class="btn btn-sm btn-primary hlx">Save</button>
+            <button class="btn btn-sm btn-gray" (click)="closeDiscountPopup()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="popup-overlay" *ngIf="isOtherDiscountPopupVisible">
+    <div class="form-container" (click)="$event.stopPropagation()">
+      <div class="card dialog-hlx">
+        <div class="card-body">
+          <div class="table-box">
+            <table class="table table-borderless fs-11">
+              <thead class="table-light">
+                <tr>
+                  <th>DATES</th>
+                  <th class="text-center">ADD-ONs</th>
+                  <th class="text-center">ALLOC. QTY.</th>
+                  <th class="text-end">AMMOUNT</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>12-07-2024</td>
+                  <td class="text-center">Pickup and tour</td>
+                  <td class="text-end">5</td>
+                  <td class="text-end">$ 546</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row mt-3 mb-3 align-items-center fw-bold text-end">
+            <div class="col-4 fs-18">
+              Total
+            </div>
+            <div class="col fs-20 text-green">
+              $ 546
+            </div>
+          </div>
+          <div class="mt-3 text-center">
+            <button class="btn btn-sm btn-primary hlx">Save</button>
+            <button class="btn btn-sm btn-gray" (click)="closeOtherDiscountPopup()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="popup-overlay" *ngIf="isCardPopupVisible">
+    <div class="form-container" (click)="$event.stopPropagation()">
+      <div class="card dialog-hlx">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h3 class="mb-3">Card Owner</h3>
+              <div class="row g-2 mb-2">
+                <div class="col">
+                  <select class="form-select form-select-sm">
+                    <option>Select Sharer</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row g-2 mb-2 align-items-center">
+                <div class="col">
+                  <input type="text" class="form-control form-control-sm" placeholder="Card Number">
+                </div>
+                <div class="col-auto">
+                  <i class="material-icons d-block text-blue">credit_card</i>
+                </div>
+              </div>
+              <div class="row g-2 mb-2">
+                <div class="col">
+                  <input type="text" class="form-control form-control-sm" placeholder="MM">
+                </div>
+                <div class="col-auto">/</div>
+                <div class="col">
+                  <input type="text" class="form-control form-control-sm" placeholder="YYYY">
+                </div>
+              </div>
+              <div class="row g-2 mb-2">
+                <div class="col">
+                  <input type="text" class="form-control form-control-sm" placeholder="CVV">
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <h3 class="mb-3">Billing Address</h3>
+              <div class="row g-2 mb-2">
+                <div class="col">
+                  <textarea class="form-control form-control-sm" placeholder="Address" style="height: 64px;"></textarea>
+                </div>
+              </div>
+              <div class="row g-2 mb-2">
+                <div class="col">
+                  <select class="form-select form-select-sm">
+                    <option>Country</option>
+                  </select>
+                </div>
+                <div class="col">
+                  <select class="form-select form-select-sm">
+                    <option>State</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row g-2 mb-2">
+                <div class="col">
+                  <input type="text" class="form-control form-control-sm" placeholder="City">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control form-control-sm" placeholder="Zip Code">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3 mb-4">
+            <div class="col">
+              <div class="form-check mb-0 fs-12">
+                <input type="checkbox" value="" id="assignRoom" class="form-check-input">
+                <label for="assignRoom" class="form-check-label">View All Credit Cards</label>
+              </div>
+            </div>
+            <div class="col text-end">
+              <button class="btn btn-sm btn-primary hlx">Save</button>
+              <button class="btn btn-sm btn-gray" (click)="closeCardPopup()">Cancel</button>
+            </div>
+          </div>
+          <div class="table-box">
+            <table class="table table-borderless fs-11">
+              <thead class="table-light">
+                <tr>
+                  <th>NAME</th>
+                  <th>CARD NUMBER</th>
+                  <th>TYPE</th>
+                  <th>EXPIRY</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Mr. Deepak Sharma</td>
+                  <td>9786-9786-4956-5648</td>
+                  <td>Diners</td>
+                  <td>8/2024</td>
+                  <td><i class="material-icons d-block text-blue">delete</i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
