@@ -400,9 +400,9 @@
             </div>
           </div>
         </div>
-        <div>
+        <div class="px-2">
           <div class="second-grid-container">
-            <div>
+            <div class="pe-2">
               <div tabindex="0" class="card hlx box-shaodw-without-border" id="basic">
                 <div class="card-body p-5 pt-4">
                   <!-- <div *ngIf="hoveredDate" class="date-tooltip" [ngStyle]="tooltipStyle">
@@ -773,14 +773,14 @@
               <h2>Rooming List</h2>
             </div>
             <ejs-schedule #scheduleObj4 width="100%" [height]="scheduleRoomingHeight"
-              class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
+              class="remove-table-header timeline-resource-grouping rooming-timline" [selectedDate]="startDate"
               [eventSettings]="eventSettings1" [views]="views" [currentView]="'TimelineDay'" [showHeaderBar]="false"
               [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
               [workDays]="workDays" (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler5">
               <e-views>
-                <e-view option="TimelineDay" [interval]="viewInterval">
+                <e-view option="TimelineDay" [interval]="viewInterval" cssClass="saruk">
                   <ng-template #eventTemplate let-data>
-                    <div class="card-body" (click)="$event.stopPropagation()">
+                    <div class="card-body p-0" (click)="$event.stopPropagation()">
                       <div *ngFor="let guest of guestDetails;">
                         <div class="appointment-guest-details">
                           <table width="100%" class="table table-sm table-borderless">

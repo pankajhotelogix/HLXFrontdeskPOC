@@ -62,7 +62,7 @@ export class GroupResDetailsComponent implements OnChanges {
   public tooltipStyle: { [key: string]: string } = {};
   public readonly = true;
   public scheduleHeight: string = '220px';
-  public scheduleRoomingHeight: string = '220px';
+  public scheduleRoomingHeight: string = '500px';
   public selectedText: string = '1';
   public isPopupVisible: boolean = false;
   public isAddOnPopupVisible: boolean = false;

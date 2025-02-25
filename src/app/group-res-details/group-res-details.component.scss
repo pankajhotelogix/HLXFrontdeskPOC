@@ -1,3 +1,14 @@
-.timeline-resource-grouping .e-appointment.e-lib.e-draggable{
+.rooming-timline .e-appointment.e-lib.e-draggable{
     height: auto!important;
+    position: static!important;
+    visibility: visible!important;
+    background-color: transparent!important;
+    width: 100%!important;
 }
+
+.rooming-timline .e-event-table, .rooming-timline .e-event-table div:not(.e-indicator.e-icons.e-right-icon){
+    width: 100%;
+}
+
+
+
