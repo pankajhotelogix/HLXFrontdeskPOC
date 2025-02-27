@@ -373,8 +373,8 @@ export class CalendarComponent implements OnInit {
     ) {
       args.cancel = true;
       this.scheduleObj?.openEditor(args.data, 'Add');
-      this.getSessionalRateList();
-      this.getAvailableRoomList();
+     // this.getSessionalRateList();
+      //this.getAvailableRoomList();
       args.element.classList.add('dialog-open');
       args.element.setAttribute('id', 'srk-id');
       let bookingsData = localStorage.getItem('bookingsData');
@@ -464,10 +464,20 @@ export class CalendarComponent implements OnInit {
     let rec = JSON.parse(JSON.stringify(records)) as Record<string, any>[];
     this.eventSettings.dataSource = rec;
   }
+  // onActionBegin(event: any) {
+  //   if (event.requestType === 'eventCreate') {
+  //     const data: Record<string, any> =
+  //       event.data instanceof Array ? event.data[0] : event.data;
+  //   }
+  // }
   onActionBegin(event: any) {
     if (event.requestType === 'eventCreate') {
-      const data: Record<string, any> =
-        event.data instanceof Array ? event.data[0] : event.data;
+      if (event.data instanceof Array && event.data[0].DoctorId == null) {
+        event.data[0].DoctorId = 1;
+      }
+      if(!(event.data instanceof Array) && event.data.DoctorId == null) {
+        event.data.DoctorId = 1;
+      }
     }
   }
   onChange(): void {
@@ -542,70 +552,67 @@ export class CalendarComponent implements OnInit {
     if (!this.selectedDate) {
       this.selectedDate = new Date();
     }
+
     const startDate = new Date(this.selectedDate);
-    const currentDate = this.selectedDate;
-    const endDate = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      currentDate.getDate() + 30
-    );
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + 30);
+
     this.selectedStartDate = this.formatDateNew(startDate);
     this.selectedEndDate = this.formatDateNew(endDate);
+
     if (this.selectedStartDate && this.selectedEndDate) {
-      this.firestoreService
-        .getItemsByDateRange(this.selectedStartDate, this.selectedEndDate)
+      this.firestoreService.getItemsByDateRange(this.selectedStartDate, this.selectedEndDate)
         .subscribe((data: any[]) => {
-          let locData = data;
-          locData = locData.map((booking: any, index) => ({
+          if (!data || data.length === 0) {
+            console.warn("No booking data found in Firestore.");
+            return;
+          }
+
+          const locData = data.map((booking: any, index) => ({
             Id: index + 1,
-            Name: booking?.owner_details?.first_name || 'Unknown',
+            Name: booking?.res_guest?.[0]?.guest?.personal_contact?.first_name || 'Unknown',
             StartTime: booking?.checkin_date
-              ? new Date(
-                  new Date(booking.checkin_date).getFullYear(),
-                  new Date(booking.checkin_date).getMonth(),
-                  new Date(booking.checkin_date).getDate(),
-                  14,
-                  0
-                )
+              ? new Date(booking.checkin_date + 'T14:00:00')
               : null,
             EndTime: booking?.checkout_date
-              ? new Date(
-                  new Date(booking.checkout_date).getFullYear(),
-                  new Date(booking.checkout_date).getMonth(),
-                  new Date(booking.checkout_date).getDate(),
-                  11,
-                  0
-                )
+              ? new Date(booking.checkout_date + 'T11:00:00')
               : null,
             Description: booking?.message || 'No description',
-            DepartmentId: booking?.room_type_id || 'Unknown',
-            Status: booking?.status || 'Unknown',
-            DoctorId: booking?.room_id || 'Unknown',
+            DepartmentId: booking?.room_stay?.[0]?.room_type_id || 'Unknown',
+            Status: booking?.res_status || 'Unknown',
+            RoomId: booking?.room_stay?.[0]?.room_id || 'Unknown',
           }));
-          this.eventData = this.hospitalData =
-            this.dataService.getHospitalData();
-          let storedHospitalData = locData;
-          let locBookings = storedHospitalData || this.hospitalData;
+
+          console.log('Processed Booking Data:', locData);
+
+          this.eventData = this.hospitalData = this.dataService.getHospitalData();
+          const finalBookings = locData.length > 0 ? locData : [];
+
           this.calendarSettings = this.dataService.getCalendarSettings();
+          console.log('Calendar Settings:', this.calendarSettings);
+
           this.eventSettings = {
-            dataSource: locBookings,
+            dataSource: finalBookings,
             query: new Query(),
-            resourceColorField: this.calendarSettings.bookingColor,
+            resourceColorField: this.calendarSettings?.bookingColor || 'blue',
             fields: {
               subject: { name: 'Name' },
             },
           };
+
+          console.log('Event Settings:', this.eventSettings);
         });
+
       if (this.selectedDepartmentId) {
         this.onDepartmentChange(this.selectedDepartmentId);
       }
+
       this.calculateDaysInMonth();
-      this.selectedDateRange = `${this.formatDate(
-        startDate
-      )} - ${this.formatDate(endDate)}`;
+      this.selectedDateRange = `${this.formatDate(startDate)} - ${this.formatDate(endDate)}`;
       this.dataService.updateActiveItem('calendar');
     }
   }
+
   public getResourceName(value: ResourceDetails): string {
     if (value.resourceData) {
       const resourceTextField = value.resource?.textField;
@@ -948,6 +955,7 @@ export class CalendarComponent implements OnInit {
       },
       error: (err) => {
         alert(err);
+        this.addNewDocument();
       },
     });
   }
