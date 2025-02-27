@@ -32,11 +32,13 @@ a,
 // ########################################  GRID System Applied #############################
 .grid-container{
   display: grid;
-  grid-template-columns: 30% 70%;
+  grid-template-columns: 24.8% 76.2%
+  // grid-template-columns: 30% 70%;24.8% 76.2%
 }
 .second-grid-container{
   display: grid;
-  grid-template-columns: 60% 40%;
+  // grid-template-columns: 60% 40%;
+  grid-template-columns: 66.2% 32.8%;
 }
 
 // ########################################  GRID System Applied #############################
