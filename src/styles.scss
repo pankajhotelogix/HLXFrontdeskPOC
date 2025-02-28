@@ -32,13 +32,13 @@ a,
 // ########################################  GRID System Applied #############################
 .grid-container{
   display: grid;
-  grid-template-columns: 24.8% 76.2%
+  grid-template-columns: 24.8% 75.2%;
   // grid-template-columns: 30% 70%;24.8% 76.2%
 }
 .second-grid-container{
   display: grid;
   // grid-template-columns: 60% 40%;
-  grid-template-columns: 66.2% 32.8%;
+  grid-template-columns: 67.2% 32.8%;
 }
 
 // ########################################  GRID System Applied #############################
@@ -393,10 +393,10 @@ button:hover {
 }
 .hlx .form-control,
 .hlx .form-select {
-  font-size: calc(8px + 0.390625vw);
+  font-size: calc(6px + 0.390625vw);
 }
 input.e-input, textarea.e-input, .e-input-group, .e-input-group.e-control-wrapper, .e-input-group.e-disabled, .e-input-group.e-control-wrapper.e-disabled {
-  font-size: calc(8px + 0.390625vw);
+  font-size: calc(6px + 0.390625vw);
 }
 .hlx .form-control,
 .hlx .form-select {
