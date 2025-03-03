@@ -6,6 +6,7 @@
 html,
 body {
   user-select: none;
+  overflow-x: hidden!important;
 }
 body {
   background-color: var(--background-color);
@@ -351,7 +352,7 @@ button:hover {
   font-weight: 700;
 }
 .card.hlx {
-  border-radius: 16px;
+  border-radius: 10px;
   box-shadow: 2px 2px 10px 0px rgba(45, 15, 80, .1);
 }
 .card.hlx h2 {
@@ -389,15 +390,25 @@ button:hover {
   border: 0 !important;
   border-bottom: 1px solid #d3d3d3 !important;
   border-radius: 0;
-  height: 32px;
 }
 .hlx .form-control,
 .hlx .form-select {
-  font-size: calc(6px + 0.390625vw);
+  font-size: calc(5px + 0.390625vw);
+  font-weight: 300;
 }
+
+.form-control:focus{
+  box-shadow: 0 0 0 .1rem rgba(13,110,253,.25)!important;
+}
+
+.e-input-group .e-input-group-icon, .e-input-group.e-control-wrapper .e-input-group-icon{
+  min-height: 24px!important;
+}
+
 input.e-input, textarea.e-input, .e-input-group, .e-input-group.e-control-wrapper, .e-input-group.e-disabled, .e-input-group.e-control-wrapper.e-disabled {
-  font-size: calc(6px + 0.390625vw);
+  font-size: calc(5px + 0.390625vw);
 }
+
 .hlx .form-control,
 .hlx .form-select {
   padding-left: 0;
