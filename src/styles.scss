@@ -33,7 +33,7 @@ a,
 // ########################################  GRID System Applied #############################
 .grid-container{
   display: grid;
-  grid-template-columns: 24.8% 75.2%;
+  grid-template-columns: 25% 75%;
   // grid-template-columns: 30% 70%;24.8% 76.2%
 }
 .second-grid-container{
@@ -717,7 +717,8 @@ button + button  {
   background: #ebebeb !important;
 }
 .guest-details-accordion .e-acrdn-content {
-  padding: 16px 0 !important;
+  padding-bottom: 16px !important;
+  padding-top: 10px !important;
 }
 .dialog-hlx h3 {
   font-size: calc(7px + 0.390625vw);
