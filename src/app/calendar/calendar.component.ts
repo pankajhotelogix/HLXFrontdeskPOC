@@ -80,6 +80,7 @@ import { StayDetailsComponent } from "../stay-details/stay-details.component";
 import { Router } from '@angular/router';
 import { GroupResDetailsComponent } from '../group-res-details/group-res-details.component';
 import { Console, log } from 'node:console';
+import e from 'express';
 L10n.load({
   'en-US': {
     schedule: {
@@ -222,6 +223,7 @@ export class CalendarComponent implements OnInit {
     adult: 1,
     child: 0,
     bed: 1,
+    isRoomAssigned: false,
     room_stay: [
       {
         room_type_id: '',
@@ -360,6 +362,7 @@ export class CalendarComponent implements OnInit {
     this.requestParams.checkin_date = this.getDate(args.data.StartTime);
     this.requestParams.checkout_date = this.getDate(args.data.EndTime);
     this.requestParams.room_stay[0].room_type_id = args.data.DepartmentId || '';
+    this.requestParams.room_stay[0].room_id = args.data.DoctorId || '';
     this.requestParams.rate[0].rate_id = args.data.RateId || '';
     this.requestRateParams.room_type_id = args.data.DepartmentId || '';
     this.requestRoomParams.room_type_id = args.data.DepartmentId || '';
@@ -637,88 +640,136 @@ export class CalendarComponent implements OnInit {
   //   }
   // }
   
-  findEmptyRoom(): any {
-    let bookingData = this.eventSettings.dataSource; // Get all bookings
-    let selectedDateStart = this.requestParams.checkin_date;
-    let selectedDateEnd = this.requestParams.checkout_date;
+//   findEmptyRoom1(): any {
+//     let bookingData = this.eventSettings.dataSource;
+//     let selectedDateStart = this.requestParams.checkin_date;
+//     let selectedDateEnd = this.requestParams.checkout_date;
+//     if (!selectedDateStart || !selectedDateEnd) {
+//         console.error("Invalid check-in or check-out date.");
+//         return null;
+//     }
 
-    // Ensure selectedDateStart and selectedDateEnd are valid
-    if (!selectedDateStart || !selectedDateEnd) {
-        console.error("Invalid check-in or check-out date.");
-        return null;
-    }
+//     let roomTypeId = Number(this.requestParams.room_stay?.[0]?.room_type_id);
+//     if (!roomTypeId) {
+//         console.error("Room Type ID is missing or invalid");
+//         return null;
+//     }
 
-    let roomTypeId = Number(this.requestParams.room_stay?.[0]?.room_type_id);
-    if (!roomTypeId) {
-        console.error("Room Type ID is missing or invalid");
-        return null;
-    }
+//     let roomList = this.resourceDataSource.filter(room => Number(room.DepartmentId) === roomTypeId);
+//     console.log("Filtered Room List:", roomList);
+//     console.log("Existing Bookings:", bookingData);
 
-    let roomList = this.resourceDataSource.filter(room => Number(room.DepartmentId) === roomTypeId);
-    console.log("Filtered Room List:", roomList);
-    console.log("Existing Bookings:", bookingData);
+//     if (roomList.length === 0) {
+//         console.error("No rooms found for the given Room Type ID:", roomTypeId);
+//         return null;
+//     }
 
-    if (roomList.length === 0) {
-        console.error("No rooms found for the given Room Type ID:", roomTypeId);
-        return null;
-    }
+//     // ✅ Correct function call with proper parameters
+//     let availableRooms = this.getAvailableRooms(roomTypeId, selectedDateStart, selectedDateEnd);
 
-    // ✅ Correct function call with proper parameters
-    let availableRooms = this.getAvailableRooms(roomTypeId, selectedDateStart, selectedDateEnd);
+//     if (availableRooms.length === 0) {
+//         console.warn("No available rooms found for the given date range.");
+//         return null;
+//     }
 
-    if (availableRooms.length === 0) {
-        console.warn("No available rooms found for the given date range.");
-        return null;
-    }
+//     // ✅ Assign first available room
+//     let assignedRoom = availableRooms[0];
+//     console.log(`Assigned Room: ${assignedRoom.room_name} (ID: ${assignedRoom.Id})`);
 
-    // ✅ Assign first available room
-    let assignedRoom = availableRooms[0];
-    console.log(`Assigned Room: ${assignedRoom.room_name} (ID: ${assignedRoom.Id})`);
+//     return { ...assignedRoom, RoomId: assignedRoom.Id };
+// }
+// getAvailableRooms(roomTypeId: number, checkinDate: string, checkoutDate: string): any[] {
+//   let bookingData = this.eventSettings.dataSource; // Get all existing bookings
+//   let selectedDateStart = new Date(checkinDate);
+//   let selectedDateEnd = new Date(checkoutDate);
 
-    return { ...assignedRoom, RoomId: assignedRoom.Id };
+//   if (!roomTypeId) {
+//       console.error("Invalid Room Type ID");
+//       return [];
+//   }
+
+//   // ✅ Get rooms based on the requested type
+//   let roomList = this.resourceDataSource.filter(room => Number(room.DepartmentId) === Number(roomTypeId));
+//   console.log("Filtered Room List:", roomList);
+
+//   if (roomList.length === 0) {
+//       console.error("No rooms found for the given Room Type ID:", roomTypeId);
+//       return [];
+//   }
+
+//   let filledRooms = new Set<number>(); // Track booked rooms
+
+//   // ✅ Ensure booked rooms are removed properly
+//   let availableRooms = roomList.filter(room => {
+//       let hasBookingConflict = false;
+
+//       if (Array.isArray(bookingData)) {
+//           hasBookingConflict = bookingData.some((booking: any) => {
+//               let bookingStart = new Date(booking.StartTime);
+//               let bookingEnd = new Date(booking.EndTime);
+//               let bookingCheckin = bookingStart.toISOString().split('T')[0]; // Extract only the date part
+
+//               // ✅ Check if the requested check-in date **already exists** in previous bookings
+//               let checkinConflict = bookingCheckin === checkinDate;
+
+//               // ✅ Check for overlapping booking periods
+//               let isOverlapping = !(selectedDateEnd <= bookingStart || selectedDateStart >= bookingEnd);
+
+//               if ((isOverlapping || checkinConflict) && parseInt(booking.RoomId) === parseInt(room['Id'])) {
+//                   filledRooms.add(room['Id']); // Mark room as booked
+//                   console.log(`❌ Room ${room['Id']} removed due to check-in conflict or overlapping booking.`);
+//                   return true;
+//               }
+//               return false;
+//           });
+//       }
+
+//       return !hasBookingConflict; // ✅ Keep only rooms that **are not booked** and **have no check-in conflict**
+//   });
+
+//   console.log("❗ Available Rooms after filtering:", availableRooms.length);
+//   console.log("🚀 Available Rooms List:", availableRooms);
+
+//   if (availableRooms.length === 0) {
+//       console.warn("No rooms available after filtering out booked rooms!");
+//       return [];
+//   }
+
+//   // ✅ Pick the first available room (sorted by ID or order)
+//   let selectedRoom = availableRooms[0];
+
+//   console.log(`✅ Selected Room: ${selectedRoom['Id']} - ${selectedRoom['Name']}`);
+
+//   return [selectedRoom]; // Return only the top available room
+// }
+isOverlap(start1: any, start2: any, end1: any ,end2: any) {
+   start1 = new Date(start1).setHours(0, 0, 0, 0);
+   end1 = new Date(end1).setHours(0, 0, 0, 0);
+   start2 = new Date(start2).setHours(0, 0, 0, 0);
+   end2 = new Date(end2).setHours(0, 0, 0, 0);
+  return start1 < end2 && start2 < end1;
 }
-getAvailableRooms(roomTypeId: number, checkinDate: string, checkoutDate: string): any[] {
-  let bookingData = this.eventSettings.dataSource; // Get all bookings
-  let selectedDateStart = new Date(checkinDate);
-  let selectedDateEnd = new Date(checkoutDate);
 
-  if (!roomTypeId) {
-      console.error("Invalid Room Type ID");
-      return [];
-  }
+findEmptyRoom(roomType: string, checkinDate: any, checkoutDate: any, bookingData: any, roomList: any) {
+  let selectedDateStart = (checkinDate.split(' ')[0]);
+  let selectedDateEnd = (checkoutDate.split(' ')[0]);
+  let availableRooms = roomList.filter((room:any) => {
+      if (room.DepartmentId !== roomType) return false; 
+      let isRoomBooked = bookingData.some((booking:any) => 
+          booking.DoctorId === room.Id && 
+          (
+            this.isOverlap(booking.StartTime, selectedDateStart, booking.EndTime, selectedDateEnd)
+              // (new Date(booking.StartTime) <= selectedDateEnd && new Date(booking.EndTime) >= selectedDateStart) 
+          )
+      );
 
-  let roomList = this.resourceDataSource.filter(room => Number(room.DepartmentId) === Number(roomTypeId));
-  console.log("Filtered Room List:", roomList);
-
-  if (roomList.length === 0) {
-      console.error("No rooms found for the given Room Type ID:", roomTypeId);
-      return [];
-  }
-
-  let filledRooms = new Set<number>(); // Store booked room IDs
-
-  // Find available rooms that are NOT booked on the check-in date
-  let availableRooms = roomList.filter(room => {
-      let isBooked = Array.isArray(bookingData) ? bookingData.some((booking: any) => {
-          let bookingStart = new Date(booking.StartTime);
-          let bookingEnd = new Date(booking.EndTime);
-
-          // ✅ Check only if the room is booked on the check-in date (not entire range)
-          let checkinOverlaps = selectedDateStart >= bookingStart;
-
-          if (checkinOverlaps && Number(booking.RoomId) === Number(room['Id'])) {
-              filledRooms.add(room['Id']);
-              return true;
-          }
-          return false;
-      }) : false;
-
-      return !isBooked; // Keep only unbooked rooms on the check-in date
+      return !isRoomBooked;
   });
-
-  console.log("Available Rooms (Check-in Date Not Booked):", availableRooms);
-  return availableRooms;
+  return availableRooms.length > 0 ? availableRooms[0] : null;
 }
+
+
+
 
 
   
@@ -1137,12 +1188,18 @@ loadBookings(): void {
   }
   addNewDocument() {
     const roomtype =this.requestParams.room_stay[0]?.room_type_id;
-    const roomid = this.findEmptyRoom();
-    console.log('Room ID:', roomid);
-    
+    if(this.requestParams.isRoomAssigned === false){
+    const roomid = this.findEmptyRoom(roomtype, this.requestParams.checkin_date, this.requestParams.checkout_date, this.eventSettings.dataSource, this.resourceDataSource);
     if (roomid) {
-     this.requestParams.room_stay[0].room_id = roomid.Id;
+      this.requestParams.room_stay[0].room_id = roomid.Id;
+     }
+    }else{
+      const roomid = this.requestParams.room_stay[0]?.room_id;
+      if (roomid) {
+        this.requestParams.room_stay[0].room_id = roomid;
+       }
     }
+    
     this.firestoreService
       .addDocument('bookings', this.requestParams)
       .then((docRef: { id: any }) => {
