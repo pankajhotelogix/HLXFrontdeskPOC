@@ -39,7 +39,7 @@ a,
 .second-grid-container{
   display: grid;
   // grid-template-columns: 60% 40%;
-  grid-template-columns: 67.2% 32.8%;
+  grid-template-columns: 66.5% 33.5%;
 }
 
 // ########################################  GRID System Applied #############################
@@ -361,6 +361,13 @@ button:hover {
   text-transform: uppercase;
   color: #242424;
 }
+.card.hlx h3 {
+  font-size: calc(7px + 0.390625vw);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #242424;
+}
+
 .card.hlx h4 {
   font-size: calc(10px + 0.390625vw);
   font-weight: 600;
@@ -445,7 +452,7 @@ input.e-input, textarea.e-input, .e-input-group, .e-input-group.e-control-wrappe
   font-size: 12px;
 }
 .fs-14 {
-  font-size: calc(7px + 0.390625vw);
+  font-size: calc(6px + 0.390625vw);
 }
 .fs-16 {
   font-size: calc(8px + 0.390625vw);
@@ -538,8 +545,8 @@ button + button  {
   text-align: center;
 }
 .res-date {
-  width: calc(25px + 4vw);
-  height: calc(25px + 4vw);
+  width: calc(20px + 4vw);
+  height: calc(20px + 4vw);
   background: #fff;
   border: 1px solid #336699;
   border-radius: 10px;
@@ -549,11 +556,11 @@ button + button  {
   z-index: 1;
   color: #545454;
   top: 0;
-  left: -35px;
+  left: -32px;
 }
 .res-date.end {
   left: auto;
-  right: -35px !important;
+  right: -30px !important;
 }
 .res-date .day {
   background: #336699;
@@ -577,7 +584,7 @@ button + button  {
   height: 100%;
   position: absolute;
   top: 0px;
-  left: -34px;
+  left: -36px;
   width: 24px;
 }
 .title-vertical div {
@@ -761,8 +768,9 @@ button + button  {
   border: 1px solid #A40202;
   border-radius: 10px;
   color: #A40202;
-  line-height: 1.1;
+  line-height: 10px;
   padding: 3px 5px;
+  font-size: 10px;
 }
 
 // .e-schedule .e-timeline-view .e-appointment, .e-schedule .e-timeline-month-view .e-appointment {

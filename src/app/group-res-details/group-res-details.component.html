@@ -112,9 +112,9 @@
               </div>
               <ejs-accordion class="guest-details-accordion">
                 <e-accordionitems>
-                  <e-accordionitem expanded='true'>
+                  <e-accordionitem expanded='true' class="home-address">
                     <ng-template #header>
-                      <h4 class="my-2">Home Address</h4>
+                      <h3 class="my-0">Home Address</h3>
                     </ng-template>
                     <ng-template #content>
                       <div class="row g-2 mb-2">
@@ -176,7 +176,7 @@
                   </e-accordionitem>
                   <e-accordionitem>
                     <ng-template #header>
-                      <h4 class="my-2">ID</h4>
+                      <h3 class="my-0">ID</h3>
                     </ng-template>
                     <ng-template #content>
                       <div class="border-bottom mb-2 pb-1">
@@ -221,7 +221,7 @@
                   </e-accordionitem>
                   <e-accordionitem>
                     <ng-template #header>
-                      <h4 class="my-2">Arrival / Departure</h4>
+                      <h3 class="my-0">Arrival / Departure</h3>
                     </ng-template>
                     <ng-template #content>
                       <ejs-tab id="tab_default" loadOn="Dynamic" (selected)="onSelected($event)">
@@ -313,22 +313,22 @@
               </ejs-accordion>
             </div>
           </div>
-          <div class="card bg-grey box-shaodw-without-border rounded-lg">
-            <div class="card-body px-2 pb-0">
+          <div class="card bg-grey box-shaodw-without-border group-task-card rounded-lg">
+            <div class="card-body px-2 pb-0 pt-1">
               <table class="table align-middle mb-0">
                 <tbody>
                   <tr>
-                    <td width="35%" class="fw-bold">Confirmation:</td>
-                    <td class="fs-14"><a href="">Send Confirmation Email</a></td>
+                    <td width="35%" class="fw-bold fs-14">Confirmation:</td>
+                    <td class="fs-14 fs-14"><a href="">Send Confirmation Email</a></td>
                   </tr>
                   <tr>
-                    <td class="fw-bold">Preference:</td>
+                    <td class="fw-bold fs-14">Preference:</td>
                     <td><textarea class="form-control fs-14" placeholder="Enter Preferences"></textarea></td>
                   </tr>
                   <tr>
                     <td colspan="2">
                       <div class="d-flex justify-content-between">
-                        <p class="mb-0 fw-bold">Tasks:</p>
+                        <p class="mb-0 fw-bold fs-14">Tasks:</p>
                         <a href="" class="btn-add">+</a>
                       </div>
                       <div class="my-2">
@@ -406,7 +406,7 @@
           <div class="second-grid-container">
             <div class="pe-2">
               <div tabindex="0" class="card hlx box-shaodw-without-border" id="basic">
-                <div class="card-body p-5 pt-4">
+                <div class="card-body p-5 pt-3">
                   <!-- <div *ngIf="hoveredDate" class="date-tooltip" [ngStyle]="tooltipStyle">
                       {{ hoveredDate }}
                     </div> -->
