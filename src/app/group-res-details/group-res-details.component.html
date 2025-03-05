@@ -771,10 +771,10 @@
                   <div (click)="openCardPopup($event)"><img src="./assets/Icons/card-icons.png"></div>
                 </div>
                 <div class="card-body py-2 px-2">
-                  <table class="table table-borderless table-sm align-middle text-end fs-14 mb-0">
+                  <table class="table table-borderless table-sm align-middle fs-14 mb-0">
                     <tbody>
                       <tr class="fw-bold fs-16">
-                        <td width="35%">Room Tariff</td>
+                        <td width="35%">Total</td>
                         <td>$132,198.00</td>
                       </tr>
                       <tr>
@@ -865,7 +865,7 @@
               </div>
             </div>
           </div>
-          <div class="card hlx mt-3 mb-5">
+          <div class="card hlx mt-3 box-shaodw-without-border mb-5">
             <div class="card-header d-flex justify-content-between">
               <div class="d-flex align-items-center w-100 justify-content-between">
                 <h2>Rooming List</h2>
@@ -903,7 +903,7 @@
                     <div class="card-body p-0" (click)="$event.stopPropagation()">
                       <div *ngFor="let guest of guestDetails;">
                         <div class="appointment-guest-details">
-                          <table width="100%" class="table table-sm table-borderless">
+                          <table width="100%" class="table table-sm fs-14 table-borderless">
                             <tr>
                               <td>
                                 <ejs-checkbox></ejs-checkbox>
@@ -927,7 +927,7 @@
                                     </ejs-dropdownlist>
                                   </div>
 
-                                  <div>
+                                  <div class="d-flex align-items-center">
                                     <a class="room-type" style="color: #336699">Guest</a>
                                   </div>
                                   <div>

@@ -319,7 +319,7 @@ button:hover {
   }
 }
 .material-icons {
-  font-size: 20px;
+  font-size: calc(10px + 0.6214vw);
 }
 .icon-flag {
   padding-top: 8px;
@@ -1501,9 +1501,9 @@ button:disabled {
 }
 
 .room-icon {
-  width: 16px;
-  height: 16px;
-  margin-right: 8px;
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
 }
 
 .room-details {
@@ -1513,7 +1513,7 @@ button:disabled {
 
 .room-link {
   font-weight: bold;
-  font-size: calc(7px + 0.390625vw);
+  font-size: calc(5px + 0.390625vw);
   color: #007BFF;
   text-decoration: none;
 }
