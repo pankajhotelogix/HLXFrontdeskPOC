@@ -51,6 +51,34 @@
     padding: 5px!important;
 }
 
+#roomTypeDropdown span.e-input-group.e-control-wrapper, 
+#roomDropdown span.e-input-group.e-control-wrapper {
+  background-color: transparent;
+}
+
+
 .group-task-card table td{
     padding-left: 0px!important;
+}
+
+.payment-section tr td:first-child{
+  text-align: start;
+}
+.payment-section tr:first-child td {
+  font-weight: bold;
+}
+
+
+.rooming-list-footer-button .btn-group{
+  padding: 6px!important;
+  background-color: #bfbfbf;
+}
+.rooming-list-footer-button{
+  width: auto!important;
+}
+.rooming-list-footer-button button.btn{
+  background: white;
+  padding: 0 5px;
+  line-height: 1;
+  height: 25px;
 }

@@ -771,19 +771,19 @@
                   <div (click)="openCardPopup($event)"><img src="./assets/Icons/card-icons.png"></div>
                 </div>
                 <div class="card-body py-2 px-2">
-                  <table class="table table-borderless table-sm align-middle fs-14 mb-0">
+                  <table class="table payment-section table-borderless table-sm align-middle text-end fs-14 mb-0">
                     <tbody>
                       <tr class="fw-bold fs-16">
-                        <td width="35%">Total</td>
+                        <td width="75%">Total</td>
                         <td>$132,198.00</td>
                       </tr>
                       <tr>
-                        <td><a class="label" (click)="openAddOOnPopup($event)">Add Ons</a></td>
-                        <td>00</td>
+                        <td><a class="label" (click)="openAddOOnPopup($event)">Additional Booking Owner Charges</a></td>
+                        <td class="text-blue">00</td>
                       </tr>
                       <tr>
-                        <td>Other Charges</td>
-                        <td>00</td>
+                        <td>Discount</td>
+                        <td class="text-blue">$234.00</td>
                       </tr>
                       <tr>
                         <td><a class="label" (click)="openTaxEsPopup($event)">Tax(es)</a></td>
@@ -794,50 +794,42 @@
                         <td class="text-blue fs-24">$132,198.00</td>
                       </tr>
                       <tr class="fw-bold">
-                        <td>Amount Paid</td>
-                        <td>00</td>
-                      </tr>
-                      <tr>
-                        <td><a class="label" (click)="openDiscountPopup($event)">Discount</a></td>
-                        <td>00</td>
-                      </tr>
-                      <tr>
-                        <td><a class="label" (click)="openOtherDiscountPopup($event)">Other Discount</a></td>
+                        <td class="text-blue fs-18"> Paid</td>
                         <td>00</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-                <div class="card-footer pay-balance py-0">
-                  <table class="table table-borderless table-sm align-middle text-end mb-0">
+                <div class="card-footer pay-balance py-0 px-2">
+                  <table class="table table-borderless table-sm align-middle mb-0">
                     <tbody>
                       <tr class="fw-bold">
                         <td width="35%" class="fs-18">Balance</td>
-                        <td class="text-green fs-24">$132,198.00</td>
+                        <td class="text-green fs-22 text-end">$132,198.00</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
               </div>
-              <div class="card hlx my-4">
-                <div class="card-body">
-                  <h2 class="mb-3">Pay Terms</h2>
-                  <div class="row g-2 mb-2">
-                    <div class="col-12">
-                      <p class="mb-0 text-muted">Payment needs to be collected from the guest</p>
+              <div class="card hlx mb-3">
+                <div class="card-body pb-2">
+                  <h3 class="mb-3">Pay Terms</h3>
+                  <div class="row g-2 border rounded">
+                    <div class="col-12 m-0">
+                      <p class="mb-0 text-muted fs-12 mb-0 py-1">Payment needs to be collected from the guest</p>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="card hlx">
                 <div class="card-body">
-                  <h2 class="mb-3">Mis</h2>
-                  <div class="row g-2 mb-2">
+                  <h3 class="mb-2">Mis</h3>
+                  <div class="row g-2 mb-1">
                     <div class="col">
                       <input type="text" class="form-control form-control-sm" placeholder="Purpose">
                     </div>
                   </div>
-                  <div class="row g-2 mb-2">
+                  <div class="row g-2 mb-1">
                     <div class="col-md-6">
                       <select class="form-select form-select-sm">
                         <option value="">Source</option>
@@ -849,7 +841,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="row g-2 mb-2">
+                  <div class="row g-2 mb-1">
                     <div class="col-md-6">
                       <select class="form-select form-select-sm">
                         <option value="">Market Segment</option>
@@ -892,7 +884,7 @@
                 </div>
               </div>
             </div>
-            <ejs-schedule #scheduleObj4 width="100%" [height]="scheduleRoomingHeight" 
+            <ejs-schedule #scheduleObj4 width="100%" [height]="scheduleRoomingHeight"
               class="remove-table-header timeline-resource-grouping rooming-timline" [selectedDate]="startDate"
               [eventSettings]="eventSettings1" [views]="views" [currentView]="'TimelineDay'" [showHeaderBar]="false"
               [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
@@ -909,7 +901,7 @@
                                 <ejs-checkbox></ejs-checkbox>
                               </td>
                               <td>
-                                <span class="room-type">0123456</span>
+                                <span class="room-type fs-12">0123456</span>
                               </td>
                               <td>
                                 <div class="d-flex">
@@ -954,6 +946,30 @@
                           </table>
                         </div>
                       </div>
+                      <div class="card-footer px-0">
+                        <div class="d-flex justify-content-end gap-2">
+                          <div class="rooming-list-footer-button">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                              <button type="button" class="btn fs-12 fw-bold">Cancel Selected</button>
+                              <button type="button" class="btn fs-12 fw-bold me-0">Auto Assign Selected</button>
+                              <button type="button" class="btn fs-12 me-0 fw-bold me-0">Manage Occupancy</button>
+                            </div>
+                          </div>
+                          <div class="rooming-list-footer-button">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                              <button type="button" class="btn fs-12 fw-bold">Guest List</button>
+                              <button type="button" class="btn fs-12 fw-bold me-0">Mark Group Leader</button>
+                              <button type="button" class="btn fs-12 fw-bold me-0">Generate Key</button>
+                            </div>
+                          </div>
+                          <div class="rooming-list-footer-button">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                              <button type="button" class="btn fs-12 fw-bold">Add Room(s)</button>
+                              <button type="button" class="btn fs-12 fw-bold me-0">Tax Exempt</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </ng-template>
                 </e-view>
@@ -964,7 +980,7 @@
       </div>
     </div>
   </div>
-  <div class="footer-btns d-none">
+  <div class="footer-btns">
     <button class="btn btn-green">Save</button>
     <button class="btn btn-primary hlx">Early Check In</button>
     <button class="btn btn-primary hlx">Check In</button>
