@@ -1,0 +1,85 @@
+.rooming-timline .e-appointment.e-lib.e-draggable {
+    height: auto !important;
+    position: static !important;
+    visibility: visible !important;
+    background-color: transparent !important;
+    width: 100% !important;
+  }
+  
+  .rooming-timline .e-event-table,
+  .rooming-timline .e-event-table div:not(.e-indicator.e-icons.e-right-icon) {
+    width: 100%;
+  }
+  
+  .rooming-header-icon {
+    font-size: 15px !important;
+  }
+  
+  .group-reservation-section .e-input {
+    padding-left: 5px !important;
+  }
+  
+  .card.hlx .card-body {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  .group-reservation-section .icon-flag {
+    padding-top: 5px;
+    height: 25px;
+  }
+  
+  .group-reservation-section
+    .e-input-group.e-control-wrapper.e-ddl.e-lib.e-keyboard {
+    width: calc(100% - 0.3vw) !important;
+  }
+  .group-reservation-section input.e-input,
+  .e-input-group input,
+  .e-input-group.e-control-wrapper input,
+  .e-input-group input.e-input,
+  .e-input-group.e-control-wrapper input.e-input {
+    height: auto !important;
+  }
+  
+  .group-reservation-section .e-accordion .e-acrdn-item .e-acrdn-header{
+      padding:0.5vw 30px 0.5vw 15px!important;
+      line-height: 1;
+      min-height: auto!important;
+  }
+  
+  .guest-details-accordion .e-acrdn-content{
+      padding: 5px!important;
+  }
+  
+  #roomTypeDropdown span.e-input-group.e-control-wrapper, 
+  #roomDropdown span.e-input-group.e-control-wrapper {
+    background-color: transparent;
+  }
+  
+  
+  .group-task-card table td{
+      padding-left: 0px!important;
+  }
+  
+  .payment-section tr td:first-child{
+    text-align: start;
+  }
+  .payment-section tr:first-child td {
+    font-weight: bold;
+  }
+  
+  
+  .rooming-list-footer-button .btn-group{
+    padding: 6px!important;
+    background-color: #bfbfbf;
+  }
+  .rooming-list-footer-button{
+    width: auto!important;
+  }
+  .rooming-list-footer-button button.btn{
+    background: white;
+    padding: 0 5px;
+    line-height: 1;
+    height: 25px;
+  }
+  

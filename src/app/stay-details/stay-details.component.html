@@ -1,4 +1,4 @@
-<div class="p-4">
+<div class="p-3 group-reservation-section">
   <div class="d-flex title-bar align-items-center">
     <div class="me-4"><i class="material-icons d-block">keyboard_backspace</i></div>
     <div class="text-blue"> <button ejs-dropdownbutton cssClass="e-inherit e-appbar-menu"
@@ -13,25 +13,25 @@
     </div>
     <h1 class="ms-auto">Reserved /Res # 23499843</h1>
   </div>
-  <div class="row">
-    <div class="col-md-3">
+  <div class="grid-container">
+    <div class="pe-2">
       <div class="card hlx mb-3">
         <div class="card-body">
-          <h2 class="mb-3">Guest Details</h2>
-          <div class="row g-2">
-            <div class="col-auto">
+          <h2 class="mb-2">Guest Details</h2>
+          <div class="d-grid" style="display: grid;grid-template-columns: 24% 74%;grid-column-gap: 2px;">
+            <div class="">
               <div class="profile-container">
                 <app-common-profile-image></app-common-profile-image>
               </div>
             </div>
-            <div class="col">
-              <div class="row g-2 mb-2">
-                <div class="col-3">
+            <div class="">
+              <div class="mb-1" style="display: grid;grid-template-columns: 25% 71%;grid-column-gap: 5px;">
+                <div>
                   <ejs-dropdownlist id="roomsDropdown" #titleObj [dataSource]="titleData" [fields]="genderFields" placeholder="Title">
                   </ejs-dropdownlist>
                 </div>
-                <div class="col-9">
-                  <div class="row g-2">
+                <div>
+                  <div style=" display: grid; grid-template-columns: 49% 49%; gap: 8px; ">
                     <div class="col">
                       <input type="text" class="form-control form-control-sm" placeholder="First Name">
                     </div>
@@ -41,10 +41,10 @@
                   </div>
                 </div>
               </div>
-              <div class="row g-2 mb-2">
-                <div class="col-6">
-                  <div class="row g-2">
-                    <div class="col-auto">
+              <div class="mb-1" style="display: grid;grid-template-columns: 48% 49%;gap: 5px;">
+                <div style=" display: grid; grid-template-columns: 100%; ">
+                  <div style=" display: grid; grid-template-columns: 40% 60%; align-items: end;">
+                    <div>
                       <ejs-dropdownlist id="games" #sample [dataSource]="country" (change)="onChange1()"
                         [fields]="countryFields" [width]="37" [popupWidth]="popupWidth" placeholder="iso">
                         <ng-template #itemTemplate let-data>
@@ -59,14 +59,14 @@
                         </ng-template>
                       </ejs-dropdownlist>
                     </div>
-                    <div class="col">
+                    <div>
                       <input type="text" class="form-control form-control-sm" placeholder="Mobile">
                     </div>
                   </div>
                 </div>
-                <div class="col-6">
-                  <div class="row g-2">
-                    <div class="col-auto">
+                <div>
+                  <div style=" display: grid; grid-template-columns: 40% 60%; align-items: end;">
+                    <div>
                       <ejs-dropdownlist id="games1" #sample [dataSource]="country" (change)="onChange1()"
                         [fields]="countryFields" [width]="37" [popupWidth]="popupWidth" placeholder="iso"
                         [allowFiltering]='true'>
@@ -82,18 +82,18 @@
                         </ng-template>
                       </ejs-dropdownlist>
                     </div>
-                    <div class="col">
+                    <div>
                       <input type="text" class="form-control form-control-sm" placeholder="Phone 2">
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="row g-2 mb-2">
-                <div class="col-md-5">
+              <div class="mb-1" style=" display: grid; grid-template-columns: 48% 48%; grid-column-gap: 8px; ">
+                <div>
                   <ejs-dropdownlist id="roomsDropdown" #genderObj [dataSource]="genderData" [fields]="genderFields" placeholder="Gender">
                   </ejs-dropdownlist>
                 </div>
-                <div class="col-md-7">
+                <div>
                   <ejs-datepicker placeholder="MM/DD/YYYY"></ejs-datepicker>
                 </div>
               </div>
@@ -110,9 +110,9 @@
           </div>
           <ejs-accordion class="guest-details-accordion">
             <e-accordionitems>
-              <e-accordionitem expanded='true'>
+              <e-accordionitem expanded='true' class="home-address">
                 <ng-template #header>
-                  <h4 class="my-2">Home Address</h4>
+                  <h3 class="my-0">Home Address</h3>
                 </ng-template>
                 <ng-template #content>
                   <div class="row g-2 mb-2">
@@ -173,7 +173,7 @@
               </e-accordionitem>
               <e-accordionitem>
                 <ng-template #header>
-                  <h4 class="my-2">ID</h4>
+                  <h3 class="my-0">ID</h3>
                 </ng-template>
                 <ng-template #content>
                   <div class="border-bottom mb-2 pb-1">
@@ -218,7 +218,7 @@
               </e-accordionitem>
               <e-accordionitem>
                 <ng-template #header>
-                  <h4 class="my-2">Arrival / Departure</h4>
+                  <h3 class="my-0">Arrival / Departure</h3>
                 </ng-template>
                 <ng-template #content>
                   <ejs-tab id="tab_default" loadOn="Dynamic" (selected)="onSelected($event)">
@@ -309,45 +309,105 @@
           </ejs-accordion>
         </div>
       </div>
-      <div class="card bg-grey rounded-lg">
-        <div class="card-body pb-0">
-          <table class="table align-middle mb-0">
+      <div class="card bg-grey box-shaodw-without-border group-task-card rounded-lg">
+        <div class="card-body px-2 pb-0 pt-1">
+          <table class="table align-middle mb-0 fs-14">
             <tbody>
               <tr>
                 <td width="35%" class="fw-bold">Confirmation:</td>
-                <td class="fs-14"><a href="">Send Confirmation Email</a></td>
+                <td><a href="">Send Confirmation Email</a></td>
               </tr>
               <tr>
                 <td class="fw-bold">Preference:</td>
-                <td><textarea class="form-control" placeholder="Enter Preferences"></textarea></td>
+                <td><textarea class="form-control fs-14" placeholder="Enter Preferences"></textarea></td>
               </tr>
               <tr>
-                <td class="fw-bold">Tasks:</td>
-                <td class="text-end"><a href="" class="btn-add">+</a></td>
+                <td colspan="2">
+                  <div class="d-flex justify-content-between">
+                    <p class="mb-0 fw-bold">Tasks:</p>
+                    <a href="" class="btn-add">+</a>
+                  </div>
+                  <div class="my-2">
+                    <div class="d-flex my-3 justify-content-between align-items-start">
+                      <p class="mb-0 fw-bold">POS</p>
+                      <p class="mb-0 fw-bold">10-02-2024 / 6:38:34 PM</p>
+                      <p class="mb-0 pending-status-badge"><span>pending</span></p>
+                    </div>
+                    <p class="mb-0 text-muted">The Syncfusion DataGrid is a feature-rich
+                      blazor component for displaying data in a tabular format. Its wide range of functionalitie The
+                      Syncfusion DataGrid is a feature-rich blazor component for displaying data in a tabular
+                      format. Its wide range of functionalitie zor component for displaying data in a tabular
+                      format. Its wide range o </p>
+                  </div>
+                </td>
               </tr>
               <tr>
-                <td class="fw-bold">Messages:</td>
-                <td class="text-end"><a href="" class="btn-add">+</a></td>
+                <td colspan="2">
+                  <div class="d-flex justify-content-between">
+                    <p class="mb-0 fw-bold">Messages:</p>
+                    <a href="" class="btn-add">+</a>
+                  </div>
+                  <div class="my-2">
+                    <div class="d-flex my-3 justify-content-between align-items-start">
+                      <p class="mb-0 fw-bold">Sharukh</p>
+                      <p class="mb-0 fw-bold">10-02-2024 / 6:38:34 PM</p>
+                      <p class="mb-0 pending-status-badge"><span>pending</span></p>
+                    </div>
+                    <p class="mb-0 text-muted">The Syncfusion DataGrid is a feature-rich
+                      blazor component for displaying data in a tabular format. Its wide range of functionalitie The
+                      Syncfusion DataGrid is a feature-rich blazor component for displaying data in a tabular
+                      format. Its wide range of functionalitie zor component for displaying data in a tabular
+                      format. Its wide range o </p>
+                  </div>
+                  <div class="my-2">
+                    <div class="d-flex my-3 justify-content-between align-items-start">
+                      <p class="mb-0 fw-bold">Sharukh</p>
+                      <p class="mb-0 fw-bold">10-02-2024 / 6:38:34 PM</p>
+                      <p class="mb-0 pending-status-badge"><span>pending</span></p>
+                    </div>
+                    <p class="mb-0 text-muted">The Syncfusion DataGrid is a feature-rich
+                      blazor component for displaying data in a tabular format. Its wide range of functionalitie The
+                      Syncfusion DataGrid is a feature-rich blazor component for displaying data in a tabular
+                      format. Its wide range of functionalitie zor component for displaying data in a tabular
+                      format. Its wide range o </p>
+                  </div>
+                </td>
               </tr>
               <tr>
-                <td class="fw-bold">Notes:</td>
-                <td class="text-end"><a href="" class="btn-add">+</a></td>
+                <td colspan="2">
+                  <div class="d-flex justify-content-between">
+                    <p class="mb-0 fw-bold">Notes:</p>
+                    <a href="" class="btn-add">+</a>
+                  </div>
+                  <div class="my-2">
+                    <div class="d-flex my-3 justify-content-between align-items-start">
+                      <p class="mb-0 fw-bold">POS</p>
+                      <p class="mb-0 fw-bold">10-02-2024 / 6:38:34 PM</p>
+                      <p class="mb-0 pending-status-badge"><span>pending</span></p>
+                    </div>
+                    <p class="mb-0 text-muted">The Syncfusion DataGrid is a feature-rich
+                      blazor component for displaying data in a tabular format. Its wide range of functionalitie The
+                      Syncfusion DataGrid is a feature-rich blazor component for displaying data in a tabular
+                      format. Its wide range of functionalitie zor component for displaying data in a tabular
+                      format. Its wide range o </p>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>  
     </div>
-    <div class="col-md-9">
-      <div class="row">
-        <div class="col-md-8">
-          <div tabindex="0" class="card hlx" id="basic">
-            <div class="card-body p-5">
+    <div class="ps-2">
+      <div class="second-grid-container">
+        <div class="pe-2">
+          <div tabindex="0" class="card hlx box-shaodw-without-border" id="basic">
+            <div class="card-body p-5 pt-3">
               <!-- <div *ngIf="hoveredDate" class="date-tooltip" [ngStyle]="tooltipStyle">
                 {{ hoveredDate }}
               </div> -->
               <div class="res-details">
-                <div class="position-relative">
+                <div class="position-relative mb-3">
                   <div class="res-date" (click)="openStartDatePicker()">
                     <div class="day">{{ startDate | date: 'EEE' }}</div>
                     <div class="date">{{ startDate | date: 'dd' }}</div>
@@ -393,7 +453,7 @@
                     </ejs-schedule>
                   </div>
                 </div>
-                <div class="position-relative">
+                <div class="position-relative mb-3">
                   <div class="title-vertical">
                     <div>GUESTS</div>
                   </div>
@@ -591,7 +651,7 @@
                   </div>
                   <div class="res-total-night">{{viewInterval}}n</div>
                 </div>
-                <div class="position-relative">
+                <div class="position-relative mb-3">
                   <div class="title-vertical">
                     <div>Rooms</div>
                   </div>
@@ -699,7 +759,7 @@
                     </ejs-schedule>
                   </div>
                 </div>
-                <div class="position-relative">
+                <div class="position-relative mb-3">
                   <div class="title-vertical">
                     <div>Rates</div>
                   </div>
@@ -802,14 +862,14 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card hlx mb-3">
+        <div class="ps-2">
+          <div class="card hlx box-shaodw-without-border mb-3">
             <div class="card-header d-flex justify-content-between">
               <h2>Payment</h2>
               <div (click)="openCardPopup($event)"><img src="./assets/Icons/card-icons.png"></div>
             </div>
-            <div class="card-body">
-              <table class="table table-borderless table-sm align-middle text-end fs-14 mb-0">
+            <div class="card-body py-2 px-2">
+              <table class="table payment-section table-borderless table-sm align-middle text-end fs-14 mb-0">
                 <tbody>
                   <tr class="fw-bold fs-16">
                     <td width="35%">Room Tariff</td>
@@ -846,26 +906,36 @@
                 </tbody>
               </table>
             </div>
-            <div class="card-footer pay-balance py-0">
+            <div class="card-footer pay-balance py-0 px-2">
               <table class="table table-borderless table-sm align-middle text-end mb-0">
                 <tbody>
                   <tr class="fw-bold">
                     <td width="35%" class="fs-18">Balance</td>
-                    <td class="text-green fs-24">$132,198.00</td>
+                    <td class="text-green fs-22 text-end">$132,198.00</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
+          <div class="card hlx mb-3">
+            <div class="card-body pb-2">
+              <h3 class="mb-3">Pay Terms</h3>
+              <div class="row g-2 border rounded">
+                <div class="col-12 m-0">
+                  <p class="mb-0 text-muted fs-12 mb-0 py-1">Payment needs to be collected from the guest</p>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="card hlx">
             <div class="card-body">
-              <h2 class="mb-3">Mis</h2>
-              <div class="row g-2 mb-2">
+              <h3 class="mb-2">Mis</h3>
+              <div class="row g-2 mb-1">
                 <div class="col">
                   <input type="text" class="form-control form-control-sm" placeholder="Purpose">
                 </div>
               </div>
-              <div class="row g-2 mb-2">
+              <div class="row g-2 mb-1">
                 <div class="col-md-6">
                   <select class="form-select form-select-sm">
                     <option value="">Source</option>
@@ -877,7 +947,7 @@
                   </select>
                 </div>
               </div>
-              <div class="row g-2 mb-2">
+              <div class="row g-2 mb-1">
                 <div class="col-md-6">
                   <select class="form-select form-select-sm">
                     <option value="">Market Segment</option>
@@ -890,7 +960,7 @@
                 </div>
               </div>
             </div>
-          </div>    
+          </div>
         </div>
       </div>
     </div>
