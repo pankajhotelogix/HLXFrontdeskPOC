@@ -12,17 +12,14 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
   font-size: calc(8px + 0.390625vw);
+  font-weight: 400;
 }
 body * {
   font-family: "Manrope", serif;
-  font-weight: 400;
   font-style: normal;
 }
 input.e-input, textarea.e-input, .e-input-group, .e-input-group.e-control-wrapper, .e-input-group.e-disabled, .e-input-group.e-control-wrapper.e-disabled {
   font-family: "Manrope", serif;
-}
-.e-tab .e-content .e-item {
-  font-size: calc(8px + 0.390625vw);
 }
 a,
 .btn-link {
@@ -44,9 +41,12 @@ a,
 
 // ########################################  GRID System Applied #############################
 
-
-
-
+.mb-2-plus {
+  margin-bottom: .75rem !important;
+}
+.e-input-group .e-icons {
+  color: #4699F5 !important;
+}
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
@@ -393,13 +393,16 @@ button:hover {
 .hlx .form-control,
 .hlx .form-select, 
 .e-dropdownlist .e-input-group,
-.e-datepicker .e-input-group {
+.e-input-group {
   border: 0 !important;
   border-bottom: 1px solid #d3d3d3 !important;
-  border-radius: 0;
+  border-radius: 0 !important;
+  min-height: 27px;
+  height: 27px;
 }
 .hlx .form-control,
-.hlx .form-select {
+.hlx .form-select,
+.hlx label {
   font-size: calc(5px + 0.390625vw);
   font-weight: 300;
 }
@@ -439,7 +442,7 @@ input.e-input, textarea.e-input, .e-input-group, .e-input-group.e-control-wrappe
 .e-input-group.e-control-wrapper .e-input-group-icon {
   min-width: 16px;
 }
-.e-input-group .e-date-icon {
+.e-input-group .e-icons {
   border: 0 !important;
 }
 .fs-10 {
@@ -649,7 +652,10 @@ button + button  {
 .res-details .e-appointment-details {
     padding: 12px !important;
     border: 1px solid #ebebeb;
-    background: linear-gradient(90deg, #cbc7c770, transparent);
+}
+.res-details .e-appointment-details .appointment-header {
+  background: linear-gradient(90deg, #EBEBEB 0%, #FFFFFF 100%);
+  padding: 10px;
 }
 .res-details .e-schedule {
   border: 0;
@@ -677,29 +683,29 @@ button + button  {
 }
 .appointment-guest-details {
   background: linear-gradient(90deg, #EBEBEB 0%, #FFFFFF 100%);
-  border-bottom: 1px solid #A40202 !important;
+  // border-bottom: 1px solid #A40202 !important;
   position: relative;
   padding: 0 8px;
   border-radius: 4px 4px 0 2px;
   margin-bottom: 2px;
 }
-.appointment-guest-details:before,
-.appointment-guest-details:after {
-  content: "";
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #A40202;
-}
-.appointment-guest-details:before {
-  left: -2px;
-  bottom: -2px;
-}
-.appointment-guest-details:after {
-  right: -2px;
-  bottom: -2px;
-}
+// .appointment-guest-details:before,
+// .appointment-guest-details:after {
+//   content: "";
+//   position: absolute;
+//   width: 4px;
+//   height: 4px;
+//   border-radius: 50%;
+//   background: #A40202;
+// }
+// .appointment-guest-details:before {
+//   left: -2px;
+//   bottom: -2px;
+// }
+// .appointment-guest-details:after {
+//   right: -2px;
+//   bottom: -2px;
+// }
 .appointment-guest-details table {
   margin: 0;
 }
@@ -724,8 +730,7 @@ button + button  {
   background: #ebebeb !important;
 }
 .guest-details-accordion .e-acrdn-content {
-  padding-bottom: 16px !important;
-  padding-top: 10px !important;
+  padding: 20px 0 10px !important;
 }
 .dialog-hlx h3 {
   font-size: calc(7px + 0.390625vw);
@@ -1235,10 +1240,7 @@ button + button  {
 .custom-daterangepicker .e-input:disabled {
   background-color: #f0f0f0;
 }
-.e-section-control {
-  display: flex;
-  align-items: center;
-}
+
 .flag-icon {
   width: 20px;
   padding-top: 1px;
@@ -1338,7 +1340,7 @@ button:disabled {
 
 .e-profile::before {
   content: "\e703";
-  color: red;
+  color: #666;
 }
 
 .e-notifications::before {
@@ -1440,15 +1442,27 @@ button:disabled {
 }
 
 .cutomize-button-size button {
-  padding: 0px !important;
+  padding: 0px 8px !important;
   margin: 0px !important;
   border: 0;
+  color: #4699F5;
 }
 .e-btn.e-icon-btn,
 .e-css.e-btn.e-icon-btn {
-  padding: 0px 0px 0px !important;
+  border: 0;
 }
-
+.e-switch-wrapper, .e-css.e-switch-wrapper {
+  display: block;
+  height: 14px;
+  width: 26px;
+}
+.e-switch-wrapper .e-switch-handle, .e-css.e-switch-wrapper .e-switch-handle {
+  height: 12px;
+  width: 12px;
+}
+.e-switch-wrapper .e-switch-handle.e-switch-active, .e-css.e-switch-wrapper .e-switch-handle.e-switch-active {
+  margin-left: -14px;
+}
 .custom-dropdown .icon-red {
   color: red;
 }
@@ -1493,12 +1507,6 @@ button:disabled {
   justify-content: flex-end;
 }
 
-
-.e-section-control {
-  display: flex;
-  flex-direction: column;
-}
-
 .icon-bed {
   display: inline-block;
   margin-bottom: 4px;
@@ -1508,11 +1516,6 @@ button:disabled {
   width: 15px;
   height: 15px;
   margin-right: 5px;
-}
-
-.room-details {
-  display: inline-block;
-  vertical-align: middle;
 }
 
 .room-link {
@@ -1572,6 +1575,7 @@ button:disabled {
   background: #fff;
   border-radius: 0;
   padding: 3px 12px;
+  font-weight: 500;
 }
 .btn-group-hlx button:last-child {
   border-right: 0;
