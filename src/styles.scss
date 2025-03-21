@@ -656,6 +656,26 @@ button + button  {
 .res-details .e-appointment-details .appointment-header {
   background: linear-gradient(90deg, #EBEBEB 0%, #FFFFFF 100%);
   padding: 10px;
+  position: relative;
+  border-top: 1px solid #666;
+  border-left: 1px solid #666;
+}
+.res-details .e-appointment-details .appointment-header:before,
+.res-details .e-appointment-details .appointment-header:after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #666;
+}
+.res-details .e-appointment-details .appointment-header:before {
+  left: -3px;
+  top: -3px;
+}
+.res-details .e-appointment-details .appointment-header:after {
+  right: -3px;
+  top: -3px;
 }
 .res-details .e-schedule {
   border: 0;
@@ -1518,18 +1538,19 @@ button:disabled {
   margin-right: 5px;
 }
 
-.room-link {
+.t-rooms .room-link {
   font-weight: bold;
-  font-size: calc(5px + 0.390625vw);
+  font-size: calc(7px + 0.390625vw);
   color: #007BFF;
   text-decoration: none;
 }
-
-.booking-date {
+.t-rooms .booking-date {
   margin-top: 4px;
+  margin-left: 23px;
 }
-.total-guest {
+.t-rooms .total-guest {
   margin-top: 6px;
+  margin-left: 20px;
   display: flex;
   gap: 8px;
   align-items: center;

@@ -407,7 +407,7 @@
                 {{ hoveredDate }}
               </div> -->
               <div class="res-details">
-                <div class="position-relative mb-3">
+                <div class="position-relative mb-3 t-dates">
                   <div class="res-date" (click)="openStartDatePicker()">
                     <div class="day">{{ startDate | date: 'EEE' }}</div>
                     <div class="date">{{ startDate | date: 'dd' }}</div>
@@ -453,7 +453,7 @@
                     </ejs-schedule>
                   </div>
                 </div>
-                <div class="position-relative mb-3">
+                <div class="position-relative mb-3 t-guests">
                   <div class="title-vertical">
                     <div>GUESTS</div>
                   </div>
@@ -645,7 +645,7 @@
                   </div>
                   <div class="res-total-night">{{viewInterval}}n</div>
                 </div>
-                <div class="position-relative mb-3">
+                <div class="position-relative mb-3 t-rooms">
                   <div class="title-vertical">
                     <div>Rooms</div>
                   </div>
@@ -663,18 +663,18 @@
                         <e-view option="TimelineDay" [interval]="viewInterval">
                           <ng-template #eventTemplate let-data *ngFor="let guest of guestDetails;">
                             <div class="w-100">
-                              <div>
+                              <!-- <div>
                                 <hr style="
                               border: none;
                               border-top: 2px solid #A40202;
                               margin: 10px -6px;
                               flex-grow: 1;
                               width: 701px;" />
-                              </div>
+                              </div> -->
                               <div class="appointment-header">
                                 <div class="e-section-control">
-                                  <div class="room-details d-flex">
-                                    <i class="material-icons d-block text-gray fs-18 me-2">bed</i>
+                                  <div class="room-details d-flex align-items-center">
+                                    <i class="material-icons d-block text-gray fs-18 me-1">bed</i>
                                     <a href="#" class="room-link">{{ data.Subject }} <span class="ps-2">{{ data.Room }}</span></a>
                                   </div>
                                   <div class="booking-date text-blue">
@@ -751,7 +751,7 @@
                     </ejs-schedule>
                   </div>
                 </div>
-                <div class="position-relative mb-3">
+                <div class="position-relative mb-3 t-rates">
                   <div class="title-vertical">
                     <div>Rates</div>
                   </div>
@@ -822,7 +822,7 @@
                     </ejs-schedule>
                   </div>
                 </div>
-                <div class="position-relative">
+                <div class="position-relative t-addons">
                   <div class="title-vertical">
                     <div>ADD ONS</div>
                   </div>
