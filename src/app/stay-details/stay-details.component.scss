@@ -1,72 +1,69 @@
 .rooming-timline .e-appointment.e-lib.e-draggable {
-    height: auto !important;
-    position: static !important;
-    visibility: visible !important;
-    background-color: transparent !important;
-    width: 100% !important;
-  }
-  
-  .rooming-timline .e-event-table,
-  .rooming-timline .e-event-table div:not(.e-indicator.e-icons.e-right-icon) {
-    width: 100%;
-  }
-  
-  .rooming-header-icon {
-    font-size: 15px !important;
-  }
-  
-  .group-reservation-section .e-input {
-    padding-left: 5px !important;
-  }
-  
-  .group-reservation-section .icon-flag {
-    padding-top: 5px;
-    height: 25px;
-  }
-  
-  .group-reservation-section input.e-input,
-  .e-input-group input,
-  .e-input-group.e-control-wrapper input,
-  .e-input-group input.e-input,
-  .e-input-group.e-control-wrapper input.e-input {
-    height: auto !important;
-  }
-  
-  .group-reservation-section .e-accordion .e-acrdn-item .e-acrdn-header{
-      padding:0.5vw 30px 0.5vw 15px!important;
-      line-height: 1;
-      min-height: auto!important;
-      border: 0 !important;
-  }
-  
-  #roomTypeDropdown span.e-input-group.e-control-wrapper, 
-  #roomDropdown span.e-input-group.e-control-wrapper {
-    background-color: transparent;
-  }
-  .group-task-card table td{
-      padding-left: 0px!important;
-  }
-  .rooming-list-footer-button .btn-group{
-    padding: 6px!important;
-    background-color: #bfbfbf;
-  }
-  .rooming-list-footer-button{
-    width: auto!important;
-  }
-  .rooming-list-footer-button button.btn{
-    background: white;
-    padding: 0 5px;
+  height: auto !important;
+  position: static !important;
+  visibility: visible !important;
+  background-color: transparent !important;
+  width: 100% !important;
+}
+
+.rooming-timline .e-event-table,
+.rooming-timline .e-event-table div:not(.e-indicator.e-icons.e-right-icon) {
+  width: 100%;
+}
+
+.rooming-header-icon {
+  font-size: 15px !important;
+}
+
+.group-reservation-section .e-input {
+  padding-left: 5px !important;
+}
+
+.group-reservation-section .icon-flag {
+  padding-top: 5px;
+  height: 25px;
+}
+
+.group-reservation-section input.e-input,
+.e-input-group input,
+.e-input-group.e-control-wrapper input,
+.e-input-group input.e-input,
+.e-input-group.e-control-wrapper input.e-input {
+  height: auto !important;
+}
+
+.group-reservation-section .e-accordion .e-acrdn-item .e-acrdn-header{
+    padding:0.5vw 30px 0.5vw 15px!important;
     line-height: 1;
-    height: 25px;
-  }
-  
+    min-height: auto!important;
+    border: 0 !important;
+}
 
-
+#roomTypeDropdown span.e-input-group.e-control-wrapper, 
+#roomDropdown span.e-input-group.e-control-wrapper {
+  background-color: transparent;
+}
+.group-task-card table td{
+    padding-left: 0px!important;
+}
+.rooming-list-footer-button .btn-group{
+  padding: 6px!important;
+  background-color: #bfbfbf;
+}
+.rooming-list-footer-button{
+  width: auto!important;
+}
+.rooming-list-footer-button button.btn{
+  background: white;
+  padding: 0 5px;
+  line-height: 1;
+  height: 25px;
+}
 .e-schedule .e-timeline-view .e-work-cells, .e-schedule .e-timeline-month-view .e-work-cells{
-         background: white !important;
-        border-color: #ddd;
-        border-style: solid;
-        border-width: 0 0 1px 1px;
-        color: #333;
-        padding: 0;
+        background: white !important;
+      border-color: #ddd;
+      border-style: solid;
+      border-width: 0 0 1px 1px;
+      color: #333;
+      padding: 0;
 }
