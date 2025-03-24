@@ -468,18 +468,21 @@
                         <e-view option="TimelineDay" [interval]="viewInterval">
                           <ng-template #eventTemplate let-data>
                             <div class="w-100">
-                              <div class="d-flex mb-3" (click)="$event.stopPropagation()">
+                              <div class="d-flex mb-3 align-items-center" (click)="$event.stopPropagation()">
+                                <div>
+                                  <i class="material-icons d-block text-gray">person_outline</i>
+                                </div>
                                 <div class="e-section-control cutomize-button-size me-3">
-                                  <button ejs-dropdownbutton [items]="totalUser" iconCss="e-ddb-icons e-profile"
+                                  <button ejs-dropdownbutton [items]="totalUser" 
                                     (select)="onSelect($event)" [cssClass]="'custom-dropdown'">
                                    x {{ selectedText }}
                                   </button>
                                 </div>
-                                <div class="me-2">
+                                <div>
                                   <i class="material-icons d-block text-gray">child_care</i>
                                 </div>
                                 <div class="e-section-control cutomize-button-size me-3">
-                                  <button ejs-dropdownbutton [items]="totalChild" iconCss="e-ddb-icons e-profile"
+                                  <button ejs-dropdownbutton [items]="totalChild" 
                                     [cssClass]="'custom-dropdown'">
                                    x {{ selectedText }}
                                   </button>
@@ -492,11 +495,11 @@
                                     [cssClass]="'custom-dropdown'"> x {{ selectedText }}
                                   </button>
                                 </div> -->
-                                <div class="me-2">
+                                <div>
                                   <i class="material-icons d-block text-gray">bed</i>
                                 </div>
                                 <div class="e-section-control cutomize-button-size">
-                                  <button ejs-dropdownbutton [items]="totalChild" iconCss="e-ddb-icons e-profile"
+                                  <button ejs-dropdownbutton [items]="totalChild" 
                                     [cssClass]="'custom-dropdown'"> x {{ selectedText }}
                                   </button>
                                 </div>

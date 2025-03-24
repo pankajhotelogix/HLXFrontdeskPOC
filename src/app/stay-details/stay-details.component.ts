@@ -397,31 +397,31 @@ public cities: { [key: string]: Object }[] = [
     {
       text: '1',
       id: '0',
-      iconCss: 'e-ddb-icons e-profile icon-red',
+      //iconCss: 'e-ddb-icons e-profile icon-red',
     },
     {
       text: '2',
       id: '1',
-      iconCss: 'e-ddb-icons e-profile icon-green',
+      //iconCss: 'e-ddb-icons e-profile icon-green',
     },
     {
       text: '3',
       id: '2',
-      iconCss: 'e-ddb-icons e-profile icon-blue',
+      //iconCss: 'e-ddb-icons e-profile icon-blue',
     },
   ];
   public totalChild: ItemModel[] = [
     {
       text: '0',
-      iconCss: 'e-ddb-icons e-profile icon-red',
+      //iconCss: 'e-ddb-icons e-profile icon-red',
     },
     {
       text: '1',
-      iconCss: 'e-ddb-icons e-profile icon-green',
+      //iconCss: 'e-ddb-icons e-profile icon-green',
     },
     {
       text: '2',
-      iconCss: 'e-ddb-icons e-profile icon-blue',
+      //iconCss: 'e-ddb-icons e-profile icon-blue',
     },
   ];
   public guestDetails: any[] = [
