@@ -54,7 +54,7 @@
                         <button ejs-button iconCss="e-btn-sb-icon e-prev-icon rotate-icon" (click)="navigateDate(7)">
                           Next
                         </button>
-                        <!-- <button (click)="importData()">Import</button> -->
+                        <button (click)="generateReservations()">Import</button>
                       </div>
                       <div>
                         <img src="assets/Icons/refresh.svg" alt="" class="icon-refresh icon">
@@ -88,7 +88,8 @@
                   [currentView]="scheduleView" [allowMultiCellSelection]="true" [rowAutoHeight]="true"
                   [allowDragAndDrop]="true" [timeScale]="timeScale" (popupOpen)="onPopupOpen($event)"
                   [showHeaderBar]="false" (renderCell)="onRenderCell($event)" (hover)="onHover($event)" [group]="group"
-                  (actionBegin)="onActionBegin($event)" (created)="onScheduleCreated()">
+                  (actionBegin)="onActionBegin($event)" (created)="onScheduleCreated()" 
+                  (dragStart)="onDragStart($event)" (eventRendered)="onEventRendered($event)" >
                   <e-resources>
                     <e-resource field='DepartmentId' title='Department' name='Departments' query='resourceQuery'
                       [dataSource]='specialistCategory' textField='Text' idField='DepartmentId' colorField='Color'>
@@ -284,7 +285,7 @@
                       <div>{{ getDateParts(data.date).abbreviated}}</div>
                     </div>
                   </ng-template>
-                  <ng-template #editorTemplate let-data>
+                  <!-- <ng-template #editorTemplate let-data>
                     <div class="row" style="width: 692px; height: auto;">
                       <div class="col-md-12">
                         <div class="row" style="height: 36px !important;">
@@ -300,8 +301,8 @@
                       <div class="col-md-12"></div>
                       <div class="col-md-12"></div>
                     </div>
-                  </ng-template>
-                  <ng-template #quickInfoTemplatesHeader let-data style="overflow: scroll">
+                  </ng-template> -->
+                  <!-- <ng-template #quickInfoTemplatesHeader let-data style="overflow: scroll">
                     <div *ngIf="data.elementType == 'cell' || data.elementType == 'event'">
                       <div class="e-popup-header noor">
                         <div class="e-header-icon-wrapper">
@@ -325,9 +326,9 @@
                         </div>
                       </div>
                     </div>
-                  </ng-template>
+                  </ng-template> -->
 
-                  <ng-template #quickInfoTemplatesContent let-data>
+                  <!-- <ng-template #quickInfoTemplatesContent let-data>
                     <div *ngIf="data.elementType == 'cell'" class="e-cell-content">
                       <form class="e-schedule-form">
                         <div style="padding:10px">
@@ -560,8 +561,8 @@
                         </div>
                       </div>
                     </div>
-                  </ng-template>
-                  <ng-template #quickInfoTemplatesFooter let-data>
+                  </ng-template> -->
+                  <!-- <ng-template #quickInfoTemplatesFooter let-data>
                     <div *ngIf="data.elementType == 'cell'" class="e-cell-footer">
                       <div class="left-button">
                         <button class="e-event-details" title="Extra Details">More Details</button>
@@ -582,7 +583,7 @@
                           class="e-edit-series" title="Edit">Edit Series</button>
                       </div>
                     </div>
-                  </ng-template>
+                  </ng-template> -->
                 </ejs-schedule>
               </div>
             </div>

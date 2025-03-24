@@ -682,7 +682,7 @@
 }
 .e-schedule .e-timeline-view .e-appointment,
 .e-schedule .e-timeline-month-view .e-appointment {
-    height: 25px;
+    height: 30px;
    // width: 66px !important;
     margin-top: -1px;
    // padding-left: 6px;
@@ -1109,7 +1109,7 @@ height: 20px;
 
 .e-schedule .e-timeline-month-view .e-appointment {
 
-    height: 25px;
+    height: 30px;
 
    // width: 66px !important;
 
@@ -2520,4 +2520,16 @@ padding: 0px 0px 0px 0px !important;
 }
 .template-container:hover {
   background: #eee;
+}
+.e-schedule .e-timeline-view .e-selected-cell {
+  background: #000000;
+   color: #333;
+  BACKGROUND-COLOR: #000000;
+  opacity: 0.5;
+  text-align: center;
+  font-weight: normal;
+  white-space: nowrap;
+  vertical-align: middle;
+  font-size: 12px;
+  margin-top: 2px;
 }

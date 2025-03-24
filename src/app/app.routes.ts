@@ -5,6 +5,7 @@ import { StayDetailsComponent } from './stay-details/stay-details.component';
 import { GanttDetailsComponent } from './gantt-details/gantt-details.component';
 import { CommonProfileImageComponent } from './common-profile-image/common-profile-image.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { GroupResDetailsComponent } from './group-res-details/group-res-details.component';
 
 export const routes: Routes = [
         { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -14,4 +15,5 @@ export const routes: Routes = [
         {path: 'details', component: GanttDetailsComponent},
         {path: 'image', component: CommonProfileImageComponent},
         {path: 'frontdesk', component: SidebarComponent},
+        {path: 'group', component: GroupResDetailsComponent},
 ];

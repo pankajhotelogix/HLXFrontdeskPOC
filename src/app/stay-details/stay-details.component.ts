@@ -110,6 +110,7 @@ export class StayDetailsComponent  implements OnChanges{
   dateRangePicker?: DateRangePicker;
   @ViewChildren(ScheduleComponent)
   public schedulers!: QueryList<ScheduleComponent>;
+  @ViewChild('iconRef', { static: false }) iconRef: ElementRef | undefined;
   @Input() tab: any;
   @Input() requestData: any;
   public startDate: Date = new Date();
@@ -411,15 +412,15 @@ public cities: { [key: string]: Object }[] = [
   ];
   public totalChild: ItemModel[] = [
     {
-      text: '1',
+      text: '0',
       iconCss: 'e-ddb-icons e-profile icon-red',
     },
     {
-      text: '2',
+      text: '1',
       iconCss: 'e-ddb-icons e-profile icon-green',
     },
     {
-      text: '3',
+      text: '2',
       iconCss: 'e-ddb-icons e-profile icon-blue',
     },
   ];
@@ -1048,23 +1049,72 @@ public cities: { [key: string]: Object }[] = [
     }
   }
   openPopup(event: MouseEvent): void {
+    this.openPopupPosition(event);
     this.isPopupVisible = true;
   }
   openAddOOnPopup(event: MouseEvent): void {
+    this.openPopupPosition(event);
     this.isAddOnPopupVisible = true;
   }
   openTaxEsPopup(event: MouseEvent): void {
+    this.openPopupPosition(event);
     this.isTaxEsPopupVisible = true;
   }
   openDiscountPopup(event: MouseEvent): void {
+    this.openPopupPosition(event);
     this.isDiscountPopupVisible = true;
   }
   openOtherDiscountPopup(event: MouseEvent): void {
+    this.openPopupPosition(event);
     this.isOtherDiscountPopupVisible = true;
   }
+  popupStyles: { [key: string]: string } = {};
   openCardPopup(event: MouseEvent): void {
+    this.openPopupPosition(event);
     this.isCardPopupVisible = true;
   }
+  openPopupPosition(event: MouseEvent): void {
+    console.log(event);
+    const clickX = event.clientX;
+    const clickY = event.clientY;
+    const popupWidth = 600;
+    const popupHeight = 400;
+    const padding = 20;
+  
+    const maxLeft = window.innerWidth - popupWidth - padding;
+    const maxTop = window.innerHeight - popupHeight - padding;
+  
+    let top = clickY + window.scrollY;
+  
+    // If clicking in the lower part of the screen, reduce top margin
+    if (clickY > window.innerHeight / 2) {
+      top -= popupHeight / 2; // Adjust top position based on click area
+    }
+  
+    // Ensure the popup doesn't overflow the bottom
+    if (top + popupHeight > window.innerHeight) {
+      top = window.innerHeight - popupHeight - padding;
+    }
+  
+    // Ensure the popup doesn't overflow the top
+    if (top < padding) {
+      top = padding;
+    }
+  
+    const left = Math.min(clickX + window.scrollX, maxLeft);
+  
+    this.popupStyles = {
+      position: 'absolute',
+      top: `${top}px`,
+      left: `${left}px`,
+      zIndex: '1000',
+      width: '600px',
+    };
+  }
+  
+  
+  
+  
   closePopup(): void {
     this.isPopupVisible = false;
   }

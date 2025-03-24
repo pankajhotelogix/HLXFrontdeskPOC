@@ -472,12 +472,32 @@
                                 <div class="e-section-control cutomize-button-size me-3">
                                   <button ejs-dropdownbutton [items]="totalUser" iconCss="e-ddb-icons e-profile"
                                     (select)="onSelect($event)" [cssClass]="'custom-dropdown'">
-                                    {{ selectedText }}
+                                   x {{ selectedText }}
                                   </button>
+                                </div>
+                                <div class="me-2">
+                                  <i class="material-icons d-block text-gray">child_care</i>
+                                </div>
+                                <div class="e-section-control cutomize-button-size me-3">
+                                  <button ejs-dropdownbutton [items]="totalChild" iconCss="e-ddb-icons e-profile"
+                                    [cssClass]="'custom-dropdown'">
+                                   x {{ selectedText }}
+                                  </button>
+                                </div>
+                                <!-- <div class="me-2">
+                                  <i class="material-icons d-block text-gray">child_care</i>
                                 </div>
                                 <div class="e-section-control cutomize-button-size">
                                   <button ejs-dropdownbutton [items]="totalChild" iconCss="e-ddb-icons e-profile"
-                                    [cssClass]="'custom-dropdown'">
+                                    [cssClass]="'custom-dropdown'"> x {{ selectedText }}
+                                  </button>
+                                </div> -->
+                                <div class="me-2">
+                                  <i class="material-icons d-block text-gray">bed</i>
+                                </div>
+                                <div class="e-section-control cutomize-button-size">
+                                  <button ejs-dropdownbutton [items]="totalChild" iconCss="e-ddb-icons e-profile"
+                                    [cssClass]="'custom-dropdown'"> x {{ selectedText }}
                                   </button>
                                 </div>
                               </div>
@@ -858,7 +878,7 @@
           <div class="card hlx box-shaodw-without-border mb-3">
             <div class="card-header d-flex justify-content-between">
               <h2>Payment</h2>
-              <div (click)="openCardPopup($event)"><img src="./assets/Icons/card-icons.png"></div>
+              <div #iconRef (click)="openCardPopup($event)"><img src="./assets/Icons/card-icons.png"></div>
             </div>
             <div class="card-body py-2 px-2">
               <table class="table payment-section table-borderless table-sm align-middle text-end fs-14 mb-0">
@@ -868,7 +888,7 @@
                     <td>$132,198.00</td>
                   </tr>
                   <tr>
-                    <td><a class="label" (click)="openAddOOnPopup($event)">Add Ons</a></td>
+                    <td><a #iconRef class="label" (click)="openAddOOnPopup($event)">Add Ons</a></td>
                     <td>00</td>
                   </tr>
                   <tr>
@@ -876,7 +896,7 @@
                     <td>00</td>
                   </tr>
                   <tr>
-                    <td><a class="label" (click)="openTaxEsPopup($event)">Tax(es)</a></td>
+                    <td><a #iconRef class="label" (click)="openTaxEsPopup($event)">Tax(es)</a></td>
                     <td>00</td>
                   </tr>
                   <tr class="fw-bold pay-total">
@@ -888,11 +908,11 @@
                     <td>00</td>
                   </tr>
                   <tr>
-                    <td><a class="label" (click)="openDiscountPopup($event)">Discount</a></td>
+                    <td><a #iconRef class="label" (click)="openDiscountPopup($event)">Discount</a></td>
                     <td>00</td>
                   </tr>
                   <tr>
-                    <td><a class="label" (click)="openOtherDiscountPopup($event)">Other Discount</a></td>
+                    <td><a #iconRef class="label" (click)="openOtherDiscountPopup($event)">Other Discount</a></td>
                     <td>00</td>
                   </tr>
                 </tbody>
@@ -962,7 +982,7 @@
     <button class="btn btn-gray">Close</button>
   </div>
 </div>
-<div class="popup-overlay" *ngIf="isAddOnPopupVisible">
+<div class="popup-overlay" *ngIf="isAddOnPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
     <div class="card dialog-hlx">
       <div class="card-body">
@@ -1000,7 +1020,7 @@
     </div>
   </div>
 </div>
-<div class="popup-overlay" *ngIf="isTaxEsPopupVisible">
+<div class="popup-overlay" *ngIf="isTaxEsPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
 <div class="card dialog-hlx">
   <div class="card-body">
@@ -1038,7 +1058,7 @@
 </div>
 </div>
 </div>
-<div class="popup-overlay" *ngIf="isDiscountPopupVisible">
+<div class="popup-overlay" *ngIf="isDiscountPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
 <div class="card dialog-hlx">
   <div class="card-body">
@@ -1078,7 +1098,7 @@
 </div>
 </div>
 </div>
-<div class="popup-overlay" *ngIf="isOtherDiscountPopupVisible">
+<div class="popup-overlay" *ngIf="isOtherDiscountPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
 <div class="card dialog-hlx">
   <div class="card-body">
@@ -1118,7 +1138,7 @@
 </div>
 </div>
 </div>
-<div class="popup-overlay" *ngIf="isCardPopupVisible">
+<div class="popup-overlay" *ngIf="isCardPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
 <div class="card dialog-hlx">
   <div class="card-body">
