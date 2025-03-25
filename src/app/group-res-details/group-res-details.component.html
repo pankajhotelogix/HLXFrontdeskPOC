@@ -48,7 +48,7 @@
                         </ng-template>
                         <ng-template #valueTemplate let-data>
                           <span class="fs-12 d-block icon-flag">
-                            {{ data.flag }}
+                            {{ data.dialCode }}
                           </span>
                         </ng-template>
                       </ejs-dropdownlist>
@@ -72,7 +72,7 @@
                         </ng-template>
                         <ng-template #valueTemplate let-data>
                           <span class="fs-12 d-block icon-flag">
-                            {{ data.flag }}
+                            {{ data.dialCode }}
                           </span>
                         </ng-template>
                       </ejs-dropdownlist>
@@ -90,7 +90,7 @@
                   </ejs-dropdownlist>
                 </div>
                 <div>
-                  <ejs-datepicker placeholder="MM/DD/YYYY"></ejs-datepicker>
+                  <ejs-datepicker placeholder="DD/MM/YYYY"></ejs-datepicker>
                 </div>
               </div>
 
@@ -978,7 +978,7 @@
     <button class="btn btn-gray">Close</button>
   </div>
 </div>
-<div class="popup-overlay" *ngIf="isAddOnPopupVisible">
+<div class="popup-overlay" *ngIf="isAddOnPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
     <div class="card dialog-hlx">
       <div class="card-body">
@@ -1016,7 +1016,7 @@
     </div>
   </div>
 </div>
-<div class="popup-overlay" *ngIf="isTaxEsPopupVisible">
+<div class="popup-overlay" *ngIf="isTaxEsPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
     <div class="card dialog-hlx">
       <div class="card-body">
@@ -1054,7 +1054,7 @@
     </div>
   </div>
 </div>
-<div class="popup-overlay" *ngIf="isDiscountPopupVisible">
+<div class="popup-overlay" *ngIf="isDiscountPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
     <div class="card dialog-hlx">
       <div class="card-body">
@@ -1094,7 +1094,7 @@
     </div>
   </div>
 </div>
-<div class="popup-overlay" *ngIf="isOtherDiscountPopupVisible">
+<div class="popup-overlay" *ngIf="isOtherDiscountPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
     <div class="card dialog-hlx">
       <div class="card-body">
@@ -1134,7 +1134,7 @@
     </div>
   </div>
 </div>
-<div class="popup-overlay" *ngIf="isCardPopupVisible">
+<div class="popup-overlay" *ngIf="isCardPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
     <div class="card dialog-hlx">
       <div class="card-body">

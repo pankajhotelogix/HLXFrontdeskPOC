@@ -93,6 +93,7 @@ export class GroupResDetailsComponent implements OnChanges {
   public get viewInterval(): number {
     return this.calculateDays(this.startDate, this.endDate);
   }
+  popupStyles: { [key: string]: string } = {};
   public views = [
     {
       option: 'TimelineDay',
@@ -768,21 +769,27 @@ public cities: { [key: string]: Object }[] = [
     }
   }
   openPopup(event: MouseEvent): void {
+    this.openPopupPosition(event);
     this.isPopupVisible = true;
   }
   openAddOOnPopup(event: MouseEvent): void {
+    this.openPopupPosition(event);
     this.isAddOnPopupVisible = true;
   }
   openTaxEsPopup(event: MouseEvent): void {
+    this.openPopupPosition(event);
     this.isTaxEsPopupVisible = true;
   }
   openDiscountPopup(event: MouseEvent): void {
+    this.openPopupPosition(event);
     this.isDiscountPopupVisible = true;
   }
   openOtherDiscountPopup(event: MouseEvent): void {
+    this.openPopupPosition(event);
     this.isOtherDiscountPopupVisible = true;
   }
   openCardPopup(event: MouseEvent): void {
+    this.openPopupPosition(event);
     this.isCardPopupVisible = true;
   }
   closePopup(): void {
@@ -814,7 +821,29 @@ public cities: { [key: string]: Object }[] = [
       args.element.setAttribute('id', 'srk-id');
      }
   }
-
+  openPopupPosition(event: MouseEvent): void {
+    const clickX = event.clientX;
+    const clickY = event.clientY;
+  
+    const popupWidth = 600;
+    const popupHeight = 400;
+    const padding = 20;
+  
+    const maxLeft = window.innerWidth - popupWidth - padding;
+    const maxTop = window.innerHeight - popupHeight;
+  
+    const left = Math.min(clickX + window.scrollX -50, maxLeft);
+    const top = Math.min(clickY + window.scrollY -70, maxTop); 
+  
+    this.popupStyles = {
+      position: 'absolute',
+      top: `${top}px`,
+      left: `${left}px`,
+      padding: '0',
+      zIndex: '1000',
+      width: '600px',
+    };
+  }
   showTooltip(event: MouseEvent, date: string): void {
     this.tooltipText = date;
     this.isTooltipVisible = true;
