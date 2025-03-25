@@ -66,3 +66,11 @@
   line-height: 1;
   height: 25px;
 }
+.e-schedule .e-timeline-view .e-work-cells, .e-schedule .e-timeline-month-view .e-work-cells{
+  background: white !important;
+ border-color: #ddd;
+ border-style: solid;
+ border-width: 0 0 1px 1px;
+ color: #333;
+ padding: 0;
+}
