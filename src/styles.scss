@@ -197,7 +197,7 @@ ul.nav.flex-column {
 }
 
 .box-shaodw-without-border{
-  box-shadow: 0px 0px 15px 5px rgba(45, 15, 80, 0.1)!important;
+  box-shadow: 2px 2px 10px 0 rgba(45, 15, 80, 0.1)!important;
   border: none!important;
   border-radius: 15px!important;
 }
@@ -375,9 +375,15 @@ button:hover {
 }
 .card.hlx .card-header {
   background: rgba(40, 86, 162, 0.05);
+  border-radius: 15px 15px 0 0;
+  border: 0;
+  padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
 }
 .card.hlx .card-footer {
   background: rgba(40, 86, 162, 0.1);
+  border-radius: 0 0 15px 15px; 
+  border: 0;
+  padding: 4px 0;
 }
 .card.hlx .card-footer .table>:not(caption)>*>* {
   background: transparent;
