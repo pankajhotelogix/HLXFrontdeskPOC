@@ -463,7 +463,7 @@
                       [eventSettings]="eventSettings1" [views]="views" [currentView]="'TimelineDay'"
                       [showHeaderBar]="false" [showTimeIndicator]="false" [rowAutoHeight]="true"
                       [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }" [workDays]="workDays"
-                      (hover)="onHover($event)" (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler1">
+                      (hover)="onHover($event)" (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler2">
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
                           <ng-template #eventTemplate let-data>
@@ -685,7 +685,7 @@
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
                           <ng-template #eventTemplate let-data *ngFor="let guest of guestDetails;">
-                            <div class="w-100">
+                            <div class="w-100 border-gradient">
                               <!-- <div>
                                 <hr style="
                               border: none;
