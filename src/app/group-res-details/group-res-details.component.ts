@@ -571,7 +571,7 @@ export class GroupResDetailsComponent implements OnChanges {
       parseInt(checkoutTime.split(':')[1]),
       parseInt(checkoutTime.split(':')[2])
     );
-   // console.log('specialistCategory:', this.specialistCategory);
+    // console.log('specialistCategory:', this.specialistCategory);
     const grouped: { [key: string]: any[] } = {};
     this.requestData.room_stay.forEach((room: any) => {
       const key = room.room_type_id ? String(room.room_type_id) : 'unknown';
@@ -603,7 +603,7 @@ export class GroupResDetailsComponent implements OnChanges {
         // ❌ Not assigned: show total unassigned room count
         roomDisplay = `X ${rooms.length}`;
       }
-      
+
       events.push({
         Id: eventId++,
         Subject: roomTypeName,
@@ -624,22 +624,26 @@ export class GroupResDetailsComponent implements OnChanges {
     this.calculateScheduleHeight();
   }
   calculateScheduleHeight(): void {
-    const baseRowHeight = 150; 
+    const baseRowHeight = 120;
     const minHeight = 150;
     const buffer = 20;
-  
+
     const dataSource = this.eventSettings1?.dataSource;
     const appointmentCount = Array.isArray(dataSource) ? dataSource.length : 1;
-  
+
     this.scheduleHeight1 = Math.max(minHeight, appointmentCount * baseRowHeight + buffer);
   }
   adjustAppointmentPositions() {
     const appointments = document.querySelectorAll('.e-appointment');
-    const baseTop = 6; 
-    const increment = 100;
-  
+    const baseTop = 0;
+    const increment = 50;
+
     appointments.forEach((appointment, index) => {
-      (appointment as HTMLElement).style.top = `${baseTop + index * increment}px`;
+      if (index == 2) {
+        (appointment as HTMLElement).style.top = `10px`;
+      } else {
+        (appointment as HTMLElement).style.top = `${baseTop + index * increment}px`;
+      }
     });
   }
   public workDays: number[] = [0, 1, 2, 3, 4, 5];
