@@ -563,24 +563,26 @@
                             <div class="w-100">
                               <div class="appointment-header">
                                 <div class="e-section-control">
-                                  <div class="room-details d-flex align-items-center">
+                                  <div class="room-details d-flex">
                                     <i class="material-icons d-block text-gray fs-18 me-1">bed</i>
-                                    <a href="#" class="room-link" (click)="onRoomClick($event, data)">
-                                      {{ data.Subject }} {{ data.Room }}
-                                    </a>
-                                  </div>
-                                  <div class="booking-date text-blue">
-                                    {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
-                                  </div>
-                                  <div class="total-guest">
-                                    <span class="guest-info">
-                                      <i class="material-icons d-block text-gray fs-18 me-1">person</i>
-                                      {{ data.Guest }}
-                                    </span>
-                                    <span class="child-info">
-                                      <i class="material-icons d-block text-gray fs-18 me-1">child_care</i>
-                                      {{ data.Child }}
-                                    </span>
+                                    <div class="ms-1">
+                                      <a href="#" class="room-link" (click)="onRoomClick($event, data)">
+                                        {{ data.Subject }} {{ data.Room }}
+                                      </a>
+                                      <div class="booking-date text-blue">
+                                        {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
+                                      </div>
+                                      <div class="total-guest">
+                                        <span class="guest-info">
+                                          <i class="material-icons d-block text-gray fs-18 me-1">person</i>
+                                          {{ data.Guest }}
+                                        </span>
+                                        <span class="child-info">
+                                          <i class="material-icons d-block text-gray fs-18 me-1">child_care</i>
+                                          {{ data.Child }}
+                                        </span>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -650,24 +652,18 @@
                               <div class="appointment-header">
                                 <div class="e-section-control">
                                   <div class="room-details d-flex align-items-center">
-                                    <i class="material-icons d-block text-gray fs-18 me-1">bed</i>
+                                    <img src="./assets/Icons/icon-dollar.svg">
                                     <!-- 👇 Click to open popup -->
-                                    <a href="#" class="room-link" (click)="onRoomClick($event, data)">
-                                      {{ data.Subject }} {{ data.Room }}
-                                    </a>
-                                  </div>
-                                  <div class="booking-date text-blue">
-                                    {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
-                                  </div>
-                                  <div class="total-guest">
-                                    <span class="guest-info">
-                                      <i class="material-icons d-block text-gray fs-18 me-1">person</i>
-                                      {{ data.Guest }}
-                                    </span>
-                                    <span class="child-info">
-                                      <i class="material-icons d-block text-gray fs-18 me-1">child_care</i>
-                                      {{ data.Child }}
-                                    </span>
+                                    <div class="ms-3">
+                                      <div class="rate-price">$2,050.00</div>
+                                      <a href="#" class="room-link" (click)="onRoomClick($event, data)">
+                                        {{ data.Subject }} {{ data.Room }}
+                                      </a>
+                                      <div class="booking-date text-blue">
+                                        {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
+                                      </div>
+                                      <div class="inclusions">None</div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>

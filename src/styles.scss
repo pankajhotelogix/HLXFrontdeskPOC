@@ -1558,19 +1558,20 @@ button:disabled {
   margin-right: 5px;
 }
 
-.t-rooms .room-link {
+.t-rooms .room-link,
+.t-rates .room-link {
   font-weight: bold;
   font-size: calc(7px + 0.390625vw);
   color: #007BFF;
+  text-transform: uppercase;
   text-decoration: none;
 }
-.t-rooms .booking-date {
+.t-rooms .booking-date,
+.t-rates .booking-date {
   margin-top: 4px;
-  margin-left: 23px;
 }
 .t-rooms .total-guest {
   margin-top: 6px;
-  margin-left: 20px;
   display: flex;
   gap: 8px;
   align-items: center;
@@ -1578,8 +1579,16 @@ button:disabled {
     color: #333;
   }
 }
-
-
+.t-rates .rate-price {
+  color: #205107;
+  font-weight: 600;
+  padding-bottom: 2px;
+  font-size: calc(5px + 0.390625vw);
+}
+.t-rates .inclusions {
+  margin-top: 6px;
+  color: #333;
+}
 .guest-info,
 .child-info {
   display: flex;

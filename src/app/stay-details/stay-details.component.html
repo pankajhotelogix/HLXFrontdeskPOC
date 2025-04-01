@@ -696,22 +696,24 @@
                               </div> -->
                               <div class="appointment-header">
                                 <div class="e-section-control">
-                                  <div class="room-details d-flex align-items-center">
+                                  <div class="room-details d-flex">
                                     <i class="material-icons d-block text-gray fs-18 me-1">bed</i>
-                                    <a href="#" class="room-link">{{ data.Subject }} <span class="ps-2">{{ data.Room }}</span></a>
-                                  </div>
-                                  <div class="booking-date text-blue">
-                                    {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
-                                  </div>
-                                  <div class="total-guest">
-                                    <span class="guest-info">
-                                      <i class="material-icons d-block text-gray fs-18 me-1">person</i> 
-                                      {{ data.Guest }}
-                                    </span>
-                                    <span class="child-info">
-                                      <i class="material-icons d-block text-gray fs-18 me-1">child_care</i> 
-                                      {{ data.Child }}
-                                    </span>
+                                    <div class="ms-1">
+                                      <a href="#" class="room-link">{{ data.Subject }} <span class="ps-2">{{ data.Room }}</span></a>
+                                      <div class="booking-date text-blue">
+                                        {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
+                                      </div>
+                                      <div class="total-guest">
+                                        <span class="guest-info">
+                                          <i class="material-icons d-block text-gray fs-18 me-1">person</i> 
+                                          {{ data.Guest }}
+                                        </span>
+                                        <span class="child-info">
+                                          <i class="material-icons d-block text-gray fs-18 me-1">child_care</i> 
+                                          {{ data.Child }}
+                                        </span>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
