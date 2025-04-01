@@ -61,7 +61,8 @@ export class GroupResDetailsComponent implements OnChanges {
   public hoveredDate: string | null = null;
   public tooltipStyle: { [key: string]: string } = {};
   public readonly = true;
-  public scheduleHeight: string = '220px';
+  public scheduleHeight: string = '150px';
+  public scheduleHeight1: number = 150;
   public scheduleRoomingHeight: string = '500px';
   public selectedText: string = '1';
   public isPopupVisible: boolean = false;
@@ -101,11 +102,30 @@ export class GroupResDetailsComponent implements OnChanges {
     },
   ];
   public eventSettings: EventSettingsModel = {
-      dataSource: [],
+    dataSource: [],
   };
-  
+
   public eventSettings1: EventSettingsModel = {
-      dataSource: [],
+    dataSource: [
+      {
+        Id: 1,
+        Subject: 'Room 101',
+        StartTime: new Date(2025, 2, 25, 0, 0),
+        EndTime: new Date(2025, 2, 26, 0, 0),
+        Guest: 2,
+        Child: 1,
+        Room: '101',
+      },
+      {
+        Id: 2,
+        Subject: 'Room 102',
+        StartTime: new Date(2025, 2, 26, 0, 0),
+        EndTime: new Date(2025, 2, 27, 0, 0),
+        Guest: 1,
+        Child: 0,
+        Room: '102',
+      },
+    ],
   };
   public eventSetting: EventSettingsModel = { dataSource: [] };
   roomTypeData = [
@@ -113,7 +133,7 @@ export class GroupResDetailsComponent implements OnChanges {
     { id: 2, type: 'Double' },
     { id: 3, type: 'Suite' }
   ];
-  
+
   roomsData = [
     { id: 101, name: 'Room 101' },
     { id: 102, name: 'Room 102' },
@@ -133,7 +153,7 @@ export class GroupResDetailsComponent implements OnChanges {
   genderFields = { text: 'name', value: 'id' };
   roomTypeFields = { text: 'type', value: 'id' };
   roomsFields = { text: 'name', value: 'id' };
-   public fields: any[] = [];
+  public fields: any[] = [];
   public nationalityFields: Object = { text: 'nationality', value: 'CountryId' };
   public identificationFields: Object = { text: 'name', value: 'identificationId' };
   public requestRateParams = {
@@ -141,12 +161,16 @@ export class GroupResDetailsComponent implements OnChanges {
     fromdate: '',
     todate: '',
   };
+  totalAdults: number = 0;
+  totalChildren: number = 0;
+  totalBeds: number = 0;
+  totalGuests: number = 0;
   public identification: { [key: string]: Object }[] = [
-    { name: 'Passport', identificationId: '1'},
+    { name: 'Passport', identificationId: '1' },
     { name: 'Pan Number', identificationId: '2' },
     { name: 'Driving License ', identificationId: '3' },
     { name: 'Voter Id', identificationId: '4' },
-    { name: 'Aadhaar Number ', identificationId: '5'},
+    { name: 'Aadhaar Number ', identificationId: '5' },
   ];
   public country: { [key: string]: Object }[] = [
     {
@@ -284,16 +308,16 @@ export class GroupResDetailsComponent implements OnChanges {
       nationality: "American",
       phoneLength: 10
     }
-  ];  
-public state: { [key: string]: Object }[] = [
+  ];
+  public state: { [key: string]: Object }[] = [
     { StateName: 'New York', CountryId: '1', StateId: '101' },
     { StateName: 'Queensland', CountryId: '2', StateId: '104' },
     { StateName: 'Tasmania ', CountryId: '2', StateId: '105' },
     { StateName: 'Victoria', CountryId: '2', StateId: '106' },
     { StateName: 'Virginia ', CountryId: '1', StateId: '102' },
     { StateName: 'Washington', CountryId: '1', StateId: '103' }
-];
-public cities: { [key: string]: Object }[] = [
+  ];
+  public cities: { [key: string]: Object }[] = [
     { CityName: 'Aberdeen', StateId: '103', CityId: 207 },
     { CityName: 'Alexandria', StateId: '102', CityId: 204 },
     { CityName: 'Albany', StateId: '101', CityId: 201 },
@@ -312,7 +336,7 @@ public cities: { [key: string]: Object }[] = [
     { CityName: 'Melbourne', StateId: '106', CityId: 216 },
     { CityName: 'Pasco', StateId: '103', CityId: 209 },
     { CityName: 'Townsville', StateId: '104', CityId: 210 }
-];
+  ];
   public items: ItemModel[] = [
     {
       text: 'Male',
@@ -375,7 +399,7 @@ public cities: { [key: string]: Object }[] = [
   addGuest() {
     const checkinDate = this.requestData?.checkin_date ? this.requestData.checkin_date : '2024-11-10';
     const checkoutDate = this.requestData?.checkout_date ? this.requestData.checkout_date : '2024-11-15';
-  
+
     this.guestDetails.push({
       title: '',
       firstName: '',
@@ -387,10 +411,10 @@ public cities: { [key: string]: Object }[] = [
       startDate1: checkinDate,
       endDate1: checkoutDate,
     });
-  
+
     this.updateScheduleHeight();
   }
-  
+
   public requestParams = {
     rsv_type: 'f',
     room_type_id: '',
@@ -475,56 +499,149 @@ public cities: { [key: string]: Object }[] = [
     console.log(`Save action for guest at index ${index}`);
     alert(`Save action triggered for ${this.guestDetails[index].name}`);
   }
+  // updateEventSettings() {
+  //   const checkinDate = this.requestData?.checkin_date ?? '2024-11-10';
+  //   const checkoutDate = this.requestData?.checkout_date ?? '2024-11-15';
+  //   const checkinTime = this.requestData?.checkin_time ?? '11:00:00';
+  //   const checkoutTime = this.requestData?.checkout_time ?? '16:00:00';
+
+  //   const startDate = new Date(
+  //     parseInt(checkinDate.split('-')[0]),
+  //     parseInt(checkinDate.split('-')[1]) - 1,
+  //     parseInt(checkinDate.split('-')[2]),
+  //     parseInt(checkinTime.split(':')[0]),
+  //     parseInt(checkinTime.split(':')[1]),
+  //     parseInt(checkinTime.split(':')[2])
+  //   );
+
+  //   const endDate = new Date(
+  //     parseInt(checkoutDate.split('-')[0]),
+  //     parseInt(checkoutDate.split('-')[1]) - 1,
+  //     parseInt(checkoutDate.split('-')[2]),
+  //     parseInt(checkoutTime.split(':')[0]),
+  //     parseInt(checkoutTime.split(':')[1]),
+  //     parseInt(checkoutTime.split(':')[2])
+  //   );
+
+  //   this.eventSettings1 = {
+  //     dataSource: [
+  //       {
+  //         Id: 1,
+  //         Subject: 'DELUXE',
+  //         StartTime: startDate,
+  //         EndTime: endDate,
+  //         Room: 'DLX-345',
+  //         Guest: this.requestData?.adult || 3,
+  //         Child: this.requestData?.child || 0,
+  //         PrimaryColor: '#1aaa55',
+  //         SecondaryColor: '#7fa900',
+  //         Rates: 300,
+  //         Package: 'Seasonal',
+  //       },
+  //     ],
+  //   };
+
+  //   this.eventSettings = {
+  //     dataSource: Array.isArray(this.eventSettings1.dataSource) ? [...this.eventSettings1.dataSource] : [],
+  //   };
+
+  //  // console.log("Updated event settings:", this.eventSettings);
+  // }
   updateEventSettings() {
+    // Parse dates and times as before
     const checkinDate = this.requestData?.checkin_date ?? '2024-11-10';
     const checkoutDate = this.requestData?.checkout_date ?? '2024-11-15';
     const checkinTime = this.requestData?.checkin_time ?? '11:00:00';
     const checkoutTime = this.requestData?.checkout_time ?? '16:00:00';
 
     const startDate = new Date(
-      parseInt(checkinDate.split('-')[0]), 
-      parseInt(checkinDate.split('-')[1]) - 1, 
-      parseInt(checkinDate.split('-')[2]), 
-      parseInt(checkinTime.split(':')[0]), 
-      parseInt(checkinTime.split(':')[1]), 
+      parseInt(checkinDate.split('-')[0]),
+      parseInt(checkinDate.split('-')[1]) - 1,
+      parseInt(checkinDate.split('-')[2]),
+      parseInt(checkinTime.split(':')[0]),
+      parseInt(checkinTime.split(':')[1]),
       parseInt(checkinTime.split(':')[2])
     );
 
     const endDate = new Date(
-      parseInt(checkoutDate.split('-')[0]), 
+      parseInt(checkoutDate.split('-')[0]),
       parseInt(checkoutDate.split('-')[1]) - 1,
-      parseInt(checkoutDate.split('-')[2]), 
-      parseInt(checkoutTime.split(':')[0]), 
-      parseInt(checkoutTime.split(':')[1]), 
+      parseInt(checkoutDate.split('-')[2]),
+      parseInt(checkoutTime.split(':')[0]),
+      parseInt(checkoutTime.split(':')[1]),
       parseInt(checkoutTime.split(':')[2])
     );
+   // console.log('specialistCategory:', this.specialistCategory);
+    const grouped: { [key: string]: any[] } = {};
+    this.requestData.room_stay.forEach((room: any) => {
+      const key = room.room_type_id ? String(room.room_type_id) : 'unknown';
+      if (!grouped[key]) {
+        grouped[key] = [];
+      }
+      grouped[key].push(room);
+    });
 
-    this.eventSettings1 = {
-      dataSource: [
-        {
-          Id: 1,
-          Subject: 'DELUXE',
-          StartTime: startDate,
-          EndTime: endDate,
-          Room: 'DLX-345',
-          Guest: this.requestData?.adult || 3,
-          Child: this.requestData?.child || 0,
-          PrimaryColor: '#1aaa55',
-          SecondaryColor: '#7fa900',
-          Rates: 300,
-          Package: 'Seasonal',
-        },
-      ],
-    };
+    const events = [];
+    let eventId = 1;
 
-    this.eventSettings = {
-      dataSource: Array.isArray(this.eventSettings1.dataSource) ? [...this.eventSettings1.dataSource] : [],
-    };
-
-    console.log("Updated event settings:", this.eventSettings); 
-}
-
+    for (const roomTypeId in grouped) {
+      const rooms = grouped[roomTypeId];
+      const roomType = this.specialistCategory?.find((type: any) => String(type.DepartmentId) === String(roomTypeId));
+      const roomTypeName = roomType ? roomType['name'] : 'Unknown Type';
+      const assignedRooms = this.requestData.isRoomAssigned;
+      console.log('assignedRooms:', assignedRooms);
+      let roomDisplay: string;
+      if (this.requestData.isRoomAssigned) {
+        // ✅ Assigned: show all room names
+        const roomList = this.filteredRooms[String(roomTypeId)] || [];
+        const assignedRoomNames = rooms.map((room: any) => {
+          const roomData = roomList.find((r: any) => String(r.Id) === String(room.room_id));
+          return roomData ? roomData.Text : `Room ${room.room_id}`;
+        });
+        roomDisplay = assignedRoomNames.join(', ');
+      } else {
+        // ❌ Not assigned: show total unassigned room count
+        roomDisplay = `X ${rooms.length}`;
+      }
+      
+      events.push({
+        Id: eventId++,
+        Subject: roomTypeName,
+        StartTime: startDate,
+        EndTime: endDate,
+        Room: roomDisplay,
+        RoomTypeId: roomTypeId,
+        Guest: this.requestData?.adult || 1,
+        Child: this.requestData?.child || 0,
+        PrimaryColor: '#1aaa55',
+        SecondaryColor: '#7fa900',
+        Rates: 300,
+        Package: 'Seasonal',
+      });
+    }
+    this.eventSettings1 = { dataSource: events };
+    this.eventSettings = { dataSource: [...events] };
+    this.calculateScheduleHeight();
+  }
+  calculateScheduleHeight(): void {
+    const baseRowHeight = 150; 
+    const minHeight = 150;
+    const buffer = 20;
   
+    const dataSource = this.eventSettings1?.dataSource;
+    const appointmentCount = Array.isArray(dataSource) ? dataSource.length : 1;
+  
+    this.scheduleHeight1 = Math.max(minHeight, appointmentCount * baseRowHeight + buffer);
+  }
+  adjustAppointmentPositions() {
+    const appointments = document.querySelectorAll('.e-appointment');
+    const baseTop = 6; 
+    const increment = 100;
+  
+    appointments.forEach((appointment, index) => {
+      (appointment as HTMLElement).style.top = `${baseTop + index * increment}px`;
+    });
+  }
   public workDays: number[] = [0, 1, 2, 3, 4, 5];
   public allowInline = true;
   public groupSettings: GroupModel = {
@@ -548,7 +665,7 @@ public cities: { [key: string]: Object }[] = [
     return date.toLocaleDateString('en-US', options);
   }
   timelineStyle: { top: string; left: string; width: string } = { top: '0px', left: '0px', width: '0px' };
-  workCellWidth = 0; 
+  workCellWidth = 0;
   private previousCells: HTMLElement[] = [];
 
   private addDottedLineToCell(cell: HTMLElement): void {
@@ -676,7 +793,7 @@ public cities: { [key: string]: Object }[] = [
   }
   onPopupCloseSessionalRate(args: PopupCloseEventArgs | any) {
     if (args.type === 'Editor') {
-      args.data.StartTime  = args.element.querySelector(".e-daterangepicker").ej2_instances[0].startDate;
+      args.data.StartTime = args.element.querySelector(".e-daterangepicker").ej2_instances[0].startDate;
       args.data.EndTime = args.element.querySelector(".e-daterangepicker").ej2_instances[0].endDate;
     }
   }
@@ -701,9 +818,9 @@ public cities: { [key: string]: Object }[] = [
   constructor(
     private mainService: MainService,
     private renderer: Renderer2,
-        @Inject(PLATFORM_ID) private platformId: object
+    @Inject(PLATFORM_ID) private platformId: object
 
-  ){}
+  ) { }
   onPopupOpen(args: PopupOpenEventArgs): void {
     if (args.type === 'QuickInfo') {
       args.cancel = true;
@@ -746,9 +863,8 @@ public cities: { [key: string]: Object }[] = [
   }
   adjustSchedulerView(): void {
     const startHour = `${this.startDate.getHours()}:00`;
-    const endHour = `${
-      this.endDate.getHours() + (this.endDate.getMinutes() > 0 ? 1 : 0)
-    }:00`;
+    const endHour = `${this.endDate.getHours() + (this.endDate.getMinutes() > 0 ? 1 : 0)
+      }:00`;
 
     if (this.scheduleObj2) {
       this.scheduleObj2.setProperties({
@@ -819,22 +935,22 @@ public cities: { [key: string]: Object }[] = [
       this.scheduleObj?.openEditor(args.data, 'Add');
       args.element.classList.add('dialog-open');
       args.element.setAttribute('id', 'srk-id');
-     }
+    }
   }
   openPopupPosition(event: MouseEvent): void {
     const clickX = event.clientX;
     const clickY = event.clientY;
-  
+
     const popupWidth = 600;
     const popupHeight = 400;
     const padding = 20;
-  
+
     const maxLeft = window.innerWidth - popupWidth - padding;
     const maxTop = window.innerHeight - popupHeight;
-  
-    const left = Math.min(clickX + window.scrollX -50, maxLeft);
-    const top = Math.min(clickY + window.scrollY -70, maxTop); 
-  
+
+    const left = Math.min(clickX + window.scrollX - 50, maxLeft);
+    const top = Math.min(clickY + window.scrollY - 70, maxTop);
+
     this.popupStyles = {
       position: 'absolute',
       top: `${top}px`,
@@ -858,14 +974,49 @@ public cities: { [key: string]: Object }[] = [
   hideTooltip(): void {
     this.isTooltipVisible = false;
   }
+  getTotalCounts() {
+    let totalAdults = 0;
+    let totalChildren = 0;
+    let totalBeds = 0;
+
+    this.guestDetails.forEach(guest => {
+      totalAdults += guest.adult || 0;
+      totalChildren += guest.child || 0;
+      totalBeds += guest.bed || 0;
+    });
+    //  console.log("Total Counts:", totalAdults, totalChildren, totalBeds);
+    return {
+      totalAdults,
+      totalChildren,
+      totalBeds,
+      totalGuests: totalAdults + totalChildren
+    };
+
+  }
 
   ngOnInit() {
     this.adjustSchedulerView();
     this.formatDateRange();
     this.getRoomList();
-    console.log(this.requestData);
+    this.calculateTotals();
+    // console.log(this.requestData);
 
   }
+  calculateTotals() {
+    this.totalAdults = 0;
+    this.totalChildren = 0;
+    this.totalBeds = 0;
+
+    this.guestDetails.forEach(guest => {
+      this.totalAdults = guest.adult || 0;
+      this.totalChildren = guest.child || 0;
+      this.totalBeds = guest.bed || 0;
+    });
+
+    this.totalGuests = this.totalAdults + this.totalChildren;
+  }
+
+
   updateRequestParams() {
     if (this.requestData?.res_guest?.length) {
       const guest = this.requestData.res_guest[0];
@@ -879,22 +1030,34 @@ public cities: { [key: string]: Object }[] = [
     }
   }
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['requestData'] && this.requestData) {
+    console.log('ngOnChanges triggered:', changes);
+
+    if (changes['requestData']) {
+      console.log('requestData changed:', this.requestData);
       this.updateDates();
-      this.updateEventSettings();
       this.updateRequestParams();
       this.updateGuestDetails();
+    }
+
+    if (changes['specialistCategory']) {
+      console.log('specialistCategory changed:', this.specialistCategory);
+      if (this.specialistCategory) {
+        console.log('Calling updateEventSettings...');
+        this.updateEventSettings();
+      } else {
+        console.log('specialistCategory is undefined or empty!');
+      }
     }
   }
   public guestDetails: any[] = [];
   // updateGuestDetails() {
   //   const numberOfRooms = this.requestData?.room_stay?.length || 1;
   //   const numberOfGuests = this.requestData?.adult || 1; 
-  
+
   //   this.guestDetails = Array.from({ length: numberOfRooms }, (_, index) => {
   //     const roomData = this.requestData.room_stay[index] || {}; 
   //     const guestData = this.requestData.res_guest?.[index] || {}; 
-      
+
   //     return {
   //       title: guestData.person_type === 'Adult' ? 'Mr.' : 'Ms.',
   //       firstName: guestData.guest?.personal_contact?.first_name || `Guest ${index + 1}`,
@@ -909,10 +1072,10 @@ public cities: { [key: string]: Object }[] = [
   //       roomId: roomData.room_id || '',
   //     };
   //   });
-  
+
   //   console.log("Updated Guest Details:", this.guestDetails);
   // }
-  
+
   updateRoomList(selectedRoomTypeId: string | null): void {
     if (selectedRoomTypeId) {
       this.resourceDataSource = this.allRoomsData.filter(
@@ -922,8 +1085,8 @@ public cities: { [key: string]: Object }[] = [
       this.resourceDataSource = [];
     }
   }
-public selectedRoomType: string = '';
-public selectedRoom: string = '';
+  public selectedRoomType: string = '';
+  public selectedRoom: string = '';
   updateDates() {
     if (this.requestData?.checkin_date && this.requestData?.checkout_date) {
       const checkinDateTime = `${this.requestData.checkin_date}T${this.requestData.checkin_time || '11:00:00'}`;
@@ -932,11 +1095,10 @@ public selectedRoom: string = '';
       this.endDate = new Date(checkoutDateTime);
     }
   }
-  
+
   onSelect(event: any): void {
     const selectedGuestCount = parseInt(event.item.text.split(' ')[0], 10);
     this.selectedText = event.item.text;
-
     this.guestDetails = [
       {
         title: 'Mr.',
@@ -948,6 +1110,9 @@ public selectedRoom: string = '';
         flagId: 1,
         startDate1: '2024-11-10',
         endDate1: '2024-11-15',
+        adult: 1,
+        child: 0,
+        bed: 1,
       },
     ];
   }
@@ -971,57 +1136,60 @@ public selectedRoom: string = '';
   openDateRangePicker() {
     this.dateRangePicker?.show();
   }
+  openDateRangePickerRooming($event: MouseEvent): void {
+    this.dateRangePicker?.show();
+  }
   public onDateRangeChange(event: any, index: number): void {
     if (event.startDate && event.endDate) {
       this.guestDetails[index].startDate1 = event.startDate;
       this.guestDetails[index].endDate1 = event.endDate;
-      
+
     }
   }
-  
-    selectImage(event: any): void {
-      const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
+
+  selectImage(event: any): void {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
       const profileImage = document.getElementById('profileImage') as HTMLImageElement;
       profileImage.src = e.target?.result as string;
-      };
-      reader.readAsDataURL(file);
-    }
-    setHeight(idIndex: number, details: any): [number, number] {
-      const hr = document.getElementById(`hr-${idIndex}`);
-      const guestDetail = this.guestDetails[0];
-  
-      const totalCell = this.calculateDays(
-          new Date(guestDetail.startDate1),
-          new Date(guestDetail.endDate1)
-      );
-  
-      const perCellWidth = 100 / totalCell;
-      const currentDiff = this.calculateDays(
-          new Date(details.startDate1),
-          new Date(details.endDate1)
-      );
-  
-      const bothStartDateDiff = 
-      this.calculateDays(new Date(guestDetail.startDate1), new Date(details.startDate1)) - 1;
-      const workCells = document.querySelectorAll('.e-work-cells');
-      const firstWidth = workCells[0]?.getBoundingClientRect().width || 0;
-      const secondWidth = workCells[1]?.getBoundingClientRect().width || firstWidth;
-      const lastWidth = workCells[workCells.length - 1]?.getBoundingClientRect().width || firstWidth;
-      const left = firstWidth + (bothStartDateDiff - 2) * secondWidth + secondWidth / 2;
-      const width = firstWidth + (currentDiff - 2) * secondWidth + lastWidth;
-  
-      if (hr) {
-          hr.style.left = `${Math.max(left, 0)}px`;
-          hr.style.width = `${width}px`;
-      }
-  
-      return [Math.max(left, 0), width];
+    };
+    reader.readAsDataURL(file);
   }
-  
+  setHeight(idIndex: number, details: any): [number, number] {
+    const hr = document.getElementById(`hr-${idIndex}`);
+    const guestDetail = this.guestDetails[0];
+
+    const totalCell = this.calculateDays(
+      new Date(guestDetail.startDate1),
+      new Date(guestDetail.endDate1)
+    );
+
+    const perCellWidth = 100 / totalCell;
+    const currentDiff = this.calculateDays(
+      new Date(details.startDate1),
+      new Date(details.endDate1)
+    );
+
+    const bothStartDateDiff =
+      this.calculateDays(new Date(guestDetail.startDate1), new Date(details.startDate1)) - 1;
+    const workCells = document.querySelectorAll('.e-work-cells');
+    const firstWidth = workCells[0]?.getBoundingClientRect().width || 0;
+    const secondWidth = workCells[1]?.getBoundingClientRect().width || firstWidth;
+    const lastWidth = workCells[workCells.length - 1]?.getBoundingClientRect().width || firstWidth;
+    const left = firstWidth + (bothStartDateDiff - 2) * secondWidth + secondWidth / 2;
+    const width = firstWidth + (currentDiff - 2) * secondWidth + lastWidth;
+
+    if (hr) {
+      hr.style.left = `${Math.max(left, 0)}px`;
+      hr.style.width = `${width}px`;
+    }
+
+    return [Math.max(left, 0), width];
+  }
+
   public onPopupOpenSplitRooms1(args: any) {
-    if ( args.type == 'QuickInfo' && args.target.classList.contains('e-work-cells')
+    if (args.type == 'QuickInfo' && args.target.classList.contains('e-work-cells')
     ) {
       args.cancel = true;
       this.scheduleObj?.openEditor(args.data, 'Add');
@@ -1036,7 +1204,40 @@ public selectedRoom: string = '';
     const day = String(targetDate.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
-  public onPopupOpenRoom(args: any) {
+  public onPopupOpenRoom(args: any): void {
+    this.requestParams.room_type_id = args.data.DepartmentId;
+    this.requestParams.room_id = args.data.DoctorId;
+    this.requestParams.checkin_date = this.getDate(args.data.StartTime);
+    this.requestParams.checkout_date = this.getDate(args.data.EndTime);
+
+    if (args.type === 'QuickInfo' && args.target.classList.contains('e-work-cells')) {
+      args.cancel = true;
+      this.scheduleObj2?.openEditor(args.data, 'Add');
+      args.element.classList.add('dialog-open');
+      args.element.setAttribute('id', 'srk-id');
+    }
+  }
+  public onRoomClick(event: MouseEvent, data: any): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const now = new Date();
+    const tomorrow = new Date(now.getTime() + 86400000);
+
+    const customData = {
+      Subject: data.Subject || 'New Reservation',
+      Room: data.Room,
+      StartTime: now,
+      EndTime: tomorrow,
+      Guest: data.Guest || '',
+      Child: data.Child || '',
+      DepartmentId: data.DepartmentId,
+      DoctorId: data.DoctorId,
+    };
+
+    this.scheduleObj2?.openEditor(customData, 'Add');
+  }
+  public onPopupOpenRoom1(args: any) {
     this.requestParams.room_type_id = args.data.DepartmentId;
     this.requestParams.room_id = args.data.DoctorId;
     this.requestParams.checkin_date = this.getDate(args.data.StartTime);
@@ -1047,7 +1248,7 @@ public selectedRoom: string = '';
     ) {
       args.cancel = true;
       this.scheduleObj2?.openEditor(args.data, 'Add');
-     // this.getSessionalRateList();
+      // this.getSessionalRateList();
       //this.getAvailableRoomList();
       args.element.classList.add('dialog-open');
       args.element.setAttribute('id', 'srk-id');
@@ -1101,7 +1302,7 @@ public selectedRoom: string = '';
       if (cellDate < startDate || cellDate > endDate) {
         (args.element as HTMLElement).style.background = '#e0e0e0';
         (args.element as HTMLElement).style.opacity = '0.5';
-        (args.element as HTMLElement).style.pointerEvents = 'none'; 
+        (args.element as HTMLElement).style.pointerEvents = 'none';
       }
     }
   }
@@ -1111,8 +1312,8 @@ public selectedRoom: string = '';
       Subject: 'New Appointment',
       Room: 'New Room',
       Guest: 2,
-      Child: 0, 
-      StartTime: new Date(), 
+      Child: 0,
+      StartTime: new Date(),
       EndTime: new Date(new Date().setHours(new Date().getHours() + 1)),
       PrimaryColor: '#1aaa55',
       SecondaryColor: '#7fa900',
@@ -1153,178 +1354,179 @@ public selectedRoom: string = '';
     const { adult: adults, child: children, rate_id: rateId } = this.requestParams;
     const totalPersons = adults + children;
     const maxChildOccupancy = 3;
-  
+
     if (totalPersons >= 4) {
       alert('Total Occupancy cannot be greater than Higher Occupancys');
       return;
     }
-  
+
     if (!this.rateList?.data) {
       alert('Rate data is unavailable');
       return;
     }
-  
+
     const totalDates = Object.keys(this.rateList.data);
     this.roomfare = 0;
     this.finalAmount = 0;
-  
+
     for (const date of totalDates) {
       const datePrices = this.rateList.data[date];
       const selectedPackage = datePrices.find((pac: any) => pac.package_id === rateId);
-  
+
       if (!selectedPackage) {
         alert('No package found for the selected rate');
         return;
       }
-  
+
       const rateGrid = selectedPackage.rategrid_grid_data;
       const adultRateIndex = rateGrid.findIndex((rate: any) => rate.occupancy === adults);
-  
+
       if (adultRateIndex < 0) {
         alert('Total Occupancy cannot be greater than Higher Occupancys');
         return;
       }
-  
+
       const adultRate = parseFloat(rateGrid[adultRateIndex].ratehigh);
       const childRates = rateGrid.slice(adultRateIndex + 1, adultRateIndex + 1 + Math.min(maxChildOccupancy, children))
         .map((rate: any) => parseFloat(rate.extchildratehigh));
-  
+
       const singleDateFare = adultRate + childRates.reduce((sum: any, rate: any) => sum + rate, 0);
-  
+
       if (!this.roomfare) {
         this.roomfare = adultRate;
       }
-  
+
       this.finalAmount += singleDateFare;
     }
   }
 
-   public countryFields: Object = { value: 'CountryId', text: 'CountryName' };
-    public stateFields: Object = { value: 'StateId', text: 'StateName' };
-    public cityFields: Object = { text: 'CityName', value: 'CityId' };
-    public countryWaterMark: string = 'Select country';
-    public stateWaterMark: string = 'Select state';
-    public cityWaterMark: string = 'Select city';
-    @ViewChild('countryList')
-    public countryObj: DropDownListComponent | undefined;
-    @ViewChild('stateList')
-    public stateObj: DropDownListComponent | undefined;
-    @ViewChild('cityList')
-    public cityObj: DropDownListComponent | undefined;
-    public onChange1(): void {
-      if (!this.stateObj || !this.countryObj) return;
-      this.stateObj.enabled = true;
-      const tempQuery: Query = new Query().where('CountryId', 'equal', this.countryObj.value as string);
-      this.stateObj.query = tempQuery;
-      this.stateObj.text = null;
-      this.stateObj.dataBind();
-      if (this.cityObj) {
-        this.cityObj.text = null;
-        this.cityObj.enabled = false;
-        this.cityObj.dataBind();
-      }
-    }
-  
-    public onChange2(): void {
-      if (!this.cityObj || !this.stateObj) return;
-      this.cityObj.enabled = true;
-      const tempQuery1: Query = new Query().where('StateId', 'equal', this.stateObj.value as string);
-      this.cityObj.query = tempQuery1;
+  public countryFields: Object = { value: 'CountryId', text: 'CountryName' };
+  public stateFields: Object = { value: 'StateId', text: 'StateName' };
+  public cityFields: Object = { text: 'CityName', value: 'CityId' };
+  public countryWaterMark: string = 'Select country';
+  public stateWaterMark: string = 'Select state';
+  public cityWaterMark: string = 'Select city';
+  @ViewChild('countryList')
+  public countryObj: DropDownListComponent | undefined;
+  @ViewChild('stateList')
+  public stateObj: DropDownListComponent | undefined;
+  @ViewChild('cityList')
+  public cityObj: DropDownListComponent | undefined;
+  public onChange1(): void {
+    if (!this.stateObj || !this.countryObj) return;
+    this.stateObj.enabled = true;
+    const tempQuery: Query = new Query().where('CountryId', 'equal', this.countryObj.value as string);
+    this.stateObj.query = tempQuery;
+    this.stateObj.text = null;
+    this.stateObj.dataBind();
+    if (this.cityObj) {
       this.cityObj.text = null;
+      this.cityObj.enabled = false;
       this.cityObj.dataBind();
     }
-    public isScheduleRender = false;
-    public headerText = [{ text: 'Arrival' }, { text: 'Departure' }];
-  
-    public onSelected(args: SelectEventArgs): void {
-      if (args.selectedIndex === 0) {
-        if (this.headerText[args.selectedIndex].text === 'Front Desk') {
-          this.isScheduleRender = true;
-        }
-      }
-    }
-  
-    public onScheduleCreate(): void {
-      if (this.isScheduleRender) {
-        this.scheduleObj?.refreshLayout();
-        this.isScheduleRender = false;
-      }
-    }
-    public removeField(index: number): void {
-      this.fields.splice(index, 1);
-    }
-    addField(): void {
-      this.fields.push({
-        id: this.fields.length,
-        selectedId: null,
-        availableData: [...this.identification]
-      });
-    }
-  
-    onSelectionChange(selectedId: number, fieldId: number): void {
-      const field = this.fields.find((f) => f.id === fieldId);
-      if (field) {
-        field.selectedId = selectedId;
-      }
-      this.updateAvailableData();
-    }
-    fields2= [{ id: 0, selectedId: null, availableData: [...this.identification] }];
-    updateAvailableData(): void {
-      const selectedIds = this.fields
-        .filter((field) => field.selectedId !== null)
-        .map((field) => field.selectedId);
-  
-      this.fields.forEach((field) => {
-        field.availableData = this.identification.filter(
-          (item) => !selectedIds.includes(item['identificationId']) || field.selectedId === item['identificationId']
-        );
-      });
-    }
-    private setWidthbookings(sourceId: string, targetSelector: string): void {
-      if (!isPlatformBrowser(this.platformId)) return; 
-      const sourceDiv = document.getElementById(sourceId);
-      if (!sourceDiv) {
-          console.error(`Source div "${sourceId}" not found.`);
-          return;
-      }
+  }
 
-      const targetDivs = document.querySelectorAll(targetSelector) as NodeListOf<HTMLElement>;
-      const width = sourceDiv.offsetWidth;
+  public onChange2(): void {
+    if (!this.cityObj || !this.stateObj) return;
+    this.cityObj.enabled = true;
+    const tempQuery1: Query = new Query().where('StateId', 'equal', this.stateObj.value as string);
+    this.cityObj.query = tempQuery1;
+    this.cityObj.text = null;
+    this.cityObj.dataBind();
+  }
+  public isScheduleRender = false;
+  public headerText = [{ text: 'Arrival' }, { text: 'Departure' }];
 
-      targetDivs.forEach(targetDiv => {
-          if (targetDiv) {
-              this.renderer.setStyle(targetDiv, 'width', `${width}px`);
-          }
-      });
+  public onSelected(args: SelectEventArgs): void {
+    if (args.selectedIndex === 0) {
+      if (this.headerText[args.selectedIndex].text === 'Front Desk') {
+        this.isScheduleRender = true;
+      }
+    }
+  }
+
+  public onScheduleCreate(): void {
+    if (this.isScheduleRender) {
+      this.scheduleObj?.refreshLayout();
+      this.isScheduleRender = false;
+    }
+  }
+  public removeField(index: number): void {
+    this.fields.splice(index, 1);
+  }
+  addField(): void {
+    this.fields.push({
+      id: this.fields.length,
+      selectedId: null,
+      availableData: [...this.identification]
+    });
+  }
+
+  onSelectionChange(selectedId: number, fieldId: number): void {
+    const field = this.fields.find((f) => f.id === fieldId);
+    if (field) {
+      field.selectedId = selectedId;
+    }
+    this.updateAvailableData();
+  }
+  fields2 = [{ id: 0, selectedId: null, availableData: [...this.identification] }];
+  updateAvailableData(): void {
+    const selectedIds = this.fields
+      .filter((field) => field.selectedId !== null)
+      .map((field) => field.selectedId);
+
+    this.fields.forEach((field) => {
+      field.availableData = this.identification.filter(
+        (item) => !selectedIds.includes(item['identificationId']) || field.selectedId === item['identificationId']
+      );
+    });
+  }
+  private setWidthbookings(sourceId: string, targetSelector: string): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const sourceDiv = document.getElementById(sourceId);
+    if (!sourceDiv) {
+      console.error(`Source div "${sourceId}" not found.`);
+      return;
+    }
+
+    const targetDivs = document.querySelectorAll(targetSelector) as NodeListOf<HTMLElement>;
+    const width = sourceDiv.offsetWidth;
+
+    targetDivs.forEach(targetDiv => {
+      if (targetDiv) {
+        this.renderer.setStyle(targetDiv, 'width', `${width}px`);
+      }
+    });
   }
 
   public setWidth1(): void {
-      this.setWidthbookings(
-          'scheduleObj2',
-          '.custom-scheduler2.e-schedule .e-timeline-view .e-appointment, .e-schedule .e-timeline-month-view'
-      );
+    this.setWidthbookings(
+      'scheduleObj2',
+      '.custom-scheduler2.e-schedule .e-timeline-view .e-appointment, .e-schedule .e-timeline-month-view'
+    );
   }
 
   public setWidth2(): void {
-      this.setWidthbookings(
-          'scheduleObj1',
-          '.custom-scheduler1.e-schedule .e-timeline-view .e-appointment, .e-schedule .e-timeline-month-view .e-appointment'
-      );
+    this.setWidthbookings(
+      'scheduleObj1',
+      '.custom-scheduler1.e-schedule .e-timeline-view .e-appointment, .e-schedule .e-timeline-month-view .e-appointment'
+    );
   }
 
   ngAfterViewChecked(): void {
-      if (isPlatformBrowser(this.platformId)) {
-          this.setWidth1();
-          this.setWidth2();
-      }
+    if (isPlatformBrowser(this.platformId)) {
+      this.setWidth1();
+      this.setWidth2();
+    }
+    this.adjustAppointmentPositions();
   }
   public filteredRooms: { [key: string]: any[] } = {};
   getRoomList(): void {
     if (!this.requestData?.room_stay?.length) {
-      console.error('No room type data found in requestData');
+      // console.error('No room type data found in requestData');
       return;
     }
-  
+
     this.mainService.getRoomTypeList()
       .pipe(
         catchError((err) => {
@@ -1344,38 +1546,39 @@ public selectedRoom: string = '';
           roomTypes.forEach((roomType: any) => {
             this.filteredRooms[roomType.id.toString()] = roomType.rooms
               ? Object.values(roomType.rooms).map((room: any) => ({
-                  Text: room.room_name,
-                  Id: room.id,
-                }))
+                Text: room.room_name,
+                Id: room.id,
+              }))
               : [];
           });
-  
-          console.log('Filtered Rooms:', this.filteredRooms);
+
+          //console.log('Filtered Rooms:', this.filteredRooms);
           this.updateGuestDetails();
+          this.updateEventSettings();
         }
       });
   }
-  
+
   onRoomTypeChange(guest: any, selectedTypeId: string): void {
     guest.roomTypeId = selectedTypeId;
     guest.availableRooms = this.filteredRooms[selectedTypeId] || [];
     guest.roomId = guest.availableRooms.length ? guest.availableRooms[0].Id : '';
-    console.log('Updated Guest Room Type:', guest.roomTypeId);
-    console.log('Available Rooms:', guest.availableRooms);
+    // console.log('Updated Guest Room Type:', guest.roomTypeId);
+    // console.log('Available Rooms:', guest.availableRooms);
   }
 
   onRoomChange(guest: any, selectedRoomId: string): void {
     guest.roomId = selectedRoomId;
-    console.log('Updated Guest Room:', guest.roomId);
+    // console.log('Updated Guest Room:', guest.roomId);
   }
   updateGuestDetails() {
     const numberOfRooms = this.requestData?.room_stay?.length || 1;
-  
+
     this.guestDetails = this.requestData.room_stay.map((roomData: any, index: number) => {
-      const guestData = this.requestData.res_guest?.[index] || {}; 
-      const roomTypeId = roomData.room_type_id || ''; 
+      const guestData = this.requestData.res_guest?.[index] || {};
+      const roomTypeId = roomData.room_type_id || '';
       const availableRooms = this.filteredRooms[roomTypeId] || [];
-  
+
       return {
         title: guestData.person_type === 'Adult' ? 'Mr.' : 'Ms.',
         firstName: guestData.guest?.personal_contact?.first_name || `Guest ${index + 1}`,
@@ -1388,13 +1591,16 @@ public selectedRoom: string = '';
         endDate1: this.requestData.checkout_date || '',
         roomTypeId: roomTypeId,
         roomId: roomData.room_id || '',
+        adult: this.requestData.adult || 1,
+        child: this.requestData.child || 0,
+        bed: this.requestData.bed || 1,
         availableRooms: availableRooms,
       };
     });
-  
-    console.log("Updated Guest Details:", this.guestDetails);
+
+    //  console.log("Updated Guest Details:", this.guestDetails);
   }
-  
+
 }
 
 interface DateChangeEventArgs {

@@ -405,7 +405,7 @@ export class CalendarComponent implements OnInit {
     const reservations: any[] = [];
 
     if (!this.resourceDataSource || this.resourceDataSource.length === 0) {
-      console.error("❌ No rooms available to generate reservations.");
+      //console.error("❌ No rooms available to generate reservations.");
       return reservations;
     }
 
@@ -455,7 +455,7 @@ export class CalendarComponent implements OnInit {
       }
     }
 
-    console.log("✅ Generated Reservations:", reservations);
+   // console.log("✅ Generated Reservations:", reservations);
     await this.firestoreService.uploadReservationsInBatches(reservations, 'bookings');
 
     return reservations;
@@ -534,13 +534,13 @@ export class CalendarComponent implements OnInit {
     } 
     if (event.requestType === 'eventChange') {
       const draggedEvent = event.data instanceof Array ? event.data[0] : event.data;
-      console.log('🛠 Dragged Event:', draggedEvent);
+      //console.log('🛠 Dragged Event:', draggedEvent);
   
       const previousRoomId = this.previousRoomId;
-      console.log('🔄 Previous Room ID Before Deletion:', previousRoomId);
+      //console.log('🔄 Previous Room ID Before Deletion:', previousRoomId);
   
       if (!previousRoomId) {
-        console.warn('⚠️ Previous Room ID is missing! Event might be newly created or incorrectly tracked.');
+       // console.warn('⚠️ Previous Room ID is missing! Event might be newly created or incorrectly tracked.');
         return;
       }
       let nbooking:any = {
@@ -673,10 +673,10 @@ export class CalendarComponent implements OnInit {
 
 
 findEmptyRoom1(departmentId: string, startTime: any, endTime: any, bookings: any[], rooms: any[]) {
-  console.log('📌 Searching for an empty room for dates:', startTime, 'to', endTime);
-  console.log('📌 Department ID:', departmentId);
-  console.log('📌 Existing Bookings:', bookings);
-  console.log('📌 Available Rooms:', rooms);
+  // console.log('📌 Searching for an empty room for dates:', startTime, 'to', endTime);
+  // console.log('📌 Department ID:', departmentId);
+  // console.log('📌 Existing Bookings:', bookings);
+  // console.log('📌 Available Rooms:', rooms);
 
   // ✅ Ensure startTime and endTime are Date objects
   if (!(startTime instanceof Date)) {
@@ -1196,7 +1196,7 @@ findEmptyRoom1(departmentId: string, startTime: any, endTime: any, bookings: any
                     };
                 });
 
-                console.log('📊 Processed Booking Data:', locData);
+               // console.log('📊 Processed Booking Data:', locData);
 
                 this.eventData = this.hospitalData = this.dataService.getHospitalData();
                 let storedHospitalData = locData;
@@ -1469,7 +1469,7 @@ findEmptyRoom1(departmentId: string, startTime: any, endTime: any, bookings: any
         this.reloadBookingFare();
       },
       error: (err: any) => {
-        console.error('Failed to load rate list:', err);
+       // console.error('Failed to load rate list:', err);
         alert('An error occurred while fetching the rate list.');
       },
     });
@@ -1599,7 +1599,7 @@ findEmptyRoom1(departmentId: string, startTime: any, endTime: any, bookings: any
   addNewDocument2(booking: any = null): void {
     if (!booking) return;
 
-    console.log("📌 Adding new reservation:", booking);
+ //   console.log("📌 Adding new reservation:", booking);
 
     let newBooking: any = {
         fId: booking.fid?.toString() || uniqueID().toString(), // ✅ Ensure `fid` is a string
@@ -1739,7 +1739,7 @@ generateUniqueRoomId(): number {
   }
   addNewDocument1(booking: any = null): void {
     if (booking) {
-        console.log("📌 Adding new booking:", booking);
+       // console.log("📌 Adding new booking:", booking);
 
         let newBooking: any = {
             fId: '',

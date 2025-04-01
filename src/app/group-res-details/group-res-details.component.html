@@ -90,7 +90,7 @@
                   </ejs-dropdownlist>
                 </div>
                 <div>
-                  <ejs-datepicker placeholder="DD/MM/YYYY"></ejs-datepicker>
+                  <ejs-datepicker placeholder="MMM/DD/YYYY"></ejs-datepicker>
                 </div>
               </div>
 
@@ -98,8 +98,8 @@
           </div>
           <div class="mb-3" style="display: grid; grid-template-columns: 30% 68%; column-gap: 2%;">
             <div>
-              <ejs-dropdownlist id="natioonalityDropdown" #titleObj [dataSource]="country"
-                [fields]="nationalityFields" placeholder="Nationality">
+              <ejs-dropdownlist id="natioonalityDropdown" #titleObj [dataSource]="country" [fields]="nationalityFields"
+                placeholder="Nationality">
               </ejs-dropdownlist>
             </div>
             <div>
@@ -134,8 +134,8 @@
                     </div>
                     <div class="col-md-6">
                       <ejs-dropdownlist #stateList id='state' [dataSource]='state' [fields]='stateFields'
-                        (change)='onChange2()' [placeholder]='stateWaterMark' popupHeight='auto'
-                        allowFiltering="true" [enabled]='false'>
+                        (change)='onChange2()' [placeholder]='stateWaterMark' popupHeight='auto' allowFiltering="true"
+                        [enabled]='false'>
                         <ng-template #itemTemplate let-data>
                           <div>
                             <div class="name"> {{data.StateName}} </div>
@@ -278,8 +278,7 @@
                               </ejs-dropdownlist>
                             </div>
                             <div class="col">
-                              <input type="text" class="form-control form-control-sm"
-                                placeholder="Departure/Flight">
+                              <input type="text" class="form-control form-control-sm" placeholder="Departure/Flight">
                             </div>
                           </div>
                           <div class="row g-2 mb-2 align-items-center">
@@ -431,8 +430,8 @@
                       [selectedDate]="startDate" [views]="views" [currentView]="'TimelineDay'"
                       [eventSettings]="eventSettings" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
                       [showHeaderBar]="false" [showTimeIndicator]="false" [workDays]="workDays"
-                      (hover)="onHover($event)" (dataBound)="adjustWorkCellWidths()"
-                      (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler1">
+                      (hover)="onHover($event)" (dataBound)="adjustWorkCellWidths()" (popupOpen)="onPopupOpen($event)"
+                      cssClass="custom-scheduler1">
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
                           <ng-template #eventTemplate let-data>
@@ -459,20 +458,19 @@
                     <div>Rooms</div>
                   </div>
                   <div class="control-section">
-                    <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" height="150"
+                    <!-- <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" height="150"
                       [selectedDate]="startDate" [quickInfoOnSelectionEnd]=true [eventSettings]="eventSettings1"
                       [views]="views" [currentView]="'TimelineDay'" [showHeaderBar]="false"
-                      [allowDragAndDrop]="true" [showTimeIndicator]="false"
+                      [allowDragAndDrop]="true" [showTimeIndicator]="false" [showQuickInfo]="true"
                       [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }" [workDays]="workDays"
                       (hover)="onHover($event)" [allowMultiCellSelection]="true" (renderCell)="onRenderCell($event)"
-                      (popupOpen)="onPopupOpenRoom($event)" (popupClose)="onPopupCloseSessionalRate($event)"
+                      (popupOpen)="onPopupOpenRoom($event)" [quickInfoTemplates]="{ content: quickInfoTemplatesContent }"
                       (actionBegin)="onActionBegin($event)"
                       cssClass="remove-table-header timeline-resource-grouping custom-scheduler2">
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
-                          <ng-template #eventTemplate let-data *ngFor="let guest of guestDetails;">
+                          <ng-template #eventTemplate let-data>
                             <div class="w-100">
-                              <!-- <div class="hlx-hr"></div> -->
                               <div class="appointment-header">
                                 <div class="e-section-control">
                                   <div class="room-details d-flex align-items-center">
@@ -550,6 +548,85 @@
                           </ejs-dropdownlist>
                         </div>
                       </ng-template>
+                    </ejs-schedule> -->
+                    <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%"  [height]="scheduleHeight1" [selectedDate]="startDate"
+                      [quickInfoOnSelectionEnd]="true" [showQuickInfo]="true" [eventSettings]="eventSettings1"
+                      [views]="views" [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
+                      [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
+                      [workDays]="workDays" [quickInfoTemplates]="{ content: quickInfoTemplatesContent }"
+                      [allowMultiCellSelection]="true" (renderCell)="onRenderCell($event)" (hover)="onHover($event)"
+                      (popupOpen)="onPopupOpenRoom($event)" (actionBegin)="onActionBegin($event)"
+                      cssClass="remove-table-header timeline-resource-grouping custom-scheduler2">
+                      <e-views>
+                        <e-view option="TimelineDay" [interval]="viewInterval">
+                          <ng-template #eventTemplate let-data>
+                            <div class="w-100">
+                              <div class="appointment-header">
+                                <div class="e-section-control">
+                                  <div class="room-details d-flex align-items-center">
+                                    <i class="material-icons d-block text-gray fs-18 me-1">bed</i>
+                                    <a href="#" class="room-link" (click)="onRoomClick($event, data)">
+                                      {{ data.Subject }} {{ data.Room }}
+                                    </a>
+                                  </div>
+                                  <div class="booking-date text-blue">
+                                    {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
+                                  </div>
+                                  <div class="total-guest">
+                                    <span class="guest-info">
+                                      <i class="material-icons d-block text-gray fs-18 me-1">person</i>
+                                      {{ data.Guest }}
+                                    </span>
+                                    <span class="child-info">
+                                      <i class="material-icons d-block text-gray fs-18 me-1">child_care</i>
+                                      {{ data.Child }}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-template>
+                        </e-view>
+                      </e-views>
+
+                      <!-- QUICK INFO TEMPLATE -->
+                      <!-- <ng-template #quickInfoTemplatesContent let-data>
+                      <div class="quick-info-content">
+                        <p><strong>Room:</strong> {{ data.Subject }}</p>
+                        <p><strong>Guests:</strong> {{ data.Guest }}</p>
+                        <p><strong>Children:</strong> {{ data.Child }}</p>
+                      </div>
+                    </ng-template> -->
+
+                      <!-- Custom Editor Template -->
+                      <ng-template #editorTemplate let-data>
+                        <div class="popup-header">Add Rooms</div>
+                        <div class="popup-input">
+                          <div style="position: relative;">
+                            <label style="font-size: 15px; font-weight: 600; cursor: pointer;"
+                              (click)="openDateRangePicker()">
+                              {{ startDate | date:'MMM dd'}} - {{ endDate | date:'MMM dd' }}
+                            </label>
+                            <ejs-daterangepicker #dateRangePicker [min]="startDate" [max]="endDate"
+                              [startDate]="data.StartTime" [endDate]="data.EndTime"
+                              style="visibility: hidden; width: 1px;"></ejs-daterangepicker>
+                          </div>
+                        </div>
+
+                        <div class="quick-info-content">
+                          <div class="quick-content-area"></div>
+                          <ejs-dropdownlist id="roomTypeDropdown" [dataSource]="specialistCategory"
+                            [(ngModel)]="data.roomTypeId" [fields]="{ text: 'name', value: 'DepartmentId' }"
+                            (change)="onRoomTypeChange(data, $event.value)" placeholder="Select Room Type">
+                          </ejs-dropdownlist>
+                        </div>
+                        <div class="quick-content-area">
+                          <ejs-dropdownlist id="roomDropdown" [dataSource]="data.availableRooms"
+                            [(ngModel)]="data.roomId" [fields]="{ text: 'Text', value: 'Id' }"
+                            placeholder="Select Room">
+                          </ejs-dropdownlist>
+                        </div>
+                      </ng-template>
                     </ejs-schedule>
                   </div>
                 </div>
@@ -558,38 +635,37 @@
                     <div>Rates</div>
                   </div>
                   <div class="control-section">
-                    <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" height="150"
-                      [selectedDate]="startDate" [quickInfoOnSelectionEnd]=true [eventSettings]="eventSettings1"
-                      [views]="views" [currentView]="'TimelineDay'" [showHeaderBar]="false"
-                      [allowDragAndDrop]="true" [showTimeIndicator]="false"
-                      [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }" [workDays]="workDays"
-                      (hover)="onHover($event)" [allowMultiCellSelection]="true" (renderCell)="onRenderCell($event)"
-                      (popupOpen)="onPopupOpenRoom($event)" (popupClose)="onPopupCloseSessionalRate($event)"
-                      (actionBegin)="onActionBegin($event)"
+                    <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" height="150" [selectedDate]="startDate"
+                      [quickInfoOnSelectionEnd]=true [eventSettings]="eventSettings1" [views]="views"
+                      [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
+                      [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
+                      [workDays]="workDays" (hover)="onHover($event)" [allowMultiCellSelection]="true"
+                      (renderCell)="onRenderCell($event)" (popupOpen)="onPopupOpenRoom($event)"
+                      (popupClose)="onPopupCloseSessionalRate($event)" (actionBegin)="onActionBegin($event)"
                       cssClass="remove-table-header timeline-resource-grouping custom-scheduler2">
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
-                          <ng-template #eventTemplate let-data *ngFor="let guest of guestDetails;">
+                          <ng-template #eventTemplate let-data>
                             <div class="w-100">
-                              <div class="hlx-hr"></div>
                               <div class="appointment-header">
-                                <div class="e-section-control align-items-start">
-                                  <div class="room-details mt-3 p-0">
-                                    <span class="icon-bed">
-                                      <img src="./assets/Icons/bed.svg" alt="Room" class="room-icon">
-                                    </span>
-                                    <a href="#" class="room-link">{{ data.Subject }} {{ data.Room }}</a>
+                                <div class="e-section-control">
+                                  <div class="room-details d-flex align-items-center">
+                                    <i class="material-icons d-block text-gray fs-18 me-1">bed</i>
+                                    <!-- 👇 Click to open popup -->
+                                    <a href="#" class="room-link" (click)="onRoomClick($event, data)">
+                                      {{ data.Subject }} {{ data.Room }}
+                                    </a>
                                   </div>
                                   <div class="booking-date text-blue">
                                     {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
                                   </div>
                                   <div class="total-guest">
                                     <span class="guest-info">
-                                      <img src="./assets/Icons/user.svg" alt="Guests" class="guest-icon">
+                                      <i class="material-icons d-block text-gray fs-18 me-1">person</i>
                                       {{ data.Guest }}
                                     </span>
                                     <span class="child-info">
-                                      <img src="./assets/Icons/child.svg" alt="Children" class="child-icon">
+                                      <i class="material-icons d-block text-gray fs-18 me-1">child_care</i>
                                       {{ data.Child }}
                                     </span>
                                   </div>
@@ -607,8 +683,8 @@
                           </ejs-dropdownlist>
                         </div>
                         <div class="quick-content-area">
-                          <ejs-dropdownlist id="roomsDropdown" #roomsObj [dataSource]="roomsData"
-                            [fields]="roomsFields" placeholder="Choose Room">
+                          <ejs-dropdownlist id="roomsDropdown" #roomsObj [dataSource]="roomsData" [fields]="roomsFields"
+                            placeholder="Choose Room">
                           </ejs-dropdownlist>
                         </div>
                         <div class="quick-action-buttons">
@@ -646,8 +722,8 @@
                           </ejs-dropdownlist>
                         </div>
                         <div class="quick-content-area">
-                          <ejs-dropdownlist id="roomsDropdown" #roomsObj [dataSource]="roomsData"
-                            [fields]="roomsFields" placeholder="Choose Room">
+                          <ejs-dropdownlist id="roomsDropdown" #roomsObj [dataSource]="roomsData" [fields]="roomsFields"
+                            placeholder="Choose Room">
                           </ejs-dropdownlist>
                         </div>
                       </ng-template>
@@ -659,38 +735,37 @@
                     <div>ADD ONS</div>
                   </div>
                   <div class="control-section">
-                    <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" height="150"
-                      [selectedDate]="startDate" [quickInfoOnSelectionEnd]=true [eventSettings]="eventSettings1"
-                      [views]="views" [currentView]="'TimelineDay'" [showHeaderBar]="false"
-                      [allowDragAndDrop]="true" [showTimeIndicator]="false"
-                      [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }" [workDays]="workDays"
-                      (hover)="onHover($event)" [allowMultiCellSelection]="true" (renderCell)="onRenderCell($event)"
-                      (popupOpen)="onPopupOpenRoom($event)" (popupClose)="onPopupCloseSessionalRate($event)"
-                      (actionBegin)="onActionBegin($event)"
+                    <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" height="150" [selectedDate]="startDate"
+                      [quickInfoOnSelectionEnd]=true [eventSettings]="eventSettings1" [views]="views"
+                      [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
+                      [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
+                      [workDays]="workDays" (hover)="onHover($event)" [allowMultiCellSelection]="true"
+                      (renderCell)="onRenderCell($event)" (popupOpen)="onPopupOpenRoom($event)"
+                      (popupClose)="onPopupCloseSessionalRate($event)" (actionBegin)="onActionBegin($event)"
                       cssClass="remove-table-header timeline-resource-grouping custom-scheduler2">
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
-                          <ng-template #eventTemplate let-data *ngFor="let guest of guestDetails;">
+                          <ng-template #eventTemplate let-data>
                             <div class="w-100">
-                              <div class="hlx-hr"></div>
                               <div class="appointment-header">
-                                <div class="e-section-control align-items-start">
-                                  <div class="room-details mt-3 p-0">
-                                    <span class="icon-bed">
-                                      <img src="./assets/Icons/bed.svg" alt="Room" class="room-icon">
-                                    </span>
-                                    <a href="#" class="room-link">{{ data.Subject }} {{ data.Room }}</a>
+                                <div class="e-section-control">
+                                  <div class="room-details d-flex align-items-center">
+                                    <i class="material-icons d-block text-gray fs-18 me-1">bed</i>
+                                    <!-- 👇 Click to open popup -->
+                                    <a href="#" class="room-link" (click)="onRoomClick($event, data)">
+                                      {{ data.Subject }} {{ data.Room }}
+                                    </a>
                                   </div>
                                   <div class="booking-date text-blue">
                                     {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
                                   </div>
                                   <div class="total-guest">
                                     <span class="guest-info">
-                                      <img src="./assets/Icons/user.svg" alt="Guests" class="guest-icon">
+                                      <i class="material-icons d-block text-gray fs-18 me-1">person</i>
                                       {{ data.Guest }}
                                     </span>
                                     <span class="child-info">
-                                      <img src="./assets/Icons/child.svg" alt="Children" class="child-icon">
+                                      <i class="material-icons d-block text-gray fs-18 me-1">child_care</i>
                                       {{ data.Child }}
                                     </span>
                                   </div>
@@ -708,8 +783,8 @@
                           </ejs-dropdownlist>
                         </div>
                         <div class="quick-content-area">
-                          <ejs-dropdownlist id="roomsDropdown" #roomsObj [dataSource]="roomsData"
-                            [fields]="roomsFields" placeholder="Choose Room">
+                          <ejs-dropdownlist id="roomsDropdown" #roomsObj [dataSource]="roomsData" [fields]="roomsFields"
+                            placeholder="Choose Room">
                           </ejs-dropdownlist>
                         </div>
                         <div class="quick-action-buttons">
@@ -747,8 +822,8 @@
                           </ejs-dropdownlist>
                         </div>
                         <div class="quick-content-area">
-                          <ejs-dropdownlist id="roomsDropdown" #roomsObj [dataSource]="roomsData"
-                            [fields]="roomsFields" placeholder="Choose Room">
+                          <ejs-dropdownlist id="roomsDropdown" #roomsObj [dataSource]="roomsData" [fields]="roomsFields"
+                            placeholder="Choose Room">
                           </ejs-dropdownlist>
                         </div>
                       </ng-template>
@@ -777,7 +852,7 @@
                     <td class="text-blue">00</td>
                   </tr>
                   <tr>
-                    <td>Discount</td>
+                    <td> <a class="label" (click)="openDiscountPopup($event)">Discount</a></td>
                     <td class="text-blue">$234.00</td>
                   </tr>
                   <tr>
@@ -855,22 +930,22 @@
             <div class="rooming-header-icon d-flex align-items-center gap-2">
               <div class="d-flex align-items-center gap-1">
                 <i class="material-icons d-block text-gray">person</i>
-                <span>24</span>
+                <span>{{ totalAdults }}</span>
               </div>
 
               <div class="d-flex align-items-center gap-1">
                 <img src="../../assets/Icons/smile-icon.svg" alt="smile-icon">
-                <span>24</span>
+                <span>{{ totalChildren }}</span>
               </div>
 
               <div class="d-flex align-items-center gap-1">
                 <i class="material-icons d-block text-gray">door_front</i>
-                <span>24</span>
+                <span>{{ totalBeds }}</span>
               </div>
 
               <div class="d-flex align-items-center gap-1">
                 <i class="material-icons d-block text-gray">groups</i>
-                <span>24</span>
+                <span>{{totalGuests}}</span>
               </div>
             </div>
           </div>
@@ -878,8 +953,8 @@
         <ejs-schedule #scheduleObj4 width="100%" [height]="scheduleRoomingHeight"
           class="remove-table-header timeline-resource-grouping rooming-timline" [selectedDate]="startDate"
           [eventSettings]="eventSettings1" [views]="views" [currentView]="'TimelineDay'" [showHeaderBar]="false"
-          [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
-          [workDays]="workDays" (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler5">
+          [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }" [workDays]="workDays"
+          (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler5">
           <e-views>
             <e-view option="TimelineDay" [interval]="viewInterval" cssClass="saruk">
               <ng-template #eventTemplate let-data>
@@ -918,7 +993,8 @@
                             </div>
                           </td>
                           <td>
-                            <div class="" style="color: #336699" (click)="openDateRangePicker()">
+                            <div class="" style="color: #336699" (click)="openDateRangePickerRooming($event)"
+                              [ngStyle]="popupStyles">
                               {{ guest.startDate1 | date: 'dd MMM' }} - {{ guest.endDate1 | date: 'dd MMM' }}
                             </div>
                           </td>
