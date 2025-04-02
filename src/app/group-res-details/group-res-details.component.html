@@ -37,7 +37,7 @@
               </div>
               <div class="mb-2-plus" style="display: grid; grid-template-columns: 49% 49%; column-gap:2%;">
                 <div>
-                  <div style="display: grid; grid-template-columns: 40% 56%; column-gap: 4%;">
+                  <div style="display: grid; grid-template-columns: 40% 58%; column-gap: 2%;">
                     <div>
                       <ejs-dropdownlist id="games" #sample [dataSource]="country" (change)="onChange1()"
                         [fields]="countryFields" [width]="37" [popupWidth]="popupWidth" placeholder="iso">
@@ -54,13 +54,13 @@
                       </ejs-dropdownlist>
                     </div>
                     <div>
-                      <input type="text" class="form-control form-control-sm" placeholder="Mobile"
+                      <input type="text" class="form-control form-control-sm ps-0" placeholder="Mobile"
                         [(ngModel)]="requestData.res_guest[0].guest.personal_contact.phone" name="phone">
                     </div>
                   </div>
                 </div>
                 <div>
-                  <div style="display: grid; grid-template-columns: 40% 56%; column-gap: 4%;">
+                  <div style="display: grid; grid-template-columns: 40% 58%; column-gap: 2%;">
                     <div>
                       <ejs-dropdownlist id="games1" #sample [dataSource]="country" (change)="onChange1()"
                         [fields]="countryFields" [width]="37" [popupWidth]="popupWidth" placeholder="iso"
@@ -78,7 +78,7 @@
                       </ejs-dropdownlist>
                     </div>
                     <div>
-                      <input type="text" class="form-control form-control-sm" placeholder="Phone 2">
+                      <input type="text" class="form-control form-control-sm ps-0" placeholder="Phone 2">
                     </div>
                   </div>
                 </div>

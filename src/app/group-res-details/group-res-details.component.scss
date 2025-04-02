@@ -66,6 +66,20 @@
   line-height: 1;
   height: 25px;
 }
+
+.rooming-list-footer-button button.btn:hover{
+  background: #bfbfbf;
+}
+.rooming-list-footer-button button.btn:focus{
+  background: #bfbfbf;
+}
+.rooming-list-footer-button button.btn:active{
+  background: #bfbfbf;
+}
+.rooming-list-footer-button button.btn:focus-visible{
+  background: #bfbfbf;
+}
+
 .e-schedule .e-timeline-view .e-work-cells, .e-schedule .e-timeline-month-view .e-work-cells{
   background: white !important;
  border-color: #ddd;
