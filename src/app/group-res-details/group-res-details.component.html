@@ -20,6 +20,9 @@
                 <div>
                   <ejs-dropdownlist id="roomsDropdown" #titleObj [dataSource]="titleData" [fields]="genderFields"
                     placeholder="Title">
+                    <ng-template #itemTemplate let-data>
+                      <div class="custom-dropdown-item p-0 fs-12" style="text-align: left;">{{ data.name }}</div>
+                    </ng-template>
                   </ejs-dropdownlist>
                 </div>
                 <div>
@@ -615,10 +618,9 @@
                             </ejs-dropdownlist>
                           </div>
                           <div class="quick-content-area">
-                            <ejs-multiselect id='multiselect-checkbox' #checkbox
-                              [dataSource]='data.availableRooms' [placeholder]='checkWaterMark'
-                              [fields]="{ text: 'Text', value: 'Id' }" [mode]='mode' [popupHeight]='popHeight'
-                              showDropDownIcon='true' [maximumSelectionLength]='maxSelection'
+                            <ejs-multiselect id='multiselect-checkbox' #checkbox [dataSource]='data.availableRooms'
+                              [placeholder]='checkWaterMark' [fields]="{ text: 'Text', value: 'Id' }" [mode]='mode'
+                              [popupHeight]='popHeight' showDropDownIcon='true' [maximumSelectionLength]='maxSelection'
                               [filterBarPlaceholder]='filterPlaceholder'>
                               <ng-template #headerTemplate>
                                 <div class="multihead">
@@ -639,9 +641,9 @@
                                 </div>
                               </ng-template>
                             </ejs-multiselect>
-                            <ejs-dropdownlist *ngIf="!data.IsRoomAssigned" id="roomDropdown"
-                              [dataSource]="roomOptions" [(ngModel)]="data.roomId"
-                              [fields]="{ text: 'Text', value: 'Id' }" placeholder="Select Room">
+                            <ejs-dropdownlist *ngIf="!data.IsRoomAssigned" id="roomDropdown" [dataSource]="roomOptions"
+                              [(ngModel)]="data.roomId" [fields]="{ text: 'Text', value: 'Id' }"
+                              placeholder="Select Room">
                             </ejs-dropdownlist>
                           </div>
                           <div style="display: flex; justify-content: space-between; align-items: center;">

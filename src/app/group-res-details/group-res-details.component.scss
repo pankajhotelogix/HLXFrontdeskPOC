@@ -93,3 +93,44 @@
   width: 340px !important;
   min-height: 300px !important;
 }
+
+.e-dropdownlist .e-popup .e-list-item {
+  font-size: 12px !important;  /* Adjust the font size */
+  white-space: nowrap;  /* Prevent text wrapping */
+  overflow: hidden;  /* Hide overflow */
+  text-overflow: ellipsis;  /* Show "..." if text is too long */
+}
+
+#scheduleObj1 div.e-content-wrap, #scheduleObj2 div.e-content-wrap{
+  overflow: hidden!important;
+}
+
+
+select {
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  -ms-appearance:none;
+  appearance:none;
+  outline:0;
+  box-shadow:none;
+  border:0!important;
+  background-image: none;
+  color: #333;
+  flex: 1;
+  padding: 0 .5em;
+  cursor:pointer;
+  font-size: 1em;
+}
+select::-ms-expand {
+  display: none;
+}
+.select {
+  position: relative;
+  display: flex;
+  // width: 20em;
+  // height: 3em;
+  line-height: 3;
+  overflow: hidden;
+  border-radius: .25em;
+}
+
