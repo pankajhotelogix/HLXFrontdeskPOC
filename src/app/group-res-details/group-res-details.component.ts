@@ -1,8 +1,8 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, ElementRef, Inject, Input, OnChanges, PLATFORM_ID, QueryList, Renderer2, SimpleChanges, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
-import { ButtonModule, CheckBoxModule, SpeedDialModule, SwitchAllModule } from '@syncfusion/ej2-angular-buttons';
+import { ButtonModule, CheckBoxComponent, CheckBoxModule, SpeedDialModule, SwitchAllModule } from '@syncfusion/ej2-angular-buttons';
 import { DatePicker, DatePickerModule, DateRangePicker, DateRangePickerModule, TimePickerModule } from '@syncfusion/ej2-angular-calendars';
-import { DropDownListComponent, DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { CheckBoxSelectionService, DropDownListComponent, DropDownListModule, MultiSelectComponent, MultiSelectModule } from '@syncfusion/ej2-angular-dropdowns';
 import { AccordionModule, SelectEventArgs, TabAllModule } from '@syncfusion/ej2-angular-navigations';
 import { EventSettingsModel, GroupModel, HoverEventArgs, PopupCloseEventArgs, PopupOpenEventArgs, RenderCellEventArgs, ScheduleComponent, ScheduleModule, TimeScaleModel } from '@syncfusion/ej2-angular-schedule';
 import { CommonProfileImageComponent } from '../common-profile-image/common-profile-image.component';
@@ -13,6 +13,8 @@ import { DropDownButtonModule, ItemModel, MenuEventArgs } from '@syncfusion/ej2-
 import { MainService } from '../main.service';
 import { catchError, of } from 'rxjs';
 import { Query } from '@syncfusion/ej2-data';
+import { NumericTextBoxModule } from '@syncfusion/ej2-angular-inputs';
+
 @Component({
   selector: 'app-group-res-details',
   standalone: true,
@@ -34,10 +36,13 @@ import { Query } from '@syncfusion/ej2-data';
     CommonProfileImageComponent,
     AccordionModule,
     TabAllModule,
-    TimePickerModule],
+    TimePickerModule,
+    MultiSelectModule,
+    NumericTextBoxModule],
   templateUrl: './group-res-details.component.html',
   styleUrl: './group-res-details.component.scss',
   encapsulation: ViewEncapsulation.None,
+  providers: [CheckBoxSelectionService],
 })
 export class GroupResDetailsComponent implements OnChanges {
   @ViewChild('scheduleObj') public scheduleObj: ScheduleComponent | undefined;
@@ -52,6 +57,12 @@ export class GroupResDetailsComponent implements OnChanges {
   @ViewChildren('hr') hrs!: QueryList<ElementRef>;
   @ViewChild('dateRangePicker', { static: false })
   dateRangePicker?: DateRangePicker;
+  @ViewChild('checkbox')
+  public mulObj?: MultiSelectComponent;
+  @ViewChild('selectall')
+  public checkboxObj?: CheckBoxComponent;
+  public mode?: string;
+  public filterPlaceholder?: string;
   @Input() tab: any;
   @Input() requestData: any;
   @ViewChildren(ScheduleComponent)
@@ -88,6 +99,12 @@ export class GroupResDetailsComponent implements OnChanges {
   public dynamicMask: string = '000-000-0000';
   public finalAmount: number = 0;
   public rateDetails: any;
+  public checkFields: Object = { text: 'Name', value: 'Code' };
+  public roomOptions: { Text: string; Id: number }[] = [];
+    public checkWaterMark: string = 'Select Room';
+    public popHeight: string = '350px';
+    public numericValue: number = 3;
+    public maxSelection: number = 1;
   public specialistCategory?: Record<string, any>[];
   public timeScaleOptions: TimeScaleModel = { enable: true, slotCount: 9 };
   allRoomsData: any;
@@ -104,7 +121,9 @@ export class GroupResDetailsComponent implements OnChanges {
   public eventSettings: EventSettingsModel = {
     dataSource: [],
   };
-
+  public eventSettings6: EventSettingsModel = {
+    dataSource: [],
+  };
   public eventSettings1: EventSettingsModel = {
     dataSource: [
       {
@@ -499,56 +518,8 @@ export class GroupResDetailsComponent implements OnChanges {
     console.log(`Save action for guest at index ${index}`);
     alert(`Save action triggered for ${this.guestDetails[index].name}`);
   }
-  // updateEventSettings() {
-  //   const checkinDate = this.requestData?.checkin_date ?? '2024-11-10';
-  //   const checkoutDate = this.requestData?.checkout_date ?? '2024-11-15';
-  //   const checkinTime = this.requestData?.checkin_time ?? '11:00:00';
-  //   const checkoutTime = this.requestData?.checkout_time ?? '16:00:00';
-
-  //   const startDate = new Date(
-  //     parseInt(checkinDate.split('-')[0]),
-  //     parseInt(checkinDate.split('-')[1]) - 1,
-  //     parseInt(checkinDate.split('-')[2]),
-  //     parseInt(checkinTime.split(':')[0]),
-  //     parseInt(checkinTime.split(':')[1]),
-  //     parseInt(checkinTime.split(':')[2])
-  //   );
-
-  //   const endDate = new Date(
-  //     parseInt(checkoutDate.split('-')[0]),
-  //     parseInt(checkoutDate.split('-')[1]) - 1,
-  //     parseInt(checkoutDate.split('-')[2]),
-  //     parseInt(checkoutTime.split(':')[0]),
-  //     parseInt(checkoutTime.split(':')[1]),
-  //     parseInt(checkoutTime.split(':')[2])
-  //   );
-
-  //   this.eventSettings1 = {
-  //     dataSource: [
-  //       {
-  //         Id: 1,
-  //         Subject: 'DELUXE',
-  //         StartTime: startDate,
-  //         EndTime: endDate,
-  //         Room: 'DLX-345',
-  //         Guest: this.requestData?.adult || 3,
-  //         Child: this.requestData?.child || 0,
-  //         PrimaryColor: '#1aaa55',
-  //         SecondaryColor: '#7fa900',
-  //         Rates: 300,
-  //         Package: 'Seasonal',
-  //       },
-  //     ],
-  //   };
-
-  //   this.eventSettings = {
-  //     dataSource: Array.isArray(this.eventSettings1.dataSource) ? [...this.eventSettings1.dataSource] : [],
-  //   };
-
-  //  // console.log("Updated event settings:", this.eventSettings);
-  // }
-  updateEventSettings() {
-    // Parse dates and times as before
+  
+  updateEventSettingsRoomingList() {
     const checkinDate = this.requestData?.checkin_date ?? '2024-11-10';
     const checkoutDate = this.requestData?.checkout_date ?? '2024-11-15';
     const checkinTime = this.requestData?.checkin_time ?? '11:00:00';
@@ -571,7 +542,55 @@ export class GroupResDetailsComponent implements OnChanges {
       parseInt(checkoutTime.split(':')[1]),
       parseInt(checkoutTime.split(':')[2])
     );
-    // console.log('specialistCategory:', this.specialistCategory);
+    const isRoomAssigned = this.requestData?.isRoomAssigned ?? false;
+    console.log('isRoomAssigned:', isRoomAssigned);
+    const roomData = isRoomAssigned ? 'DLX-345' : '';
+    
+    this.eventSettings6 = {
+      dataSource: [
+        {
+          Id: 1,
+          Subject: 'DELUXE',
+          StartTime: startDate,
+          EndTime: endDate,
+          Room: roomData,
+          Guest: this.requestData?.adult || 3,
+          Child: this.requestData?.child || 0,
+          PrimaryColor: '#1aaa55',
+          SecondaryColor: '#7fa900',
+          Rates: 300,
+          Package: 'Seasonal',
+        },
+      ],
+    };
+    this.eventSettings6 = {
+      dataSource: Array.isArray(this.eventSettings6.dataSource) ? [...this.eventSettings6.dataSource] : [],
+    };
+}
+
+  updateEventSettings() {
+    const checkinDate = this.requestData?.checkin_date ?? '2024-11-10';
+    const checkoutDate = this.requestData?.checkout_date ?? '2024-11-15';
+    const checkinTime = this.requestData?.checkin_time ?? '11:00:00';
+    const checkoutTime = this.requestData?.checkout_time ?? '16:00:00';
+
+    const startDate = new Date(
+      parseInt(checkinDate.split('-')[0]),
+      parseInt(checkinDate.split('-')[1]) - 1,
+      parseInt(checkinDate.split('-')[2]),
+      parseInt(checkinTime.split(':')[0]),
+      parseInt(checkinTime.split(':')[1]),
+      parseInt(checkinTime.split(':')[2])
+    );
+
+    const endDate = new Date(
+      parseInt(checkoutDate.split('-')[0]),
+      parseInt(checkoutDate.split('-')[1]) - 1,
+      parseInt(checkoutDate.split('-')[2]),
+      parseInt(checkoutTime.split(':')[0]),
+      parseInt(checkoutTime.split(':')[1]),
+      parseInt(checkoutTime.split(':')[2])
+    );
     const grouped: { [key: string]: any[] } = {};
     this.requestData.room_stay.forEach((room: any) => {
       const key = room.room_type_id ? String(room.room_type_id) : 'unknown';
@@ -583,16 +602,12 @@ export class GroupResDetailsComponent implements OnChanges {
 
     const events = [];
     let eventId = 1;
-
     for (const roomTypeId in grouped) {
       const rooms = grouped[roomTypeId];
       const roomType = this.specialistCategory?.find((type: any) => String(type.DepartmentId) === String(roomTypeId));
       const roomTypeName = roomType ? roomType['name'] : 'Unknown Type';
-      const assignedRooms = this.requestData.isRoomAssigned;
-      console.log('assignedRooms:', assignedRooms);
       let roomDisplay: string;
       if (this.requestData.isRoomAssigned) {
-        // ✅ Assigned: show all room names
         const roomList = this.filteredRooms[String(roomTypeId)] || [];
         const assignedRoomNames = rooms.map((room: any) => {
           const roomData = roomList.find((r: any) => String(r.Id) === String(room.room_id));
@@ -600,7 +615,6 @@ export class GroupResDetailsComponent implements OnChanges {
         });
         roomDisplay = assignedRoomNames.join(', ');
       } else {
-        // ❌ Not assigned: show total unassigned room count
         roomDisplay = `X ${rooms.length}`;
       }
 
@@ -617,6 +631,8 @@ export class GroupResDetailsComponent implements OnChanges {
         SecondaryColor: '#7fa900',
         Rates: 300,
         Package: 'Seasonal',
+        IsRoomAssigned: this.requestData.isRoomAssigned,
+        RoomCount: rooms.length,
       });
     }
     this.eventSettings1 = { dataSource: events };
@@ -627,17 +643,14 @@ export class GroupResDetailsComponent implements OnChanges {
     const baseRowHeight = 120;
     const minHeight = 150;
     const buffer = 20;
-
     const dataSource = this.eventSettings1?.dataSource;
     const appointmentCount = Array.isArray(dataSource) ? dataSource.length : 1;
-
     this.scheduleHeight1 = Math.max(minHeight, appointmentCount * baseRowHeight + buffer);
   }
   adjustAppointmentPositions() {
     const appointments = document.querySelectorAll('.e-appointment');
     const baseTop = 0;
     const increment = 50;
-
     appointments.forEach((appointment, index) => {
       if (index == 2) {
         (appointment as HTMLElement).style.top = `10px`;
@@ -1003,6 +1016,7 @@ export class GroupResDetailsComponent implements OnChanges {
     this.formatDateRange();
     this.getRoomList();
     this.calculateTotals();
+    this.mode = 'CheckBox';
     // console.log(this.requestData);
 
   }
@@ -1044,21 +1058,23 @@ export class GroupResDetailsComponent implements OnChanges {
     }
 
     if (changes['specialistCategory']) {
-      console.log('specialistCategory changed:', this.specialistCategory);
+     // console.log('specialistCategory changed:', this.specialistCategory);
       if (this.specialistCategory) {
-        console.log('Calling updateEventSettings...');
+        //console.log('Calling updateEventSettings...');
         this.updateEventSettings();
+        this.updateEventSettingsRoomingList();
       } else {
         console.log('specialistCategory is undefined or empty!');
       }
     }
   }
   public guestDetails: any[] = [];
-  // updateGuestDetails() {
+  public guestDetails1: any[] = [];
+  // updateGuestDetails1() {
   //   const numberOfRooms = this.requestData?.room_stay?.length || 1;
   //   const numberOfGuests = this.requestData?.adult || 1; 
 
-  //   this.guestDetails = Array.from({ length: numberOfRooms }, (_, index) => {
+  //   this.guestDetails1 = Array.from({ length: numberOfRooms }, (_, index) => {
   //     const roomData = this.requestData.room_stay[index] || {}; 
   //     const guestData = this.requestData.res_guest?.[index] || {}; 
 
@@ -1150,7 +1166,13 @@ export class GroupResDetailsComponent implements OnChanges {
 
     }
   }
-
+  onDateRangeChange1(event: any, data: any) {
+    const newStartDate = event.startDate;
+    const newEndDate = event.endDate;
+    data.StartTime = newStartDate;
+    data.EndTime = newEndDate;
+    console.log("Updated Date Range:", newStartDate, newEndDate);
+  }
   selectImage(event: any): void {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -1209,6 +1231,7 @@ export class GroupResDetailsComponent implements OnChanges {
     return `${year}-${month}-${day}`;
   }
   public onPopupOpenRoom(args: any): void {
+    
     this.requestParams.room_type_id = args.data.DepartmentId;
     this.requestParams.room_id = args.data.DoctorId;
     this.requestParams.checkin_date = this.getDate(args.data.StartTime);
@@ -1217,6 +1240,7 @@ export class GroupResDetailsComponent implements OnChanges {
     if (args.type === 'QuickInfo' && args.target.classList.contains('e-work-cells')) {
       args.cancel = true;
       this.scheduleObj2?.openEditor(args.data, 'Add');
+      //console.log('Room Data:', args.data);
       args.element.classList.add('dialog-open');
       args.element.setAttribute('id', 'srk-id');
     }
@@ -1224,10 +1248,9 @@ export class GroupResDetailsComponent implements OnChanges {
   public onRoomClick(event: MouseEvent, data: any): void {
     event.preventDefault();
     event.stopPropagation();
-
     const now = new Date();
     const tomorrow = new Date(now.getTime() + 86400000);
-
+    this.maxSelection = data.RoomCount;
     const customData = {
       Subject: data.Subject || 'New Reservation',
       Room: data.Room,
@@ -1237,8 +1260,10 @@ export class GroupResDetailsComponent implements OnChanges {
       Child: data.Child || '',
       DepartmentId: data.DepartmentId,
       DoctorId: data.DoctorId,
+      IsRoomAssigned: data.IsRoomAssigned,
+      RoomCount: data.RoomCount,
     };
-
+    this.updateRoomOptions(data.RoomCount);
     this.scheduleObj2?.openEditor(customData, 'Add');
   }
   public onPopupOpenRoom1(args: any) {
@@ -1296,6 +1321,7 @@ export class GroupResDetailsComponent implements OnChanges {
       const data: Record<string, any> =
         event.data instanceof Array ? event.data[0] : event.data;
       //this.startDate = data['StartTime'];
+     // console.log('Event Create:', data);
     }
   }
   public onRenderCell(args: RenderCellEventArgs): void {
@@ -1527,7 +1553,6 @@ export class GroupResDetailsComponent implements OnChanges {
   public filteredRooms: { [key: string]: any[] } = {};
   getRoomList(): void {
     if (!this.requestData?.room_stay?.length) {
-      // console.error('No room type data found in requestData');
       return;
     }
 
@@ -1555,34 +1580,31 @@ export class GroupResDetailsComponent implements OnChanges {
               }))
               : [];
           });
-
-          //console.log('Filtered Rooms:', this.filteredRooms);
           this.updateGuestDetails();
           this.updateEventSettings();
+          this.updateEventSettingsRoomingList();
         }
       });
   }
 
   onRoomTypeChange(guest: any, selectedTypeId: string): void {
+   // console.log('Room Type Changed:', guest);
     guest.roomTypeId = selectedTypeId;
     guest.availableRooms = this.filteredRooms[selectedTypeId] || [];
     guest.roomId = guest.availableRooms.length ? guest.availableRooms[0].Id : '';
-    // console.log('Updated Guest Room Type:', guest.roomTypeId);
-    // console.log('Available Rooms:', guest.availableRooms);
   }
 
   onRoomChange(guest: any, selectedRoomId: string): void {
     guest.roomId = selectedRoomId;
-    // console.log('Updated Guest Room:', guest.roomId);
   }
   updateGuestDetails() {
+    this.guestDetails = [];
     const numberOfRooms = this.requestData?.room_stay?.length || 1;
-
     this.guestDetails = this.requestData.room_stay.map((roomData: any, index: number) => {
       const guestData = this.requestData.res_guest?.[index] || {};
       const roomTypeId = roomData.room_type_id || '';
       const availableRooms = this.filteredRooms[roomTypeId] || [];
-
+  
       return {
         title: guestData.person_type === 'Adult' ? 'Mr.' : 'Ms.',
         firstName: guestData.guest?.personal_contact?.first_name || `Guest ${index + 1}`,
@@ -1594,16 +1616,93 @@ export class GroupResDetailsComponent implements OnChanges {
         startDate1: this.requestData.checkin_date || '',
         endDate1: this.requestData.checkout_date || '',
         roomTypeId: roomTypeId,
-        roomId: roomData.room_id || '',
+        roomId: this.requestData.isRoomAssigned ? roomData.room_id || '' : '',
         adult: this.requestData.adult || 1,
         child: this.requestData.child || 0,
         bed: this.requestData.bed || 1,
-        availableRooms: availableRooms,
+        availableRooms: this.requestData.isRoomAssigned ? availableRooms : [],
+        isRoomAssigned : this.requestData.isRoomAssigned,
       };
     });
-
-    //  console.log("Updated Guest Details:", this.guestDetails);
   }
+  onSaveRoom(data: any) {
+    const roomName = this.getRoomNameById(data.roomId) || ` ${data.roomId}`;
+    const roomTypeName = this.getRoomTypeNameById(data.roomTypeId) || ` ${data.roomTypeId}`;
+    const newEvent = {
+        Id: Math.floor(Math.random() * 10000),
+        Subject: `${roomTypeName} - ${roomName}`,
+        StartTime: new Date(data.StartTime),
+        EndTime: new Date(data.EndTime),
+        Room: data.roomId,
+        RoomTypeId: data.roomTypeId,
+        Guest: data.Guest || 1,
+        Child: data.Child || 0,
+        IsRoomAssigned : data.IsRoomAssigned,
+        RoomCount: data.RoomCount,
+    };
+    let currentDataSource: Record<string, any>[] = [];
+    if (this.eventSettings1?.dataSource instanceof Array) {
+        currentDataSource = this.eventSettings1.dataSource;
+    }
+    this.eventSettings1 = {
+        ...this.eventSettings1,
+        dataSource: [...currentDataSource, newEvent]
+    };
+   
+    setTimeout(() => {
+        if (this.scheduleObj2) {
+            this.scheduleObj2.eventSettings = { ...this.eventSettings1 };
+            this.scheduleObj2.refresh();
+        } else {
+            console.error("Scheduler (scheduleObj2) is not initialized.");
+        }
+    }, 100);
+
+    if (this.scheduleObj2) {
+        this.scheduleObj2.closeEditor();
+    }
+    this.calculateScheduleHeight();
+}
+roomList: { Id: string | number; Text: string }[] = [];
+getRoomNameById(roomId: string | number): string {
+  if (!Array.isArray(this.roomList)) return 'Unknown Room';
+
+  const room = this.roomList.find((room: { Id: string | number; Text: string }) => 
+    String(room.Id) === String(roomId)
+  );
+
+  return room?.Text ?? 'Unknown Room'; 
+}
+
+
+getRoomTypeNameById(roomTypeId: string | number): string {
+  if (!this.specialistCategory || !Array.isArray(this.specialistCategory)) return 'Unknown Type';
+  
+  const type = this.specialistCategory.find(type => String(type['DepartmentId']) === String(roomTypeId));
+  return type?.['name'] || 'Unknown Type';
+}
+updateRoomOptions(RoomCount: number): void {
+  this.roomOptions = Array.from({ length: RoomCount }, (_, i) => ({
+    Text: (i + 1).toString(),
+    Id: i + 1,
+  }));
+}
+
+
+
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  
+  
+  
+  
 
 }
 
