@@ -127,6 +127,8 @@ export class StayDetailsComponent implements OnChanges {
   public isDiscountPopupVisible: boolean = false;
   public isOtherDiscountPopupVisible: boolean = false;
   public isCardPopupVisible: boolean = false;
+  public isInfantPopupVisible: boolean = false;
+  public isEarlyCheckinPopupVisible = false;
   public formattedDate: string = '';
   public bookingDate: string = 'Jan 22 - Jan 30';
   public isTooltipVisible: boolean = false;
@@ -1164,9 +1166,9 @@ export class StayDetailsComponent implements OnChanges {
       this.scheduleObj2.refresh();
     }
   }
-  openPopup(event: MouseEvent): void {
+  openAddInfantPopup(event: MouseEvent): void {
     this.openPopupPosition(event);
-    this.isPopupVisible = true;
+    this.isInfantPopupVisible = true;
   }
   openAddOOnPopup(event: MouseEvent): void {
     this.openPopupPosition(event);
@@ -1188,7 +1190,11 @@ export class StayDetailsComponent implements OnChanges {
     this.openPopupPosition(event);
     this.isCardPopupVisible = true;
   }
-
+  openEarlyCheckinPopup(event: MouseEvent): void {
+    console.log('Early Checkin Popup', event);
+    this.openPopupPosition(event);
+    this.isEarlyCheckinPopupVisible = true;
+  }
   openPopupPosition(event: MouseEvent): void {
     const clickX = event.clientX;
     const clickY = event.clientY;
@@ -1231,6 +1237,9 @@ export class StayDetailsComponent implements OnChanges {
     this.isOtherDiscountPopupVisible = false;
   }
   closeCardPopup(): void {
+    this.isCardPopupVisible = false;
+  }
+  closeEarlyCheckinPopup(): void {
     this.isCardPopupVisible = false;
   }
   public onPopupOpenSplitRooms(args: any) {

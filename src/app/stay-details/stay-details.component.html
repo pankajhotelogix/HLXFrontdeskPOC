@@ -454,8 +454,10 @@
                                 position: absolute;
                                 top: 38px;
                                 left: 50%;">
+                              <span class="label">15n</span> <span class="text-dark px-1">|</span>
+                              <span class="label" (click)="addGuest()">Shift</span>
                               <input type="checkbox" id="dayUseCheckbox{{data.Id}}" [(ngModel)]="data.isDayUse" />
-                              <label    style="color: black;">Day Use</label>
+                              <label style="color: black;">Day Use</label>
                             </div>
                           </ng-template>
                         </e-view>
@@ -604,7 +606,8 @@
                                     [style.width.px]="setHeight(i, guest)[1]" />
                                 </div>
                               </div>
-                              <div class="popup-overlay" *ngIf="isPopupVisible">
+
+                              <!-- <div class="popup-overlay" *ngIf="isPopupVisible">
                                 <div class="form-container" (click)="$event.stopPropagation()">
                                   <div class="profile-header">
                                     <div class="profile-picture"></div>
@@ -667,9 +670,9 @@
                                     <button ejs-button cssClass="e-success">Save</button>
                                   </div>
                                 </div>
-                              </div>
+                              </div> -->
                               <div class="d-flex d-flex pt-3">
-                                <span class="label" (click)="openPopup($event)"> + Infants</span> <span
+                                <span class="label" (click)="openAddInfantPopup($event)"> + Infants</span> <span
                                   class="text-dark px-2">|</span>
                                 <span class="label" (click)="addGuest()"> + Guests</span>
                                 <div class="ms-auto btn-group-hlx">
@@ -779,7 +782,7 @@
                       [allowMultiCellSelection]="true" (renderCell)="onRenderCell($event)" cssClass="custom-scheduler2">
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
-                          <ng-template #eventTemplate let-data>
+                          <ng-template #eventTemplate let-data >
                             <div class="w-100">
                               <div class="appointment-header">
                                 <div class="e-section-control">
@@ -998,7 +1001,7 @@
   </div>
   <div class="footer-btns">
     <button class="btn btn-green">Save</button>
-    <button class="btn btn-primary hlx">Early Check In</button>
+    <button class="btn btn-primary hlx" #iconRef (click)="openEarlyCheckinPopup($event)">Early Check In</button>
     <button class="btn btn-primary hlx">Check In</button>
     <button class="btn btn-primary hlx">Charge No Show</button>
     <button class="btn btn-green-d">Payment</button>
@@ -1008,20 +1011,26 @@
 <div class="popup-overlay" *ngIf="isAddOnPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
     <div class="card dialog-hlx">
+      <div class="modal-header">
+        <h2 class="modal-title">Add On Charges</h2>
+        <button class="close-btn" (click)="closeAddOOnPopup()">&times;</button>
+      </div>
       <div class="card-body">
         <div class="table-box">
           <table class="table table-borderless fs-11">
             <thead class="table-light">
               <tr>
                 <th>DATES</th>
-                <th class="text-center">DESCRIPTION</th>
+                <th class="text-center">ADD-ONs</th>
+                <th class="text-center">ALLOC. QTY.</th>
                 <th class="text-end">AMMOUNT</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>12-07-2024</td>
-                <td class="text-center">Rack Rate</td>
+                <td class="text-center">Pickup and tour</td>
+                <td class="text-end">5</td>
                 <td class="text-end">$ 546</td>
               </tr>
             </tbody>
@@ -1046,6 +1055,10 @@
 <div class="popup-overlay" *ngIf="isTaxEsPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
     <div class="card dialog-hlx">
+      <div class="modal-header">
+        <h2 class="modal-title">Room Tax(es)</h2>
+        <button class="close-btn" (click)="closeTaxeesPopup()">&times;</button>
+      </div>
       <div class="card-body">
         <div class="table-box">
           <table class="table table-borderless fs-11">
@@ -1084,22 +1097,24 @@
 <div class="popup-overlay" *ngIf="isDiscountPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
     <div class="card dialog-hlx">
+      <div class="modal-header">
+        <h2 class="modal-title">Discount</h2>
+        <button class="close-btn" (click)="closeDiscountPopup()">&times;</button>
+      </div>
       <div class="card-body">
         <div class="table-box">
           <table class="table table-borderless fs-11">
             <thead class="table-light">
               <tr>
                 <th>DATES</th>
-                <th class="text-center">ADD-ONs</th>
-                <th class="text-center">ALLOC. QTY.</th>
-                <th class="text-end">AMMOUNT</th>
+                <th class="text-center">Description</th>
+                <th class="text-end">Discount</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>12-07-2024</td>
                 <td class="text-center">Pickup and tour</td>
-                <td class="text-end">5</td>
                 <td class="text-end">$ 546</td>
               </tr>
             </tbody>
@@ -1124,22 +1139,24 @@
 <div class="popup-overlay" *ngIf="isOtherDiscountPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
     <div class="card dialog-hlx">
+      <div class="modal-header">
+        <h2 class="modal-title">Other Discount Charges</h2>
+        <button class="close-btn" (click)="closeOtherDiscountPopup()">&times;</button>
+      </div>
       <div class="card-body">
         <div class="table-box">
           <table class="table table-borderless fs-11">
             <thead class="table-light">
               <tr>
                 <th>DATES</th>
-                <th class="text-center">ADD-ONs</th>
-                <th class="text-center">ALLOC. QTY.</th>
-                <th class="text-end">AMMOUNT</th>
+                <th class="text-center">Description</th>
+                <th class="text-end">Discount</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>12-07-2024</td>
                 <td class="text-center">Pickup and tour</td>
-                <td class="text-end">5</td>
                 <td class="text-end">$ 546</td>
               </tr>
             </tbody>
@@ -1161,6 +1178,7 @@
     </div>
   </div>
 </div>
+
 <div class="popup-overlay" *ngIf="isCardPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
     <div class="card dialog-hlx">
@@ -1261,6 +1279,32 @@
             </tbody>
           </table>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" *ngIf="isEarlyCheckinPopupVisible" [ngStyle]="popupStyles">
+  <div class="form-container" (click)="$event.stopPropagation()">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Guest Early Check in</h2>
+        <span class="close-btn" (click)="closeEarlyCheckinPopup()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="input-field" placeholder="Reason" />
+        <div class="field-row">
+          <label>Charges :</label>
+          <input type="text" class="input-field readonly" value="$455.00" readonly />
+        </div>
+        <div class="field-row">
+          <label>Description:</label>
+          <textarea class="input-field textarea"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary">Guest Early Check-in</button>
+        <button class="btn-secondary" (click)="closeEarlyCheckinPopup()">Cancel</button>
       </div>
     </div>
   </div>
