@@ -2,9 +2,9 @@
   <div class="d-flex title-bar align-items-center">
     <div class="me-4"><i class="material-icons d-block">keyboard_backspace</i></div>
     <div class="text-blue"> <button ejs-dropdownbutton cssClass="e-inherit e-appbar-menu"
-      [items]='productDropDownButtonItems' content="Frontdesk"></button></div>
+        [items]='productDropDownButtonItems' content="Frontdesk"></button></div>
     <div class="text-blue mx-3"><button ejs-dropdownbutton cssClass="e-inherit e-appbar-menu"
-      [items]='productDropDownButtonItems' content="STD-203"></button></div>
+        [items]='productDropDownButtonItems' content="STD-203"></button></div>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" value="" id="assignRoom">
       <label class="form-check-label" for="assignRoom">
@@ -27,7 +27,8 @@
             <div>
               <div class="mb-2-plus" style="display: grid; grid-template-columns: 24% 75%; column-gap:1%;">
                 <div>
-                  <ejs-dropdownlist id="roomsDropdown" #titleObj [dataSource]="titleData" [fields]="genderFields" placeholder="Title">
+                  <ejs-dropdownlist id="roomsDropdown" #titleObj [dataSource]="titleData" [fields]="genderFields"
+                    placeholder="Title">
                   </ejs-dropdownlist>
                 </div>
                 <div>
@@ -68,8 +69,7 @@
                   <div style="display: grid; grid-template-columns: 40% 56%; column-gap: 4%;">
                     <div>
                       <ejs-dropdownlist id="games1" #sample [dataSource]="country" (change)="onChange1()"
-                        [fields]="countryFields" [popupWidth]="popupWidth" placeholder="iso"
-                        [allowFiltering]='true'>
+                        [fields]="countryFields" [popupWidth]="popupWidth" placeholder="iso" [allowFiltering]='true'>
                         <ng-template #itemTemplate let-data>
                           <span>
                             {{ data.flag }} {{ data.CountryName }} {{ data.dialCode }}
@@ -90,7 +90,8 @@
               </div>
               <div class="mb-2-plus" style="display: grid; grid-template-columns: 49% 49%; column-gap: 2%;">
                 <div>
-                  <ejs-dropdownlist id="roomsDropdown" #genderObj [dataSource]="genderData" [fields]="genderFields" placeholder="Gender">
+                  <ejs-dropdownlist id="roomsDropdown" #genderObj [dataSource]="genderData" [fields]="genderFields"
+                    placeholder="Gender">
                   </ejs-dropdownlist>
                 </div>
                 <div class="icon-blue">
@@ -101,7 +102,8 @@
           </div>
           <div class="mb-3" style="display: grid; grid-template-columns: 30% 68%; column-gap: 2%;">
             <div>
-              <ejs-dropdownlist id="natioonalityDropdown" #titleObj [dataSource]="country" [fields]="nationalityFields" placeholder="Nationality">
+              <ejs-dropdownlist id="natioonalityDropdown" #titleObj [dataSource]="country" [fields]="nationalityFields"
+                placeholder="Nationality">
               </ejs-dropdownlist>
             </div>
             <div>
@@ -123,7 +125,8 @@
                   <div class="row g-2 mb-2-plus">
                     <div class="col-md-6">
                       <ejs-dropdownlist #countryList id='country' [dataSource]='country' [fields]='countryFields'
-                        (change)='onChange1()' popupHeight='auto' [placeholder]='countryWaterMark' allowFiltering="true">
+                        (change)='onChange1()' popupHeight='auto' [placeholder]='countryWaterMark'
+                        allowFiltering="true">
                         <ng-template #itemTemplate let-data>
                           <span> {{data.flag}} {{data.CountryName}}</span>
                         </ng-template>
@@ -196,7 +199,7 @@
                   <div class="row g-2 mb-2-plus fs-14 align-items-center" *ngFor="let field of fields; let i = index">
                     <div class="col">
                       <ejs-dropdownlist id="roomsDropdown{{ i }}" #identificationObj [dataSource]="identification"
-                                [fields]="identificationFields" placeholder="Identification">
+                        [fields]="identificationFields" placeholder="Identification">
                       </ejs-dropdownlist>
                     </div>
                     <div class="col-auto text-end">
@@ -227,9 +230,9 @@
                         <ng-template #content>
                           <div class="row g-2 mt-2 mb-2-plus">
                             <div class="col">
-                              <ejs-dropdownlist #countryList id='country' [dataSource]='country' [fields]='countryFields'
-                                (change)='onChange1()' popupHeight='auto' [placeholder]='countryWaterMark'
-                                allowFiltering="true">
+                              <ejs-dropdownlist #countryList id='country' [dataSource]='country'
+                                [fields]='countryFields' (change)='onChange1()' popupHeight='auto'
+                                [placeholder]='countryWaterMark' allowFiltering="true">
                                 <ng-template #itemTemplate let-data>
                                   <span> {{data.flag}} {{data.CountryName}}</span>
                                 </ng-template>
@@ -266,9 +269,9 @@
                         <ng-template #content>
                           <div class="row g-2 mb-2">
                             <div class="col">
-                              <ejs-dropdownlist #countryList id='country' [dataSource]='country' [fields]='countryFields'
-                                (change)='onChange1()' popupHeight='auto' [placeholder]='countryWaterMark'
-                                allowFiltering="true">
+                              <ejs-dropdownlist #countryList id='country' [dataSource]='country'
+                                [fields]='countryFields' (change)='onChange1()' popupHeight='auto'
+                                [placeholder]='countryWaterMark' allowFiltering="true">
                                 <ng-template #itemTemplate let-data>
                                   <span> {{data.flag}} {{data.CountryName}}</span>
                                 </ng-template>
@@ -302,7 +305,7 @@
                         </ng-template>
                       </e-tabitem>
                     </e-tabitems>
-                  </ejs-tab>  
+                  </ejs-tab>
                 </ng-template>
               </e-accordionitem>
             </e-accordionitems>
@@ -396,7 +399,7 @@
             </tbody>
           </table>
         </div>
-      </div>  
+      </div>
     </div>
     <div class="ps-2">
       <div class="second-grid-container">
@@ -458,7 +461,7 @@
                     <div>GUESTS</div>
                   </div>
                   <div class="control-section">
-                    <ejs-schedule #scheduleObj4  width="100%" [height]="scheduleHeight"
+                    <ejs-schedule #scheduleObj4 width="100%" [height]="scheduleHeight"
                       class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
                       [eventSettings]="eventSettings1" [views]="views" [currentView]="'TimelineDay'"
                       [showHeaderBar]="false" [showTimeIndicator]="false" [rowAutoHeight]="true"
@@ -473,18 +476,17 @@
                                   <i class="material-icons d-block text-gray">person_outline</i>
                                 </div>
                                 <div class="e-section-control cutomize-button-size me-3">
-                                  <button ejs-dropdownbutton [items]="totalUser" 
-                                    (select)="onSelect($event)" [cssClass]="'custom-dropdown'">
-                                   x {{ selectedText }}
+                                  <button ejs-dropdownbutton [items]="totalUser" (select)="onSelect($event)"
+                                    [cssClass]="'custom-dropdown'">
+                                    x {{ selectedText }}
                                   </button>
                                 </div>
                                 <div>
                                   <i class="material-icons d-block text-gray">child_care</i>
                                 </div>
                                 <div class="e-section-control cutomize-button-size me-3">
-                                  <button ejs-dropdownbutton [items]="totalChild" 
-                                    [cssClass]="'custom-dropdown'">
-                                   x {{ selectedText }}
+                                  <button ejs-dropdownbutton [items]="totalChild" [cssClass]="'custom-dropdown'">
+                                    x {{ selectedText }}
                                   </button>
                                 </div>
                                 <!-- <div class="me-2">
@@ -499,8 +501,8 @@
                                   <i class="material-icons d-block text-gray">bed</i>
                                 </div>
                                 <div class="e-section-control cutomize-button-size">
-                                  <button ejs-dropdownbutton [items]="totalChild" 
-                                    [cssClass]="'custom-dropdown'"> x {{ selectedText }}
+                                  <button ejs-dropdownbutton [items]="totalChild" [cssClass]="'custom-dropdown'"> x {{
+                                    selectedText }}
                                   </button>
                                 </div>
                               </div>
@@ -515,13 +517,15 @@
                                         <div>(PO1234)</div>
                                       </td>
                                       <td>
-                                        <button ejs-dropdownbutton [items]='items' iconCss="e-ddb-icons e-profile" class="m-0"></button>
+                                        <button ejs-dropdownbutton [items]='items' iconCss="e-ddb-icons e-profile"
+                                          class="m-0"></button>
                                       </td>
                                       <td>
                                         <div class="d-flex">
                                           <div>
                                             <strong *ngIf="!guest.isEditing">{{ guest.title }}</strong>
-                                            <select *ngIf="guest.isEditing" id="rate-select" class="form-select form-select-sm guest-title" [(ngModel)]="guest.title">
+                                            <select *ngIf="guest.isEditing" id="rate-select"
+                                              class="form-select form-select-sm guest-title" [(ngModel)]="guest.title">
                                               <option value="Mr." selected>Mr.</option>
                                               <option value="Mrs.">Mrs.</option>
                                               <option value="Ms.">Ms.</option>
@@ -530,11 +534,13 @@
                                           </div>
                                           <div class="mx-1">
                                             <strong *ngIf="!guest.isEditing">{{ guest.firstName }}</strong>
-                                            <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.firstName" class="form-control form-control-sm name" placeholder="First Name" />
+                                            <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.firstName"
+                                              class="form-control form-control-sm name" placeholder="First Name" />
                                           </div>
                                           <div>
                                             <strong *ngIf="!guest.isEditing">{{ guest.lastName }}</strong>
-                                            <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.lastName" class="form-control form-control-sm name" placeholder="Last Name" />
+                                            <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.lastName"
+                                              class="form-control form-control-sm name" placeholder="Last Name" />
                                           </div>
                                         </div>
                                       </td>
@@ -543,30 +549,34 @@
                                       </td>
                                       <td *ngIf="!guest.isEditing">{{ guest.dialCode }}</td>
                                       <td>
-                                        <ejs-dropdownlist id="games3" #sample [dataSource]="country" (change)="onChange1()"
-                                        [fields]="countryFields" class="country" [popupWidth]="popupWidth" placeholder="Country">
-                                        <ng-template #itemTemplate let-data>
-                                          <span>
-                                            {{ data.flag }} {{ data.CountryName }} {{ data.dialCode }}
-                                          </span>
-                                        </ng-template>
-                                        <ng-template #valueTemplate let-data>
-                                          <span class="fs-12">
-                                            {{ data.flag }}
-                                          </span>
-                                        </ng-template>
-                                      </ejs-dropdownlist>
+                                        <ejs-dropdownlist id="games3" #sample [dataSource]="country"
+                                          (change)="onChange1()" [fields]="countryFields" class="country"
+                                          [popupWidth]="popupWidth" placeholder="Country">
+                                          <ng-template #itemTemplate let-data>
+                                            <span>
+                                              {{ data.flag }} {{ data.CountryName }} {{ data.dialCode }}
+                                            </span>
+                                          </ng-template>
+                                          <ng-template #valueTemplate let-data>
+                                            <span class="fs-12">
+                                              {{ data.dialCode }}
+                                            </span>
+                                          </ng-template>
+                                        </ejs-dropdownlist>
                                       </td>
                                       <td>
                                         <span *ngIf="!guest.isEditing">{{ guest.phoneNumber }}</span>
-                                        <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.phoneNumber" class="form-control form-control-sm phone" placeholder="Mobile" />
+                                        <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.phoneNumber"
+                                          class="form-control form-control-sm phone" placeholder="Mobile" />
                                       </td>
                                       <td class="pe-2">
                                         <span *ngIf="!guest.isEditing">
                                           <img src="./assets/Icons/calendar_1.svg" alt="calendar">
                                         </span>
-                                        <div *ngIf="guest.isEditing" class="date-display" (click)="openDateRangePicker()">
-                                          {{ guest.startDate1 | date: 'dd MMM' }} - {{ guest.endDate1 | date: 'dd MMM' }}
+                                        <div *ngIf="guest.isEditing" class="date-display"
+                                          (click)="openDateRangePicker()">
+                                          {{ guest.startDate1 | date: 'dd MMM' }} - {{ guest.endDate1 | date: 'dd MMM'
+                                          }}
                                         </div>
                                         <ejs-daterangepicker #dateRangePicker *ngIf="guest.isEditing" [min]='startDate'
                                           [max]='endDate' (change)="onDateRangeChange($event, i)"
@@ -577,7 +587,9 @@
                                         <ejs-switch id="checked" [checked]="true"></ejs-switch>
                                       </td>
                                       <td class="ps-2">
-                                        <button ejs-dropdownbutton [items]='tooltItem' iconCss="speeddial-icons speeddial-icon-edit" class="m-0" (select)="onItemSelect($event, i)"></button>
+                                        <button ejs-dropdownbutton [items]='tooltItem'
+                                          iconCss="speeddial-icons speeddial-icon-edit" class="m-0"
+                                          (select)="onItemSelect($event, i)"></button>
                                       </td>
                                     </tr>
                                   </table>
@@ -652,7 +664,8 @@
                                 </div>
                               </div>
                               <div class="d-flex d-flex pt-3">
-                                <span class="label" (click)="openPopup($event)"> + Infants</span> <span class="text-dark px-2">|</span>
+                                <span class="label" (click)="openPopup($event)"> + Infants</span> <span
+                                  class="text-dark px-2">|</span>
                                 <span class="label" (click)="addGuest()"> + Guests</span>
                                 <div class="ms-auto btn-group-hlx">
                                   <button>Guest Services</button>
@@ -673,43 +686,36 @@
                     <div>Rooms</div>
                   </div>
                   <div class="control-section">
-                    <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" height="200px"
-                       [selectedDate]="startDate"
-                      [quickInfoOnSelectionEnd]=true [eventSettings]="eventSettings1" [views]="views"
-                      [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
+                    <ejs-schedule id="scheduleObj2" #scheduleObj2 width="100%" [height]="150" [selectedDate]="startDate"
+                      [quickInfoOnSelectionEnd]="true" [showQuickInfo]="true" [eventSettings]="eventSettings1"
+                      [views]="views" [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
                       [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
-                      [workDays]="workDays" (hover)="onHover($event)" [allowMultiCellSelection]="true"
-                      (renderCell)="onRenderCell($event)" (popupOpen)="onPopupOpenRoom($event)"
-                      (popupClose)="onPopupCloseSessionalRate($event)" (actionBegin)="onActionBegin($event)"
+                      [workDays]="workDays" [allowMultiCellSelection]="true" (renderCell)="onRenderCell($event)"
+                      (hover)="onHover($event)" (popupOpen)="onPopupOpenRoom($event)"
+                      (actionBegin)="onActionBegin($event)"
                       cssClass="remove-table-header timeline-resource-grouping custom-scheduler2">
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
-                          <ng-template #eventTemplate let-data *ngFor="let guest of guestDetails;">
-                            <div class="w-100 border-gradient">
-                              <!-- <div>
-                                <hr style="
-                              border: none;
-                              border-top: 2px solid #A40202;
-                              margin: 10px -6px;
-                              flex-grow: 1;
-                              width: 701px;" />
-                              </div> -->
+                          <ng-template #eventTemplate let-data>
+                            <div class="w-100">
                               <div class="appointment-header">
                                 <div class="e-section-control">
                                   <div class="room-details d-flex">
                                     <i class="material-icons d-block text-gray fs-18 me-1">bed</i>
                                     <div class="ms-1">
-                                      <a href="#" class="room-link">{{ data.Subject }} <span class="ps-2">{{ data.Room }}</span></a>
+                                      <a href="#" class="room-link" (click)="onRoomClick($event, data)">
+                                        {{ data.Subject }}<span class="ps-2">{{ data.Room }}</span>
+                                      </a>
                                       <div class="booking-date text-blue">
                                         {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
                                       </div>
                                       <div class="total-guest">
                                         <span class="guest-info">
-                                          <i class="material-icons d-block text-gray fs-18 me-1">person</i> 
+                                          <i class="material-icons d-block text-gray fs-18 me-1">person</i>
                                           {{ data.Guest }}
                                         </span>
                                         <span class="child-info">
-                                          <i class="material-icons d-block text-gray fs-18 me-1">child_care</i> 
+                                          <i class="material-icons d-block text-gray fs-18 me-1">child_care</i>
                                           {{ data.Child }}
                                         </span>
                                       </div>
@@ -721,56 +727,33 @@
                           </ng-template>
                         </e-view>
                       </e-views>
-                      <ng-template #quickInfoTemplatesContent let-data>
-                        <div class="quick-info-content">
-                          <div class="quick-content-area"></div>
-                          <ejs-dropdownlist id="roomTypeDropdown" #roomTypeObj [dataSource]="roomTypeData"
-                            [fields]="roomTypeFields" placeholder="Choose Room Type">
-                          </ejs-dropdownlist>
-                        </div>
-                        <div class="quick-content-area">
-                          <ejs-dropdownlist id="roomsDropdown" #roomsObj [dataSource]="roomsData" [fields]="roomsFields"
-                            placeholder="Choose Room">
-                          </ejs-dropdownlist>
-                        </div>
-                        <div class="quick-action-buttons">
-                          <button ejs-button cssClass="e-primary" (click)="onSave()">Save</button>
-                          <button ejs-button cssClass="e-flat" (click)="onCancel()">Cancel</button>
-                        </div>
-                      </ng-template>
-                      <ng-template #editorHeaderTemplate let-data>
-                        <div *ngIf="data.Subject; else createNewEvent">
-                          {{ data.Subject }}
-                        </div>
-                        <ng-template #createNewEvent>
-                          <div style="display: flex; gap: 10px; justify-content: space-between;">
-                            <label style="color: white;">Add Quick Reservation</label>
-                          </div>
-                        </ng-template>
-                      </ng-template>
                       <ng-template #editorTemplate let-data>
-                        <div class="popup-header">Add Rooms</div>
-                        <div class="popup-input">
+                        <div>
+                          <!-- <div class="popup-input">
                           <div style="position: relative;">
-                            <label style="font-size: 15px;font-weight: 600; cursor: pointer;"
+                            <label style="font-size: 15px; font-weight: 600; cursor: pointer;"
                               (click)="openDateRangePicker()">
-                              {{ data.StartTime | date:'MMM dd'}} - {{ endDate | date:'MMM dd' }}
+                              {{ startDate | date:'MMM dd'}} - {{ endDate | date:'MMM dd' }}
                             </label>
                             <ejs-daterangepicker #dateRangePicker [min]="startDate" [max]="endDate"
                               [startDate]="data.StartTime" [endDate]="data.EndTime"
                               style="visibility: hidden; width: 1px;"></ejs-daterangepicker>
                           </div>
-                        </div>
-                        <div class="quick-info-content">
-                          <div class="quick-content-area"></div>
-                          <ejs-dropdownlist id="roomTypeDropdown" #roomTypeObj [dataSource]="roomTypeData"
-                            [fields]="roomTypeFields" placeholder="Choose Room Type">
-                          </ejs-dropdownlist>
-                        </div>
-                        <div class="quick-content-area">
-                          <ejs-dropdownlist id="roomsDropdown" #roomsObj [dataSource]="roomsData" [fields]="roomsFields"
-                            placeholder="Choose Room">
-                          </ejs-dropdownlist>
+                        </div> -->
+
+                          <div class="quick-info-content">
+                            <div class="quick-content-area"></div>
+                            <ejs-dropdownlist id="roomTypeDropdown" [dataSource]="specialistCategory"
+                              [(ngModel)]="data.roomTypeId" [fields]="{ text: 'name', value: 'DepartmentId' }"
+                              placeholder="Select Room Type">
+                            </ejs-dropdownlist>
+                          </div>
+                          <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div class="button-margin">
+                              <a class="anchor-tag" (click)="onSaveRoom(data)">Save</a>
+                              <a class="anchor-tag">Cancel</a>
+                            </div>
+                          </div>
                         </div>
                       </ng-template>
                     </ejs-schedule>
@@ -781,9 +764,9 @@
                     <div>Rates</div>
                   </div>
                   <div class="control-section">
-                    <ejs-schedule #scheduleObj3 width="100%" height="100px"
+                    <ejs-schedule #scheduleObj3 width="100%" [height]="150"
                       class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
-                      [quickInfoOnSelectionEnd]="true" [eventSettings]="eventSettings" [views]="views"
+                      [quickInfoOnSelectionEnd]="true" [eventSettings]="eventSettings1" [views]="views"
                       [currentView]="'TimelineDay'" [showHeaderBar]="false" [allowDragAndDrop]="true"
                       [showTimeIndicator]="false" [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }"
                       (actionBegin)="onActionBegin($event)" [workDays]="workDays" (hover)="onHover($event)"
@@ -792,20 +775,31 @@
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
                           <ng-template #eventTemplate let-data>
-                            <div class="">
-                              <!-- <hr style="
-                            border: none;
-                            border-top: 2px solid #A40202;
-                            margin: 10px -6px;
-                            flex-grow: 1;
-                            width: 701px;
-                          " /> -->
+                            <div class="w-100">
                               <div class="appointment-header">
-                                <strong>$ {{data.Rates}}</strong>
-                                <span class="room-id">{{data.Package}}</span>
-                              </div>
-                              <div class="appointment-info">
-                                <span class="child-count">None</span>
+                                <div class="e-section-control">
+                                  <div class="room-details d-flex">
+                                    <i class="material-icons d-block text-gray fs-18 me-1">bed</i>
+                                    <div class="ms-1">
+                                      <a href="#" class="room-link" (click)="onRoomClick($event, data)">
+                                        {{ data.Subject }}<span class="ps-2">{{ data.Room }}</span>
+                                      </a>
+                                      <div class="booking-date text-blue">
+                                        {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
+                                      </div>
+                                      <div class="total-guest">
+                                        <span class="guest-info">
+                                          <i class="material-icons d-block text-gray fs-18 me-1">person</i>
+                                          {{ data.Guest }}
+                                        </span>
+                                        <span class="child-info">
+                                          <i class="material-icons d-block text-gray fs-18 me-1">child_care</i>
+                                          {{ data.Child }}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </ng-template>
@@ -852,22 +846,41 @@
                     <div>ADD ONS</div>
                   </div>
                   <div class="control-section">
-                    <ejs-schedule #scheduleObj4 width="100%" height="100px"
+                    <ejs-schedule #scheduleObj4 width="100%" height="150"
                       class="remove-table-header timeline-resource-grouping" [selectedDate]="startDate"
-                      [eventSettings]="eventSetting" [views]="views" [currentView]="'TimelineDay'"
+                      [eventSettings]="eventSettings1" [views]="views" [currentView]="'TimelineDay'"
                       [showHeaderBar]="false" [showTimeIndicator]="false"
                       [timeScale]="{ enable: true, interval: 1440, slotCount: 1 }" [workDays]="workDays"
                       (hover)="onHover($event)" (popupOpen)="onPopupOpen($event)" cssClass="custom-scheduler2">
                       <e-views>
                         <e-view option="TimelineDay" [interval]="viewInterval">
                           <ng-template #eventTemplate let-data>
-                            <div>
-                              <hr style="
-                            border: none;
-                            border-top: 2px solid #A40202;
-                            margin: 10px -6px;
-                            flex-grow: 1;
-                            width: 701px;" />
+                            <div class="w-100">
+                              <div class="appointment-header">
+                                <div class="e-section-control">
+                                  <div class="room-details d-flex">
+                                    <i class="material-icons d-block text-gray fs-18 me-1">bed</i>
+                                    <div class="ms-1">
+                                      <a href="#" class="room-link" (click)="onRoomClick($event, data)">
+                                        {{ data.Subject }}<span class="ps-2">{{ data.Room }}</span>
+                                      </a>
+                                      <div class="booking-date text-blue">
+                                        {{ data.StartTime | date: 'MMM dd' }} - {{ data.EndTime | date: 'MMM dd' }}
+                                      </div>
+                                      <div class="total-guest">
+                                        <span class="guest-info">
+                                          <i class="material-icons d-block text-gray fs-18 me-1">person</i>
+                                          {{ data.Guest }}
+                                        </span>
+                                        <span class="child-info">
+                                          <i class="material-icons d-block text-gray fs-18 me-1">child_care</i>
+                                          {{ data.Child }}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </ng-template>
                         </e-view>
@@ -1027,253 +1040,253 @@
 </div>
 <div class="popup-overlay" *ngIf="isTaxEsPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
-<div class="card dialog-hlx">
-  <div class="card-body">
-    <div class="table-box">
-      <table class="table table-borderless fs-11">
-        <thead class="table-light">
-          <tr>
-            <th>Room Tax</th>
-            <th>xxxxx</th>
-            <th>yyyyy</th>
-            <th width="30"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Tax 1</td>
-            <td></td>
-            <td></td>
-            <td><i class="material-icons d-block text-blue">delete</i></td>
-          </tr>
-          <tr>
-            <td>Tax 2</td>
-            <td></td>
-            <td></td>
-            <td><i class="material-icons d-block text-blue">delete</i></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="mt-3 text-center">
-      <button class="btn btn-sm btn-primary hlx">Save</button>
-      <button class="btn btn-sm btn-gray" (click)="closeTaxeesPopup()">Cancel</button>
+    <div class="card dialog-hlx">
+      <div class="card-body">
+        <div class="table-box">
+          <table class="table table-borderless fs-11">
+            <thead class="table-light">
+              <tr>
+                <th>Room Tax</th>
+                <th>xxxxx</th>
+                <th>yyyyy</th>
+                <th width="30"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Tax 1</td>
+                <td></td>
+                <td></td>
+                <td><i class="material-icons d-block text-blue">delete</i></td>
+              </tr>
+              <tr>
+                <td>Tax 2</td>
+                <td></td>
+                <td></td>
+                <td><i class="material-icons d-block text-blue">delete</i></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="mt-3 text-center">
+          <button class="btn btn-sm btn-primary hlx">Save</button>
+          <button class="btn btn-sm btn-gray" (click)="closeTaxeesPopup()">Cancel</button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
 </div>
 <div class="popup-overlay" *ngIf="isDiscountPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
-<div class="card dialog-hlx">
-  <div class="card-body">
-    <div class="table-box">
-      <table class="table table-borderless fs-11">
-        <thead class="table-light">
-          <tr>
-            <th>DATES</th>
-            <th class="text-center">ADD-ONs</th>
-            <th class="text-center">ALLOC. QTY.</th>
-            <th class="text-end">AMMOUNT</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>12-07-2024</td>
-            <td class="text-center">Pickup and tour</td>
-            <td class="text-end">5</td>
-            <td class="text-end">$ 546</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="row mt-3 mb-3 align-items-center fw-bold text-end">
-      <div class="col-4 fs-18">
-        Total
+    <div class="card dialog-hlx">
+      <div class="card-body">
+        <div class="table-box">
+          <table class="table table-borderless fs-11">
+            <thead class="table-light">
+              <tr>
+                <th>DATES</th>
+                <th class="text-center">ADD-ONs</th>
+                <th class="text-center">ALLOC. QTY.</th>
+                <th class="text-end">AMMOUNT</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>12-07-2024</td>
+                <td class="text-center">Pickup and tour</td>
+                <td class="text-end">5</td>
+                <td class="text-end">$ 546</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row mt-3 mb-3 align-items-center fw-bold text-end">
+          <div class="col-4 fs-18">
+            Total
+          </div>
+          <div class="col fs-20 text-green">
+            $ 546
+          </div>
+        </div>
+        <div class="mt-3 text-center">
+          <button class="btn btn-sm btn-primary hlx">Save</button>
+          <button class="btn btn-sm btn-gray" (click)="closeDiscountPopup()">Cancel</button>
+        </div>
       </div>
-      <div class="col fs-20 text-green">
-        $ 546
-      </div>
-    </div>
-    <div class="mt-3 text-center">
-      <button class="btn btn-sm btn-primary hlx">Save</button>
-      <button class="btn btn-sm btn-gray" (click)="closeDiscountPopup()">Cancel</button>
     </div>
   </div>
-</div>
-</div>
 </div>
 <div class="popup-overlay" *ngIf="isOtherDiscountPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
-<div class="card dialog-hlx">
-  <div class="card-body">
-    <div class="table-box">
-      <table class="table table-borderless fs-11">
-        <thead class="table-light">
-          <tr>
-            <th>DATES</th>
-            <th class="text-center">ADD-ONs</th>
-            <th class="text-center">ALLOC. QTY.</th>
-            <th class="text-end">AMMOUNT</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>12-07-2024</td>
-            <td class="text-center">Pickup and tour</td>
-            <td class="text-end">5</td>
-            <td class="text-end">$ 546</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="row mt-3 mb-3 align-items-center fw-bold text-end">
-      <div class="col-4 fs-18">
-        Total
+    <div class="card dialog-hlx">
+      <div class="card-body">
+        <div class="table-box">
+          <table class="table table-borderless fs-11">
+            <thead class="table-light">
+              <tr>
+                <th>DATES</th>
+                <th class="text-center">ADD-ONs</th>
+                <th class="text-center">ALLOC. QTY.</th>
+                <th class="text-end">AMMOUNT</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>12-07-2024</td>
+                <td class="text-center">Pickup and tour</td>
+                <td class="text-end">5</td>
+                <td class="text-end">$ 546</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row mt-3 mb-3 align-items-center fw-bold text-end">
+          <div class="col-4 fs-18">
+            Total
+          </div>
+          <div class="col fs-20 text-green">
+            $ 546
+          </div>
+        </div>
+        <div class="mt-3 text-center">
+          <button class="btn btn-sm btn-primary hlx">Save</button>
+          <button class="btn btn-sm btn-gray" (click)="closeOtherDiscountPopup()">Cancel</button>
+        </div>
       </div>
-      <div class="col fs-20 text-green">
-        $ 546
-      </div>
-    </div>
-    <div class="mt-3 text-center">
-      <button class="btn btn-sm btn-primary hlx">Save</button>
-      <button class="btn btn-sm btn-gray" (click)="closeOtherDiscountPopup()">Cancel</button>
     </div>
   </div>
-</div>
-</div>
 </div>
 <div class="popup-overlay" *ngIf="isCardPopupVisible" [ngStyle]="popupStyles">
   <div class="form-container" (click)="$event.stopPropagation()">
-<div class="card dialog-hlx">
-  <div class="card-body">
-    <div class="row">
-      <div class="col">
-        <h3 class="mb-3">Card Owner</h3>
-        <div class="row g-2 mb-2">
+    <div class="card dialog-hlx">
+      <div class="card-body">
+        <div class="row">
           <div class="col">
-            <select class="form-select form-select-sm">
-              <option>Select Sharer</option>
-            </select>
+            <h3 class="mb-3">Card Owner</h3>
+            <div class="row g-2 mb-2">
+              <div class="col">
+                <select class="form-select form-select-sm">
+                  <option>Select Sharer</option>
+                </select>
+              </div>
+            </div>
+            <div class="row g-2 mb-2 align-items-center">
+              <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="Card Number">
+              </div>
+              <div class="col-auto">
+                <i class="material-icons d-block text-blue">credit_card</i>
+              </div>
+            </div>
+            <div class="row g-2 mb-2">
+              <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="MM">
+              </div>
+              <div class="col-auto">/</div>
+              <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="YYYY">
+              </div>
+            </div>
+            <div class="row g-2 mb-2">
+              <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="CVV">
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <h3 class="mb-3">Billing Address</h3>
+            <div class="row g-2 mb-2">
+              <div class="col">
+                <textarea class="form-control form-control-sm" placeholder="Address" style="height: 64px;"></textarea>
+              </div>
+            </div>
+            <div class="row g-2 mb-2">
+              <div class="col">
+                <select class="form-select form-select-sm">
+                  <option>Country</option>
+                </select>
+              </div>
+              <div class="col">
+                <select class="form-select form-select-sm">
+                  <option>State</option>
+                </select>
+              </div>
+            </div>
+            <div class="row g-2 mb-2">
+              <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="City">
+              </div>
+              <div class="col">
+                <input type="text" class="form-control form-control-sm" placeholder="Zip Code">
+              </div>
+            </div>
           </div>
         </div>
-        <div class="row g-2 mb-2 align-items-center">
+        <div class="row mt-3 mb-4">
           <div class="col">
-            <input type="text" class="form-control form-control-sm" placeholder="Card Number">
+            <div class="form-check mb-0 fs-12">
+              <input type="checkbox" value="" id="assignRoom" class="form-check-input">
+              <label for="assignRoom" class="form-check-label">View All Credit Cards</label>
+            </div>
           </div>
-          <div class="col-auto">
-            <i class="material-icons d-block text-blue">credit_card</i>
+          <div class="col text-end">
+            <button class="btn btn-sm btn-primary hlx">Save</button>
+            <button class="btn btn-sm btn-gray" (click)="closeCardPopup()">Cancel</button>
           </div>
         </div>
-        <div class="row g-2 mb-2">
-          <div class="col">
-            <input type="text" class="form-control form-control-sm" placeholder="MM">
-          </div>
-          <div class="col-auto">/</div>
-          <div class="col">
-            <input type="text" class="form-control form-control-sm" placeholder="YYYY">
-          </div>
-        </div>
-        <div class="row g-2 mb-2">
-          <div class="col">
-            <input type="text" class="form-control form-control-sm" placeholder="CVV">
-          </div>
+        <div class="table-box">
+          <table class="table table-borderless fs-11">
+            <thead class="table-light">
+              <tr>
+                <th>NAME</th>
+                <th>CARD NUMBER</th>
+                <th>TYPE</th>
+                <th>EXPIRY</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Mr. Deepak Sharma</td>
+                <td>9786-9786-4956-5648</td>
+                <td>Diners</td>
+                <td>8/2024</td>
+                <td><i class="material-icons d-block text-blue">delete</i></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="col">
-        <h3 class="mb-3">Billing Address</h3>
-        <div class="row g-2 mb-2">
-          <div class="col">
-            <textarea class="form-control form-control-sm" placeholder="Address" style="height: 64px;"></textarea>
-          </div>
-        </div>
-        <div class="row g-2 mb-2">
-          <div class="col">
-            <select class="form-select form-select-sm">
-              <option>Country</option>
-            </select>
-          </div>
-          <div class="col">
-            <select class="form-select form-select-sm">
-              <option>State</option>
-            </select>
-          </div>
-        </div>
-        <div class="row g-2 mb-2">
-          <div class="col">
-            <input type="text" class="form-control form-control-sm" placeholder="City">
-          </div>
-          <div class="col">
-            <input type="text" class="form-control form-control-sm" placeholder="Zip Code">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row mt-3 mb-4">
-      <div class="col">
-        <div class="form-check mb-0 fs-12">
-          <input type="checkbox" value="" id="assignRoom" class="form-check-input">
-          <label for="assignRoom" class="form-check-label">View All Credit Cards</label>
-        </div>
-      </div>
-      <div class="col text-end">
-        <button class="btn btn-sm btn-primary hlx">Save</button>
-        <button class="btn btn-sm btn-gray" (click)="closeCardPopup()">Cancel</button>
-      </div>
-    </div>
-    <div class="table-box">
-      <table class="table table-borderless fs-11">
-        <thead class="table-light">
-          <tr>
-            <th>NAME</th>
-            <th>CARD NUMBER</th>
-            <th>TYPE</th>
-            <th>EXPIRY</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Mr. Deepak Sharma</td>
-            <td>9786-9786-4956-5648</td>
-            <td>Diners</td>
-            <td>8/2024</td>
-            <td><i class="material-icons d-block text-blue">delete</i></td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   </div>
-</div>
-</div>
 </div>
 <!-- ======= Panels ======= -->
 <!-- <div class="row">
   <div class="col"> -->
 
 
-    <!-- ======= Payment start ======= -->
-   
-    <!-- ======= Payment end ======= -->
-    <br><br>
-    <!-- ======= Room taxes start ======= -->
-    
-    <!-- ======= Room taxes end ======= -->
-    <br><br>
-    <!-- ======= Add On Charges start ======= -->
-   
-    <!-- ======= Add On Charges end ======= -->
-    <br><br>
-    <!-- ======= Discount start ======= -->
+<!-- ======= Payment start ======= -->
 
-    <!-- ======= Discount end ======= -->
-    <br><br>
-    <!-- ======= Other Discount Charges start ======= -->
-   
-    <!-- ======= Other Discount Charges end ======= -->
-    <br><br>
-    <!-- ======= Add Infants start ======= -->
-    <!-- <div class="card dialog-hlx">
+<!-- ======= Payment end ======= -->
+<br><br>
+<!-- ======= Room taxes start ======= -->
+
+<!-- ======= Room taxes end ======= -->
+<br><br>
+<!-- ======= Add On Charges start ======= -->
+
+<!-- ======= Add On Charges end ======= -->
+<br><br>
+<!-- ======= Discount start ======= -->
+
+<!-- ======= Discount end ======= -->
+<br><br>
+<!-- ======= Other Discount Charges start ======= -->
+
+<!-- ======= Other Discount Charges end ======= -->
+<br><br>
+<!-- ======= Add Infants start ======= -->
+<!-- <div class="card dialog-hlx">
       <div class="card-body">
         <select class="form-select form-select-sm">
           <option>Select</option>
@@ -1293,10 +1306,10 @@
         </div>
       </div>
     </div> -->
-    <!-- ======= Add Infants end ======= -->
-    <br><br>
-    <!-- ======= Guest Early Check in start ======= -->
-    <!-- <div class="card dialog-hlx">
+<!-- ======= Add Infants end ======= -->
+<br><br>
+<!-- ======= Guest Early Check in start ======= -->
+<!-- <div class="card dialog-hlx">
       <div class="card-body">
         <input type="text" placeholder="Reason" class="form-control form-control-sm">
         <table class="table table-borderless align-middle fs-14 mb-0">
@@ -1321,11 +1334,11 @@
         </div>
       </div>
     </div> -->
-    <!-- ======= Guest Early Check in end ======= -->
+<!-- ======= Guest Early Check in end ======= -->
 
 
 
-  <!-- </div>
+<!-- </div>
   <div class="col"></div>
   <div class="col"></div>
   <div class="col"></div>

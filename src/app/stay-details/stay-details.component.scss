@@ -67,3 +67,8 @@
       color: #333;
       padding: 0;
 }
+.e-popup.e-popup-open.e-dialog {
+  display: inline-flex;
+  width: 340px !important;
+  min-height: 300px !important;
+}
