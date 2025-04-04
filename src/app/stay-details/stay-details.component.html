@@ -47,7 +47,7 @@
                   <div style="display: grid; grid-template-columns: 40% 56%; column-gap: 4%;">
                     <div>
                       <ejs-dropdownlist id="games" #sample [dataSource]="country" (change)="onChange1()"
-                        [fields]="countryFields" [popupWidth]="popupWidth" placeholder="iso">
+                        [fields]="countryFields" [popupWidth]="popupWidth" placeholder="+91">
                         <ng-template #itemTemplate let-data>
                           <span>
                             {{ data.flag }} {{ data.CountryName }} {{ data.dialCode }}
@@ -69,7 +69,7 @@
                   <div style="display: grid; grid-template-columns: 40% 56%; column-gap: 4%;">
                     <div>
                       <ejs-dropdownlist id="games1" #sample [dataSource]="country" (change)="onChange1()"
-                        [fields]="countryFields" [popupWidth]="popupWidth" placeholder="iso" [allowFiltering]='true'>
+                        [fields]="countryFields" [popupWidth]="popupWidth" placeholder="+91" [allowFiltering]='true'>
                         <ng-template #itemTemplate let-data>
                           <span>
                             {{ data.flag }} {{ data.CountryName }} {{ data.dialCode }}
@@ -441,14 +441,21 @@
                             <div>
                               <hr style="
                                 border: none;
-                                border-top: 2px solid #A40202; 
+                                border-top: 2px solid black;
                                 margin: 10px -6px;
                                 flex-grow: 1;
                                 width: 701px;" />
-                              <!-- <div class="appointment-header-split">
-                                <strong class="room-type">Split</strong>
-                                <span class="room-id">+</span>
-                              </div> -->
+                            </div>
+                            <div style="display: flex
+                            ;
+                                align-items: center;
+                                gap: 5px;
+                                padding-top: 5px;
+                                position: absolute;
+                                top: 38px;
+                                left: 50%;">
+                              <input type="checkbox" id="dayUseCheckbox{{data.Id}}" [(ngModel)]="data.isDayUse" />
+                              <label    style="color: black;">Day Use</label>
                             </div>
                           </ng-template>
                         </e-view>
@@ -517,20 +524,17 @@
                                         <div>(PO1234)</div>
                                       </td>
                                       <td>
-                                        <button ejs-dropdownbutton [items]='items' iconCss="e-ddb-icons e-profile"
-                                          class="m-0"></button>
+                                        <!-- <button ejs-dropdownbutton [items]='items' iconCss="e-ddb-icons e-profile"
+                                          class="m-0"></button> -->
+                                        <i class="material-icons d-block text-gray">person_outline</i>
                                       </td>
                                       <td>
                                         <div class="d-flex">
                                           <div>
-                                            <strong *ngIf="!guest.isEditing">{{ guest.title }}</strong>
-                                            <select *ngIf="guest.isEditing" id="rate-select"
-                                              class="form-select form-select-sm guest-title" [(ngModel)]="guest.title">
-                                              <option value="Mr." selected>Mr.</option>
-                                              <option value="Mrs.">Mrs.</option>
-                                              <option value="Ms.">Ms.</option>
-                                              <option value="Dr.">Dr.</option>
-                                            </select>
+                                            <!-- <strong *ngIf="!guest.isEditing">{{ guest.title }}</strong> -->
+                                            <ejs-dropdownlist id="roomsDropdown" #titleObj [dataSource]="titleData"
+                                              [fields]="genderFields" placeholder="Title">
+                                            </ejs-dropdownlist>
                                           </div>
                                           <div class="mx-1">
                                             <strong *ngIf="!guest.isEditing">{{ guest.firstName }}</strong>
@@ -551,7 +555,7 @@
                                       <td>
                                         <ejs-dropdownlist id="games3" #sample [dataSource]="country"
                                           (change)="onChange1()" [fields]="countryFields" class="country"
-                                          [popupWidth]="popupWidth" placeholder="Country">
+                                          [popupWidth]="popupWidth" placeholder="+91">
                                           <ng-template #itemTemplate let-data>
                                             <span>
                                               {{ data.flag }} {{ data.CountryName }} {{ data.dialCode }}
@@ -587,9 +591,10 @@
                                         <ejs-switch id="checked" [checked]="true"></ejs-switch>
                                       </td>
                                       <td class="ps-2">
-                                        <button ejs-dropdownbutton [items]='tooltItem'
-                                          iconCss="speeddial-icons speeddial-icon-edit" class="m-0"
-                                          (select)="onItemSelect($event, i)"></button>
+                                        <button>checked</button>
+                                      </td>
+                                      <td class="ps-2">
+                                        <button>delete</button>
                                       </td>
                                     </tr>
                                   </table>
