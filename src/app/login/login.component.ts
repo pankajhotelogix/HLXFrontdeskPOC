@@ -61,19 +61,40 @@ export class LoginComponent {
     },
   ];
   @ViewChild('formElement') element: any;
+  // onSubmit(): void {
+  //   if (this.UserDetails) {
+  //     this.authService.login(this.UserDetails).subscribe({
+  //       next: (response) => {
+  //         localStorage.setItem('token', response.data.token.access_token);
+  //         this.router.navigate(['/frontdesk']);
+  //       },
+  //       error: (err) => {
+  //         this.errorMessage = 'Invalid login credentials';
+  //       },
+  //     });
+  //   }
+  // }
   onSubmit(): void {
     if (this.UserDetails) {
       this.authService.login(this.UserDetails).subscribe({
         next: (response) => {
-          localStorage.setItem('token', response.data.token);
+          const token = response.data.token.access_token;
+          const fingerprint = response.data.token.token_fingerprint; // Extract token_fingerprint
+  
+          // Store both values in localStorage
+          localStorage.setItem('token', token);
+          localStorage.setItem('token_fingerprint', fingerprint);
+  
+          // Navigate to frontdesk
           this.router.navigate(['/frontdesk']);
         },
-        error: (err) => {
+        error: () => {
           this.errorMessage = 'Invalid login credentials';
         },
       });
     }
   }
+  
   logout() {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);

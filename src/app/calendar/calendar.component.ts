@@ -245,8 +245,8 @@ export class CalendarComponent implements OnInit {
   };
   public requestRateParams = {
     room_type_id: '',
-    fromdate: '',
-    todate: '',
+    from_date : '',
+    to_date: '',
   };
   public requestRoomParams = {
     room_type_id: '',
@@ -349,8 +349,8 @@ export class CalendarComponent implements OnInit {
     this.requestParams.rate[0].rate_id = args.data.RateId || '';
     this.requestRateParams.room_type_id = args.data.DepartmentId || '';
     this.requestRoomParams.room_type_id = args.data.DepartmentId || '';
-    this.requestRateParams.fromdate = this.getDate(args.data.StartTime);
-    this.requestRateParams.todate = this.getDate(args.data.EndTime);
+    this.requestRateParams.from_date = this.getDate(args.data.StartTime);
+    this.requestRateParams.to_date = this.getDate(args.data.EndTime);
     this.requestCalculationFare.roomTypeId = args.data.DepartmentId || '';
     this.requestCalculationFare.fromDate = this.getDate(args.data.StartTime);
     this.requestCalculationFare.toDate = this.getDate(args.data.EndTime);
@@ -360,7 +360,7 @@ export class CalendarComponent implements OnInit {
     ) {
       args.cancel = true;
       this.scheduleObj?.openEditor(args.data, 'Add');
-      // this.getSessionalRateList();
+       this.getSessionalRateList();
       //this.getAvailableRoomList();
       args.element.classList.add('dialog-open');
       args.element.setAttribute('id', 'srk-id');
@@ -1460,7 +1460,7 @@ findEmptyRoom1(departmentId: string, startTime: any, endTime: any, bookings: any
   getSessionalRateList(): void {
     this.mainService.getSessionalRateList(this.requestRateParams).subscribe({
       next: (res: any) => {
-        this.sessionalRate = res.data[this.requestRateParams.fromdate];
+        this.sessionalRate = res.data[this.requestRateParams.from_date];
         this.rateList = res;
 
         if (this.sessionalRate.length > 0) {

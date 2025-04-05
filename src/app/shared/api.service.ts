@@ -7,87 +7,65 @@ import { catchError, Observable, throwError } from "rxjs";
 })
 export class ApiService {
   constructor(private http: HttpClient) { }
-  // post(apiEndUrl: string, params?: any, header?: HttpHeaders) {
-  //   if (params && typeof params !== 'string') {
-  //     params = JSON.stringify(params);
-  //   }
-  //   const headers = header || new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //   });
-  //   return this.http
-  //     .post<any>(apiEndUrl, params, { headers })
-  //     .pipe(catchError(this.handelError));
-  // }
-  post(apiEndUrl: string, params?: any, header?: HttpHeaders) {
-    if (params && typeof params !== 'string') {
-      params = JSON.stringify(params);
-    }
+
+  private getHeaders(headers?: HttpHeaders): HttpHeaders {
     const token = localStorage.getItem('token');
-    let headers = header || new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
+    const token_fingerprint= localStorage.getItem('token_fingerprint');
+    headers = headers || new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json');
+
+    
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
+      headers = headers.set('X-Token-Fingerprint', `${token_fingerprint}`);
     } else {
       console.warn('Authorization token is missing.');
     }
-    return this.http.post<any>(apiEndUrl, params, { headers }).pipe(
-      catchError(this.handelError)
-    );
+    return headers;
   }
-  
-  get(apiEndUrl: string, body: any, headers?: HttpHeaders): Observable<any> {
-    if (typeof window !== 'undefined' && localStorage) {
-        const token = localStorage.getItem('token');
-        if (token) {
-            headers = headers || new HttpHeaders();
-            headers = headers.set('Authorization', `Bearer ${token}`);
-        } else {
-            console.warn('No token found in localStorage');
-        }
-    } else {
-        console.warn('localStorage is not available on the server');
-    }
 
-    const options = {
-        headers: headers,
-        params: body
-    };
-    return this.http
-        .get<any>(apiEndUrl, options)
-        .pipe(catchError(this.handelError));
-}
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    const errorMessage = error.error instanceof Error 
+      ? error.error.message 
+      : error.error.msg || error.error.message || 'Unknown error occurred';
+    return throwError(() => errorMessage);
+  }
+
+  post<T>(apiEndUrl: string, params?: any, headers?: HttpHeaders): Observable<T> {
+    const processedParams = params && typeof params !== 'string' ? JSON.stringify(params) : params;
+    return this.http.post<T>(
+      apiEndUrl, 
+      processedParams, 
+      { headers: this.getHeaders(headers) }
+    ).pipe(catchError(this.handleError));
+  }
+
+  get<T>(apiEndUrl: string, params?: Record<string, any>, headers?: HttpHeaders): Observable<T> {
+    return this.http.get<T>(
+      apiEndUrl, 
+      { 
+        headers: this.getHeaders(headers),
+        params: params as HttpParams
+      }
+    ).pipe(catchError(this.handleError));
+  }
+
   getWithParams<T>(
     apiEndUrl: string,
     params: Record<string, string | number | boolean> = {},
     headers?: HttpHeaders
   ): Observable<T> {
-    const token = localStorage.getItem('token');
-    headers = headers || new HttpHeaders();
-    if (token) {
-      headers = headers.set('Authorization', `Bearer ${token}`);
-    } else {
-      console.warn('Authorization token is missing.');
-    }
-    headers = headers.set('Content-Type', 'application/json');
     let httpParams = new HttpParams();
-    for (const key in params) {
-      if (params.hasOwnProperty(key)) {
-        httpParams = httpParams.append(key, params[key] as string);
-      }
-    }
-    return this.http.get<T>(apiEndUrl, { headers, params: httpParams }).pipe(
-      catchError(this.handelError)
-    );
-  }
-  handelError(error: HttpErrorResponse | any) {
-    let errorMessage: string = "";
-    if (error.error instanceof Error) {
-      errorMessage = error.error.message;
-    } else {
-      errorMessage = error.error.msg || error.error.message;
-    }
+    Object.entries(params).forEach(([key, value]) => {
+      httpParams = httpParams.append(key, String(value));
+    });
 
-    return throwError(() => errorMessage);
+    return this.http.get<T>(
+      apiEndUrl, 
+      { 
+        headers: this.getHeaders(headers),
+        params: httpParams 
+      }
+    ).pipe(catchError(this.handleError));
   }
 }
