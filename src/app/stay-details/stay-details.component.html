@@ -446,18 +446,14 @@
                                 flex-grow: 1;
                                 width: 701px;" />
                             </div>
-                            <div style="display: flex
-                            ;
-                                align-items: center;
-                                gap: 5px;
-                                padding-top: 5px;
-                                position: absolute;
-                                top: 38px;
-                                left: 50%;">
-                              <span class="label">15n</span> <span class="text-dark px-1">|</span>
-                              <span class="label" (click)="addGuest()">Shift</span>
-                              <input type="checkbox" id="dayUseCheckbox{{data.Id}}" [(ngModel)]="data.isDayUse" />
-                              <label style="color: black;">Day Use</label>
+                            <div class="shiftndayuse d-flex justify-content-center">
+                              <div>
+                                <span class="label">15n</span><span class="text-dark">/</span><span class="label" (click)="addGuest()">Shift</span>
+                              </div>
+                              <div class="form-check m-0 min-h-auto" style="padding-left: 25px;">
+                                <input type="checkbox" class="form-check-input" id="dayUseCheckbox{{data.Id}}" [(ngModel)]="data.isDayUse" />
+                                <label class="form-check-label">Day Use</label>
+                              </div>
                             </div>
                           </ng-template>
                         </e-view>
@@ -531,14 +527,14 @@
                                         <i class="material-icons d-block text-gray">person_outline</i>
                                       </td>
                                       <td>
-                                        <div class="d-flex">
+                                        <div class="d-flex align-items-center">
                                           <div>
                                             <!-- <strong *ngIf="!guest.isEditing">{{ guest.title }}</strong> -->
                                             <ejs-dropdownlist id="roomsDropdown" #titleObj [dataSource]="titleData"
-                                              [fields]="genderFields" placeholder="Title">
+                                              [popupWidth]="80" [fields]="genderFields" placeholder="Title" class="guest-title">
                                             </ejs-dropdownlist>
                                           </div>
-                                          <div class="mx-1">
+                                          <div class="ms-3 me-1">
                                             <strong *ngIf="!guest.isEditing">{{ guest.firstName }}</strong>
                                             <input *ngIf="guest.isEditing" type="text" [(ngModel)]="guest.firstName"
                                               class="form-control form-control-sm name" placeholder="First Name" />
@@ -593,10 +589,10 @@
                                         <ejs-switch id="checked" [checked]="true"></ejs-switch>
                                       </td>
                                       <td class="ps-2">
-                                        <button>checked</button>
+                                        <img src="./assets/Icons/icon-checked.svg" width="18" title="Checked">
                                       </td>
-                                      <td class="ps-2">
-                                        <button>delete</button>
+                                      <td>
+                                        <img src="./assets/Icons/icon-delete.svg" width="18" title="Delete">
                                       </td>
                                     </tr>
                                   </table>

@@ -616,13 +616,10 @@ button + button  {
   padding-right: 0px;
   padding-left: 0;
   background-position: right 0 center;
-  width: 50px;
+  width: 42px;
 }
 .res-details .name {
   width: 100px;
-}
-.res-details .country {
-  width: 120px;
 }
 .res-details .phone {
   width: 87px;
@@ -660,6 +657,49 @@ button + button  {
 }
 .res-details .e-schedule {
   border: 0;
+}
+.res-details .e-dropdownlist .e-ddl {
+  background: transparent;
+}
+.res-details .e-dropdownlist .e-ddl,
+.res-details .e-dropdownlist .e-ddl ::placeholder {
+  color: #2856A2;
+}
+.res-details .guest-title {
+  width: 50px;
+}
+.shiftndayuse {
+  align-items: center;
+    gap: 5px;
+    padding-top: 5px;
+    position: absolute;
+    left: 50%;
+    top: 36px;
+    transform: translateX(-50%);
+}
+.shiftndayuse > div {
+  border: 1px solid #ebebeb;
+  padding: 3px 6px;
+  border-radius: 4px;
+  background: #fff;
+  margin: 0 5px;
+}
+.shiftndayuse .label {
+  text-decoration: none;
+}
+.shiftndayuse .label,
+.shiftndayuse .form-check-label {
+  font-weight: bold;
+  font-size: 14px;
+}
+.shiftndayuse .form-check-label {
+  color: #666;
+}
+.shiftndayuse .form-check-input {
+  margin-top: 5px;
+}
+.min-h-auto {
+  min-height: auto;
 }
 .hlx-hr {
   border-bottom: 1px solid #666 !important;
@@ -712,6 +752,9 @@ button + button  {
 }
 .appointment-guest-details td * {
   background: transparent;
+}
+.appointment-guest-details img {
+  padding: 0;
 }
 .date-display {
   color: #A40202 !important;
@@ -1455,15 +1498,19 @@ button:disabled {
 }
 .e-switch-wrapper, .e-css.e-switch-wrapper {
   display: block;
-  height: 14px;
-  width: 26px;
+  height: 12px;
+  width: 20px;
 }
 .e-switch-wrapper .e-switch-handle, .e-css.e-switch-wrapper .e-switch-handle {
-  height: 12px;
-  width: 12px;
+  height: 10px;
+  width: 10px;
 }
 .e-switch-wrapper .e-switch-handle.e-switch-active, .e-css.e-switch-wrapper .e-switch-handle.e-switch-active {
-  margin-left: -14px;
+  margin-left: -11px;
+}
+.e-switch-wrapper .e-switch-inner.e-switch-active, .e-css.e-switch-wrapper .e-switch-inner.e-switch-active {
+  background-color: #4699F5;
+  border-color: #4699F5;
 }
 .custom-dropdown .icon-red {
   color: red;
@@ -1519,7 +1566,9 @@ button:disabled {
   height: 15px;
   margin-right: 5px;
 }
-
+.t-dates .e-appointment-details {
+  height: 72px;
+}
 .t-rooms .room-link,
 .t-rates .room-link {
   font-weight: bold;
