@@ -37,7 +37,8 @@ export class ApiService {
       apiEndUrl, 
       processedParams, 
       { headers: this.getHeaders(headers) }
-    ).pipe(catchError(this.handleError));
+    );
+  // ).pipe(catchError(this.handleError));
   }
 
   get<T>(apiEndUrl: string, params?: Record<string, any>, headers?: HttpHeaders): Observable<T> {

@@ -15,12 +15,12 @@ export class AuthService {
   constructor(private api: ApiService) {}
 
   login(param: LoginParams): Observable<any> {
-    const body = {
-      username: param.username,
-      password: param.password,
-      hotelid: param.hotelid,
-      force_login: true,
-    };
-    return this.api.post(Constant.authBaseUrl + 'login', body);
+    // const body = {
+    //   username: param.username,
+    //   password: param.password,
+    //   hotelid: param.hotelid,
+    //   force_login: false,
+    // };
+    return this.api.post(Constant.authBaseUrl + 'login', param);
   }
 }

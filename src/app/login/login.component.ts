@@ -6,7 +6,7 @@ import { AuthService } from '../auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ApiService } from '../shared/api.service';
 
 @Component({
@@ -44,13 +44,18 @@ export class LoginComponent {
   public UserDetails: UserDetails | any;
   ngOnInit() {
     this.UserDetails = {
-      username: 'murli.jha@hotelogix.com',
+      username: 'soug_25@yahoo.com',
       password: '111111',
-      hotelid: '4444',
-      force_login:true
+      hotelid: '288',
+      force_login: false,
     };
+    // this.UserDetails = {
+    //   username: 'murli.jha@hotelogix.com',
+    //   password: '111111',
+    //   hotelid: '4444',
+    // };
   }
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService) { }
   public dlgBtnClick: EmitType<object> = () => {
     this.dialogObj?.hide();
   };
@@ -80,21 +85,53 @@ export class LoginComponent {
         next: (response) => {
           const token = response.data.token.access_token;
           const fingerprint = response.data.token.token_fingerprint; // Extract token_fingerprint
-  
+
           // Store both values in localStorage
           localStorage.setItem('token', token);
           localStorage.setItem('token_fingerprint', fingerprint);
-  
+
           // Navigate to frontdesk
           this.router.navigate(['/frontdesk']);
         },
-        error: () => {
+        error: (err) => {
+          console.log(err, "-=-=-=-=")
+          if (err.status == 409) {
+            console.log(err, "-=-=-=-=", this.UserDetails)
+            if (err.status == 409) {
+              if (confirm('User is already logged in. Do you want to force login?')) {
+                // Retry login with force_login flag
+                const forceLoginDetails = {
+                  ...this.UserDetails,
+                  force_login: true
+                };
+
+                console.log(forceLoginDetails, "-=-=-=-=-=-=-= testing")
+
+                this.authService.login(forceLoginDetails).subscribe({
+                  next: (response) => {
+                    alert("Login successful");
+                    const token = response.data.token.access_token;
+                    const fingerprint = response.data.token.token_fingerprint;
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('token_fingerprint', fingerprint);
+                    this.router.navigate(['/counters']);
+                  },
+                  error: (err) => {
+                    console.log(err, "-=-=-=-=")
+                    this.errorMessage = 'Login failed';
+                  }
+                });
+              }
+            } else {
+              this.errorMessage = 'Invalid login credentials';
+            }
+          }
           this.errorMessage = 'Invalid login credentials';
         },
       });
     }
   }
-  
+
   logout() {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
