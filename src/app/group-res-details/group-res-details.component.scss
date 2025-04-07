@@ -81,13 +81,14 @@
 }
 
 .e-schedule .e-timeline-view .e-work-cells, .e-schedule .e-timeline-month-view .e-work-cells{
-  background: white !important;
- border-color: #ddd;
- border-style: solid;
- border-width: 0 0 1px 1px;
+  background: transparent !important;
+//  border-color: #ddd;
+//  border-style: solid;
+//  border-width: 0 0 1px 1px;
  color: #333;
  padding: 0;
 }
+
 .e-popup.e-popup-open.e-dialog {
   display: inline-flex;
   width: 340px !important;
@@ -104,7 +105,10 @@
 #scheduleObj1 div.e-content-wrap, #scheduleObj2 div.e-content-wrap{
   overflow: hidden!important;
 }
-
+#scheduleObj1{
+  background-color: transparent!important;
+  border: none;
+}
 
 select {
   -webkit-appearance:none;
