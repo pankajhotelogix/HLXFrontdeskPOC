@@ -29,6 +29,12 @@ export class LoginComponent {
   @ViewChild('Dialog')
   public dialogObj?: DialogComponent;
   @ViewChild('userForm') form: any;
+
+  @ViewChild('ejDialog') ejDialog!: DialogComponent;
+  public isDialogOpen = false;
+  private pendingForceLoginDetails: any;
+
+
   public width: string = '335px';
   public visible: boolean = false;
   public multiple: boolean = false;
@@ -43,17 +49,17 @@ export class LoginComponent {
   public errorMessage: string | null = null;
   public UserDetails: UserDetails | any;
   ngOnInit() {
-    this.UserDetails = {
-      username: 'soug_25@yahoo.com',
-      password: '111111',
-      hotelid: '288',
-      force_login: false,
-    };
     // this.UserDetails = {
-    //   username: 'murli.jha@hotelogix.com',
+    //   username: 'soug_25@yahoo.com',
     //   password: '111111',
-    //   hotelid: '4444',
+    //   hotelid: '288',
+    //   force_login: false,
     // };
+    this.UserDetails = {
+      username: 'murli.jha@hotelogix.com',
+      password: '111111',
+      hotelid: '4444',
+    };
   }
   constructor(private router: Router, private authService: AuthService) { }
   public dlgBtnClick: EmitType<object> = () => {
@@ -96,41 +102,58 @@ export class LoginComponent {
         error: (err) => {
           console.log(err, "-=-=-=-=")
           if (err.status == 409) {
-            console.log(err, "-=-=-=-=", this.UserDetails)
-            if (err.status == 409) {
-              if (confirm('User is already logged in. Do you want to force login?')) {
-                // Retry login with force_login flag
-                const forceLoginDetails = {
-                  ...this.UserDetails,
-                  force_login: true
-                };
-
-                console.log(forceLoginDetails, "-=-=-=-=-=-=-= testing")
-
-                this.authService.login(forceLoginDetails).subscribe({
-                  next: (response) => {
-                    alert("Login successful");
-                    const token = response.data.token.access_token;
-                    const fingerprint = response.data.token.token_fingerprint;
-                    localStorage.setItem('token', token);
-                    localStorage.setItem('token_fingerprint', fingerprint);
-                    this.router.navigate(['/counters']);
-                  },
-                  error: (err) => {
-                    console.log(err, "-=-=-=-=")
-                    this.errorMessage = 'Login failed';
-                  }
-                });
-              }
-            } else {
-              this.errorMessage = 'Invalid login credentials';
-            }
+            this.pendingForceLoginDetails = {
+              ...this.UserDetails,
+              force_login: true
+            };
+            this.onOpenDialog();
+          } else {
+            this.errorMessage = 'Invalid login credentials';
           }
           this.errorMessage = 'Invalid login credentials';
         },
       });
     }
   }
+
+
+  onOpenDialog(): void {
+    this.isDialogOpen = true;
+    this.ejDialog.show();
+  }
+
+  onDialogOpen(): void {
+    this.isDialogOpen = true;
+    this.ejDialog.hide();
+  }
+
+  onDialogClose(): void {
+    this.isDialogOpen = false;
+    this.ejDialog.hide();
+  }
+
+
+  forceLogin(): void {
+    if (!this.pendingForceLoginDetails) return;
+
+    this.authService.login(this.pendingForceLoginDetails).subscribe({
+      next: (response) => {
+        console.log(response, "Login successful");
+        const token = response.data.token.access_token;
+        const fingerprint = response.data.token.token_fingerprint;
+        localStorage.setItem('token', token);
+        localStorage.setItem('token_fingerprint', fingerprint);
+        this.router.navigate(['/confirmation']);
+      },
+      error: (err) => {
+        console.log(err);
+        this.errorMessage = 'Login failed';
+      },
+    });
+
+    this.onDialogClose(); // Close modal
+  }
+
 
   logout() {
     localStorage.removeItem('token');

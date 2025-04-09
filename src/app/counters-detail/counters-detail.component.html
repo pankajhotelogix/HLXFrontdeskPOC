@@ -1,46 +1,64 @@
-<style>
-    body {
-        font-family: 'Segoe UI', sans-serif;
-    }
+<div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center bg-light">
+    <div class="row shadow rounded-4 overflow-hidden w-100" style="max-width: 1050px;">
 
-    .card {
-        background: white;
-        border: none;
-    }
-</style>
-
-<div class="container-fluid d-flex justify-content-center align-items-center vh-100 bg-light">
-    <div class="card p-4 shadow rounded-4" style="width: 100%; max-width: 500px;">
-        <h5 class="text-center text-primary mb-2">Welcome Sharukh Khan</h5>
-        <h4 class="text-center mb-3 fw-bold">Open New Cash Counter?</h4>
-        <p class="text-center text-muted">To continue with the current shift click on "No"</p>
-
-        <div class="d-flex justify-content-center mb-3 gap-3">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="cashCounter" id="noOption"
-                    [checked]="selectedStatus === 0" (change)="onRadioChange(0)">
-                <label class="form-check-label" for="noOption">No</label>
+        <!-- LEFT PANEL -->
+        <div class="col-md-6 text-white d-flex flex-column justify-content-between p-4"
+            style="font-family: 'Segoe UI', sans-serif; background-color: #2856a2;">
+            <div>
+                <h6 class="text-center text-warning mb-0">How to use?</h6>
+                <h3 class="text-center text-warning fw-bold">IMPORTANT!</h3>
+                <p class="fw-bold mt-3">Dear Sharukh Khan</p>
+                <p>Your last Night Audit date is <span class="text-info fw-semibold">Jun 30, 2024</span>. Night Audit
+                    should be done once every day.</p>
+                <p>Thank you.<br />Hotelogix Support</p>
+                <hr class="border-light" />
+                <p><strong>Instructions:</strong> Once logged in, take your cursor to <em>"FrontDesk"</em> on the top
+                    menu bar. Select <em>"Perform Night Audit"</em> from the dropdown and proceed as directed.</p>
+                <p class="text-warning"><strong>Note:</strong> Night Audit will close the current day's accounting,
+                    transactions & operations, and lets you start the new day's accounting and operations.</p>
+                <p>For assistance, contact us on <a href="mailto:support@hotelogix.com"
+                        class="text-info">supporthotelogix.com</a>.</p>
             </div>
-            <span class="fw-bold">OR</span>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="cashCounter" id="yesOption"
-                    [checked]="selectedStatus === 1" (change)="onRadioChange(1)">
-                <label class="form-check-label" for="yesOption">Yes</label>
+            <div class="mt-4">
+                <button class="btn btn-outline-warning fw-bold w-100">
+                    <i class="bi bi-youtube me-2"></i> HOW TO PERFORM NIGHT AUDIT?
+                </button>
             </div>
         </div>
 
-        <div class="mb-4">
-            <select class="form-select" aria-label="Select Counter">
-                <option selected disabled>Select Counter</option>
-                <option *ngFor="let counter of counterList" [value]="counter.id">
-                    {{ counter.name }}
-                </option>
-            </select>
-        </div>
+        <!-- RIGHT PANEL -->
+        <div class="col-md-6 bg-white p-4 d-flex flex-column justify-content-center"
+            style="font-family: 'Segoe UI', sans-serif;">
+            <h5 class="text-center text-primary">Welcome Sharukh Khan</h5>
+            <h4 class="text-center fw-bold">Open New Cash Counter?</h4>
+            <p class="text-center text-muted">To continue with the current shift click on "No"</p>
 
+            <div class="d-flex justify-content-center gap-3 my-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="cashCounter" id="noOption"
+                        [checked]="selectedStatus === 0" (change)="onRadioChange(0)">
+                    <label class="form-check-label" for="noOption">No</label>
+                </div>
+                <span class="fw-bold">OR</span>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="cashCounter" id="yesOption"
+                        [checked]="selectedStatus === 1" (change)="onRadioChange(1)">
+                    <label class="form-check-label" for="yesOption">Yes</label>
+                </div>
+            </div>
 
-        <div class="d-grid">
-            <button class="btn btn-warning fw-bold">CONTINUE</button>
+            <div class="mb-4">
+                <select class="form-select" aria-label="Select Counter" [(ngModel)]="selectedCounterId">
+                    <option selected disabled [value]="null">Select Counter</option>
+                    <option *ngFor="let counter of counterList" [value]="counter.id">
+                        {{ counter.name }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="d-grid mt-3">
+                <button class="btn btn-warning fw-bold" (click)="onContinueClick()">CONTINUE</button>
+            </div>
         </div>
     </div>
 </div>

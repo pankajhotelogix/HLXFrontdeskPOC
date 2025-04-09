@@ -17,5 +17,5 @@ export const routes: Routes = [
         { path: 'image', component: CommonProfileImageComponent },
         { path: 'frontdesk', component: SidebarComponent },
         { path: 'group', component: GroupResDetailsComponent },
-        { path: 'counters', component :CountersDetailComponent },
+        { path: 'confirmation', component :CountersDetailComponent },
 ];

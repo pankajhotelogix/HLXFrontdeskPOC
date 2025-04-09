@@ -1,53 +1,68 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // ✅ Import this
-import { HttpClient, HttpHeaders } from '@angular/common/http'; // ✅ Import this
+import { CommonModule } from '@angular/common';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-counters-detail',
   standalone: true,
-  imports: [CommonModule], // ✅ Include here
+  imports: [CommonModule, FormsModule],
   templateUrl: './counters-detail.component.html',
   styleUrls: ['./counters-detail.component.scss']
 })
 export class CountersDetailComponent {
-  constructor(private http: HttpClient) { } // ✅ Inject HttpClient
-  counterList: any[] = [];
-  selectedStatus = 0; // 0 = No, 1 = Yes
+  constructor(private http: HttpClient, private router: Router) { }
 
-  allCounters = {
-    data: {
-      data: [
-        { counterstatus: 0, id: 1481, name: 'sss', status: 'A' },
-        { counterstatus: 0, id: 1724, name: 'sad', status: 'A' },
-        { counterstatus: 0, id: 1014, name: 'ddddd', status: 'A' },
-        { counterstatus: 0, id: 1478, name: 'Test C', status: 'A' },
-        { counterstatus: 1, id: 509, name: 'Default Counter', status: 'A' },
-        { counterstatus: 1, id: 543, name: 'hello', status: 'A' },
-        { counterstatus: 0, id: 544, name: 'Am', status: 'A' }
-      ]
-    }
-  };
+  fullCounterList: any[] = [];     // All counters from backend
+  counterList: any[] = [];         // Filtered list based on selectedStatus
+  selectedStatus = 0;              // 0 = No, 1 = Yes
+  selectedCounterId: string | null = null;
 
   ngOnInit() {
-    this.updateCounterList();
+    const token = localStorage.getItem('token');
+    const fingerprint = localStorage.getItem('token_fingerprint');
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer your-token-here', // 🔁 Replace with actual token
+      'Authorization': `Bearer ${token}`,
+      'X-Token-Fingerprint': fingerprint || '',
       'Content-Type': 'application/json'
     });
-  
+
     this.http.get('http://192.168.2.11:8000/api/auth/v1/get_counter', { headers })
       .subscribe({
-        next: (response) => console.log('Counter response:', response),
+        next: (response: any) => {
+          this.fullCounterList = response.data.data;
+          this.updateCounterList(); // Now update filtered list after data is fetched
+          console.log('Counter response:', response);
+        },
         error: (error) => console.error('Error fetching counter:', error)
       });
   }
 
   updateCounterList() {
-    this.counterList = this.allCounters.data.data.filter(c => c.counterstatus === this.selectedStatus);
+    this.counterList = this.fullCounterList.filter(
+      counter => counter.counterstatus === this.selectedStatus
+    );
+    this.selectedCounterId = null; // reset selection when list changes
   }
 
   onRadioChange(status: number) {
     this.selectedStatus = status;
     this.updateCounterList();
+  }
+
+  onContinueClick() {
+    if (!this.selectedCounterId) {
+      alert('Please choose a counter.');
+      return;
+    }
+
+    localStorage.setItem('selectedCounterId', this.selectedCounterId);
+    // Proceed with selected counter logic
+    this.router.navigate(['/frontdesk']);
+
+    console.log('Selected Counter ID:', this.selectedCounterId);
+    
   }
 }

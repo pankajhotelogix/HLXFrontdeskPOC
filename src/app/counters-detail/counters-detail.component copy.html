@@ -1,0 +1,46 @@
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .card {
+        background: white;
+        border: none;
+    }
+</style>
+
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="card p-4 shadow rounded-4" style="width: 100%; max-width: 500px;">
+        <h5 class="text-center text-primary mb-2">Welcome Sharukh Khan</h5>
+        <h4 class="text-center mb-3 fw-bold">Open New Cash Counter?</h4>
+        <p class="text-center text-muted">To continue with the current shift click on "No"</p>
+
+        <div class="d-flex justify-content-center mb-3 gap-3">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="cashCounter" id="noOption"
+                    [checked]="selectedStatus === 0" (change)="onRadioChange(0)">
+                <label class="form-check-label" for="noOption">No</label>
+            </div>
+            <span class="fw-bold">OR</span>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="cashCounter" id="yesOption"
+                    [checked]="selectedStatus === 1" (change)="onRadioChange(1)">
+                <label class="form-check-label" for="yesOption">Yes</label>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <select class="form-select" aria-label="Select Counter">
+                <option selected disabled>Select Counter</option>
+                <option *ngFor="let counter of counterList" [value]="counter.id">
+                    {{ counter.name }}
+                </option>
+            </select>
+        </div>
+
+
+        <div class="d-grid">
+            <button class="btn btn-warning fw-bold">CONTINUE</button>
+        </div>
+    </div>
+</div>
