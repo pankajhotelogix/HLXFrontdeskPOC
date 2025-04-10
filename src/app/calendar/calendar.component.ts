@@ -82,6 +82,7 @@ import { Router } from '@angular/router';
 import { GroupResDetailsComponent } from '../group-res-details/group-res-details.component';
 import { Console, log } from 'node:console';
 import e from 'express';
+import { AuthService } from '../auth.service';
 L10n.load({
   'en-US': {
     schedule: {
@@ -133,6 +134,7 @@ L10n.load({
     ResizeService,
     DragAndDropService,
     ApiService,
+    AuthService,
     MainService,
     FirestoreService,
   ],
@@ -198,7 +200,7 @@ export class CalendarComponent implements OnInit {
   };
   public requestParams = {
     checkin_date: '',
-    fid:'',
+    fid: '',
     checkout_date: '',
     checkin_time: "14:00:00",
     checkout_time: "12:00:00",
@@ -245,7 +247,7 @@ export class CalendarComponent implements OnInit {
   };
   public requestRateParams = {
     room_type_id: '',
-    from_date : '',
+    from_date: '',
     to_date: '',
   };
   public requestRoomParams = {
@@ -324,6 +326,7 @@ export class CalendarComponent implements OnInit {
 
   public selectedDepartmentId?: number;
   selectedRoomType!: string;
+  http: any;
   public getDateParts(date: Date) {
     const day = date.getDate();
     const dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
@@ -360,7 +363,7 @@ export class CalendarComponent implements OnInit {
     ) {
       args.cancel = true;
       this.scheduleObj?.openEditor(args.data, 'Add');
-       this.getSessionalRateList();
+      this.getSessionalRateList();
       //this.getAvailableRoomList();
       args.element.classList.add('dialog-open');
       args.element.setAttribute('id', 'srk-id');
@@ -377,6 +380,7 @@ export class CalendarComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private mainService: MainService,
+    private authService: AuthService,
     private firestoreService: FirestoreService,
     private router: Router
   ) {
@@ -455,7 +459,7 @@ export class CalendarComponent implements OnInit {
       }
     }
 
-   // console.log("✅ Generated Reservations:", reservations);
+    // console.log("✅ Generated Reservations:", reservations);
     await this.firestoreService.uploadReservationsInBatches(reservations, 'bookings');
 
     return reservations;
@@ -525,26 +529,26 @@ export class CalendarComponent implements OnInit {
       console.log('Stored Previous Room ID on Drag Start:', this.previousRoomId);
     }
   }
- 
+
   async onActionBegin(event: any) {
     //console.log('🛠 Action Begin:', event);
     if (event.requestType === 'eventCreate') {
       const data: Record<string, any> =
         event.data instanceof Array ? event.data[0] : event.data;
-    } 
+    }
     if (event.requestType === 'eventChange') {
       const draggedEvent = event.data instanceof Array ? event.data[0] : event.data;
       //console.log('🛠 Dragged Event:', draggedEvent);
-  
+
       const previousRoomId = this.previousRoomId;
       //console.log('🔄 Previous Room ID Before Deletion:', previousRoomId);
-  
+
       if (!previousRoomId) {
-       // console.warn('⚠️ Previous Room ID is missing! Event might be newly created or incorrectly tracked.');
+        // console.warn('⚠️ Previous Room ID is missing! Event might be newly created or incorrectly tracked.');
         return;
       }
-      let nbooking:any = {
-        fId:'',
+      let nbooking: any = {
+        fId: '',
         checkin_date: '',
         checkout_date: '',
         checkin_time: "10:00:00",
@@ -587,142 +591,142 @@ export class CalendarComponent implements OnInit {
       nbooking.isRoomAssigned = draggedEvent.isRoomAssigned;
       nbooking.room_stay[0].room_id = draggedEvent.DoctorId;
       nbooking.fId = draggedEvent.fId;
-     
-      const newRoomId = draggedEvent.DoctorId;
-          const allBookings = this.eventSettings.dataSource as Record<string, any>[];
-          const curretBookingIndex = allBookings.findIndex(booking => booking['fId'] === draggedEvent.fId);
-          allBookings.splice(curretBookingIndex, 1);
-          const bookingsForNewRoom = allBookings.filter(booking => booking['DoctorId'] === newRoomId);
-          bookingsForNewRoom.forEach(async (booking:any) => {
-          //  console.log('🔄 Moving Booking:', booking);
-            this.addNewDocument(booking);
 
-            // await this.firestoreService.deleteDocumentByDoctorId(booking.fId)
-          });
-          let newBooking = allBookings.filter((obj:any) => 
-            !bookingsForNewRoom.some((item:any) => item.fId === obj.fId)
-        );
-        await this.firestoreService.updateDocumentByFId(draggedEvent.fId, nbooking);
-        this.updateBookingData(newBooking);
+      const newRoomId = draggedEvent.DoctorId;
+      const allBookings = this.eventSettings.dataSource as Record<string, any>[];
+      const curretBookingIndex = allBookings.findIndex(booking => booking['fId'] === draggedEvent.fId);
+      allBookings.splice(curretBookingIndex, 1);
+      const bookingsForNewRoom = allBookings.filter(booking => booking['DoctorId'] === newRoomId);
+      bookingsForNewRoom.forEach(async (booking: any) => {
+        //  console.log('🔄 Moving Booking:', booking);
+        this.addNewDocument(booking);
+
+        // await this.firestoreService.deleteDocumentByDoctorId(booking.fId)
+      });
+      let newBooking = allBookings.filter((obj: any) =>
+        !bookingsForNewRoom.some((item: any) => item.fId === obj.fId)
+      );
+      await this.firestoreService.updateDocumentByFId(draggedEvent.fId, nbooking);
+      this.updateBookingData(newBooking);
       this.previousRoomId = null;
     }
   }
-  
-//   async onActionBegin(event: any) {
-//     if (event.requestType === 'eventChange') {
-//         const draggedEvent = event.data instanceof Array ? event.data[0] : event.data;
-//         console.log('🛠 Dragged Event:', draggedEvent);
 
-//         const previousRoomId = this.previousRoomId;
-//         console.log('🔄 Previous Room ID Before Deletion:', previousRoomId);
+  //   async onActionBegin(event: any) {
+  //     if (event.requestType === 'eventChange') {
+  //         const draggedEvent = event.data instanceof Array ? event.data[0] : event.data;
+  //         console.log('🛠 Dragged Event:', draggedEvent);
 
-//         if (!previousRoomId) {
-//             console.warn('⚠️ Previous Room ID is missing! Event might be newly created or incorrectly tracked.');
-//             return;
-//         }
+  //         const previousRoomId = this.previousRoomId;
+  //         console.log('🔄 Previous Room ID Before Deletion:', previousRoomId);
 
-//         const newRoomId = draggedEvent.DoctorId;
-//         const allBookings = this.eventSettings.dataSource as Record<string, any>[];
+  //         if (!previousRoomId) {
+  //             console.warn('⚠️ Previous Room ID is missing! Event might be newly created or incorrectly tracked.');
+  //             return;
+  //         }
 
-//         // 🔍 Find the previous booking in the old room
-//         const previousBooking = allBookings.find(booking => booking['DoctorId'] === previousRoomId);
+  //         const newRoomId = draggedEvent.DoctorId;
+  //         const allBookings = this.eventSettings.dataSource as Record<string, any>[];
 
-//         if (previousBooking) {
-//             console.warn(`⚠️ Room ${previousRoomId} was occupied! Finding a new room for previous booking...`);
+  //         // 🔍 Find the previous booking in the old room
+  //         const previousBooking = allBookings.find(booking => booking['DoctorId'] === previousRoomId);
 
-//             // 🔄 Find an empty room for the previous booking
-//             const alternativeRoom = this.findEmptyRoom1(
-//                 previousBooking['DepartmentId'],
-//                 previousBooking['StartTime'],
-//                 previousBooking['EndTime'],
-//                 allBookings,
-//                 this.resourceDataSource
-//             );
+  //         if (previousBooking) {
+  //             console.warn(`⚠️ Room ${previousRoomId} was occupied! Finding a new room for previous booking...`);
 
-//             if (alternativeRoom) {
-//                 console.log(`✅ Found alternative room: ${alternativeRoom.Id}`);
+  //             // 🔄 Find an empty room for the previous booking
+  //             const alternativeRoom = this.findEmptyRoom1(
+  //                 previousBooking['DepartmentId'],
+  //                 previousBooking['StartTime'],
+  //                 previousBooking['EndTime'],
+  //                 allBookings,
+  //                 this.resourceDataSource
+  //             );
 
-//                 // ✅ Assign the old booking to the new room
-//                 previousBooking['DoctorId'] = alternativeRoom.Id;
-                
-//                 // 🔥 DELETE previous booking from Firestore
-//                 await this.firestoreService.deleteDocumentByDoctorId(previousBooking['fId']);
+  //             if (alternativeRoom) {
+  //                 console.log(`✅ Found alternative room: ${alternativeRoom.Id}`);
 
-//                 // 🔥 ADD the updated booking with new room
-//                 await this.addNewDocument(previousBooking);
-//             } else {
-//                 console.error('❌ No alternative room available. Keeping booking in previous room.');
-//             }
-//         }
+  //                 // ✅ Assign the old booking to the new room
+  //                 previousBooking['DoctorId'] = alternativeRoom.Id;
 
-//         // ✅ Place the new booking in the dropped room
-//         draggedEvent.DoctorId = newRoomId;
-//         await this.addNewDocument(draggedEvent);
+  //                 // 🔥 DELETE previous booking from Firestore
+  //                 await this.firestoreService.deleteDocumentByDoctorId(previousBooking['fId']);
 
-//         // 🔄 Update the UI with only the **latest valid data**
-//         this.updateBookingData([
-//             ...allBookings.filter(obj => obj['fId'] !== previousBooking?.['fId']), 
-//             draggedEvent
-//         ]);
+  //                 // 🔥 ADD the updated booking with new room
+  //                 await this.addNewDocument(previousBooking);
+  //             } else {
+  //                 console.error('❌ No alternative room available. Keeping booking in previous room.');
+  //             }
+  //         }
 
-//         this.previousRoomId = null;
-//     }
-// }
+  //         // ✅ Place the new booking in the dropped room
+  //         draggedEvent.DoctorId = newRoomId;
+  //         await this.addNewDocument(draggedEvent);
 
+  //         // 🔄 Update the UI with only the **latest valid data**
+  //         this.updateBookingData([
+  //             ...allBookings.filter(obj => obj['fId'] !== previousBooking?.['fId']), 
+  //             draggedEvent
+  //         ]);
 
+  //         this.previousRoomId = null;
+  //     }
+  // }
 
 
-findEmptyRoom1(departmentId: string, startTime: any, endTime: any, bookings: any[], rooms: any[]) {
-  // console.log('📌 Searching for an empty room for dates:', startTime, 'to', endTime);
-  // console.log('📌 Department ID:', departmentId);
-  // console.log('📌 Existing Bookings:', bookings);
-  // console.log('📌 Available Rooms:', rooms);
 
-  // ✅ Ensure startTime and endTime are Date objects
-  if (!(startTime instanceof Date)) {
+
+  findEmptyRoom1(departmentId: string, startTime: any, endTime: any, bookings: any[], rooms: any[]) {
+    // console.log('📌 Searching for an empty room for dates:', startTime, 'to', endTime);
+    // console.log('📌 Department ID:', departmentId);
+    // console.log('📌 Existing Bookings:', bookings);
+    // console.log('📌 Available Rooms:', rooms);
+
+    // ✅ Ensure startTime and endTime are Date objects
+    if (!(startTime instanceof Date)) {
       startTime = new Date(startTime);
-  }
-  if (!(endTime instanceof Date)) {
+    }
+    if (!(endTime instanceof Date)) {
       endTime = new Date(endTime);
-  }
+    }
 
-  if (isNaN(startTime.getTime()) || isNaN(endTime.getTime())) {
+    if (isNaN(startTime.getTime()) || isNaN(endTime.getTime())) {
       console.error('❌ Invalid date detected:', startTime, endTime);
       return null;
-  }
+    }
 
-  for (const room of rooms) {
+    for (const room of rooms) {
       const isBooked = bookings.some(booking => {
-          let checkinDate = booking.StartTime;
-          let checkoutDate = booking.EndTime;
+        let checkinDate = booking.StartTime;
+        let checkoutDate = booking.EndTime;
 
-          // ✅ Ensure checkinDate and checkoutDate are strings before calling `.split()`
-          if (checkinDate instanceof Date) {
-              checkinDate = checkinDate.toISOString().split('T')[0]; // Convert Date to string (YYYY-MM-DD)
-          }
+        // ✅ Ensure checkinDate and checkoutDate are strings before calling `.split()`
+        if (checkinDate instanceof Date) {
+          checkinDate = checkinDate.toISOString().split('T')[0]; // Convert Date to string (YYYY-MM-DD)
+        }
 
-          if (checkoutDate instanceof Date) {
-              checkoutDate = checkoutDate.toISOString().split('T')[0]; // Convert Date to string (YYYY-MM-DD)
-          }
+        if (checkoutDate instanceof Date) {
+          checkoutDate = checkoutDate.toISOString().split('T')[0]; // Convert Date to string (YYYY-MM-DD)
+        }
 
-          return (
-              booking.DoctorId === room.Id &&
-              checkinDate === startTime.toISOString().split('T')[0] &&
-              checkoutDate === endTime.toISOString().split('T')[0]
-          );
+        return (
+          booking.DoctorId === room.Id &&
+          checkinDate === startTime.toISOString().split('T')[0] &&
+          checkoutDate === endTime.toISOString().split('T')[0]
+        );
       });
 
       if (!isBooked) {
-          return room; // ✅ Found an empty room
+        return room; // ✅ Found an empty room
       }
+    }
+
+    return null; // ❌ No empty room found
   }
 
-  return null; // ❌ No empty room found
-}
 
-  
-  
-  
+
+
   //   updateRequestParams(booking: any): void {
   //     this.requestParams = { ...booking }; // Clone the booking data
   //     this.requestParams.isRoomAssigned = false;
@@ -745,8 +749,8 @@ findEmptyRoom1(departmentId: string, startTime: any, endTime: any, bookings: any
   //   }
   // }
 
-  
-  
+
+
   onChange(): void {
     if (this.datePicker?.value) {
       this.selectedDate = this.datePicker.value;
@@ -773,11 +777,11 @@ findEmptyRoom1(departmentId: string, startTime: any, endTime: any, bookings: any
     const isRoomAssigned: boolean = args.data['isRoomAssigned'] as boolean;
 
     if (isRoomAssigned) {
-        args.element.style.backgroundColor = '#FF0000'; 
+      args.element.style.backgroundColor = '#FF0000';
     } else {
-        args.element.style.backgroundColor = '#008000';
+      args.element.style.backgroundColor = '#008000';
     }
-}
+  }
   getRoomList(): void {
     this.mainService
       .getRoomTypeList()
@@ -811,7 +815,7 @@ findEmptyRoom1(departmentId: string, startTime: any, endTime: any, bookings: any
           }, []);
         }
       });
-}
+  }
 
 
   ngOnInit(): void {
@@ -1160,104 +1164,104 @@ findEmptyRoom1(departmentId: string, startTime: any, endTime: any, bookings: any
 
   loadBookings(): void {
     if (!this.selectedDate) {
-        this.selectedDate = new Date();
+      this.selectedDate = new Date();
     }
 
     const startDate = new Date(this.selectedDate);
     const currentDate = this.selectedDate;
     const endDate = new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth(),
-        currentDate.getDate() + 30
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate() + 30
     );
 
     this.selectedStartDate = this.formatDateNew(startDate);
     this.selectedEndDate = this.formatDateNew(endDate);
 
     if (this.selectedStartDate && this.selectedEndDate) {
-        this.firestoreService
-            .getItemsByDateRange(this.selectedStartDate, this.selectedEndDate)
-            .subscribe((data: any[]) => {
-                console.log('📌 Firestore Data:', data);
+      this.firestoreService
+        .getItemsByDateRange(this.selectedStartDate, this.selectedEndDate)
+        .subscribe((data: any[]) => {
+          console.log('📌 Firestore Data:', data);
 
-                let locData = data.map((booking: any, index) => {
-                    return {
-                        fId: booking.fId,
-                        Id: index + 1,
-                        Name: booking?.res_guest?.[0]?.guest?.personal_contact?.first_name || 'Unknown',
-                        StartTime: booking?.checkin_date ? new Date(booking.checkin_date + 'T'+ booking?.checkin_time) : null,
-                        EndTime: booking?.checkout_date ? new Date(booking.checkout_date + 'T'+ booking?.checkout_time) : null,
-                        Description: booking?.message || 'No description',
-                        DepartmentId: booking?.room_stay?.[0]?.room_type_id || 'Unknown',
-                        Status: booking?.res_status || 'Unknown',
-                        DoctorId: booking?.room_stay?.[0]?.room_id || 'Unknown',
-                        isRoomAssigned: booking?.isRoomAssigned ?? false, // ✅ Track assigned state
-                        Color: booking?.isRoomAssigned ? '#FF0000' : '#008000', // 🔴 Red if assigned, 🟢 Green if unassigned
-                    };
-                });
+          let locData = data.map((booking: any, index) => {
+            return {
+              fId: booking.fId,
+              Id: index + 1,
+              Name: booking?.res_guest?.[0]?.guest?.personal_contact?.first_name || 'Unknown',
+              StartTime: booking?.checkin_date ? new Date(booking.checkin_date + 'T' + booking?.checkin_time) : null,
+              EndTime: booking?.checkout_date ? new Date(booking.checkout_date + 'T' + booking?.checkout_time) : null,
+              Description: booking?.message || 'No description',
+              DepartmentId: booking?.room_stay?.[0]?.room_type_id || 'Unknown',
+              Status: booking?.res_status || 'Unknown',
+              DoctorId: booking?.room_stay?.[0]?.room_id || 'Unknown',
+              isRoomAssigned: booking?.isRoomAssigned ?? false, // ✅ Track assigned state
+              Color: booking?.isRoomAssigned ? '#FF0000' : '#008000', // 🔴 Red if assigned, 🟢 Green if unassigned
+            };
+          });
 
-               // console.log('📊 Processed Booking Data:', locData);
+          // console.log('📊 Processed Booking Data:', locData);
 
-                this.eventData = this.hospitalData = this.dataService.getHospitalData();
-                let storedHospitalData = locData;
-                let locBookings = storedHospitalData || this.hospitalData;
+          this.eventData = this.hospitalData = this.dataService.getHospitalData();
+          let storedHospitalData = locData;
+          let locBookings = storedHospitalData || this.hospitalData;
 
-                this.calendarSettings = this.dataService.getCalendarSettings();
-                this.eventSettings = {
-                    dataSource: locBookings,
-                    query: new Query(),
-                    fields: {
-                        subject: { name: 'Name' },
-                    },
-                    resourceColorField: "Color",
-                };
-            });
+          this.calendarSettings = this.dataService.getCalendarSettings();
+          this.eventSettings = {
+            dataSource: locBookings,
+            query: new Query(),
+            fields: {
+              subject: { name: 'Name' },
+            },
+            resourceColorField: "Color",
+          };
+        });
 
-        if (this.selectedDepartmentId) {
-            this.onDepartmentChange(this.selectedDepartmentId);
-        }
+      if (this.selectedDepartmentId) {
+        this.onDepartmentChange(this.selectedDepartmentId);
+      }
 
-        this.calculateDaysInMonth();
-        this.selectedDateRange = `${this.formatDate(startDate)} - ${this.formatDate(endDate)}`;
-        this.dataService.updateActiveItem('calendar');
+      this.calculateDaysInMonth();
+      this.selectedDateRange = `${this.formatDate(startDate)} - ${this.formatDate(endDate)}`;
+      this.dataService.updateActiveItem('calendar');
     }
-}
+  }
 
-// async loadBookings(): Promise<void> {
-//   console.log('🔄 Fetching updated bookings from Firestore...');
+  // async loadBookings(): Promise<void> {
+  //   console.log('🔄 Fetching updated bookings from Firestore...');
 
-//   this.firestoreService.getItemsByDateRange(this.selectedStartDate, this.selectedEndDate)
-//       .subscribe((data: any[]) => {
-//           console.log('📌 Firestore Data:', data);
+  //   this.firestoreService.getItemsByDateRange(this.selectedStartDate, this.selectedEndDate)
+  //       .subscribe((data: any[]) => {
+  //           console.log('📌 Firestore Data:', data);
 
-//           let locData = data.map((booking: any, index) => ({
-//               fId: booking.fid?.toString() || booking.id?.toString() || uniqueID().toString(), // ✅ Ensure `fid` is a string
-//               Id: index + 1,
-//               Name: booking?.res_guest?.[0]?.guest?.personal_contact?.first_name || 'Unknown',
-//               StartTime: booking?.checkin_date ? new Date(booking.checkin_date + 'T14:00:00') : null,
-//               EndTime: booking?.checkout_date ? new Date(booking.checkout_date + 'T11:00:00') : null,
-//               Description: booking?.message || 'No description',
-//               DepartmentId: booking?.room_stay?.[0]?.room_type_id || 'Unknown',
-//               Status: booking?.res_status || 'Unknown',
-//               DoctorId: booking?.room_stay?.[0]?.room_id || 'Unknown',
-//               isRoomAssigned: booking?.isRoomAssigned ?? false,
-//               Color: booking?.isRoomAssigned ? '#FF0000' : '#008000', // 🔴 Red if assigned, 🟢 Green if unassigned
-//           }));
+  //           let locData = data.map((booking: any, index) => ({
+  //               fId: booking.fid?.toString() || booking.id?.toString() || uniqueID().toString(), // ✅ Ensure `fid` is a string
+  //               Id: index + 1,
+  //               Name: booking?.res_guest?.[0]?.guest?.personal_contact?.first_name || 'Unknown',
+  //               StartTime: booking?.checkin_date ? new Date(booking.checkin_date + 'T14:00:00') : null,
+  //               EndTime: booking?.checkout_date ? new Date(booking.checkout_date + 'T11:00:00') : null,
+  //               Description: booking?.message || 'No description',
+  //               DepartmentId: booking?.room_stay?.[0]?.room_type_id || 'Unknown',
+  //               Status: booking?.res_status || 'Unknown',
+  //               DoctorId: booking?.room_stay?.[0]?.room_id || 'Unknown',
+  //               isRoomAssigned: booking?.isRoomAssigned ?? false,
+  //               Color: booking?.isRoomAssigned ? '#FF0000' : '#008000', // 🔴 Red if assigned, 🟢 Green if unassigned
+  //           }));
 
-//           console.log('📊 Processed Booking Data:', locData);
+  //           console.log('📊 Processed Booking Data:', locData);
 
-//           this.eventSettings = {
-//               dataSource: locData,
-//               query: new Query(),
-//               fields: {
-//                   subject: { name: 'Name' },
-//               },
-//               resourceColorField: "Color",
-//           };
+  //           this.eventSettings = {
+  //               dataSource: locData,
+  //               query: new Query(),
+  //               fields: {
+  //                   subject: { name: 'Name' },
+  //               },
+  //               resourceColorField: "Color",
+  //           };
 
-//           this.scheduleObj?.refresh();
-//       });
-// }
+  //           this.scheduleObj?.refresh();
+  //       });
+  // }
 
 
 
@@ -1469,7 +1473,7 @@ findEmptyRoom1(departmentId: string, startTime: any, endTime: any, bookings: any
         this.reloadBookingFare();
       },
       error: (err: any) => {
-       // console.error('Failed to load rate list:', err);
+        // console.error('Failed to load rate list:', err);
         alert('An error occurred while fetching the rate list.');
       },
     });
@@ -1599,52 +1603,52 @@ findEmptyRoom1(departmentId: string, startTime: any, endTime: any, bookings: any
   addNewDocument2(booking: any = null): void {
     if (!booking) return;
 
- //   console.log("📌 Adding new reservation:", booking);
+    //   console.log("📌 Adding new reservation:", booking);
 
     let newBooking: any = {
-        fId: booking.fid?.toString() || uniqueID().toString(), // ✅ Ensure `fid` is a string
-        checkin_date: this.convertDate(booking.StartTime),
-        checkout_date: this.convertDate(booking.EndTime),
-        checkin_time: "10:00:00",
-        checkout_time: "14:00:00",
-        res_status: "RESERVE",
-        adult: 1,
-        child: 0,
-        bed: 1,
-        isRoomAssigned: true,
-        room_stay: [{ room_type_id: booking.DepartmentId, room_id: booking.DoctorId }], // ✅ Ensure correct room_id is saved
-        res_guest: [{
-            guest: {
-                personal_contact: {
-                    first_name: booking.Name,
-                    last_name: '',
-                    phone: "6734887",
-                    email: ""
-                }
-            },
-            owner: true,
-            person_type: "Adult"
-        }]
+      fId: booking.fid?.toString() || uniqueID().toString(), // ✅ Ensure `fid` is a string
+      checkin_date: this.convertDate(booking.StartTime),
+      checkout_date: this.convertDate(booking.EndTime),
+      checkin_time: "10:00:00",
+      checkout_time: "14:00:00",
+      res_status: "RESERVE",
+      adult: 1,
+      child: 0,
+      bed: 1,
+      isRoomAssigned: true,
+      room_stay: [{ room_type_id: booking.DepartmentId, room_id: booking.DoctorId }], // ✅ Ensure correct room_id is saved
+      res_guest: [{
+        guest: {
+          personal_contact: {
+            first_name: booking.Name,
+            last_name: '',
+            phone: "6734887",
+            email: ""
+          }
+        },
+        owner: true,
+        person_type: "Adult"
+      }]
     };
 
     this.firestoreService.addDocument('bookings', newBooking)
-        .then((docRef: { id: any }) => console.log('✅ Booking added successfully with ID:', docRef.id))
-        .catch(error => console.error('❌ Error adding booking:', error));
-}
+      .then((docRef: { id: any }) => console.log('✅ Booking added successfully with ID:', docRef.id))
+      .catch(error => console.error('❌ Error adding booking:', error));
+  }
 
 
-generateUniqueRoomId(): number {
-  return Math.floor(100000 + Math.random() * 900000); // Generates a 6-digit random number
-}
+  generateUniqueRoomId(): number {
+    return Math.floor(100000 + Math.random() * 900000); // Generates a 6-digit random number
+  }
 
 
   async addNewDocument(booking: any = null) {
-   // debugger
+    // debugger
     //console.log("📌 Adding new booking:", booking);
     if (booking) {
-      console.log("pankaj",booking);
-      let nbooking:any = {
-        fId:'',
+      console.log("pankaj", booking);
+      let nbooking: any = {
+        fId: '',
         checkin_date: '',
         checkout_date: '',
         checkin_time: "10:00:00",
@@ -1686,9 +1690,9 @@ generateUniqueRoomId(): number {
       nbooking.res_guest[0].guest.personal_contact.first_name = booking.Name;
       nbooking.isRoomAssigned = booking.isRoomAssigned;
       nbooking.fId = booking.fId;
-     // nbooking = JSON.parse(JSON.stringify(booking));
+      // nbooking = JSON.parse(JSON.stringify(booking));
       const roomid = this.findEmptyRoom(booking.DepartmentId, nbooking.checkin_date + " ", nbooking.checkout_date + " ", this.eventSettings.dataSource, this.resourceDataSource);
-      console.log("roomid",roomid);
+      console.log("roomid", roomid);
       if (roomid) {
         if (roomid) {
           nbooking.room_stay[0].room_id = roomid.Id;
@@ -1726,7 +1730,7 @@ generateUniqueRoomId(): number {
       }
       const uniqueID = this.generateUniqueRoomId()
       this.firestoreService
-        .addDocument('bookings', {...this.requestParams, fId: uniqueID})
+        .addDocument('bookings', { ...this.requestParams, fId: uniqueID })
         .then((docRef: { id: any }) => {
           console.log('Booking added successfully with ID:', docRef.id);
 
@@ -1739,56 +1743,56 @@ generateUniqueRoomId(): number {
   }
   addNewDocument1(booking: any = null): void {
     if (booking) {
-       // console.log("📌 Adding new booking:", booking);
+      // console.log("📌 Adding new booking:", booking);
 
-        let newBooking: any = {
-            fId: '',
-            checkin_date: '',
-            checkout_date: '',
-            checkin_time: "10:00:00",
-            checkout_time: "14:00:00",
-            res_status: "RESERVE",
-            adult: 1,
-            child: 0,
-            bed: 1,
-            isRoomAssigned: booking.isRoomAssigned ?? false,
-            room_stay: [{ room_type_id: '', room_id: '' }],
-            rate: [{ rate_id: '' }],
-            res_guest: [{
-                guest: {
-                    personal_contact: {
-                        first_name: booking.Name || "Guest",
-                        last_name: "",
-                        phone: "",
-                        email: ""
-                    }
-                },
-                owner: true,
-                person_type: "Adult"
-            }]
-        };
+      let newBooking: any = {
+        fId: '',
+        checkin_date: '',
+        checkout_date: '',
+        checkin_time: "10:00:00",
+        checkout_time: "14:00:00",
+        res_status: "RESERVE",
+        adult: 1,
+        child: 0,
+        bed: 1,
+        isRoomAssigned: booking.isRoomAssigned ?? false,
+        room_stay: [{ room_type_id: '', room_id: '' }],
+        rate: [{ rate_id: '' }],
+        res_guest: [{
+          guest: {
+            personal_contact: {
+              first_name: booking.Name || "Guest",
+              last_name: "",
+              phone: "",
+              email: ""
+            }
+          },
+          owner: true,
+          person_type: "Adult"
+        }]
+      };
 
-        newBooking.checkin_date = this.convertDate(booking.StartTime);
-        newBooking.checkout_date = this.convertDate(booking.EndTime);
-        newBooking.room_stay[0].room_type_id = booking.DepartmentId;
+      newBooking.checkin_date = this.convertDate(booking.StartTime);
+      newBooking.checkout_date = this.convertDate(booking.EndTime);
+      newBooking.room_stay[0].room_type_id = booking.DepartmentId;
 
-        // 🏠 Ensure booking stays in the same room
-        newBooking.room_stay[0].room_id = booking.DoctorId;
+      // 🏠 Ensure booking stays in the same room
+      newBooking.room_stay[0].room_id = booking.DoctorId;
 
-        // 🔥 Generate Unique ID for Firestore
-        newBooking.fid = uniqueID() + "";
+      // 🔥 Generate Unique ID for Firestore
+      newBooking.fid = uniqueID() + "";
 
-        // ✅ Add new booking to Firestore
-        this.firestoreService
-            .addDocument('bookings', newBooking)
-            .then((docRef: { id: any }) => {
-                console.log('✅ Booking added successfully with ID:', docRef.id);
-            })
-            .catch((error: any) => {
-                console.error('❌ Error adding Booking:', error);
-            });
+      // ✅ Add new booking to Firestore
+      this.firestoreService
+        .addDocument('bookings', newBooking)
+        .then((docRef: { id: any }) => {
+          console.log('✅ Booking added successfully with ID:', docRef.id);
+        })
+        .catch((error: any) => {
+          console.error('❌ Error adding Booking:', error);
+        });
     }
-}
+  }
 
   convertDate(date: Date): string {
     if (!date) return '';
@@ -1933,6 +1937,34 @@ generateUniqueRoomId(): number {
     this.tabObj?.element.classList.remove('e-background');
     this.tabObj?.element.classList.remove('e-accent');
   }
+
+  // Guest Lookup
+  guest_lookUp($event: any) {
+    console.log('Guest Lookup', $event.target.value);
+    if ($event.target.value.length > 3) {
+
+      this.authService.get_guest_lookup($event.target.value).subscribe({
+        next: (res: any) => {
+          console.log(res, "-=-=-=-=-= res")
+          if (res && res.data && res.data.length > 0) {
+          this.guestList = res.data;
+          console.log('Guest List:', this.guestList);
+          }
+          else {
+            this.guestList = [];
+            alert('No guests found.');
+          }
+        },
+        error: (err: any) => {
+          console.error('Failed to load guest list:', err);
+          alert('An error occurred while fetching the guest list.');
+        },
+      });
+    }
+  }
+
+
+
 }
 export interface requestParams {
   checkin_date: string;

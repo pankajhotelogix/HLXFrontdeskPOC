@@ -215,9 +215,30 @@
                                 <option value="title">Mr.</option>
                                 <option value="title">Mrs.</option>
                               </select>
-                              <input type="text" placeholder="First name" name="fname"
-                                class="input-text input-text-field required p-0"
-                                [(ngModel)]="requestParams.res_guest[0].guest.personal_contact.first_name" required>
+                                <div style="position: relative;">
+                                <input type="text" placeholder="First name" name="fname"
+                                  class="input-text input-text-field required p-0" (change)="guest_lookUp($event)"
+                                  [(ngModel)]="requestParams.res_guest[0].guest.personal_contact.first_name" required>
+                                
+                                <!-- Guest Lookup Table -->
+                                <table class="guest-lookup-table" style="position: absolute; width: 100%; top: 100%; left: 0; z-index: 1000; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.2); border-radius: 4px; display: none;">
+                                  <thead>
+                                  <tr>
+                                    <th style="padding: 8px">Name</th>
+                                    <th style="padding: 8px">Email</th>
+                                    <th style="padding: 8px">Phone</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  <tr style="cursor: pointer; hover:background-color: #f5f5f5">
+                                    <td style="padding: 8px">John Doe</td>
+                                    <td style="padding: 8px">johnexample.com</td>
+                                    <td style="padding: 8px">123-456-7890</td>
+                                  </tr>
+                                  <!-- Add more rows as needed -->
+                                  </tbody>
+                                </table>
+                                </div>
                               <input type="text" placeholder="Last name" name="lname"
                                 class="input-text input-text-field p-0"
                                 [(ngModel)]="requestParams.res_guest[0].guest.personal_contact.last_name" required>

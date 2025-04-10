@@ -23,4 +23,8 @@ export class AuthService {
     // };
     return this.api.post(Constant.authBaseUrl + 'login', param);
   }
+
+  get_guest_lookup(param: any): Observable<any> {
+    return this.api.get(Constant.guestBaseUrl + `guest_search?search_text=${param}`);
+  }
 }

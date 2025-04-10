@@ -48,7 +48,8 @@ export class ApiService {
         headers: this.getHeaders(headers),
         params: params as HttpParams
       }
-    ).pipe(catchError(this.handleError));
+    )
+    // .pipe(catchError(this.handleError));
   }
 
   getWithParams<T>(
